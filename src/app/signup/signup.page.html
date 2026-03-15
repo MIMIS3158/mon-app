@@ -1,12 +1,12 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<!--<ion-header>
+  <ion-toolbar >
     <ion-title>Inscription</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
-  <ion-list>
+ <ion-list>
 
     <ion-item>
       <ion-input label="Email" labelPlacement="stacked" type="email" placeholder="Votre email"
@@ -42,3 +42,111 @@
   </ion-button>
 
 </ion-content>
+-->
+<!--
+
+<ion-content>
+  <ion-header>SignUp</ion-header>
+   <ion-list>
+  
+     <div class="input-box">
+      <ion-item>
+    <ion-icon name="person"></ion-icon>
+    <ion-input label="Nom" [(ngModel)]="user.Nom"  placeholder="Entrez votre Nom" ></ion-input>
+  </ion-item>
+     </div>
+   <ion-item>
+    <ion-icon name="person"></ion-icon>
+    <ion-input label="Prenom" [(ngModel)]="user.Prenom"  placeholder="Entrez votre Prenom" ></ion-input>
+  </ion-item>
+   <ion-item>
+    <ion-icon name="mail"></ion-icon>
+    <ion-input label="Email"  [(ngModel)]="user.Email"  placeholder="Entrez votre Email" type="email" ></ion-input>
+   </ion-item>
+  <ion-item>
+    <ion-icon name="lock-closed"></ion-icon>
+    <ion-input label="Password"  [(ngModel)]="user.Password"  placeholder="Entrez votre password" type="password" ></ion-input>
+   </ion-item>
+   
+    <ion-list-header>
+      <ion-label>Je suis:</ion-label>
+    </ion-list-header>
+
+    <ion-radio-group [(ngModel)]="user.role">
+      <ion-item>
+        <ion-radio value="developper">Développeur</ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-radio value="entrepreneur">Entrepreneur</ion-radio>
+      </ion-item>
+    </ion-radio-group>
+  </ion-list>
+   <ion-input class="btn">Terms & Conditions</ion-input>
+   <ion-button  (click)="register()" class="border-btn">S'inscrire</ion-button>
+</ion-content>
+-->
+
+      
+
+    
+
+  <ion-content>
+    <ion-card>
+    <div class="form-box">
+      <div class="register-container" id="register">
+        <ion-label class="signup">S'inscrire</ion-label>
+         <div class="two-forms">
+          <ion-grid class="name-grid">
+            <ion-row>
+            <div class="input-box">
+              <ion-icon name="person" slot="start" class="child"></ion-icon>
+            <ion-col size="6" class="col-left">
+            <input label="Nom" [(ngModel)]="user.Nom"   class="input-field" placeholder="Entrez votre Nom" >
+            </ion-col>
+          </div>
+          <br>
+            <div class="input-box">
+              <ion-icon name="person" slot="end" class="part"></ion-icon>
+              <ion-col size="6" class="col-right">
+            <input label="Prenom" [(ngModel)]="user.Prenom" class="input-field"  placeholder="Entrez votre Prenom" >
+           </ion-col>
+           
+           </div>
+          </ion-row>
+          </ion-grid>
+         <br>
+           <div class="input-box">
+           <ion-icon name="mail" slot="start" class="first"></ion-icon>
+           <input label="Email"  [(ngModel)]="user.Email" class="input-field"  placeholder="Entrez votre Email" type="email" >
+           
+           </div>
+         <br>
+           <div class="input-box">
+          <ion-icon name="lock-closed" slot="start" class="second"></ion-icon>
+          <input label="Password"  [(ngModel)]="user.Password"  class="input-field"  placeholder="Entrez votre password" type="password" >
+          
+          </div>
+         <br>
+         </div>
+         <label><a  class="role">Je suis:</a></label>
+    <ion-radio-group [(ngModel)]="user.role">
+      <div class="input-box">
+        <ion-radio value="developer" class="bloc">Développeur</ion-radio>
+ 
+        <ion-radio value="entrepreneur" class="block">Entrepreneur</ion-radio>
+      </div>
+    </ion-radio-group>
+          
+      </div>
+    </div>
+    </ion-card>
+    
+   <ion-button  (click)="register()" class="center-btn" >S'inscrire</ion-button>
+
+  </ion-content>
+
+
+
+
+  

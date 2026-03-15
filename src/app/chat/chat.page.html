@@ -1,13 +1,68 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Chat</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <div style="display:flex; align-items:center; gap:10px; padding: 4px 0;">
+      
+      <img *ngIf="receiverPhoto" 
+           [src]="receiverPhoto"
+           style="width:38px;height:38px;border-radius:50%;object-fit:cover;" />
+
+      <div *ngIf="!receiverPhoto"
+           style="width:38px;height:38px;border-radius:50%;
+                  background:#378ADD;color:white;
+                  display:flex;align-items:center;
+                  justify-content:center;font-weight:500;font-size:16px;">
+        {{ receiverName.charAt(0).toUpperCase() }}
+      </div>
+
+      <p style="margin:0; font-weight:600; font-size:16px;">{{ receiverName }}</p>
+    </div>
+
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Chat</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="chat-content">
+
+  <div class="messages-container">
+    <div *ngIf="messages.length === 0" class="empty-chat">
+      <ion-icon name="chatbubbles-outline"></ion-icon>
+      <p>Aucun message pour le moment</p>
+    </div>
+
+    <div *ngFor="let msg of messages"
+         class="message-wrapper"
+         [ngClass]="isMine(msg) ? 'mine' : 'theirs'">
+      <div class="message-bubble">
+        <p class="message-text">{{ msg.message }}</p>
+        <span class="message-time">
+          {{ msg.date_envoi | date:'HH:mm' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar class="chat-footer">
+    <div class="input-container">
+      <ion-textarea
+        [(ngModel)]="newMessage"
+        placeholder="Écrire un message..."
+        rows="1"
+        autoGrow="true"
+        class="message-input">
+      </ion-textarea>
+      <ion-button
+        (click)="envoyerMessage()"
+        [disabled]="!newMessage.trim()"
+        color="primary"
+        shape="round">
+        <ion-icon slot="icon-only" name="send"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

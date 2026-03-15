@@ -1,0 +1,119 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title size="large" class="Accueil ion-text-center">Projets</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/projet-creation">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-segment [(ngModel)]="statutFiltre" mode="md">
+    <ion-segment-button value="tous">
+      <ion-label>Tous</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="en attente">
+      <ion-label>En attente</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="en cours">
+      <ion-label>En cours</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="terminé">
+      <ion-label>Terminés</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- ⬇️ AJOUT : Message si aucun projet -->
+  <p *ngIf="projetsFiltres.length === 0" class="ion-text-center ion-padding">
+    Aucun projet {{ statutFiltre === 'tous' ? '' : statutFiltre }}
+  </p>
+
+  <!-- ⬇️ MODIFICATION : Remplacer "projects" par "projetsFiltres" -->
+  <ion-card class="color" *ngFor="let project of projetsFiltres">
+    <ion-card-header (click)="afficherDetails(project)">
+      <ion-card-title>{{ project.Nomduprojet}}</ion-card-title>
+      <ion-card-subtitle>{{ project.Descriptionduprojet}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content *ngIf="selectedProject === project">
+      <p>Entreprise : {{ project.Publierparentreprise }}</p>
+      <p>Budget : {{ project.Budget }}</p>
+      <p>Durée :{{  project.Duree }}</p>
+      <p>Compétences :{{  project.Competences }}</p>
+      <p>Statut :{{  project.Statut }}</p>
+      
+      <ion-button color="danger" size="small" fill="clear"
+        (click)="deleteproject(project)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button> 
+
+      <ion-button color="primary" size="small" fill="clear"
+        (click)="editproject(project)">
+        <ion-icon name="pencil-outline"></ion-icon>
+      </ion-button>
+
+      <!-- ⬇️ AJOUT : Boutons pour projets "en cours" -->
+      <div *ngIf="project.Statut === 'en cours'">
+        <ion-button color="success" size="small" (click)="validerTravail(project)">
+          Valider
+        </ion-button>
+        <ion-button color="warning" size="small" (click)="travailARefaire(project)">
+          Travail à refaire
+        </ion-button>
+      </div>
+      <!-- ⭐ AJOUT : Bouton pour projets "terminé" -->
+<div *ngIf="project.Statut === 'terminé'">
+  <!-- Si pas encore évalué -->
+  <ion-button 
+    *ngIf="!project.developpeurEvalue" 
+    color="primary" 
+    expand="block"
+    (click)="evaluerDeveloppeur(project)">
+    <ion-icon name="star" slot="start"></ion-icon>
+    Évaluer le développeur
+  </ion-button>
+  
+  <!-- Si déjà évalué -->
+  <div *ngIf="project.developpeurEvalue" class="already-evaluated">
+    <ion-icon name="checkmark-circle" color="success"></ion-icon>
+    <span>Développeur déjà évalué</span>
+  </div>
+</div>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>      
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>       
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+            <ion-icon name="chatbubbles"></ion-icon>
+          </ion-button>
+        </ion-col>        
+       <!-- <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
+            <ion-icon name="log-out"></ion-icon>
+          </ion-button>
+        </ion-col>-->
+         <ion-col class="tab-button" text-center>
+        <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+        <ion-icon name="settings"></ion-icon>
+        </ion-button>
+      </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

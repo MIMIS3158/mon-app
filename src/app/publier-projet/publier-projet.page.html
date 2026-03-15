@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!--<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>PublierProjet</ion-title>
   </ion-toolbar>
@@ -11,3 +11,36 @@
     </ion-toolbar>
   </ion-header>
 </ion-content>
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Publier un Projet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  
+
+  <ion-card-header>
+     <ion-card-title>Projet </ion-card-title>
+  </ion-card-header>
+
+ <ion-card-content >
+ <ion-input label="Nom du Projet" [(ngModel)]="Nom  "  placeholder="Entrez le nom du projet" ></ion-input>
+ <ion-input label="Publie par entreprise" [(ngModel)]=" entreprise"  placeholder="Entreprise" ></ion-input>
+ <ion-input  label="Budget" [(ngModel)]="Budget"  placeholder="Entrez votre Pseudo" ></ion-input>
+ <ion-input label="La duree"  [(ngModel)]=" duree"  placeholder="Entrez la duree" ></ion-input>
+ <ion-input label=" Statut" [(ngModel)]="Statut"  placeholder="Entrez votre Telephone"  ></ion-input>
+ <ion-input label="Description du Projet" [(ngModel)]="Description"  placeholder=" Ecrivez une Description" ></ion-input>
+ 
+ </ion-card-content>
+ 
+ 
+ <ion-button class="btn-border"  expand="expand" (click)="PublierProjet()">Publier</ion-button>
+ <ion-button class="btn-border"   expand="expand" (click)="ModifierProjet()">Modifier</ion-button>
+
+
+
+</ion-content>
+
+
+-->

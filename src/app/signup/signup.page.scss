@@ -1,0 +1,535 @@
+/*.form-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 512px;
+    height: 420px;
+    overflow: hidden;
+    z-index: 2;
+    margin-top: 15px; 
+}
+.register-container {
+    position: absolute;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: 0.5s ease-in-out;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.two-forms {
+    display: flex;
+    gap: 10px;
+   
+}
+ .form-box {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        flex: 1;
+    }
+
+    .register-container{
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .register-container .two-forms {
+        flex-direction: column;
+        gap: 0;
+    }
+.input-field {
+    font-size: 15px;
+   // background: rgba(255, 255, 255, 0.2);
+   //--background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+    height: 50px;
+    width: 100%;
+    padding: 0 10px 0 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+   // color: #fff; 
+    transition: 0.2s ease;
+    color: #e5e7eb; 
+    --placeholder-color: #9ca3af;
+}
+.input-field:focus {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+::-webkit-input-placeholder {
+    color: #fff;
+}
+.name-grid{
+    padding: 0;
+    
+}
+.col-left{
+    padding-right: 10px;
+}
+.col-right{
+    padding-left: 10px;
+}
+.signup{
+    color: #7c3aed;
+    font-size: 30px;
+    text-align: center;
+    padding: 10px 0 30px 0;
+    top: 20px;
+}
+
+.center-btn{
+  //  --background: #7d5fac;
+  --background: linear-gradient(135deg, #1e3a8a, #7c3aed);
+    --align-items: center;
+    --border-radius: 20px;
+    position: absolute;
+    bottom: -10px;
+    left: 20%;
+    margin: 40px;
+   height: 40px;
+    width: 53%;
+    right: 50%;
+    color:#ffffff;
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+    margin-right: 20px;
+    
+}
+.two{
+     margin-left: 615px;
+    margin-top: 20px;
+}
+
+.child{
+    transform: translateY(-50%);
+     position: relative;
+     color: #8fa3b8;
+     left: 20px;
+     font-size: 20px;
+     top: 62%;
+}
+.part{
+    transform: translateY(-50%);
+     position: relative;
+     color: #8fa3b8;
+     left: 20px;
+     font-size: 20px;
+     top: 62%;
+}
+.first{
+    transform: translateY(-50%);
+     position: relative;
+     color: #8fa3b8;
+     left: 20px;
+     font-size: 20px;
+     top: 65%;
+}
+.second{
+    transform: translateY(-50%);
+     position: relative;
+     color: #8fa3b8;
+     left: 20px;
+     font-size: 20px;
+     top: 65%;
+}/*
+ion-content{
+  --background: #f7f9fce0;
+  height: 100%;       
+  min-height: 100vh;
+}*/
+/*
+ion-card{
+    width: 700px;
+    height: 500px;
+    bottom: -40px;
+    //padding: 10px;
+    margin: 10px;
+   // border: 1px solid #bbb;
+  //  border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    left: 120px;
+    border: 1.5px solid #7c3aed;   
+  border-radius: 16px;
+  padding: 20px;
+}
+.bloc{
+     transform: translateY(-50%);
+     position: relative;
+     //color: #8fa3b8;
+     color: #fff;
+     right: 90px;
+     font-size: 15px;
+}
+.block{
+     transform: translateY(-50%);
+     position: relative;
+     color: #fff;
+     left: 60px;
+     font-size: 15px;
+}
+.role{
+   // color: #4A5D73;
+   color: #7c3aed;
+}
+ion-content{
+  --background: #f7f9fce0;
+  height: 100%;       
+  min-height: 100vh;
+}
+/*
+ion-card{
+--background: #acb4c2;
+}*/
+// ==========================================
+// CONTENT - Zone principale
+// ==========================================
+ion-content {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px 0;
+
+  // Carte d'inscription
+  ion-card {
+    max-width: 550px;
+    width: 90%;
+    margin: 40px auto;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    background: white;
+    overflow: hidden;
+    animation: fadeInScale 0.6s ease;
+    border: none;
+
+    // Container du formulaire
+    .form-box {
+      .register-container {
+        padding: 48px 36px;
+
+        // Titre "S'inscrire"
+        .signup {
+          display: block;
+          font-size: 2rem;
+          font-weight: 700;
+          color: #2c3e50;
+          text-align: center;
+          margin-bottom: 40px;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+
+          &::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            margin: 16px auto 0;
+            border-radius: 2px;
+          }
+        }
+
+        // Container des deux formulaires
+        .two-forms {
+          // Grid pour nom et prénom (SUR LA MÊME LIGNE)
+          .name-grid {
+            padding: 0;
+            margin-bottom: 20px;
+
+            ion-row {
+              display: flex;
+              gap: 12px;
+              align-items: stretch;
+              margin: 0;
+
+              // Forcer les input-box à rester sur la même ligne
+              .input-box {
+                flex: 1;
+                margin-bottom: 0 !important;
+                display: flex;
+                align-items: center;
+              }
+
+              .col-left,
+              .col-right {
+                padding: 0;
+                flex: 1;
+                display: flex;
+              }
+            }
+          }
+
+          // Container des inputs
+          .input-box {
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            background: #f8f9fd;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 0 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
+            &:focus-within {
+              border-color: #667eea;
+              background: white;
+              box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+              transform: translateY(-2px);
+            }
+
+            &:hover {
+              border-color: #cbd5e0;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            }
+
+            // Icônes
+            ion-icon {
+              font-size: 22px;
+              color: #667eea;
+              margin-right: 14px;
+              transition: all 0.3s ease;
+              flex-shrink: 0;
+            }
+
+            &:focus-within ion-icon {
+              color: #764ba2;
+              transform: scale(1.1);
+            }
+
+            // Champs de saisie
+            .input-field {
+              flex: 1;
+              border: none;
+              background: transparent;
+              padding: 16px 0;
+              font-size: 1rem;
+              color: #2d3748;
+              font-weight: 500;
+              outline: none;
+              width: 100%;
+
+              &::placeholder {
+                color: #a0aec0;
+                font-style: italic;
+              }
+            }
+
+            // Style pour les colonnes
+            ion-col {
+              padding: 0;
+              width: 100%;
+            }
+          }
+
+          br {
+            display: none;
+          }
+        }
+
+        // Label "Je suis:"
+        label {
+          display: block;
+          margin: 28px 0 20px;
+          text-align: center;
+
+          .role {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-decoration: none;
+          }
+        }
+
+        // Radio group avec style moderne
+        ion-radio-group {
+          .input-box {
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            gap: 12px;
+            margin-bottom: 0;
+
+            &:hover {
+              transform: none;
+              box-shadow: none;
+            }
+
+            // Style des radio buttons
+            ion-radio {
+              flex: 1;
+              margin: 0;
+              padding: 18px 20px;
+              border: 2px solid #e2e8f0;
+              border-radius: 12px;
+              background: #f8f9fd;
+              transition: all 0.3s ease;
+              font-size: 1rem;
+              font-weight: 600;
+              color: #4a5568;
+              cursor: pointer;
+
+              &::part(container) {
+                display: none; // Cacher le cercle par défaut
+              }
+
+              &::part(label) {
+                padding: 0;
+                margin: 0;
+                text-align: center;
+                width: 100%;
+              }
+
+              // État non sélectionné - hover
+              &:hover {
+                border-color: #cbd5e0;
+                background: white;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+                transform: translateY(-2px);
+              }
+
+              // État sélectionné
+              &.radio-checked {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                border-color: #667eea;
+                color: white;
+                box-shadow: 0 4px 16px rgba(102, 126, 234, 0.4);
+                transform: translateY(-3px);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Bouton S'inscrire
+  .center-btn {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --color: white;
+    --border-radius: 25px;
+    width: 90%;
+    max-width: 550px;
+    margin: 20px auto 40px;
+    display: block;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-transform: none;
+    letter-spacing: 0.8px;
+    height: 56px;
+    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// ==========================================
+// ANIMATIONS
+// ==========================================
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 576px) {
+  ion-content {
+    padding: 10px 0;
+
+    ion-card {
+      width: 95%;
+      margin: 20px auto;
+      border-radius: 20px;
+
+      .form-box .register-container {
+        padding: 36px 24px;
+
+        .signup {
+          font-size: 1.7rem;
+          margin-bottom: 32px;
+        }
+
+        .two-forms {
+          // Sur mobile, empiler les champs Nom/Prénom
+          .name-grid ion-row {
+            flex-direction: column;
+            gap: 20px;
+
+            .input-box {
+              margin-bottom: 0;
+            }
+          }
+
+          .input-box {
+            padding: 0 16px;
+            margin-bottom: 20px;
+
+            .input-field {
+              padding: 14px 0;
+              font-size: 0.95rem;
+            }
+          }
+        }
+
+        // Radio buttons empilés sur mobile
+        ion-radio-group .input-box {
+          flex-direction: column;
+          gap: 12px;
+
+          ion-radio {
+            padding: 16px;
+          }
+        }
+      }
+    }
+
+    .center-btn {
+      width: 95%;
+      font-size: 1.05rem;
+      height: 52px;
+    }
+  }
+}
+
+// Tablettes
+@media (min-width: 768px) {
+  ion-content {
+    ion-card {
+      max-width: 600px;
+
+      .form-box .register-container {
+        padding: 56px 44px;
+      }
+    }
+
+    .center-btn {
+      max-width: 600px;
+    }
+  }
+}

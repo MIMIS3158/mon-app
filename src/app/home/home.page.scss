@@ -1,0 +1,255 @@
+// ==========================================
+// CONTENT - Page d'accueil
+// ==========================================
+ion-content {
+  --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  .home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 20px;
+    text-align: center;
+
+    // ==========================================
+    // SECTION LOGO (sans le cercle)
+    // ==========================================
+    .logo-section {
+      margin-bottom: 60px;
+      animation: fadeInDown 0.8s ease;
+
+      // Nom de l'application
+      .app-name {
+        font-size: 3.8rem;
+        font-weight: 800;
+        color: white;
+        margin: 0 0 20px;
+        letter-spacing: -1px;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        animation: fadeIn 1s ease 0.3s backwards;
+      }
+
+      // Slogan
+      .tagline {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.95);
+        margin: 0;
+        font-weight: 500;
+        max-width: 500px;
+        line-height: 1.6;
+        animation: fadeIn 1s ease 0.5s backwards;
+      }
+    }
+
+    // ==========================================
+    // SECTION BOUTONS
+    // ==========================================
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: 380px;
+      margin-bottom: 60px;
+      animation: fadeInUp 1s ease 0.7s backwards;
+
+      // Bouton principal "Commencer"
+      .center-btn {
+        --background: white;
+        --color: #667eea;
+        --border-radius: 25px;
+        --box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        height: 56px;
+        font-weight: 700;
+        font-size: 1.15rem;
+        text-transform: none;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          --background: #f8f9fd;
+          transform: translateY(-4px);
+          --box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        &:active {
+          transform: translateY(-1px);
+        }
+      }
+
+      // Bouton secondaire "Se connecter"
+      .border-btn {
+        --background: transparent;
+        --color: white;
+        --border-color: white;
+        --border-width: 2px;
+        --border-style: solid;
+        --border-radius: 25px;
+        height: 56px;
+        font-weight: 700;
+        font-size: 1.15rem;
+        text-transform: none;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          --background: rgba(255, 255, 255, 0.15);
+          transform: translateY(-4px);
+          --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        &:active {
+          transform: translateY(-1px);
+        }
+      }
+    }
+
+    // ==========================================
+    // SECTION FEATURES
+    // ==========================================
+    .features {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 700px;
+      animation: fadeIn 1s ease 1s backwards;
+
+      .feature-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        color: white;
+        transition: all 0.3s ease;
+
+        ion-icon {
+          font-size: 48px;
+          padding: 18px;
+          background: rgba(255, 255, 255, 0.15);
+          border-radius: 18px;
+          backdrop-filter: blur(10px);
+          transition: all 0.3s ease;
+        }
+
+        span {
+          font-size: 1rem;
+          font-weight: 600;
+          opacity: 0.95;
+        }
+
+        &:hover {
+          transform: translateY(-10px);
+
+          ion-icon {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.15);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// ANIMATIONS
+// ==========================================
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 576px) {
+  ion-content .home-container {
+    padding: 30px 20px;
+
+    .logo-section {
+      margin-bottom: 50px;
+
+      .app-name {
+        font-size: 2.8rem;
+      }
+
+      .tagline {
+        font-size: 1.05rem;
+        padding: 0 10px;
+      }
+    }
+
+    .wrapper {
+      max-width: 100%;
+      margin-bottom: 50px;
+
+      .center-btn,
+      .border-btn {
+        font-size: 1.05rem;
+        height: 52px;
+      }
+    }
+
+    .features {
+      gap: 28px;
+
+      .feature-item {
+        flex: 0 0 calc(33.333% - 20px);
+        min-width: 90px;
+
+        ion-icon {
+          font-size: 38px;
+          padding: 14px;
+        }
+
+        span {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  ion-content .home-container {
+    .logo-section {
+      .app-name {
+        font-size: 4.2rem;
+      }
+
+      .tagline {
+        font-size: 1.3rem;
+      }
+    }
+  }
+}

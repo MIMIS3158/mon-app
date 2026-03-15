@@ -4,17 +4,27 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'signup',
+    redirectTo: 'home',
     pathMatch: 'full'
+  }, 
+  {
+    path: 'home',
+    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+  },
+ {
+    path: 'signup',
+    loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
+  },
+  
+ {
+    path: 'signin',
+    loadChildren: () => import('./login/login.module').then( m => m.SigninPageModule)
   },
   {
     path: 'folder/:id',
     loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
   },
-  {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
+ 
   {
     path: 'chat',
     loadChildren: () => import('./chat/chat.module').then( m => m.ChatPageModule)
@@ -24,7 +34,7 @@ const routes: Routes = [
     loadChildren: () => import('./profile-dev/profile-dev.module').then( m => m.ProfileDevPageModule)
   },
   {
-    path: 'profile/entrepreneur',
+    path: 'profile-entrepreneur',
     loadChildren: () => import('./profile-entrepreneur/profile-entrepreneur.module').then( m => m.ProfileEntrepreneurPageModule)
   },
   {
@@ -41,18 +51,80 @@ const routes: Routes = [
     path: 'signout', 
     loadChildren: () => import('./signout/signout.module').then( m => m.SignoutPageModule)
   },
-  {
-    path: 'signin',
-    loadChildren: () => import('./login/login.module').then( m => m.SigninPageModule)
-  },
-  {
-    path: 'signup',
-    loadChildren: () => import('./signup/signup.module').then( m => m.SignupPageModule)
-  },
+  
+  
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
+  },
+  {
+    path: 'accueil-entrepreneur',
+    loadChildren: () => import('./accueil-entrepreneur/accueil-entrepreneur.module').then( m => m.AccueilEntrepreneurPageModule)
+  },
+  {
+    path: 'accueil-developpeur',
+    loadChildren: () => import('./accueil-developpeur/accueil-developpeur.module').then( m => m.AccueilDeveloppeurPageModule)
+  },
+  {
+    path: 'projets',
+    loadChildren: () => import('./projets/projets.module').then( m => m.ProjetsPageModule)
+  },
+  /*{
+    path: 'conversation',
+    loadChildren: () => import('./notif/notif.module').then( m => m.ConversationPageModule)
+  },*/
+  {
+    path: 'projet-creation',
+    loadChildren: () => import('./projet-creation/projet-creation.module').then( m => m.ProjetCreationPageModule)
+  },
+  {
+    path: 'description',
+    loadChildren: () => import('./description/description.module').then( m => m.DescriptionPageModule)
+  },
+  {
+    path: 'notification',
+    loadChildren: () => import('./notification/notification.module').then( m => m.NotificationPageModule)
+  },
+  {
+    path: 'evaluation',
+    loadChildren: () => import('./evaluation/evaluation.module').then( m => m.EvaluationPageModule)
+  },
+  
+  {
+    path: 'parametres',
+    loadChildren: () => import('./parametres/parametres.module').then( m => m.ParametresPageModule)
+  },
+  {
+    path: 'sauvegarder',
+    loadChildren: () => import('./sauvegarder/sauvegarder.module').then( m => m.SauvegarderPageModule)
+  },
+  {
+    path: 'mes-evaluations',
+    loadChildren: () => import('./mes-evaluations/mes-evaluations.module').then( m => m.MesEvaluationsPageModule)
+  },
+  {
+    path: 'conversations',
+    loadChildren: () => import('./conversations/conversations.module').then( m => m.ConversationsPageModule)
+  },  {
+    path: 'verify-code',
+    loadChildren: () => import('./verify-code/verify-code.module').then( m => m.VerifyCodePageModule)
+  },
+  {
+    path: 'forgot-password',
+    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },
+  {
+    path: 'new-password',
+    loadChildren: () => import('./new-password/new-password.module').then( m => m.NewPasswordPageModule)
   }
+
+
+
+
+
+
+
+
 ];
 
 @NgModule({

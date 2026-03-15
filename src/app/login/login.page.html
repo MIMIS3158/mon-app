@@ -10,13 +10,14 @@
       <ion-title size="large">Inscription</ion-title>
     </ion-toolbar>
   </ion-header>
-</ion-content>-->
+</ion-content>
 <ion-header>
-  <ion-toolbar color="primary">
+
+  <ion-toolbar >
     <ion-title>Connexion</ion-title>
   </ion-toolbar>
-</ion-header>
-
+</ion-header>-->
+<!--
 <ion-content class="ion-padding">
 
   <ion-list>
@@ -34,8 +35,51 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" (click)="register()">
+  <ion-button class="btn-border" color="danger" expand="block" (click)="register()">
     Se connecter
   </ion-button>
 
 </ion-content>
+-->
+
+        <!--
+<ion-item lines="none" class="input-item">
+  <ion-icon name="mail-outline" slot="start"></ion-icon>
+  <ion-input
+    type="email"placeholder="Entrez votre email">
+  </ion-input>
+</ion-item>
+
+<ion-item lines="none" class="input-item">
+  <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+  <ion-input
+    type="password"
+    placeholder="Entrez votre mot de passe">
+  </ion-input>
+</ion-item>
+  </div>
+</ion-content>-->
+<ion-content>
+ <ion-card>
+  <div class="register-container" id="register"> <div class="two">
+            <label>Pas de compte ? <a  routerLink="/signup">S'inscrire</a></label>
+          </div>
+
+        <ion-label class="signin">Se connecter</ion-label>
+          <div class="input-box">
+           <ion-icon name="person" slot="start" class="child"></ion-icon>
+          <input label="Username"  [(ngModel)]="user.Email" class="input-field"  placeholder="User ou Email"   >
+           </div>
+         <br>
+           <div class="input-box">
+          <ion-icon name="lock-closed" slot="start" class="part"></ion-icon>
+          <input label="Password"  [(ngModel)]="user.Password"  class="input-field"  placeholder="Entrez votre password" type="password"  >
+           </div>
+           <label> <a  routerLink="/reset-password">Forgot password?</a></label>
+          </div>
+        </ion-card>
+        <ion-button (click)="login()"  class="center-btn" >Se connecter</ion-button>  
+        </ion-content>
+        
+
+

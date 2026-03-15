@@ -1,0 +1,485 @@
+// ==========================================
+// HEADER
+// ==========================================
+
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --color: white;
+    padding: 8px 0;
+
+    ion-title {
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: 0.3px;
+      text-align: center;
+    }
+  }
+}
+
+// ==========================================
+// CONTENT
+// ==========================================
+ion-content {
+  --background: #f5f7fa;
+
+  // Segment de filtrage
+  ion-segment {
+    margin: 20px 16px;
+    background: white;
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+
+    ion-segment-button {
+      --background: white;
+      //--background-checked: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --background-checked: $primary-gradient;
+      --color: #4a5568 !important; // ⭐ Couleur du texte
+      --color-checked: #4a5568 !important;
+      --indicator-color: transparent;
+      min-width: 100px;
+      margin: 0 4px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      height: 40px;
+      transition: all 0.3s ease;
+      text-transform: none;
+
+      ion-label {
+        color: #4a5568 !important; // ⭐ Couleur du texte
+        font-weight: 700 !important;
+      }
+
+      &.segment-button-checked {
+        transform: scale(1.05);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+
+        ion-label {
+          color: #4a5568 !important;
+        }
+      }
+
+      &::part(indicator-background) {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 8px;
+      }
+    }
+  }
+
+  // État vide
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    background: white;
+    border-radius: 24px;
+    margin: 40px 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.6s ease;
+
+    ion-icon {
+      font-size: 100px;
+      color: #e2e8f0;
+      margin-bottom: 24px;
+    }
+
+    h3 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #4a5568 !important; // ⭐ Couleur du texte
+      margin: 0 0 12px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #4a5568 !important; // ⭐ Couleur du texte
+      margin: 0;
+      opacity: 0.8;
+    }
+  }
+
+  // Liste
+  ion-list {
+    background: transparent;
+    padding: 0 16px 120px;
+  }
+
+  // Cards des candidatures
+  ion-card {
+    margin: 16px 0;
+    border-radius: 20px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    background: white;
+    border: 1px solid #e8ecf1;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: slideIn 0.5s ease backwards;
+
+    &:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 12px 28px rgba(102, 126, 234, 0.15);
+    }
+
+    // Header
+    ion-card-header {
+      padding: 20px;
+      background: linear-gradient(135deg, #f8f9ff 0%, #fdfbff 100%);
+      position: relative;
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 20px 20px 0 0;
+      }
+
+      > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+
+        > div {
+          flex: 1;
+        }
+
+        ion-card-title {
+          font-size: 1.3rem;
+          font-weight: 800;
+          color: #4a5568 !important; // ⭐ Couleur du titre
+          margin-bottom: 8px;
+        }
+
+        ion-card-subtitle {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: #4a5568 !important; // ⭐ Couleur du sous-titre
+          opacity: 0.8;
+        }
+
+        ion-badge {
+          font-size: 0.7rem;
+          font-weight: 700;
+          padding: 8px 14px;
+          border-radius: 20px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    // Content
+    ion-card-content {
+      padding: 24px 20px;
+
+      .candidature-info {
+        background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 4px solid #667eea;
+
+        > p {
+          margin: 12px 0;
+          font-size: 0.95rem;
+          color: #4a5568 !important; // ⭐ Couleur du texte
+          line-height: 1.6;
+
+          strong {
+            font-weight: 700;
+            color: #4a5568 !important; // ⭐ Couleur du texte
+          }
+
+          &.message {
+            background: white;
+            padding: 14px;
+            border-radius: 10px;
+            font-style: italic;
+            margin-top: 8px;
+          }
+
+          &.value {
+            font-weight: 600;
+            color: #4a5568 !important; // ⭐ Couleur du texte
+            margin-top: 6px;
+          }
+        }
+
+        ion-grid {
+          margin-top: 16px;
+
+          ion-col {
+            p {
+              margin: 8px 0;
+              font-size: 0.9rem;
+              color: #4a5568 !important; // ⭐ Couleur du texte
+
+              strong {
+                font-weight: 700;
+                color: #4a5568 !important; // ⭐ Couleur du texte
+              }
+
+              &.value {
+                font-weight: 600;
+                color: #4a5568 !important; // ⭐ Couleur du texte
+                margin-top: 4px;
+              }
+            }
+          }
+        }
+      }
+
+      // Boutons d'action
+      .action-buttons {
+        margin-top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        ion-button {
+          --border-radius: 14px;
+          height: 50px;
+          font-weight: 700;
+          font-size: 0.95rem;
+          text-transform: none;
+          letter-spacing: 0.3px;
+          margin: 0;
+          transition: all 0.3s ease;
+
+          ion-icon {
+            font-size: 22px;
+          }
+
+          &[color="success"] {
+            --background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            box-shadow: 0 4px 12px rgba(72, 187, 120, 0.25);
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(72, 187, 120, 0.35);
+            }
+          }
+
+          &[color="danger"] {
+            --background: transparent;
+            --color: #ef4444;
+            --border-color: #ef4444;
+            --border-width: 2px;
+
+            &:hover {
+              --background: #fef2f2;
+              transform: translateY(-2px);
+            }
+          }
+
+          &[color="primary"] {
+            --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(102, 126, 234, 0.35);
+            }
+          }
+
+          &[color="warning"] {
+            --background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
+            }
+          }
+        }
+
+        // Badge "Déjà évalué"
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          padding: 16px;
+          background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+          border-radius: 14px;
+          font-weight: 700;
+          color: #276749;
+          font-size: 0.95rem;
+          box-shadow: 0 2px 8px rgba(72, 187, 120, 0.15);
+
+          ion-icon {
+            font-size: 26px;
+          }
+
+          span {
+            color: #276749 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// FOOTER
+// ==========================================
+ion-footer {
+  ion-toolbar {
+    --background: white;
+    --border-width: 0;
+    box-shadow: 0 -2px 16px rgba(0, 0, 0, 0.08);
+    padding: 4px 0;
+  }
+
+  .tab-button {
+    ion-button {
+      --color: #a0aec0;
+      --ripple-color: rgba(102, 126, 234, 0.15);
+      margin: 0;
+      transition: all 0.3s ease;
+
+      ion-icon {
+        font-size: 28px;
+        transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      }
+
+      &:hover {
+        --color: #667eea;
+
+        ion-icon {
+          transform: scale(1.2);
+        }
+      }
+
+      &:active ion-icon {
+        transform: scale(0.9);
+      }
+    }
+  }
+}
+
+// ==========================================
+// ANIMATIONS
+// ==========================================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+ion-card {
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 576px) {
+  ion-content {
+    ion-segment {
+      margin: 16px 12px;
+
+      ion-segment-button {
+        min-width: 75px;
+        font-size: 0.8rem;
+        height: 36px;
+        margin: 0 2px;
+      }
+    }
+
+    ion-list {
+      padding: 0 12px 120px;
+    }
+
+    ion-card {
+      margin: 12px 0;
+
+      ion-card-header {
+        padding: 16px;
+
+        > div {
+          flex-direction: column;
+          align-items: flex-start;
+
+          ion-card-title {
+            font-size: 1.15rem;
+            margin-bottom: 6px;
+          }
+
+          ion-card-subtitle {
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+          }
+
+          ion-badge {
+            font-size: 0.65rem;
+            padding: 6px 12px;
+          }
+        }
+      }
+
+      ion-card-content {
+        padding: 20px 16px;
+
+        .candidature-info {
+          padding: 16px;
+
+          p {
+            font-size: 0.9rem;
+          }
+        }
+
+        .action-buttons ion-button {
+          height: 46px;
+          font-size: 0.9rem;
+        }
+      }
+    }
+
+    .empty-state {
+      padding: 60px 20px;
+      margin: 24px 12px;
+
+      ion-icon {
+        font-size: 80px;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+      }
+    }
+  }
+
+  ion-footer .tab-button ion-button ion-icon {
+    font-size: 24px;
+  }
+}
+  

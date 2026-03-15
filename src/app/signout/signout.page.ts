@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-signout',
@@ -8,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DeconnexionPage implements OnInit {
 
-  constructor() { }
+  constructor( private router:Router) { }
 
   ngOnInit() {
-  }
-
+  }/*
+signout(){
+  localStorage.clear();
+  this.router.navigate(['/home']);
+}*/
 }

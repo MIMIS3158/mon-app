@@ -15,5 +15,10 @@ export class AppComponent {
     { title: 'Spam', url: '/folder/spam', icon: 'warning' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+
+  
+  constructor() {
+  const darkMode = localStorage.getItem('darkMode') === 'true';
+  document.body.classList.toggle('dark', darkMode);
+}
 }

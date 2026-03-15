@@ -1,0 +1,161 @@
+
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="Accueil">Candidatures reçues</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <!-- Tabs pour filtrer -->
+  <ion-segment [(ngModel)]="selectedTab" (ionChange)="onTabChange()">
+    <ion-segment-button value="all">
+      <ion-label>Toutes</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pending">
+      <ion-label>En attente</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="accepted">
+      <ion-label>Acceptées</ion-label>
+    </ion-segment-button>
+   <!--<ion-segment-button value="rejected">
+      <ion-label>Refusées</ion-label>
+    </ion-segment-button>--> 
+    <!-- Ajoutez dans ion-segment -->
+<ion-segment-button value="completed">
+    <ion-label>Terminées</ion-label>
+</ion-segment-button>
+  </ion-segment>
+
+  <!-- Message si aucune candidature -->
+  <div *ngIf="displayedNotifications.length === 0" class="empty-state">
+    <ion-icon name="mail-open-outline"></ion-icon>
+    <h3>Aucune candidature</h3>
+    <p>Vous n'avez pas encore reçu de candidatures</p>
+  </div>
+
+  <!-- Liste des candidatures -->
+  <ion-list *ngIf="displayedNotifications.length > 0">
+    <ion-card *ngFor="let notif of displayedNotifications">
+      <ion-card-header>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <ion-card-title>{{ notif.Nomdev || 'Développeur' }}</ion-card-title>
+            <ion-card-subtitle>Pour le projet: {{ notif.Nomduprojet }}</ion-card-subtitle>
+          </div>
+          
+          <ion-badge [color]="getStatusColor(notif.statut)">
+            {{ notif.statut }}
+          </ion-badge>
+        </div>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <!-- Informations de la candidature -->
+        <div class="candidature-info">
+          <p><strong>Message:</strong></p>
+          <p class="message">{{ notif.messagePostulation }}</p>
+          
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <p><strong>Tarif proposé:</strong></p>
+                <p class="value">{{ notif.Budget || 'Non spécifié' }} DA</p>
+              </ion-col>
+              <ion-col size="6">
+                <p><strong>Durée estimée:</strong></p>
+                <p class="value">{{ notif.Duree || 'Non spécifié' }}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <p><strong>Date de candidature:</strong></p>
+                <p class="value">{{ notif.date_postulation | date:'dd/MM/yyyy à HH:mm' }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+        
+        <!-- Boutons d'action (uniquement si "En attente") -->
+        <div class="action-buttons" *ngIf="notif.statut === 'En attente'">
+          <ion-button 
+            expand="block" 
+            color="success" 
+            (click)="accepter(notif)">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            Accepter cette candidature
+          </ion-button>
+          
+          <ion-button 
+            expand="block" 
+            color="danger" 
+            fill="outline"
+            (click)="refuser(notif)">
+            <ion-icon name="close-circle-outline" slot="start"></ion-icon>
+            Refuser
+          </ion-button>
+        </div>
+
+        <!-- Bouton Contacter (si acceptée) -->
+        <div class="action-buttons" *ngIf="notif.statut === 'Acceptée'">
+          <ion-button 
+            expand="block" 
+            color="primary" 
+            (click)="contacterDeveloppeur(notif)">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            Contacter le développeur
+          </ion-button>
+        </div>
+        <!-- Ajoutez après le bouton Contacter -->
+<div class="action-buttons" *ngIf="notif.statut === 'Terminée'">
+    <ion-button
+        *ngIf="!notif.developpeurEvalue"
+        expand="block"
+        color="warning"
+        (click)="evaluerDeveloppeur(notif)">
+        <ion-icon name="star-outline" slot="start"></ion-icon>
+        Évaluer le développeur
+    </ion-button>
+    <div *ngIf="notif.developpeurEvalue">
+        <ion-icon name="checkmark-circle" color="success"></ion-icon>
+        <span>Développeur déjà évalué</span>
+    </div>
+</div>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+
+</ion-content>
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>      
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>       
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+            <ion-icon name="chatbubbles"></ion-icon>
+          </ion-button>
+        </ion-col>        
+       <!-- <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
+            <ion-icon name="log-out"></ion-icon>
+          </ion-button>
+        </ion-col>-->
+         <ion-col class="tab-button" text-center>
+        <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+        <ion-icon name="settings"></ion-icon>
+        </ion-button>
+      </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,344 @@
+// ==========================================
+// HEADER
+// ==========================================
+
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --color: white;
+    padding: 8px 0;
+    --min-height: 64px;
+
+    ion-back-button {
+      --color: white;
+      --icon-font-size: 24px;
+    }
+
+    > div {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 4px 8px !important;
+
+      img {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+      }
+
+      > div {
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.25) !important;
+        color: white !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-weight: 700 !important;
+        font-size: 18px !important;
+        border: 2px solid rgba(255, 255, 255, 0.3) !important;
+      }
+
+      p {
+        margin: 0 !important;
+        font-weight: 700 !important;
+        font-size: 1.1rem !important;
+        color: white !important;
+      }
+    }
+  }
+}
+
+// ==========================================
+// CONTENT
+// ==========================================
+
+ion-content {
+  --background: #e5ddd5;
+  --padding-bottom: 0; // ⭐ Supprimer padding bas
+
+  .messages-container {
+  padding: 12px;
+  padding-bottom: 10px; 
+  gap: 5px;
+}
+    .empty-chat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 20px;
+      flex: 1;
+
+      ion-icon {
+        font-size: 80px;
+        color: #cbd5e0;
+        margin-bottom: 16px;
+        opacity: 0.7;
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #718096;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+
+    .message-wrapper {
+      display: flex;
+      margin-bottom: 6px; // ⭐ Espacement entre messages
+      animation: slideIn 0.2s ease;
+
+      &.mine {
+        justify-content: flex-end;
+
+        .message-bubble {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border-radius: 12px 12px 2px 12px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+
+          .message-text {
+            color: white;
+          }
+
+          .message-time {
+            color: rgba(255, 255, 255, 0.9);
+          }
+        }
+      }
+
+      &.theirs {
+        justify-content: flex-start;
+
+        .message-bubble {
+          background: white;
+          color: #2d3748;
+          border-radius: 12px 12px 12px 2px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+          .message-text {
+            color: #2d3748;
+          }
+
+          .message-time {
+            color: #718096;
+          }
+        }
+      }
+
+      .message-bubble {
+        max-width: 75%;
+        padding: 8px 12px;
+        position: relative;
+        word-wrap: break-word;
+
+        .message-text {
+          font-size: 0.95rem;
+          line-height: 1.4;
+          margin: 0 0 4px 0;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+
+        .message-time {
+          font-size: 0.7rem;
+          font-weight: 500;
+          display: block;
+          text-align: right;
+          margin-top: 2px;
+          opacity: 0.75;
+        }
+      }
+    }
+  }
+
+
+// ==========================================
+// FOOTER - Bouton moderne
+// ==========================================
+ion-footer {
+  .chat-footer {
+    --background: white; // ⭐ Fond blanc
+    --border-width: 0;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08); // ⭐ Ombre légère
+    padding: 10px 16px; // ⭐ Padding optimisé
+
+    .input-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      max-width: 900px;
+      margin: 0 auto;
+
+      .message-input {
+        flex: 1;
+        --background: #f0f2f5;
+        --color: #2d3748;
+        --placeholder-color: #a0aec0;
+        --padding-start: 16px;
+        --padding-end: 16px;
+        --padding-top: 10px;
+        --padding-bottom: 10px;
+        border-radius: 24px;
+        border: none;
+        font-size: 0.95rem;
+        min-height: 44px;
+        max-height: 100px;
+        transition: all 0.3s ease;
+
+        &::part(native) {
+          border-radius: 24px;
+        }
+
+        &:focus-within {
+          --background: #e9ecef;
+        }
+      }
+
+      // ⭐ NOUVEAU BOUTON MODERNE
+      ion-button {
+        --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --border-radius: 12px; // ⭐ Carré arrondi au lieu de rond
+        width: 44px;
+        height: 44px;
+        margin: 0;
+        --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        transition: all 0.3s ease;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ion-icon {
+          font-size: 22px;
+          transform: rotate(-45deg); // ⭐ Rotation pour effet "avion en papier"
+        }
+
+        &:hover:not([disabled]) {
+          transform: translateY(-2px);
+          --box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        &:active:not([disabled]) {
+          transform: translateY(0);
+        }
+
+        &[disabled] {
+          --background: #cbd5e0;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// ANIMATIONS
+// ==========================================
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 576px) {
+  ion-header ion-toolbar {
+    --min-height: 60px;
+
+    > div {
+      gap: 10px !important;
+
+      img,
+      > div {
+        width: 36px !important;
+        height: 36px !important;
+      }
+
+      p {
+        font-size: 1rem !important;
+      }
+    }
+  }
+
+  ion-content {
+    .messages-container {
+      padding: 12px;
+      padding-bottom: 70px;
+      gap: 5px;
+      min-height: calc(100vh - 60px - 58px);
+
+      .empty-chat {
+        padding: 60px 16px;
+
+        ion-icon {
+          font-size: 64px;
+        }
+
+        p {
+          font-size: 1rem;
+        }
+      }
+
+      .message-wrapper {
+        margin-bottom: 5px;
+
+        &.mine .message-bubble,
+        &.theirs .message-bubble {
+          max-width: 85%;
+          padding: 7px 11px;
+
+          .message-text {
+            font-size: 0.9rem;
+          }
+
+          .message-time {
+            font-size: 0.65rem;
+          }
+        }
+      }
+    }
+  }
+
+  ion-footer {
+    .chat-footer {
+      padding: 8px 12px;
+
+      .input-container {
+        gap: 8px;
+
+        .message-input {
+          --padding-start: 14px;
+          --padding-end: 14px;
+          --padding-top: 9px;
+          --padding-bottom: 9px;
+          min-height: 42px;
+          font-size: 0.9rem;
+        }
+
+        ion-button {
+          width: 42px;
+          height: 42px;
+
+          ion-icon {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+  

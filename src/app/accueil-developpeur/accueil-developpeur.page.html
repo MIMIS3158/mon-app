@@ -1,0 +1,436 @@
+<!--<ion-header>
+  <ion-toolbar>
+    <ion-title class="Accueil">Accueil Développeur</ion-title>
+  </ion-toolbar> 
+  <ion-toolbar>
+    <div class="search-container">
+      <ion-searchbar
+        placeholder="Rechercher un projet ou un langage"
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch()"
+        class="searchbar">
+      </ion-searchbar>
+      <ion-button 
+        class="reset-header-button" 
+        (click)="resetFilters()" 
+        fill="solid">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="isLoading" class="loading-spinner">
+    <ion-spinner></ion-spinner>
+    <p>Chargement des projets...</p>
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="filters-section">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Compétence</ion-label>
+              <ion-select [(ngModel)]="selectedCompetence" (ionChange)="onFilter()">
+                <ion-select-option value="">Toutes</ion-select-option>
+                <ion-select-option *ngFor="let Competence of CompetencesList" [value]="Competence">
+                  {{ Competence }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Statut</ion-label>
+              <ion-select [(ngModel)]="selectedStatus" (ionChange)="onFilter()">
+                <ion-select-option value="">Tous</ion-select-option>
+                <ion-select-option *ngFor="let status of statusList" [value]="status">
+                  {{ status }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+       
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Catégorie</ion-label>
+              <ion-select [(ngModel)]="selectedCategorie" (ionChange)="onFilter()">
+                <ion-select-option value="">Toutes</ion-select-option>
+                <ion-select-option 
+                  *ngFor="let categorie of categoriesList" 
+                  [value]="categorie.id_categorie">
+                  {{ categorie.nom_categorie }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Trier par</ion-label>
+              <ion-select [(ngModel)]="sortBy" (ionChange)="onFilter()">
+                <ion-select-option value="recent">Plus récents</ion-select-option>
+                <ion-select-option value="budget-high">Budget décroissant</ion-select-option>
+                <ion-select-option value="budget-low">Budget croissant</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+    
+    <ion-list *ngIf="displayedProjects.length > 0; else noProjects">
+      <ion-item-divider color="light">
+        <ion-label>
+          <strong>{{ displayedProjects.length }}</strong> projet(s) trouvé(s)
+        </ion-label>
+      </ion-item-divider>
+      
+      <ion-card *ngFor="let project of displayedProjects">
+        
+        <ion-card-header class="entrepreneur-header">
+          <div class="entrepreneur-profile">
+            <ion-avatar>
+              <img [src]="project.entrepreneur?.photo || 'assets/default-avatar.png'" alt="Photo">
+            </ion-avatar>
+            <div class="entrepreneur-info">
+              <h3>{{ project.entrepreneur?.Nom }} {{ project.entrepreneur?.Prenom }}</h3>
+              <p>{{ project.entrepreneur?.Entreprise || project.Publierparentreprise }}</p>
+              <p class="post-time">
+                <ion-icon name="time-outline"></ion-icon>
+                Publié le {{ project.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
+              </p>
+               <p>
+    <ion-icon name="business-outline"></ion-icon>
+    {{ project.entrepreneur?.Secteur || 'Secteur non spécifié' }}
+  </p>
+  <p>
+    <ion-icon name="people-outline"></ion-icon>
+    {{ project.entrepreneur?.TailleEntreprise || 'Taille non spécifiée' }} employés
+  </p>
+  <p>
+    <ion-icon name="calendar-outline"></ion-icon>
+    Depuis {{ project.entrepreneur?.AnneeCreation || 'Non spécifiée' }}
+  </p>
+  <p *ngIf="project.entrepreneur?.Ville">
+    <ion-icon name="location-outline"></ion-icon>
+    {{ project.entrepreneur?.Ville }}, {{ project.entrepreneur?.Pays }}
+  </p>
+  <p *ngIf="project.entrepreneur?.SiteWeb">
+    <ion-icon name="globe-outline"></ion-icon>
+    <a [href]="project.entrepreneur?.SiteWeb" target="_blank">Site web</a>
+  </p>
+  <p *ngIf="project.entrepreneur?.Linkedin">
+    <ion-icon name="logo-linkedin"></ion-icon>
+    <a [href]="project.entrepreneur?.Linkedin" target="_blank">LinkedIn</a>
+  </p>
+  <p *ngIf="project.entrepreneur?.BudgetMoyen">
+    <ion-icon name="cash-outline"></ion-icon>
+    Budget moyen : {{ project.entrepreneur?.BudgetMoyen }} DA
+  </p>
+
+            </div>
+            <div class="badges-header">
+              <ion-badge [color]="getStatusColor(project.Statut)">
+                {{ project.Statut }}
+              </ion-badge>
+              <ion-badge color="success" *ngIf="isNewProject(project)">
+                Nouveau
+              </ion-badge>
+            </div>
+          </div>
+        </ion-card-header>
+        
+        <ion-card-content>
+          <h2 class="project-title">{{ project.Nomduprojet }}</h2>         
+          <p class="description">{{ project.Descriptionduprojet }}</p>         
+          <ion-grid class="project-details">
+            <ion-row>
+              <ion-col size="6">
+                <p><strong>Budget:</strong> {{ project.Budget || 'Non spécifié' }} DA</p>
+              </ion-col>
+              <ion-col size="6">
+                <p><strong> Durée:</strong> {{ project.Duree || 'Non spécifié' }}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <p><strong> Compétences:</strong> {{ project.Competences }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <div class="button-group">
+            <ion-button 
+              (click)="saveProject(project)" 
+              fill="outline" 
+              size="small"
+              [color]="isProjectSaved(project) ? 'warning' : 'medium'">
+              <ion-icon 
+                [name]="isProjectSaved(project) ? 'bookmark' : 'bookmark-outline'" 
+                slot="start">
+              </ion-icon>
+              {{ isProjectSaved(project) ? 'Sauvegardé' : 'Sauvegarder' }}
+            </ion-button>            
+            <ion-button (click)="openDescription(project)" class="postuler">
+              <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+              Postuler
+            </ion-button>            
+            <ion-button (click)="onContact(project)" class="Contacter">
+              <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+              Contacter
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+    <ng-template #noProjects>
+      <div class="no-projects">
+        <p class="ion-text-center">Aucun projet disponible.</p>
+      </div>
+    </ng-template>   
+  </div>
+</ion-content>
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('mes-postulation')">
+            <ion-icon name="folder-open"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('chat')">
+            <ion-icon name="chatbubbles"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
+            <ion-icon name="log-out"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="Accueil">Accueil Développeur</ion-title>
+  </ion-toolbar> 
+  <ion-toolbar>
+    <div class="search-container">
+      <ion-searchbar
+        placeholder="Rechercher un projet ou un langage"
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch()"
+        class="searchbar">
+      </ion-searchbar>
+      <ion-button class="reset-header-button" (click)="resetFilters()" fill="solid">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div *ngIf="isLoading" class="loading-spinner">
+    <ion-spinner></ion-spinner>
+    <p>Chargement des projets...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+    <div class="filters-section">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Compétence</ion-label>
+              <ion-select [(ngModel)]="selectedCompetence" (ionChange)="onFilter()">
+                <ion-select-option value="">Toutes</ion-select-option>
+                <ion-select-option *ngFor="let Competence of CompetencesList" [value]="Competence">
+                  {{ Competence }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Statut</ion-label>
+              <ion-select [(ngModel)]="selectedStatus" (ionChange)="onFilter()">
+                <ion-select-option value="">Tous</ion-select-option>
+                <ion-select-option *ngFor="let status of statusList" [value]="status">
+                  {{ status }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Catégorie</ion-label>
+              <ion-select [(ngModel)]="selectedCategorie" (ionChange)="onFilter()">
+                <ion-select-option value="">Toutes</ion-select-option>
+                <ion-select-option *ngFor="let categorie of categoriesList" [value]="categorie.id_categorie">
+                  {{ categorie.nom_categorie }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Trier par</ion-label>
+              <ion-select [(ngModel)]="sortBy" (ionChange)="onFilter()">
+                <ion-select-option value="recent">Plus récents</ion-select-option>
+                <ion-select-option value="budget-high">Budget décroissant</ion-select-option>
+                <ion-select-option value="budget-low">Budget croissant</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <ion-list *ngIf="displayedProjects.length > 0; else noProjects">
+      <ion-item-divider color="light">
+        <ion-label>
+          <strong>{{ displayedProjects.length }}</strong> projet(s) trouvé(s)
+        </ion-label>
+      </ion-item-divider>
+
+      <ion-card *ngFor="let project of displayedProjects">
+        <!-- ⭐ Infos entrepreneur simplifiées -->
+        <ion-card-header class="entrepreneur-header">
+          <div class="entrepreneur-profile">
+            <ion-avatar>
+              <img [src]="project.entrepreneur?.photo || 'assets/default-avatar.png'" alt="Photo">
+            </ion-avatar>
+            <div class="entrepreneur-info">
+              <h3>{{ project.entrepreneur?.Nom }} {{ project.entrepreneur?.Prenom }}</h3>
+              <p>{{ project.entrepreneur?.Entreprise || project.Publierparentreprise }}</p>
+              <p class="post-time">
+                <ion-icon name="time-outline"></ion-icon>
+                Publié le {{ project.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
+              </p>
+              <p *ngIf="project.entrepreneur?.Ville">
+                <ion-icon name="location-outline"></ion-icon>
+                {{ project.entrepreneur?.Ville }}, {{ project.entrepreneur?.Pays }}
+              </p>
+            </div>
+            <div class="badges-header">
+              <ion-badge [color]="getStatusColor(project.Statut)">
+                {{ project.Statut }}
+              </ion-badge>
+              <ion-badge color="success" *ngIf="isNewProject(project)">
+                Nouveau
+              </ion-badge>
+            </div>
+          </div>
+        </ion-card-header>
+
+        <!-- ⭐ Contenu du projet -->
+        <ion-card-content>
+          <h2 class="project-title">{{ project.Nomduprojet }}</h2>
+          <p class="description">{{ project.Descriptionduprojet }}</p>
+          <ion-grid class="project-details">
+            <ion-row>
+              <ion-col size="6">
+                <p><strong>Budget:</strong> {{ project.Budget || 'Non spécifié' }} DA</p>
+              </ion-col>
+              <ion-col size="6">
+                <p><strong>Durée:</strong> {{ project.Duree || 'Non spécifié' }}</p>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12">
+                <p><strong>Compétences:</strong> {{ project.Competences }}</p>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+          <div class="button-group">
+            <ion-button 
+              (click)="saveProject(project)" 
+              fill="outline" 
+              size="small"
+              [color]="isProjectSaved(project) ? 'warning' : 'medium'">
+              <ion-icon [name]="isProjectSaved(project) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
+              {{ isProjectSaved(project) ? 'Sauvegardé' : 'Sauvegarder' }}
+            </ion-button>
+            <ion-button (click)="openDescription(project)" class="postuler">
+              <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+              Postuler
+            </ion-button>
+            <ion-button (click)="onContact(project)" class="Contacter">
+              <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+              Contacter
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-list>
+
+    <ng-template #noProjects>
+      <div class="no-projects">
+        <p class="ion-text-center">Aucun projet disponible.</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>
+
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('mes-postulation')">
+            <ion-icon name="folder-open"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+            <ion-icon name="chatbubbles"></ion-icon>
+          </ion-button>
+        </ion-col>
+      
+        <!--  <ion-col class="tab-button" text-center>
+    <ion-button fill="clear" expand="full" (click)="goTo('evaluations')">
+        <ion-icon name="star"></ion-icon>
+    </ion-button>
+</ion-col>
+
+          <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
+            <ion-icon name="log-out"></ion-icon>
+          </ion-button>
+        </ion-col>-->
+        <ion-col class="tab-button" text-center>
+        <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+        <ion-icon name="settings"></ion-icon>
+        </ion-button>
+      </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

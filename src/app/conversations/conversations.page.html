@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Messages</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="conversations.length === 0" class="empty-state">
+    <ion-icon name="chatbubbles-outline"></ion-icon>
+    <h3>Aucune conversation</h3>
+    <p>Contactez un développeur ou entrepreneur pour commencer</p>
+  </div>
+
+  <ion-list *ngIf="conversations.length > 0">
+    <ion-item 
+      *ngFor="let conv of conversations" 
+      (click)="ouvrirChat(conv)"
+      class="conversation-item"
+      [class.unread]="conv.unread_count > 0">
+
+      <!-- Avatar -->
+      <div class="avatar" slot="start">
+        <span>{{ getInitiales(conv.contact_nom, conv.contact_prenom) }}</span>
+      </div>
+
+      <!-- Infos -->
+      <ion-label>
+        <h2>{{ conv.contact_prenom }} {{ conv.contact_nom }}</h2>
+        <p [class.bold]="conv.unread_count > 0">{{ conv.last_message }}</p>
+        <span class="time">{{ conv.date_envoi | date:'dd/MM HH:mm' }}</span>
+      </ion-label>
+
+      <!-- Badge non lu -->
+      <div slot="end" *ngIf="conv.unread_count > 0" class="badge">
+        {{ conv.unread_count }}
+      </div>
+
+    </ion-item>
+  </ion-list>
+
+</ion-content>

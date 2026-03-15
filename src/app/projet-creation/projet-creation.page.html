@@ -1,0 +1,117 @@
+<!--<ion-header>
+  <ion-toolbar>
+    <ion-title>Créer un projet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <ion-card-content>
+
+    <h1 class="title">Publier une mission</h1>
+
+    <ion-input
+      label="Nom du projet"
+      [(ngModel)]="newProject.Nomduprojet"
+      required>
+    </ion-input>
+
+    <ion-input
+      label="Publié par entreprise"
+      [(ngModel)]="newProject.Publierparentreprise">
+    </ion-input>
+
+    <ion-input
+      label="Budget"
+      type="number"
+      [(ngModel)]="newProject.Budget"
+      required
+      min="0">
+    </ion-input>
+
+    <ion-input
+      label="Durée"
+      [(ngModel)]="newProject.Duree">
+    </ion-input>
+
+    <ion-input
+      label="Compétences demandées"
+      [(ngModel)]="newProject.Competences">
+    </ion-input>
+ 
+    <ion-input
+      label="Catégories"
+      [(ngModel)]="newProject.Ctgr">
+    </ion-input>
+ 
+
+    <ion-textarea
+      label="Description du projet"
+      [(ngModel)]="newProject.Descriptionduprojet">
+    </ion-textarea>
+
+   
+    <ion-button class="center-btn" (click)="addProject()">
+      Publier
+    </ion-button>
+
+  </ion-card-content>
+</ion-content>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Créer un projet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <ion-card-content>
+
+    <h1 class="title">Publier une mission</h1>
+
+    <ion-input
+      label="Nom du projet"
+      [(ngModel)]="newProject.Nomduprojet"
+      required>
+    </ion-input>
+
+    <ion-input
+      label="Publié par entreprise"
+      [(ngModel)]="newProject.Publierparentreprise">
+    </ion-input>
+
+    <ion-input label="Budget" [(ngModel)]="newProject.Budget" 
+    type="text" ></ion-input>
+
+<ion-input label="Durée" [(ngModel)]="newProject.Duree" 
+    type="text" ></ion-input>
+
+    <ion-input
+      label="Compétences demandées"
+      [(ngModel)]="newProject.Competences">
+    </ion-input>
+ 
+   
+    <ion-item>
+      <ion-label position="floating">Catégorie *</ion-label>
+      <ion-select 
+        [(ngModel)]="newProject.id_categorie" 
+        interface="popover"
+        placeholder="Sélectionnez une catégorie">
+        <ion-select-option 
+          *ngFor="let cat of categories" 
+          [value]="cat.id_categorie">
+          {{ cat.nom_categorie }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-textarea
+      label="Description du projet"
+      [(ngModel)]="newProject.Descriptionduprojet">
+    </ion-textarea>
+
+    <ion-button class="center-btn" (click)="addProject()">
+      Publier
+    </ion-button>
+
+  </ion-card-content>
+</ion-content>

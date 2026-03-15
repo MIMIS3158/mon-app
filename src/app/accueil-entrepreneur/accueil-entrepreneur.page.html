@@ -1,0 +1,137 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="Accueil">Accueil Entrepreneur</ion-title>
+  </ion-toolbar> 
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Rechercher un développeur"
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearch()"
+      class="searchbar">
+    </ion-searchbar>  
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-list *ngIf="searchTerm.length > 0">
+  <ion-item *ngFor="let dev of filteredDevelopers" (click)="viewProfile(dev)" button>
+    <ion-label>
+      <h2>{{ dev.Nomdev }} {{ dev.Prenomdev }}</h2>
+      <ion-badge *ngIf="dev.Niveau" color="primary">{{ dev.Niveau }}</ion-badge>
+      <ion-badge *ngIf="dev.Disponibilite" 
+        [color]="dev.Disponibilite === 'disponible' ? 'success' : 'danger'">
+        {{ dev.Disponibilite }}
+      </ion-badge>
+     <p>Compétences: {{ dev.CompetencesTechniques }}</p>
+<p *ngIf="dev.Experience">
+  <ion-icon name="time-outline"></ion-icon>
+  Expérience: {{ dev.Experience }}
+</p>
+<p *ngIf="dev.Portfolio">
+  Portfolio: {{ dev.Portfolio }}
+</p>
+      <p *ngIf="dev.Ville">
+        <ion-icon name="location-outline"></ion-icon>
+        {{ dev.Ville }}, {{ dev.Pays }}
+      </p>
+      <p *ngIf="dev.Github">
+        <ion-icon name="logo-github"></ion-icon>
+        <a [href]="dev.Github" target="_blank">GitHub</a>
+      </p>
+      <p *ngIf="dev.TarifJournalier">
+        <ion-icon name="cash-outline"></ion-icon>
+        {{ dev.TarifJournalier }} DA/jour
+      </p>
+    </ion-label>
+    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+  </ion-item>
+</ion-list>
+  <ion-grid class="stats-grid">
+    <ion-row>
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToMesProjets()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <ion-icon name="briefcase-outline"></ion-icon>
+              <div>
+                <h2>Mes projets</h2>
+                <p>Voir tous mes projets</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToPostulations()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <ion-icon name="people-outline"></ion-icon>
+              <div>
+                <h2>Postulations</h2>
+                <p>Candidatures reçues</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToEnCours()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <ion-icon name="time-outline"></ion-icon>
+              <div>
+                <h2>En cours</h2>
+                <p>Projets actifs</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToTermines()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <ion-icon name="checkmark-done-outline"></ion-icon>
+              <div>
+                <h2>Terminés</h2>
+                <p>Projets clôturés</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>      
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>       
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+            <ion-icon name="chatbubbles"></ion-icon>
+          </ion-button>
+        </ion-col>        
+       <!-- <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
+            <ion-icon name="log-out"></ion-icon>
+          </ion-button>
+        </ion-col>-->
+         <ion-col class="tab-button" text-center>
+        <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+        <ion-icon name="settings"></ion-icon>
+        </ion-button>
+      </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

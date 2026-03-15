@@ -1,0 +1,309 @@
+// ==========================================
+// HEADER
+// ==========================================
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --color: white;
+    padding: 8px 0;
+
+    ion-title {
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    ion-button {
+      --color: white;
+      --background-hover: rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+
+      ion-icon {
+        font-size: 24px;
+      }
+
+      &:hover {
+        --background: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+}
+
+// ==========================================
+// CONTENT
+// ==========================================
+ion-content {
+  --background: linear-gradient(180deg, #f8f9fd 0%, #e9ecef 100%);
+
+  // État vide
+  > div[style*="text-align: center"] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    background: white;
+    border-radius: 20px;
+    margin: 40px 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.6s ease;
+
+    ion-icon {
+      font-size: 80px !important;
+      color: #cbd5e0 !important;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2c3e50;
+      margin: 0 0 12px 0;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #8e8e93;
+      margin: 0;
+    }
+  }
+
+  // Cartes de projets
+  ion-card {
+    margin: 16px;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    background: white;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    animation: fadeInUp 0.5s ease backwards;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 28px rgba(102, 126, 234, 0.2);
+    }
+
+    // Header
+    ion-card-header {
+      background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+      padding: 20px;
+      border-bottom: 2px solid #f0f0f0;
+
+      > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 12px;
+
+        ion-card-title {
+          font-size: 1.4rem;
+          font-weight: 700;
+          color: #2c3e50;
+          margin: 0;
+          flex: 1;
+        }
+
+        ion-badge {
+          font-size: 0.75rem;
+          font-weight: 600;
+          padding: 6px 12px;
+          border-radius: 12px;
+          text-transform: capitalize;
+          flex-shrink: 0;
+        }
+      }
+
+      ion-card-subtitle {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #667eea;
+        margin: 0;
+      }
+    }
+
+    // Content
+    ion-card-content {
+      padding: 24px 20px;
+
+      > p {
+        font-size: 0.95rem;
+        color: #4a5568;
+        line-height: 1.7;
+        margin: 0 0 20px 0;
+      }
+
+      ion-grid {
+        background: #f8f9fd;
+        border-radius: 12px;
+        padding: 16px;
+        margin: 16px 0 20px;
+        border-left: 4px solid #667eea;
+
+        ion-row {
+          margin: 0;
+        }
+
+        ion-col {
+          padding: 8px;
+
+          p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #2d3748;
+
+            strong {
+              color: #2c3e50;
+              font-weight: 600;
+              margin-right: 6px;
+            }
+          }
+        }
+      }
+
+      // Boutons d'action
+      > div[style*="display: flex"] {
+        display: flex !important;
+        gap: 12px !important;
+        margin-top: 20px;
+
+        ion-button {
+          flex: 1 !important;
+          margin: 0 !important;
+          --border-radius: 12px;
+          font-weight: 600;
+          text-transform: none;
+          letter-spacing: 0.3px;
+          height: 48px;
+          font-size: 0.95rem;
+          transition: all 0.3s ease;
+
+          ion-icon {
+            font-size: 20px;
+            margin-right: 6px;
+          }
+
+          &:first-child {
+            --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+            }
+          }
+
+          &:last-child {
+            --background: white;
+            --color: #ef4444;
+            --border-color: #ef4444;
+            --border-width: 2px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+
+            &:hover {
+              --background: rgba(239, 68, 68, 0.05);
+              transform: translateY(-2px);
+              box-shadow: 0 6px 16px rgba(239, 68, 68, 0.25);
+            }
+          }
+
+          &:active {
+            transform: translateY(0);
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================
+// ANIMATIONS
+// ==========================================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Animation progressive des cartes
+ion-card {
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.08}s;
+    }
+  }
+}
+
+// ==========================================
+// RESPONSIVE
+// ==========================================
+@media (max-width: 576px) {
+  ion-content {
+    ion-card {
+      margin: 12px 8px;
+
+      ion-card-header {
+        padding: 16px;
+
+        > div {
+          flex-direction: column;
+          align-items: flex-start;
+
+          ion-card-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+          }
+
+          ion-badge {
+            margin-bottom: 8px;
+          }
+        }
+
+        ion-card-subtitle {
+          font-size: 0.9rem;
+        }
+      }
+
+      ion-card-content {
+        padding: 20px 16px;
+
+        ion-grid {
+          padding: 12px;
+        }
+
+        > div[style*="display: flex"] {
+          flex-direction: column;
+
+          ion-button {
+            width: 100% !important;
+            margin-bottom: 8px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  ion-content ion-card {
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

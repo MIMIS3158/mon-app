@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-developpeur"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="Accueil">Postuler au projet</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  
+  <!-- Affichage du projet -->
+  <div *ngIf="mesProjects.length > 0; else noProject">
+    <ion-card *ngFor="let project of mesProjects">
+      
+      <!-- Détails du projet -->
+      <ion-card-header>
+        <ion-card-title>{{ project.Nomduprojet }}</ion-card-title>
+        <ion-card-subtitle>{{ project.Publierparentreprise }}</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <!-- Informations du projet -->
+        <div class="project-info">
+          <p><strong>Description:</strong> {{ project.Descriptionduprojet }}</p>
+          <p><strong>Compétences requises:</strong> {{ project.Competences }}</p>
+          <p><strong>Budget:</strong> {{ project.Budget }}</p>
+          <p><strong>Durée:</strong> {{ project.Duree }}</p>
+          <p><strong>Statut:</strong> 
+            <ion-badge [color]="project.Statut === 'Actif' ? 'success' : 'warning'">
+              {{ project.Statut }}
+            </ion-badge>
+          </p>
+        </div>
+        
+        <ion-item-divider>
+          <ion-label>Votre candidature</ion-label>
+        </ion-item-divider>
+        
+        <!-- Formulaire de candidature -->
+        <div class="candidature-form">
+          
+          <ion-item>
+            <ion-label position="floating">Message de motivation *</ion-label>
+            <ion-textarea 
+              [(ngModel)]="messagePostulation" 
+              rows="6"
+              placeholder="Expliquez pourquoi vous êtes le candidat idéal pour ce projet...">
+            </ion-textarea>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="floating">Votre tarif proposé (€/DA)</ion-label>
+            <ion-input 
+              type="text" 
+              [(ngModel)]="Budget"
+              >
+            </ion-input>
+          </ion-item>
+          
+          <ion-item>
+            <ion-label position="floating">Durée estimée</ion-label>
+            <ion-input 
+              [(ngModel)]="Duree">
+            </ion-input>
+          </ion-item>
+          
+          <ion-button 
+            expand="block" 
+            (click)="onApply(project)" 
+            class="submit-btn"
+            [disabled]="!messagePostulation || messagePostulation.trim() === ''">
+            <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+            Envoyer ma candidature
+          </ion-button>
+          
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Message si aucun projet -->
+  <ng-template #noProject>
+    <div class="empty-state">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <h3>Aucun projet sélectionné</h3>
+      <p>Retournez à l'accueil pour choisir un projet</p>
+      <ion-button (click)="goBack()">
+        Retour à l'accueil
+      </ion-button>
+    </div>
+  </ng-template>
+
+</ion-content>

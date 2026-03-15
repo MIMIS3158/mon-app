@@ -1,20 +1,6 @@
-//import { Component, OnInit } from '@angular/core';
-
-//@Component({
-  //selector: 'app-inscription',
-  //templateUrl: './inscription.page.html',
-  //styleUrls: ['./inscription.page.scss'],
-//})
-//export class InscriptionPage implements OnInit {
-
- // constructor() { }
-
-  //ngOnInit() {
- // }
-
-//}
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-inscription',
@@ -23,24 +9,39 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class SigninPage implements OnInit {
-
+private apiUrl = 'http://localhost/myApp/api';
   user = {
-    email: '',
-    password: '',
-    role: ''
+
+     Email: '',
+     Password: ''
   };
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, 
+    private http: HttpClient) { }
 
-  ngOnInit() {}
-
-  register() {
-    if (this.user.role === 'developer') {
-      this.router.navigate(['/profile-dev']);
-    } else if (this.user.role === 'entrepreneur') {
-      this.router.navigate(['/profile-entrepreneur']);
-    } else {
-      alert('Veuillez choisir un rôle');
+  ngOnInit() {} 
+login() {
+    if (!this.user.Email || !this.user.Password) {
+      return;
     }
+
+    
+    this.http.post(`${this.apiUrl}/login.php`, this.user)
+      .subscribe({
+        next: (response: any) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('role', response.user.role);
+          localStorage.setItem('userId', response.user.id);
+
+          if (response.user.role === 'developer') {
+            this.router.navigate(['/accueil-developpeur']);
+          } else if (response.user.role === 'entrepreneur') {
+            this.router.navigate(['/accueil-entrepreneur']);
+          }
+        },
+        error: () => {
+          alert('Email ou mot de passe incorrect');
+        }
+      });
   }
-}
+} 
