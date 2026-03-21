@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { VerifyCodePageRoutingModule } from './verify-code-routing.module';
+import { RecommendedPageRoutingModule } from './recommended-routing.module';
 
-import { VerifyCodePage } from './verify-code.page';
+import { RecommendedPage } from './recommended.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    VerifyCodePageRoutingModule
+    RecommendedPageRoutingModule
   ],
-  declarations: [VerifyCodePage]
+  declarations: [RecommendedPage]
 })
-export class VerifyCodePageModule {}
+export class RecommendedPageModule {}

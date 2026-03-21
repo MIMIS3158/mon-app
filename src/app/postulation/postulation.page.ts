@@ -6,7 +6,7 @@ import { ParametresPage } from '../parametres/parametres.page';
 
 
 export interface Postulation {
-  id_postulation?: number; // ⭐ ajouter
+  id_postulation?: number; 
   project_id?: number;
   Nomduprojet: string;
   Publierparentreprise: string;
@@ -44,32 +44,8 @@ export class PostulationPage implements OnInit {
   ionViewWillEnter() {
     this.loadPostulations();
   }
-
-  /*loadPostulations() {
-    this.http.get<Postulation[]>(`${this.apiUrl}/get_candidatures_developpeur.php`)
-      .subscribe({
-        next: (postulations) => {
-          this.allPostulations = postulations;
-          this.filterPostulations();
-        },
-        error: () => {}
-      });
-  }*/
-  // GET
-/*loadPostulations() {
-    const id_developpeur = localStorage.getItem('id_developpeur');
-    this.http.get<Postulation[]>(
-        `${this.apiUrl}/candidature.php?id_developpeur=${id_developpeur}`)
-        .subscribe({
-            next: (postulations) => {
-                this.allPostulations = postulations;
-                this.filterPostulations();
-            },
-            error: () => {}
-        });
-}*/
 loadPostulations() {
-    const id_developpeur = localStorage.getItem('userId'); // ✅
+    const id_developpeur = localStorage.getItem('userId'); 
     this.http.get<Postulation[]>(
         `${this.apiUrl}/candidature.php?id_developpeur=${id_developpeur}`)
         .subscribe({
@@ -130,14 +106,14 @@ evaluerEntrepreneur(postulation: Postulation) {
     }
   });
 }
-
-
-
-  startProject(postulation: Postulation) {
-    this.router.navigate(['/chat'], {
-      queryParams: { projectId: postulation.project_id }
-    });
-  }
+ startProject(postulation: Postulation) {
+  this.router.navigate(['/chat'], {
+    queryParams: { 
+      projectId: postulation.project_id,
+      userId: postulation.id_entrepreneur   
+    }
+  });
+}
 terminerProject(postulation: Postulation) {
     if (!postulation.id_postulation) return;
     
@@ -151,17 +127,6 @@ terminerProject(postulation: Postulation) {
             error: () => {}
         });
 }
- /* cancelProject(postulation: Postulation) {
-    if (!postulation.project_id) return;
-    
-    this.http.delete(`${this.apiUrl}/delete_candidature.php?id=${postulation.project_id}`)
-      .subscribe({
-        next: () => {
-          this.loadPostulations();
-        },
-        error: () => {}
-      });
-  }*/
 cancelProject(postulation: Postulation) {
     if (!postulation.id_postulation) return;
     this.http.delete(
@@ -171,11 +136,9 @@ cancelProject(postulation: Postulation) {
             error: () => {}
         });
 }
-
   goToAccueil() {
     this.router.navigate(['/accueil-developpeur']);
   }
-
  async ouvrirParametre() {
     const modal = await this.modalController.create({
       component: ParametresPage,
@@ -183,7 +146,9 @@ cancelProject(postulation: Postulation) {
     });
     return await modal.present();
   }
-  
+  ouvrirRecommended() {
+  this.router.navigate(['/recommended']);
+}
   goTo(tab: string) {
     switch(tab) {
       /*case 'accueil':
@@ -201,6 +166,10 @@ cancelProject(postulation: Postulation) {
         break;
       case 'conversations':
         this.router.navigate(['/conversations']);
+        break;
+        
+         case 'Recommended':
+        this.router.navigate(['/recommended']);
         break;
         case 'parametres':
   this.router.navigate(['/parametres']);

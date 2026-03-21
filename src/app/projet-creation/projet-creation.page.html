@@ -1,63 +1,8 @@
-<!--<ion-header>
-  <ion-toolbar>
-    <ion-title>Créer un projet</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="body">
-  <ion-card-content>
-
-    <h1 class="title">Publier une mission</h1>
-
-    <ion-input
-      label="Nom du projet"
-      [(ngModel)]="newProject.Nomduprojet"
-      required>
-    </ion-input>
-
-    <ion-input
-      label="Publié par entreprise"
-      [(ngModel)]="newProject.Publierparentreprise">
-    </ion-input>
-
-    <ion-input
-      label="Budget"
-      type="number"
-      [(ngModel)]="newProject.Budget"
-      required
-      min="0">
-    </ion-input>
-
-    <ion-input
-      label="Durée"
-      [(ngModel)]="newProject.Duree">
-    </ion-input>
-
-    <ion-input
-      label="Compétences demandées"
-      [(ngModel)]="newProject.Competences">
-    </ion-input>
- 
-    <ion-input
-      label="Catégories"
-      [(ngModel)]="newProject.Ctgr">
-    </ion-input>
- 
-
-    <ion-textarea
-      label="Description du projet"
-      [(ngModel)]="newProject.Descriptionduprojet">
-    </ion-textarea>
-
-   
-    <ion-button class="center-btn" (click)="addProject()">
-      Publier
-    </ion-button>
-
-  </ion-card-content>
-</ion-content>-->
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Créer un projet</ion-title>
   </ion-toolbar>
 </ion-header>

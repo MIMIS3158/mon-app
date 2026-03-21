@@ -1,68 +1,3 @@
-<!--<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="retour()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Évaluer {{ typeEvalue }}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding">
-  
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{ projet?.Nomduprojet }}</ion-card-title>
-      <ion-card-subtitle>{{ projet?.Publierparentreprise }}</ion-card-subtitle>
-    </ion-card-header>
-  </ion-card>
-
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Votre évaluation</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
-      
-     
-      <div class="rating-section">
-        <ion-label>Note</ion-label>
-        <div class="stars">
-          <ion-icon 
-            *ngFor="let n of [1,2,3,4,5]" 
-            [name]="n <= note ? 'star' : 'star-outline'"
-            (click)="note = n">
-          </ion-icon>
-        </div>
-        <p class="note-text">{{ getNoteText() }}</p>
-      </div>
-
-    
-      <ion-item>
-        <ion-label position="floating">Commentaire</ion-label>
-        <ion-textarea 
-          [(ngModel)]="commentaire" 
-          rows="5"
-          placeholder="Partagez votre expérience...">
-        </ion-textarea>
-      </ion-item>
-
-      
-      <ion-button 
-        expand="block" 
-        (click)="publierAvis()"
-        [disabled]="!note || !commentaire">
-        <ion-icon name="send" slot="start"></ion-icon>
-        Publier l'avis
-      </ion-button>
-      
-    </ion-card-content>
-  </ion-card>
-
-</ion-content>-->
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -75,46 +10,32 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  
-  <!-- Informations du projet -->
   <ion-card class="project-info-card">
     <ion-card-header>
       <ion-card-title>{{ projet?.Nomduprojet }}</ion-card-title>
       <ion-card-subtitle>{{ projet?.Publierparentreprise }}</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
-
-  <!-- Formulaire d'évaluation -->
   <ion-card class="evaluation-form-card">
     <ion-card-header>
       <ion-card-title>Votre évaluation</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      
-      <!-- Type d'avis (Positif/Négatif) -->
       <div class="opinion-section">
         <ion-label class="section-label">Type d'avis</ion-label>
         <div class="opinion-buttons">
-          <ion-button 
-            [class.active]="avisType === 'positif'"
-            (click)="avisType = 'positif'"
-            class="opinion-btn positive">
+          <ion-button [class.active]="avisType === 'positif'"  (click)="avisType = 'positif'"  class="opinion-btn positive">
             <ion-icon name="thumbs-up" slot="start"></ion-icon>
             Positif
           </ion-button>
           
-          <ion-button 
-            [class.active]="avisType === 'negatif'"
-            (click)="avisType = 'negatif'"
-            class="opinion-btn negative">
+          <ion-button  [class.active]="avisType === 'negatif'"  (click)="avisType = 'negatif'"  class="opinion-btn negative">
             <ion-icon name="thumbs-down" slot="start"></ion-icon>
             Négatif
           </ion-button>
         </div>
       </div>
-
-      <!-- Section de notation par étoiles -->
       <div class="rating-section">
         <ion-label class="section-label">Note</ion-label>
         <div class="stars">
@@ -126,24 +47,12 @@
         </div>
         <p class="note-text">{{ getNoteText() }}</p>
       </div>
-
-      <!-- Commentaire -->
       <div class="comment-section">
         <ion-label class="section-label">Commentaire</ion-label>
-        <ion-textarea 
-          [(ngModel)]="commentaire" 
-          rows="5"
-          placeholder="Partagez votre expérience..."
-          class="comment-textarea">
+        <ion-textarea [(ngModel)]="commentaire"   rows="5"  placeholder="Partagez votre expérience..."  class="comment-textarea">
         </ion-textarea>
       </div>
-
-      <!-- Bouton Publier -->
-      <ion-button 
-        expand="block" 
-        (click)="publierAvis()"
-        [disabled]="!note || !commentaire || !avisType"
-        class="submit-btn">
+      <ion-button expand="block" (click)="publierAvis()" [disabled]="!note || !commentaire || !avisType"  class="submit-btn">
         <ion-icon name="send" slot="start"></ion-icon>
         Publier l'avis
       </ion-button>

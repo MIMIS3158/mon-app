@@ -1,42 +1,52 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Messages</ion-title>
+  <ion-toolbar class="conv-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <div class="header-content">
+      <h1 class="header-title">Messages</h1>
+    </div>
+  </ion-toolbar>
+   
+  <ion-toolbar class="conv-toolbar">
+    <div class="search-wrap">
+      <ion-icon name="search-outline" class="search-icon"></ion-icon>
+      <input type="text" placeholder="Rechercher..."  [(ngModel)]="searchTerm" (input)="onSearch()" class="search-input">
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="conv-content">
 
-  <div *ngIf="conversations.length === 0" class="empty-state">
+  <div *ngIf="filteredConversations.length === 0" class="empty-state">
     <ion-icon name="chatbubbles-outline"></ion-icon>
     <h3>Aucune conversation</h3>
     <p>Contactez un développeur ou entrepreneur pour commencer</p>
   </div>
 
-  <ion-list *ngIf="conversations.length > 0">
-    <ion-item 
-      *ngFor="let conv of conversations" 
-      (click)="ouvrirChat(conv)"
-      class="conversation-item"
-      [class.unread]="conv.unread_count > 0">
-
-      <!-- Avatar -->
-      <div class="avatar" slot="start">
-        <span>{{ getInitiales(conv.contact_nom, conv.contact_prenom) }}</span>
+  <div class="conv-list">
+    <div *ngFor="let conv of filteredConversations" class="conv-item" [class.unread]="conv.unread_count > 0" (click)="ouvrirChat(conv)">
+      <div class="av" [ngStyle]="{'background': getGradient(conv.contact_id)}">
+        {{ getInitiales(conv.contact_nom, conv.contact_prenom) }}        
+        <div class="online-dot" *ngIf="isOnline(conv.contact_id)"></div>
       </div>
-
-      <!-- Infos -->
-      <ion-label>
-        <h2>{{ conv.contact_prenom }} {{ conv.contact_nom }}</h2>
-        <p [class.bold]="conv.unread_count > 0">{{ conv.last_message }}</p>
-        <span class="time">{{ conv.date_envoi | date:'dd/MM HH:mm' }}</span>
-      </ion-label>
-
-      <!-- Badge non lu -->
-      <div slot="end" *ngIf="conv.unread_count > 0" class="badge">
-        {{ conv.unread_count }}
+      <div class="conv-info">
+        <div class="conv-name">{{ conv.contact_prenom }} {{ conv.contact_nom }}</div>
+        <div class="conv-msg" [class.unread]="conv.unread_count > 0">
+          {{ conv.last_message }}
+        </div>
       </div>
-
-    </ion-item>
-  </ion-list>
-
+      <div class="conv-meta">
+        <span class="conv-time" [class.unread]="conv.unread_count > 0">
+          {{ conv.date_envoi | date:'HH:mm' }}
+        </span>
+        <div class="badge" *ngIf="conv.unread_count > 0">
+          {{ conv.unread_count }}
+        </div>
+      </div>
+    <button class="delete-btn" (click)="supprimerConversation(conv, $event)">
+  <ion-icon name="trash-outline"></ion-icon>
+</button>
+    </div>
+  </div>
 </ion-content>

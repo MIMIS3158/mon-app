@@ -1,64 +1,4 @@
-<!--<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Inscription</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Inscription</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
-<ion-header>
-
-  <ion-toolbar >
-    <ion-title>Connexion</ion-title>
-  </ion-toolbar>
-</ion-header>-->
-<!--
-<ion-content class="ion-padding">
-
-  <ion-list>
-
-    <ion-item>
-      <ion-input label="Email" labelPlacement="stacked" type="email" placeholder="Votre email"
-        [(ngModel)]="user.email"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input label="Mot de passe" labelPlacement="stacked" placeholder="Votre mot de passe" type="password"
-        [(ngModel)]="user.password">
-        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-      </ion-input>
-    </ion-item>
-  </ion-list>
-
-  <ion-button class="btn-border" color="danger" expand="block" (click)="register()">
-    Se connecter
-  </ion-button>
-
-</ion-content>
--->
-
-        <!--
-<ion-item lines="none" class="input-item">
-  <ion-icon name="mail-outline" slot="start"></ion-icon>
-  <ion-input
-    type="email"placeholder="Entrez votre email">
-  </ion-input>
-</ion-item>
-
-<ion-item lines="none" class="input-item">
-  <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-  <ion-input
-    type="password"
-    placeholder="Entrez votre mot de passe">
-  </ion-input>
-</ion-item>
-  </div>
-</ion-content>-->
 <ion-content>
  <ion-card>
   <div class="register-container" id="register"> <div class="two">
@@ -75,7 +15,7 @@
           <ion-icon name="lock-closed" slot="start" class="part"></ion-icon>
           <input label="Password"  [(ngModel)]="user.Password"  class="input-field"  placeholder="Entrez votre password" type="password"  >
            </div>
-           <label> <a  routerLink="/reset-password">Forgot password?</a></label>
+           <label> <a  routerLink="/forgot-password">Forgot password?</a></label>
           </div>
         </ion-card>
         <ion-button (click)="login()"  class="center-btn" >Se connecter</ion-button>  

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ModalController } from '@ionic/angular'; 
+
 import { ParametresPage } from '../parametres/parametres.page';
 
 export interface Notification {
@@ -29,36 +30,26 @@ export interface Notification {
 export class NotificationPage implements OnInit {
 
   private apiUrl = 'http://localhost/myApp/api';
-
   selectedTab = 'pending';
   notifications: Notification[] = [];
   displayedNotifications: Notification[] = [];
-
-
   constructor(
     private router: Router,
     private http: HttpClient,
+     private route: ActivatedRoute,
     private modalController: ModalController 
   ) {}
-
   ngOnInit() {
-    this.loadNotifications();
-  }
-
+    this.route.queryParams.subscribe(params => {
+      if (params['statut'] === 'terminé') {
+        this.selectedTab = 'completed';
+      }
+      this.loadNotifications();
+    });
+}
   ionViewWillEnter() {
     this.loadNotifications();
-  }
-
- /* loadNotifications() {
-    this.http.get<Notification[]>(`${this.apiUrl}/get_candidatures_entrepreneur.php`)
-      .subscribe({
-        next: (candidatures) => {
-          this.notifications = candidatures;
-          this.filterNotifications();
-        },
-        error: () => {}
-      });
-  }*/
+  } 
  loadNotifications() {
     const userId = localStorage.getItem('userId');
     this.http.get<Notification[]>(
@@ -71,11 +62,9 @@ export class NotificationPage implements OnInit {
             error: () => {}
         });
 }
-
   onTabChange() {
     this.filterNotifications();
   }
-
   filterNotifications() {
     switch(this.selectedTab) {
       case 'all':
@@ -86,16 +75,12 @@ export class NotificationPage implements OnInit {
         break;
       case 'accepted':
         this.displayedNotifications = this.notifications.filter(n => n.statut === 'Acceptée');
-        break;
-     /* case 'rejected':
-        this.displayedNotifications = this.notifications.filter(n => n.statut === 'Refusée');
-        break;*/
+        break;   
         case 'completed':
     this.displayedNotifications = this.notifications.filter(n => n.statut === 'Terminée');
     break;
     }
   }
-
   getStatusColor(status: string): string {
     switch(status) {
       case 'En attente':
@@ -108,14 +93,9 @@ export class NotificationPage implements OnInit {
         return 'medium';
     }
   }
-
   accepter(notif: Notification) {
-    if (!notif.id) return;
-
-  // this.http.put(`${this.apiUrl}/update_candidature.php?id=${notif.id}&action=accepter`, {})
-      
-    this.http.put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=accepter`, {})
-      
+    if (!notif.id) return; 
+    this.http.put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=accepter`, {})    
     .subscribe({
         next: () => {
           this.loadNotifications();
@@ -123,11 +103,8 @@ export class NotificationPage implements OnInit {
         error: () => {}
       });
   }
-
   refuser(notif: Notification) {
-    if (!notif.id) return;
-
-    //this.http.put(`${this.apiUrl}/update_candidature.php?id=${notif.id}&action=refuser`, {})
+    if (!notif.id) return;    
     this.http.put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=refuser`, {})
       .subscribe({
         next: () => {
@@ -136,20 +113,11 @@ export class NotificationPage implements OnInit {
         error: () => {}
       });
   }
-/*
-  contacterDeveloppeur(notif: Notification) {
-    this.router.navigate(['/chat'], {
-      queryParams: { 
-        projectId: notif.project_id,
-        userId: notif.developpeur_id
-      }
-    });
-  }*/
  contacterDeveloppeur(notif: Notification) {
     this.router.navigate(['/chat'], {
         queryParams: { 
             projectId: notif.project_id,
-            userId: notif.developpeur_user_id  // ⭐ user_id pas developpeur_id
+            userId: notif.developpeur_user_id  
         }
     });
 }
@@ -186,6 +154,9 @@ async ouvrirParametre() {
       case 'conversations':
         this.router.navigate(['/conversations']);
         break;
+        case 'dashboard':
+          this.router.navigate(['/dashboard-entrepreneur']);
+          break;
       case 'parametres':
         this.router.navigate(['/parametres']);
         break;

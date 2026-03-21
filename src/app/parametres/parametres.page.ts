@@ -12,7 +12,7 @@ export class ParametresPage implements OnInit {
 
   userName: string = '';
   profileImage: string = '';
-  darkMode: boolean = false;
+
 
   constructor(
     private modalController: ModalController,
@@ -20,16 +20,22 @@ export class ParametresPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.userName = localStorage.getItem('userName') || 'Utilisateur';
-    this.profileImage = localStorage.getItem('profileImage') || '';
-    this.darkMode = localStorage.getItem('darkMode') === 'true';
-    document.body.classList.toggle('dark', this.darkMode);
+
+    const prenom = localStorage.getItem('prenom') || '';
+    const nom = localStorage.getItem('nom') || '';
+    this.userName = `${prenom} ${nom}`.trim() || 'Utilisateur';
+
+    const photo = localStorage.getItem('profileImage') || '';
+    this.profileImage = photo ? `http://localhost/myApp/api/${photo}` : '';
   }
 
-  toggleDarkMode() {
-    document.body.classList.toggle('dark', this.darkMode);
-    localStorage.setItem('darkMode', String(this.darkMode));
+  onImageError(event: any) {
+    event.target.src = 'assets/téléchargement (10).jpeg';
   }
+ModeSombre() {
+  this.modalController.dismiss();
+  this.router.navigate(['/dark-mode-settings']);
+}
 
   fermer() { this.modalController.dismiss(); }
   voirProfil() { this.modalController.dismiss(); this.router.navigate(['/profile-dev']); }

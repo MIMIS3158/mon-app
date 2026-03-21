@@ -10,26 +10,18 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-
-  <!-- Résumé -->
   <ion-card class="summary-card">
     <ion-card-content>
       <div class="summary-content">
         <h2 class="average-score">{{ moyenneNote | number:'1.1-1' }}</h2>
         <div class="stars-container">
-          <ion-icon
-            *ngFor="let n of [1,2,3,4,5]"
-            [name]="n <= moyenneNote ? 'star' : 'star-outline'"
-            color="warning"
-            class="star-icon">
+          <ion-icon *ngFor="let n of [1,2,3,4,5]" [name]="n <= moyenneNote ? 'star' : 'star-outline'"  color="warning"  class="star-icon">
           </ion-icon>
         </div>
         <p class="total-reviews">{{ totalAvis }} avis</p>
       </div>
     </ion-card-content>
   </ion-card>
-
-  <!-- Statistiques Positif/Négatif -->
   <ion-grid class="stats-grid">
     <ion-row>
       <ion-col class="stat-col positive">
@@ -43,25 +35,18 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-  <!-- Aucune évaluation -->
   <div *ngIf="evaluations.length === 0" class="empty-state">
     <ion-icon name="star-outline" class="empty-icon"></ion-icon>
     <h3>Aucune évaluation</h3>
     <p>Vous n'avez pas encore reçu d'évaluations</p>
   </div>
-
-  <!-- Liste des évaluations -->
   <ion-list *ngIf="evaluations.length > 0" class="evaluations-list">
     <ion-card *ngFor="let eval of evaluations" class="evaluation-card">
       <ion-card-header>
         <div class="card-header-content">
           <ion-card-title class="project-title">{{ eval.Nomduprojet }}</ion-card-title>
           <div class="rating-stars">
-            <ion-icon
-              *ngFor="let n of [1,2,3,4,5]"
-              [name]="n <= eval.note ? 'star' : 'star-outline'"
-              color="warning">
+            <ion-icon *ngFor="let n of [1,2,3,4,5]"  [name]="n <= eval.note ? 'star' : 'star-outline'"  color="warning">
             </ion-icon>
           </div>
         </div>

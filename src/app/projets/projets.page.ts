@@ -10,8 +10,8 @@ export interface Project {
   Nomduprojet: string;
   Descriptionduprojet: string;
   Publierparentreprise: string;
-  Budget?: number;
-  Duree?: string;
+  Budget?: '';
+  Duree?: '';
   Competences?: string;
   Statut: 'en attente' | 'en cours' | 'terminé';
   developpeurEvalue?: boolean; 
@@ -30,6 +30,9 @@ export class ProjetsPage implements OnInit {
   statutFiltre: string = 'tous'; 
   private apiUrl = 'http://localhost/myApp/api';
 
+
+
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -37,22 +40,18 @@ export class ProjetsPage implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController,
     private modalController: ModalController 
-
   ) {}
-
-  ngOnInit() {
-    
+  ngOnInit() {  
     this.route.queryParams.subscribe(params => {
       this.statutFiltre = params['statut'] || 'tous';
-    });
-    
+    });  
     this.loadProjects();
+   
+    
   }
-
   ionViewWillEnter() {
     this.loadProjects();
   }
-
  loadProjects() {
     const userId = localStorage.getItem('userId'); 
     this.http.get<any[]>(`${this.apiUrl}/projects.php?userId=${userId}`)
@@ -66,18 +65,13 @@ export class ProjetsPage implements OnInit {
         }
     });
 }
-
-
   get projetsFiltres() {
     if (this.statutFiltre === 'tous') {
       return this.projects;
     }
     return this.projects.filter(p => p.Statut === this.statutFiltre);
   }
-
- 
   validerTravail(project: any) {
-   // this.http.put(`${this.apiUrl}/update_project_statut.php?id=${project.id}&action=valider`, {})
     this.http.put(`${this.apiUrl}/projects.php?id=${project.id}&action=valider`, {})
     .subscribe({
       next: (response: any) => {
@@ -90,7 +84,6 @@ export class ProjetsPage implements OnInit {
       }
     });
   }
-
   async travailARefaire(project: any) {
     const alert = await this.alertController.create({
       header: 'Travail à refaire',
@@ -103,7 +96,6 @@ export class ProjetsPage implements OnInit {
         {
           text: 'Confirmer',
           handler: () => {
-            //this.http.put(`${this.apiUrl}/update_project_statut.php?id=${project.id}&action=refaire`, {})
             this.http.put(`${this.apiUrl}/projects.php?id=${project.id}&action=refaire`, {})
             .subscribe({
               next: () => {
@@ -135,7 +127,6 @@ export class ProjetsPage implements OnInit {
           text: 'Supprimer',
           role: 'destructive',
           handler: () => {
-            //this.http.delete(`${this.apiUrl}/delete_project.php?id=${project.id}`)
             this.http.delete(`${this.apiUrl}/projects.php?id=${project.id}`)
             .subscribe({
               next: () => {
@@ -195,6 +186,9 @@ export class ProjetsPage implements OnInit {
       });
       return await modal.present();
     }
+
+ 
+
    goTo(tab: string) {
     switch(tab) {/*
       case 'accueil':
@@ -213,6 +207,9 @@ export class ProjetsPage implements OnInit {
       case 'conversations':
         this.router.navigate(['/conversations']);
         break;
+        case 'dashboard':
+          this.router.navigate(['/dashboard-entrepreneur']);
+          break;
       /*case 'signout':
         localStorage.clear();
         this.router.navigate(['/home']);

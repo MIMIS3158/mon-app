@@ -1,60 +1,43 @@
-// ==========================================
-// HEADER
-// ==========================================
-
 ion-header {
   ion-toolbar {
     --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --color: white;
     padding: 8px 0;
-
     ion-title {
       font-weight: 700;
       font-size: 1.3rem;
       text-align: center;
     }
-
     ion-button {
       --color: white;
       --background-hover: rgba(255, 255, 255, 0.2);
       transition: all 0.3s ease;
-
       ion-icon {
         font-size: 24px;
       }
-
       &:hover {
         --background: rgba(255, 255, 255, 0.2);
       }
     }
   }
 }
-
-// ==========================================
-// CONTENT
-// ==========================================
 ion-content {
   --background: linear-gradient(180deg, #f8f9fd 0%, #e9ecef 100%);
-
-  // Carte info projet
   .project-info-card {
     margin: 20px 0 16px;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(102, 126, 234, 0.1);
     animation: fadeInDown 0.5s ease;
-
     ion-card-header {
       background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
       padding: 20px;
-
       ion-card-title {
         font-size: 1.3rem;
         font-weight: 700;
         color: #2c3e50;
         margin-bottom: 8px;
       }
-
       ion-card-subtitle {
         font-size: 0.95rem;
         font-weight: 600;
@@ -62,28 +45,22 @@ ion-content {
       }
     }
   }
-
-  // Carte formulaire
   .evaluation-form-card {
     margin: 0 0 24px;
     border-radius: 16px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(102, 126, 234, 0.1);
     animation: fadeInUp 0.5s ease;
-
     ion-card-header {
       padding: 20px;
-
       ion-card-title {
         font-size: 1.2rem;
         font-weight: 700;
         color: #2c3e50;
       }
     }
-
     ion-card-content {
       padding: 24px 20px;
-
       .section-label {
         display: block;
         font-size: 0.95rem;
@@ -93,15 +70,11 @@ ion-content {
         text-transform: uppercase;
         letter-spacing: 0.5px;
       }
-
-      // SECTION TYPE D'AVIS
       .opinion-section {
         margin-bottom: 32px;
-
         .opinion-buttons {
           display: flex;
           gap: 12px;
-
           .opinion-btn {
             flex: 1;
             height: 56px;
@@ -110,7 +83,6 @@ ion-content {
             --border-radius: 12px;
             text-transform: none;
             transition: all 0.3s ease;
-
             &.positive {
               --background: white;
               --color: #48bb78;
@@ -118,7 +90,6 @@ ion-content {
               --border-style: solid;
               --border-color: #48bb78;
               box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
-
               &.active {
                 --background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
                 --color: white;
@@ -126,12 +97,10 @@ ion-content {
                 box-shadow: 0 8px 20px rgba(72, 187, 120, 0.4);
                 transform: scale(1.05);
               }
-
               &:hover:not(.active) {
                 --background: rgba(72, 187, 120, 0.1);
               }
             }
-
             &.negative {
               --background: white;
               --color: #f56565;
@@ -139,7 +108,6 @@ ion-content {
               --border-style: solid;
               --border-color: #f56565;
               box-shadow: 0 4px 12px rgba(245, 101, 101, 0.2);
-
               &.active {
                 --background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
                 --color: white;
@@ -147,45 +115,36 @@ ion-content {
                 box-shadow: 0 8px 20px rgba(245, 101, 101, 0.4);
                 transform: scale(1.05);
               }
-
               &:hover:not(.active) {
                 --background: rgba(245, 101, 101, 0.1);
               }
             }
-
             ion-icon {
               font-size: 22px;
             }
           }
         }
       }
-
-      // Section notation étoiles
       .rating-section {
         margin-bottom: 32px;
-
         .stars {
           display: flex;
           justify-content: center;
           gap: 8px;
           margin: 16px 0;
-
           ion-icon {
             font-size: 48px;
             cursor: pointer;
             transition: all 0.3s ease;
             color: #fbbf24;
-
             &:hover {
               transform: scale(1.2) rotate(15deg);
             }
-
             &:active {
               transform: scale(1.1);
             }
           }
         }
-
         .note-text {
           text-align: center;
           font-size: 1.1rem;
@@ -194,11 +153,8 @@ ion-content {
           margin: 12px 0 0;
         }
       }
-
-      // Section commentaire
       .comment-section {
         margin-bottom: 24px;
-
         .comment-textarea {
           --background: white;
           --border-radius: 12px;
@@ -214,15 +170,12 @@ ion-content {
           font-size: 1rem;
           transition: all 0.3s ease;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-
           &:focus-within {
             border-color: #667eea;
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
           }
         }
       }
-
-      // Bouton publier
       .submit-btn {
         margin-top: 24px;
         --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -234,20 +187,16 @@ ion-content {
         letter-spacing: 0.5px;
         box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         transition: all 0.3s ease;
-
         ion-icon {
           font-size: 20px;
         }
-
         &:hover:not([disabled]) {
           transform: translateY(-3px);
           box-shadow: 0 12px 28px rgba(102, 126, 234, 0.5);
         }
-
         &:active:not([disabled]) {
           transform: translateY(-1px);
         }
-
         &[disabled] {
           --background: #cbd5e0;
           opacity: 0.6;
@@ -256,10 +205,6 @@ ion-content {
     }
   }
 }
-
-// ==========================================
-// ANIMATIONS
-// ==========================================
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -270,7 +215,6 @@ ion-content {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -281,27 +225,19 @@ ion-content {
     transform: translateY(0);
   }
 }
-
-// ==========================================
-// RESPONSIVE
-// ==========================================
 @media (max-width: 576px) {
   ion-content {
     .evaluation-form-card ion-card-content {
       padding: 20px 16px;
-
       .opinion-section .opinion-buttons {
         flex-direction: column;
-
         .opinion-btn {
           width: 100%;
         }
       }
-
       .rating-section .stars ion-icon {
         font-size: 40px;
       }
-
       .submit-btn {
         height: 52px;
         font-size: 1.05rem;

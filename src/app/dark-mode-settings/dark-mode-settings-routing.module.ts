@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { NewPasswordPage } from './new-password.page';
+import { DarkModeSettingsPage } from './dark-mode-settings.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: NewPasswordPage
+    component: DarkModeSettingsPage
   }
 ];
 
@@ -14,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class NewPasswordPageRoutingModule {}
+export class DarkModeSettingsPageRoutingModule {}

@@ -30,8 +30,6 @@ export class ProfileDevPage implements OnInit {
   Biographie: string = '';
   Github: string = '';
 
-//evaluations: any[] = [];
-//moyenneNote: number = 0;
   @ViewChild('fileInput', { static: false }) fileInput: any;
   @ViewChild('portfolioInput', { static: false }) portfolioInput!: ElementRef;
 
@@ -40,26 +38,6 @@ export class ProfileDevPage implements OnInit {
     private http: HttpClient
   ) {}
 
-  /*ngOnInit() {
-    
-    // ⭐ Vérifier si on vient de l'accueil entrepreneur
-    const selectedDev = localStorage.getItem('selectedDeveloper');
-    if (selectedDev) {
-        const dev = JSON.parse(selectedDev);
-        this.Nomdev = dev.Nomdev || '';
-        this.Prenomdev = dev.Prenomdev || '';
-        this.CompetencesTechniques = dev.CompetencesTechniques || '';
-        this.Experience = dev.Experience || '';
-        this.Niveau = dev.Niveau || '';
-        this.Ville = dev.Ville || '';
-        this.Pays = dev.Pays || '';
-        this.Github = dev.Github || '';
-        localStorage.removeItem('selectedDeveloper');
-        return; // ⭐ Ne pas charger le profil depuis PHP
-    }
-  
-    this.loadProfile();
-  }*/
  ngOnInit() {
     const selectedDev = localStorage.getItem('selectedDeveloper');
     if (selectedDev) {
@@ -162,7 +140,6 @@ export class ProfileDevPage implements OnInit {
     if (this.portfolio) formData.append('portfolio', this.portfolio);
 
     console.log(' Enregistrement en cours...');
-    //alert('user_id:' + localStorage.getItem('userId'));
     alert(" PROFIL ENREGISTRÉ !");
         
       
@@ -225,5 +202,4 @@ export class ProfileDevPage implements OnInit {
         }
     });
 }
-
 }

@@ -9,3 +9,95 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 @import "@ionic/angular/css/palettes/dark.class.css";
+
+body.dark {
+  ion-content {
+    --background: #1a1a2e;
+  }
+  
+  ion-toolbar {
+    --background: #16213e;
+  }
+  
+  ion-item {
+    --background: #16213e;
+    --color: #ffffff;
+  }
+  
+  ion-card {
+    --background: #16213e;
+    color: #ffffff;
+    
+    ion-card-header, ion-card-content {
+      background: #16213e;
+      color: #ffffff;
+    }
+  }
+  
+  ion-list {
+    background: #1a1a2e;
+  }
+
+  ion-label {
+    color:#7a7878 !important;
+  }
+
+  ion-footer ion-toolbar {
+    --background: #16213e;
+  }
+
+
+  .card, div[class*="card"], ion-card {
+    background: #16213e !important;
+    color: #7a7878 !important;
+  }
+
+
+  p, h1, h2, h3, h4, span, strong {
+    color: #7a7878;
+  }
+
+
+  ion-segment {
+    --background: #16213e;
+  }
+
+  ion-segment-button {
+    --color: #aaaaaa;
+    --color-checked: #ffffff;
+  }
+
+  ion-badge {
+    opacity: 0.9;
+  }
+  .conv-content {
+    --background: #1a1a2e !important;
+  }
+
+  .conv-item {
+    background: #16213e !important;
+    color: #ffffff !important;
+  }
+
+  .conv-name {
+    color: #ffffff !important;
+  }
+
+  .conv-msg {
+    color: #aaaaaa !important;
+  }
+
+  .conv-toolbar {
+    --background: #16213e !important;
+  }
+
+  .search-wrap {
+    background: #0f3460 !important;
+  }
+
+  .search-input {
+    color: #ffffff !important;
+  }
+
+  
+}

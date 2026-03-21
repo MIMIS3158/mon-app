@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -16,9 +17,9 @@ export class AppComponent {
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-  
   constructor() {
-  const darkMode = localStorage.getItem('darkMode') === 'true';
-  document.body.classList.toggle('dark', darkMode);
-}
+    
+    const darkMode = localStorage.getItem('darkMode') === 'true';
+    document.body.classList.toggle('dark', darkMode);
+  }
 }

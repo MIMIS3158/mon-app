@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ModalController } from '@ionic/angular'; 
@@ -38,6 +38,8 @@ export interface Project {
     SiteWeb?: string;
     Linkedin?: string;
     BudgetMoyen?: number;
+    moyenneNote?: number;
+    user_id?: number;
   };
 }
 
@@ -51,11 +53,14 @@ export class AccueilDeveloppeurPage implements OnInit {
 
   private apiUrl = 'http://localhost/myApp/api';
 
+
+
   searchTerm = '';
   selectedCompetence = '';
   selectedStatus = '';
   selectedCategorie = '';
   sortBy = 'recent';
+  notificationsCount: number = 0;
 
   allProjects: Project[] = [];
   displayedProjects: Project[] = [];
@@ -64,6 +69,9 @@ export class AccueilDeveloppeurPage implements OnInit {
   CompetencesList: string[] = [];
   statusList: string[] = [];
   categoriesList: Categorie[] = [];
+
+  messagesNonLus: number = 0;
+private badgeInterval: any;
 
   isLoading = true;
 
@@ -77,8 +85,11 @@ export class AccueilDeveloppeurPage implements OnInit {
     this.loadCategories();
     this.loadProjects();
     this.loadSavedProjects();
+    this.loadBadges();
+    this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+    
+    
   }
-  
 
   loadCategories() {
     this.http.get<Categorie[]>(`${this.apiUrl}/categories.php`)
@@ -111,54 +122,26 @@ export class AccueilDeveloppeurPage implements OnInit {
         }
       });
   }
-
-  /*initFilters() {
-    this.CompetencesList = [
-      ...new Set(
-        this.allProjects
-          .map(p => p.Competences)
-          .filter(c => c)
-      )
-    ];
-
-    this.statusList = [
-      ...new Set(
-        this.allProjects
-          .map(p => p.Statut)
-          .filter(s => s)
-      )
-    ];
-  }*/
  initFilters() {
-    // ⭐ Séparer les compétences par virgule
     const allCompetences = this.allProjects
         .flatMap(p => p.Competences?.split(',').map(c => c.trim()) || [])
         .filter(c => c);
     this.CompetencesList = [...new Set(allCompetences)];
-
     this.statusList = [
         ...new Set(
             this.allProjects.map(p => p.Statut).filter(s => s)
         )
     ];
 }
-
   onSearch() {
     this.applyFilters();
   }
-
   onFilter() {
     this.applyFilters();
   }
-
   applyFilters() {
     const term = this.searchTerm.toLowerCase().trim();
-
     let filtered = this.allProjects.filter(project => {
-      /*const matchSearch =
-        !term ||
-        project.Nomduprojet?.toLowerCase().includes(term) ||
-        project.Competences?.toLowerCase().includes(term);*/
         const matchSearch =
     !term ||
     project.Nomduprojet?.toLowerCase().includes(term) ||
@@ -166,38 +149,20 @@ export class AccueilDeveloppeurPage implements OnInit {
     project.entrepreneur?.Nom?.toLowerCase().includes(term) ||
     project.entrepreneur?.Prenom?.toLowerCase().includes(term) ||
     project.entrepreneur?.Entreprise?.toLowerCase().includes(term);
-
-    /* const matchCompetence =
-        !this.selectedCompetence ||
-        project.Competences?.includes(this.selectedCompetence);*/
         const matchCompetence =
     !this.selectedCompetence ||
     project.Competences?.toLowerCase().includes(this.selectedCompetence.toLowerCase());
-
-/*const matchStatus =
-    !this.selectedStatus ||
-    project.Statut?.toLowerCase() === this.selectedStatus.toLowerCase();*/
        const matchStatus =
         !this.selectedStatus ||
         project.Statut === this.selectedStatus;
-        /*
-
-      const matchCategorie =
-        !this.selectedCategorie ||
-        project.id_categorie === this.selectedCategorie;
-*/
 const matchCategorie =
     !this.selectedCategorie ||
     Number(project.id_categorie) === Number(this.selectedCategorie);
-
       return matchSearch && matchCompetence && matchStatus && matchCategorie;
     });
-
     filtered = this.sortProjects(filtered);
     this.displayedProjects = filtered;
-    
   }
-
   sortProjects(projects: Project[]): Project[] {
     switch(this.sortBy) {
       case 'recent':
@@ -205,23 +170,19 @@ const matchCategorie =
           const dateA = new Date(a.DatePublication || 0).getTime();
           const dateB = new Date(b.DatePublication || 0).getTime();
           return dateB - dateA;
-        });
-      
-    
+        });    
        case 'budget-high':
     return projects.sort((a, b) => {
         const budgetA = parseFloat(String(a.Budget).replace(',', '.') || '0');
         const budgetB = parseFloat(String(b.Budget).replace(',', '.') || '0');
         return budgetB - budgetA;
     });
-
 case 'budget-low':
     return projects.sort((a, b) => {
         const budgetA = parseFloat(String(a.Budget).replace(',', '.') || '0');
         const budgetB = parseFloat(String(b.Budget).replace(',', '.') || '0');
         return budgetA - budgetB;
     });
-      
       default:
         return projects;
     }
@@ -234,20 +195,16 @@ case 'budget-low':
     this.sortBy = 'recent';
     this.applyFilters();
   }
- /*getStatusColor(status: string): string {
-    switch(status?.toLowerCase()) {
-      case 'ouvert':
-        return 'success';
-      case 'en cours':
-        return 'warning';
-      case 'fermé':
-        return 'danger';
-      case 'annulé':
-        return 'medium';
-      default:
-        return 'medium';
-    }
-  }*/
+ getStars(note: number | undefined): string[] {
+  const stars: string[] = [];
+  const n = note || 0;
+  for (let i = 1; i <= 5; i++) {
+    if (n >= i) stars.push('full');
+    else if (n >= i - 0.5) stars.push('half');
+    else stars.push('empty');
+  }
+  return stars;
+}
  getStatusColor(status: string): string {
     switch(status?.toLowerCase()) {
       case 'en attente':
@@ -274,9 +231,7 @@ case 'budget-low':
     const projectId = project.id;
     const index = this.savedProjects.indexOf(projectId);
     if (index > -1) {
-      //this.http.delete(`${this.apiUrl}/favorite.php?id=${projectId}`)
       this.http.delete(`${this.apiUrl}/favorites.php?id=${projectId}&id_developpeur=${localStorage.getItem('userId')}`)
-
         .subscribe({
           next: () => {
             this.savedProjects.splice(index, 1);
@@ -285,7 +240,6 @@ case 'budget-low':
           error: () => {}
         });
     } else {
-     // this.http.post(`${this.apiUrl}/favorite.php`, { project_id: projectId })
      this.http.post(`${this.apiUrl}/favorites.php`, { 
     project_id: projectId,
     id_developpeur: localStorage.getItem('userId')
@@ -302,21 +256,6 @@ case 'budget-low':
   isProjectSaved(project: Project): boolean {
     return project.id ? this.savedProjects.includes(project.id) : false;
   }
- /* loadSavedProjects() {
-   this.http.get<{project_id: number}[]>(`${this.apiUrl}/favorites.php`)
-      .subscribe({
-        next: (favorites) => {
-          this.savedProjects = favorites.map(f => f.project_id);
-          localStorage.setItem('savedProjects', JSON.stringify(this.savedProjects));
-        },
-        error: () => {
-          const saved = localStorage.getItem('savedProjects');
-          if (saved) {
-            this.savedProjects = JSON.parse(saved);
-          }
-        }
-      });
-  }*/
  loadSavedProjects() {
     const id_developpeur = localStorage.getItem('userId');
     this.http.get<{project_id: number}[]>(
@@ -337,13 +276,16 @@ case 'budget-low':
     localStorage.setItem('selectedProject', JSON.stringify(project));
     this.router.navigate(['/description']);
   }
-  onContact(project: Project) {
-    if (!project.id) return;
-    localStorage.setItem('selectedProject', JSON.stringify(project));
-    this.router.navigate(['/chat'], {
-      queryParams: { projectId: project.id }
-    });
-  }
+ onContact(project: Project) {
+  if (!project.id) return;
+
+  this.router.navigate(['/chat'], {
+    queryParams: { 
+      projectId: project.id,
+      userId: project.entrepreneur?.user_id
+    }
+  });
+}
  async ouvrirParametre() {
     const modal = await this.modalController.create({
       component: ParametresPage,
@@ -351,7 +293,25 @@ case 'budget-low':
     });
     return await modal.present();
   }
-  
+  ouvrirRecommended() {
+  this.router.navigate(['/recommended']);
+}
+ionViewWillLeave() {
+    if (this.badgeInterval) clearInterval(this.badgeInterval);
+}
+
+loadBadges() {
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+    this.http.get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+        .subscribe({
+            next: (data) => {
+                this.messagesNonLus = data.messages;
+                this.notificationsCount = data.notifications;
+            },
+            error: () => {}
+        });
+}
   goTo(tab: string) {
     switch(tab) {
       case 'accueil':
@@ -364,6 +324,10 @@ case 'budget-low':
         break;
       case 'conversations':
         this.router.navigate(['/conversations']);
+        break;
+
+         case 'Recommended':
+        this.router.navigate(['/recommended']);
         break;
         case 'parametres':
   this.router.navigate(['/parametres']);

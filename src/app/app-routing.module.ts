@@ -52,11 +52,11 @@ const routes: Routes = [
     loadChildren: () => import('./signout/signout.module').then( m => m.SignoutPageModule)
   },
   
-  
+  /*
   {
     path: 'reset-password',
     loadChildren: () => import('./reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
-  },
+  },*/
   {
     path: 'accueil-entrepreneur',
     loadChildren: () => import('./accueil-entrepreneur/accueil-entrepreneur.module').then( m => m.AccueilEntrepreneurPageModule)
@@ -105,18 +105,38 @@ const routes: Routes = [
   {
     path: 'conversations',
     loadChildren: () => import('./conversations/conversations.module').then( m => m.ConversationsPageModule)
-  },  {
-    path: 'verify-code',
-    loadChildren: () => import('./verify-code/verify-code.module').then( m => m.VerifyCodePageModule)
+  },
+   
+  {
+    path: 'dark-mode-settings',
+    loadChildren: () => import('./dark-mode-settings/dark-mode-settings.module').then( m => m.DarkModeSettingsPageModule)
   },
   {
+    path: 'forgot-password',
+    loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
+  },  {
+    path: 'recommended',
+    loadChildren: () => import('./recommended/recommended.module').then( m => m.RecommendedPageModule)
+  },
+  {
+    path: 'dashboard-entrepreneur',
+    loadChildren: () => import('./dashboard-entrepreneur/dashboard-entrepreneur.module').then( m => m.DashboardEntrepreneurPageModule)
+  },
+
+
+/*
+  {
+    path: 'verify-code',
+    loadChildren: () => import('./verify-code/verify-code.module').then( m => m.VerifyCodePageModule)
+  },*/
+  /*{
     path: 'forgot-password',
     loadChildren: () => import('./forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)
   },
   {
     path: 'new-password',
     loadChildren: () => import('./new-password/new-password.module').then( m => m.NewPasswordPageModule)
-  }
+  }*/
 
 
 

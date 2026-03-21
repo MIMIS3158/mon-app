@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-toolbar >
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" ></ion-back-button>
+    </ion-buttons>
+    <ion-title > Projets recommandés</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content >
+  <div style="background:#e8f0fe; padding:10px 16px; display:flex; align-items:center; gap:8px; border-bottom: 1px solid #c5d5f5;">
+    <ion-icon name="information-circle" style="color:#1a73e8; font-size:18px;"></ion-icon>
+    <p style="margin:0; font-size:12px; color:#1a73e8;">Basé sur vos compétences techniques</p>
+  </div>
+  <div style="display:flex; gap:8px; padding:14px 16px;">
+    <ion-chip [ngClass]="{'active': activeFilter==='all'}" class="chip-filter" (click)="setFilter('all')">Tous</ion-chip>
+    <ion-chip [ngClass]="{'active': activeFilter==='80'}" class="chip-filter" (click)="setFilter('80')">+80%</ion-chip>
+    <ion-chip [ngClass]="{'active': activeFilter==='50'}" class="chip-filter" (click)="setFilter('50')">+50%</ion-chip>
+  </div>
+  <div style="padding: 0 12px 20px;">
+    <div *ngFor="let projet of filteredProjets" class="projet-card">
+      <div class="projet-header">
+        <div>
+          <p class="projet-title">{{ projet.nom }}</p>
+          <p class="projet-subtitle"> {{ projet.budget }} DA · ⏱ {{ projet.duree }} jours</p>
+        </div>
+        <div class="projet-score" [style.background]="projet.score>=80 ? '#e6f4ea' : '#e8f0fe'" [style.color]="projet.score>=80 ? '#2e7d32' : '#1a73e8'">
+          {{ projet.score }}%
+        </div>
+      </div>
+      <div class="projet-progress">
+        <div class="projet-progress-bar" [style.width.%]="projet.score" [style.background]="getBarColor(projet.score)"></div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:6px;">
+        <span *ngFor="let c of projet.matched" class="badge-matched">✓ {{ c }}</span>
+        <span *ngFor="let c of projet.notMatched" class="badge-notmatched">{{ c }}</span>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="filteredProjets.length === 0" style="text-align:center; padding:60px 20px;">
+    <ion-icon name="search-outline" style="font-size:64px; color:#ccc;"></ion-icon>
+    <p style="color:#aaa; font-size:15px; margin-top:12px;">Aucun projet ne correspond à vos compétences.</p>
+  </div>
+</ion-content>

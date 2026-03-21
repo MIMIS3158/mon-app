@@ -10,16 +10,19 @@
 </ion-header>
 
 <ion-content>
-  <!-- Section profil en haut -->
+
   <div class="profile-section">
     <ion-avatar>
-      <img [src]="profileImage || 'assets/téléchargement (10).jpeg'" alt="Profile">
-    </ion-avatar>
+  <img 
+    [src]="profileImage || 'assets/téléchargement (10).jpeg'" 
+    alt="Profile"
+    (error)="onImageError($event)"
+  >
+</ion-avatar>
     <h2>{{ userName }}</h2>
     <p class="view-profile" (click)="voirProfil()">Voir le profil</p>
   </div>
 
-  <!-- Menu -->
   <ion-list class="settings-list">
     
     <ion-item button (click)="mesEvaluations()" class="menu-item">
@@ -34,30 +37,21 @@
       <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
     </ion-item>
 
-   <!-- <ion-item button (click)="notifications()" class="menu-item">
-      <ion-icon name="notifications-outline" slot="start"></ion-icon>
-      <ion-label>Notifications</ion-label>
-      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-    </ion-item>-->
+   
 
     <ion-item button (click)="aide()" class="menu-item">
       <ion-icon name="help-circle-outline" slot="start"></ion-icon>
-      <ion-label>Aide & FAQ</ion-label>
+      <ion-label>Aide </ion-label>
       <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
     </ion-item>
-    <!-- <ion-item class="menu-item">
+<ion-item (click)="ModeSombre()" class="menu-item">
   <ion-icon name="moon-outline" slot="start"></ion-icon>
   <ion-label>Mode sombre</ion-label>
-  <ion-toggle slot="end" [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
-</ion-item>-->
-<ion-item class="menu-item">
-  <ion-icon name="moon-outline" slot="start"></ion-icon>
-  <ion-label>Mode sombre</ion-label>
-  <ion-toggle [(ngModel)]="darkMode" (ionChange)="toggleDarkMode()"></ion-toggle>
+  <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
 </ion-item>
 
 
-    <!-- Séparateur -->
+   
     <div class="divider"></div>
 
     <ion-item button (click)="logout()" class="menu-item logout">

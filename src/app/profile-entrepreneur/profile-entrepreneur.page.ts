@@ -91,7 +91,7 @@ formData.append('TailleEntreprise', this.TailleEntreprise);
 formData.append('AnneeCreation', this.AnneeCreation);
 formData.append('BudgetMoyen', this.BudgetMoyen);
   console.log(' Enregistrement en cours...');
-    //alert('user_id:' + localStorage.getItem('userId'));
+    
     alert(" PROFIL ENREGISTRÉ !");
 
     if (this.profileImageFile) {
@@ -131,13 +131,8 @@ formData.append('user_id', localStorage.getItem('userId') || '');
     if (this.profileImageFile) {
       formData.append('profileImage', this.profileImageFile);
     }
-
     this.http.post(`${this.apiUrl}/profile_entrepreneur.php`, formData)
-      .subscribe({
-       /* next: () => {
-          this.chargerProfil();
-          
-        },*/
+      .subscribe({      
         next: (response: any) => {
           console.log(' Profil modifié avec succès !', response);
           alert(" PROFIL MODIFIÉ !");
@@ -145,7 +140,6 @@ formData.append('user_id', localStorage.getItem('userId') || '');
           
          
         },
-       /* error: () => {}*/
        error: (err: any) => {
           console.error(' Erreur modification:', err);
         }

@@ -8,17 +8,12 @@
     <ion-title>Projets Sauvegardés</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="ion-padding">
-
-  <!-- Aucun projet -->
   <div *ngIf="projets.length === 0" style="text-align: center; margin-top: 50px;">
     <ion-icon name="bookmark-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
     <h3>Aucun projet sauvegardé</h3>
     <p>Vous n'avez pas encore sauvegardé de projets</p>
   </div>
-
-  <!-- Liste des projets -->
   <ion-card *ngFor="let projet of projets">
     <ion-card-header>
       <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -27,7 +22,6 @@
       </div>
       <ion-card-subtitle>{{ projet.Publierparentreprise }}</ion-card-subtitle>
     </ion-card-header>
-
     <ion-card-content>
       <p>{{ projet.Descriptionduprojet }}</p>
       <ion-grid>
@@ -45,23 +39,16 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-
       <div style="display: flex; gap: 10px;">
         <ion-button  (click)="ouvrirProjet(projet)" style="flex: 1;">
           <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
           Postuler
         </ion-button>
-        <ion-button 
-          expand="block" 
-          color="danger" 
-          fill="outline"
-          (click)="supprimerFavori(projet.id)"
-          style="flex: 1;">
+        <ion-button  expand="block" color="danger"  fill="outline" (click)="supprimerFavori(projet.id)" style="flex: 1;">
           <ion-icon name="bookmark" slot="start"></ion-icon>
           Retirer
         </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
-
 </ion-content>

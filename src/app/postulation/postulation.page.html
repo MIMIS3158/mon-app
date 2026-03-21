@@ -1,35 +1,11 @@
-<!--<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="Accueil">Postulation</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-   <ion-list>
-    <ion-item *ngFor="let postulation of postulations">
-      <ion-label>
-        <h2>{{ postulation.projet.Nomduprojet }} </h2>
-        <p>Entreprise : {{ postulation.projet.Publierparentreprise }}</p>
-        <p>Description :{{  postulation.projet.Descriptionduprojet }}</p>
-      </ion-label> 
-      <ion-badge [color]="getColor(postulation.statut)" class="badge">{{ postulation.statut }}</ion-badge>
-      <ion-button fill="outline" slot="end" (click)="voirDetails(postulation)" class="btn-detail">
-        Détails
-      </ion-button>
-    </ion-item>
-  </ion-list>
-</ion-content>
-
--->
 <ion-header>
   <ion-toolbar>
+    
     <ion-title>Mes Candidatures</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  
-  <!-- Tabs pour filtrer -->
   <ion-segment [(ngModel)]="selectedTab" (ionChange)="onTabChange()">
     <ion-segment-button value="all">
       <ion-label>Toutes</ion-label>
@@ -47,8 +23,6 @@
       <ion-label>Refusées</ion-label>
     </ion-segment-button>
   </ion-segment>
-
-  <!-- Liste des candidatures -->
   <ion-list *ngIf="displayedPostulations.length > 0; else noPostulations">
     <ion-card *ngFor="let postulation of displayedPostulations">
       <ion-card-header>
@@ -60,15 +34,12 @@
           </ion-badge>
         </div>
         <ion-card-subtitle>{{ postulation.Publierparentreprise }}</ion-card-subtitle>
-      </ion-card-header>
-      
+      </ion-card-header>     
       <ion-card-content>
         <p><strong>Date:</strong> {{ postulation.date_postulation | date:'dd/MM/yyyy' }}</p>
         <p><strong>Budget proposé:</strong> {{ postulation.Budget || 'Non spécifié' }}DA</p>
         <p><strong>Durée estimée:</strong> {{ postulation.Duree || 'Non spécifié' }}</p>
         <p><strong>Message:</strong> {{ postulation.messagePostulation }}</p>
-        
-        <!-- Boutons d'action selon le statut -->
         <div class="action-buttons" *ngIf="postulation.statut === 'Acceptée'">
           <ion-button expand="expand" color="primary" (click)="startProject(postulation)">
             <ion-icon name="rocket-outline" slot="start"></ion-icon>
@@ -80,8 +51,6 @@
     </ion-button>
         </div>
         <div class="action-buttons" *ngIf="postulation.statut === 'Terminée'">
-  <!-- Si pas encore évalué -->
-   
   <ion-button 
     *ngIf="!postulation.entrepreneurEvalue" 
     expand="block" 
@@ -90,14 +59,11 @@
     <ion-icon name="star" slot="start"></ion-icon>
     Évaluer l'entrepreneur
   </ion-button>
-  
-  <!-- Si déjà évalué -->
   <div *ngIf="postulation.entrepreneurEvalue" class="evaluation">
     <ion-icon name="checkmark-circle" color="success"></ion-icon>
     <span>Entrepreneur déjà évalué</span>
   </div>
 </div>
-
         <div class="action-buttons" *ngIf="postulation.statut === 'En attente'">
           <ion-button expand="expand" fill="outline" color="danger" (click)="cancelProject(postulation)">
             <ion-icon name="close-circle-outline" slot="start"></ion-icon>
@@ -107,7 +73,6 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
-
   <ng-template #noPostulations>
     <div class="empty-state">
       <ion-icon name="document-text-outline"></ion-icon>
@@ -119,9 +84,7 @@
       </ion-button>
     </div>
   </ng-template>
-
 </ion-content>
-
 <ion-footer slot="fixed">
   <ion-toolbar>
     <ion-grid>
@@ -158,6 +121,11 @@
             <ion-icon name="log-out"></ion-icon>
           </ion-button>
         </ion-col>-->
+        <ion-col class="tab-button" text-center>
+  <ion-button fill="clear" expand="full" (click)="goTo('Recommended')">
+    <ion-icon name="star"></ion-icon>
+  </ion-button>
+</ion-col>
         <ion-col class="tab-button" text-center>
         <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
         <ion-icon name="settings"></ion-icon>

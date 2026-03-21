@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AccueilEntrepreneurPageRoutingModule } from './accueil-entrepreneur-routing.module';
 
 import { AccueilEntrepreneurPage } from './accueil-entrepreneur.page';
-//import {Ng2SearchPipeModule} from 'ng2-search-filter';
+
 
 
 @NgModule({
@@ -16,7 +16,7 @@ import { AccueilEntrepreneurPage } from './accueil-entrepreneur.page';
     FormsModule,
     IonicModule,
     AccueilEntrepreneurPageRoutingModule,
-   // Ng2SearchPipeModule
+  
   ],
   declarations: [AccueilEntrepreneurPage]
 })

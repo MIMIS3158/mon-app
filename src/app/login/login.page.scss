@@ -4,8 +4,6 @@ ion-content {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-
-  // Carte de connexion
   ion-card {
     max-width: 450px;
     width: 90%;
@@ -16,29 +14,22 @@ ion-content {
     overflow: hidden;
     animation: fadeInScale 0.6s ease;
     border: none;
-
-    // Container du formulaire
     .register-container {
       padding: 48px 36px;
       position: relative;
-
-      // Lien "S'inscrire"
       .two {
         text-align: center;
         margin-bottom: 32px;
-
         label {
           font-size: 0.95rem;
           color: #4a5568;
           font-weight: 500;
-
           a {
             color: #667eea;
             font-weight: 700;
             text-decoration: none;
             transition: all 0.3s ease;
             position: relative;
-
             &::after {
               content: '';
               position: absolute;
@@ -49,10 +40,8 @@ ion-content {
               background: linear-gradient(90deg, #667eea, #764ba2);
               transition: width 0.3s ease;
             }
-
             &:hover {
               color: #764ba2;
-
               &::after {
                 width: 100%;
               }
@@ -60,8 +49,6 @@ ion-content {
           }
         }
       }
-
-      // Titre "Se connecter"
       .signin {
         display: block;
         font-size: 2rem;
@@ -74,7 +61,6 @@ ion-content {
         -webkit-text-fill-color: transparent;
         background-clip: text;
         position: relative;
-
         &::after {
           content: '';
           display: block;
@@ -85,8 +71,6 @@ ion-content {
           border-radius: 2px;
         }
       }
-
-      // Container des inputs
       .input-box {
         position: relative;
         margin-bottom: 28px;
@@ -98,20 +82,16 @@ ion-content {
         padding: 0 18px;
         transition: all 0.3s ease;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-
         &:focus-within {
           border-color: #667eea;
           background: white;
           box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
           transform: translateY(-2px);
         }
-
         &:hover {
           border-color: #cbd5e0;
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
         }
-
-        // Icônes
         ion-icon {
           font-size: 22px;
           color: #667eea;
@@ -119,13 +99,10 @@ ion-content {
           transition: all 0.3s ease;
           flex-shrink: 0;
         }
-
         &:focus-within ion-icon {
           color: #764ba2;
           transform: scale(1.1);
         }
-
-        // Champs de saisie
         .input-field {
           flex: 1;
           border: none;
@@ -135,20 +112,16 @@ ion-content {
           color: #2d3748;
           font-weight: 500;
           outline: none;
-
           &::placeholder {
             color: #a0aec0;
             font-style: italic;
             font-weight: 400;
           }
-
           &:focus::placeholder {
             opacity: 0.6;
           }
         }
       }
-
-      // ⭐ LIEN "FORGOT PASSWORD" - NOUVEAU
       > label {
         display: block;
         text-align: right;
@@ -156,7 +129,6 @@ ion-content {
         margin-bottom: 24px;
         font-size: 0.9rem;
         animation: slideInUp 0.5s ease backwards 0.3s;
-
         a {
           color: #667eea;
           text-decoration: none;
@@ -164,7 +136,6 @@ ion-content {
           transition: all 0.3s ease;
           position: relative;
           padding-bottom: 2px;
-
           &::after {
             content: '';
             position: absolute;
@@ -175,29 +146,22 @@ ion-content {
             background: linear-gradient(90deg, #667eea, #764ba2);
             transition: width 0.3s ease;
           }
-
           &:hover {
             color: #764ba2;
-
             &::after {
               width: 100%;
             }
           }
-
           &:active {
             transform: scale(0.98);
           }
         }
       }
-
-      // Espacement
       br {
         display: none;
       }
     }
   }
-
-  // Bouton de connexion
   .center-btn {
     --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --background-hover: linear-gradient(135deg, #5568d3 0%, #65408b 100%);
@@ -218,7 +182,6 @@ ion-content {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
-
     &::before {
       content: '';
       position: absolute;
@@ -231,16 +194,13 @@ ion-content {
       transform: translate(-50%, -50%);
       transition: width 0.6s, height 0.6s;
     }
-
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
     }
-
     &:active {
       transform: translateY(-1px);
       box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-
       &::before {
         width: 300px;
         height: 300px;
@@ -248,10 +208,6 @@ ion-content {
     }
   }
 }
-
-// ==========================================
-// ANIMATIONS
-// ==========================================
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -262,7 +218,6 @@ ion-content {
     transform: scale(1) translateY(0);
   }
 }
-
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -273,67 +228,49 @@ ion-content {
     transform: translateY(0);
   }
 }
-
-// Animation des input-box
 .input-box {
   animation: slideInUp 0.5s ease backwards;
-
   &:nth-child(3) {
     animation-delay: 0.1s;
   }
-
   &:nth-child(5) {
     animation-delay: 0.2s;
   }
 }
-
-// ==========================================
-// RESPONSIVE
-// ==========================================
 @media (max-width: 576px) {
   ion-content {
     ion-card {
       width: 95%;
       margin: 20px auto;
       border-radius: 20px;
-
       .register-container {
         padding: 36px 24px;
-
         .two {
           margin-bottom: 24px;
-
           label {
             font-size: 0.9rem;
           }
         }
-
         .signin {
           font-size: 1.7rem;
           margin-bottom: 32px;
-
           &::after {
             width: 50px;
             height: 3px;
           }
         }
-
         .input-box {
           padding: 0 16px;
           margin-bottom: 20px;
-
           ion-icon {
             font-size: 20px;
             margin-right: 12px;
           }
-
           .input-field {
             padding: 14px 0;
             font-size: 0.95rem;
           }
         }
-
-        // ⭐ Responsive pour forgot password
         > label {
           margin-top: -8px;
           margin-bottom: 20px;
@@ -341,7 +278,6 @@ ion-content {
         }
       }
     }
-
     .center-btn {
       width: 95%;
       font-size: 1.05rem;
@@ -350,25 +286,19 @@ ion-content {
     }
   }
 }
-
-// Tablettes
 @media (min-width: 768px) {
   ion-content {
     ion-card {
       max-width: 500px;
-
       .register-container {
         padding: 56px 44px;
       }
     }
-
     .center-btn {
       max-width: 500px;
     }
   }
 }
-
-// Desktop
 @media (min-width: 1024px) {
   ion-content {
     ion-card {
@@ -376,16 +306,9 @@ ion-content {
     }
   }
 }
-
-// ==========================================
-// AMÉLIORATIONS VISUELLES
-// ==========================================
-
-// État de chargement pour le bouton
 .center-btn.loading {
   pointer-events: none;
   opacity: 0.8;
-
   &::after {
     content: '';
     position: absolute;
@@ -400,42 +323,31 @@ ion-content {
     transform: translateY(-50%);
   }
 }
-
 @keyframes spin {
   to {
     transform: translateY(-50%) rotate(360deg);
   }
 }
-
-// Auto-fill style pour Chrome
 .input-field:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px #f8f9fd inset !important;
   -webkit-text-fill-color: #2d3748 !important;
 }
-
-// Focus visible pour l'accessibilité
 .input-box:focus-within,
 .center-btn:focus-visible {
   outline: none;
 }
-
-// Validation errors
 .input-box.error {
   border-color: #f5576c;
   animation: shake 0.4s ease;
-
   ion-icon {
     color: #f5576c;
   }
 }
-
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-8px); }
   75% { transform: translateX(8px); }
 }
-
-// Message d'erreur
 .error-message {
   color: #f5576c;
   font-size: 0.85rem;

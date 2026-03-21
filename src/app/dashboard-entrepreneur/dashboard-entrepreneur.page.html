@@ -1,0 +1,74 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="retour()">
+        <ion-icon name="arrow-back" style="color: white;"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title style="color: white; font-weight: bold;"> Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Chargement du dashboard...</p>
+  </div>
+  <div *ngIf="!isLoading">
+    <div class="banner">
+      <h2>Vue d'ensemble</h2>
+      <p>Statistiques de vos projets</p>
+    </div>
+    <div class="stats-container">
+      <div class="stat-card green">
+        <div class="stat-icon">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h1>{{ interesses }}</h1>
+          <p>Intéressés</p>
+        </div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon">
+          <ion-icon name="flash-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h1>{{ matchingDevs }}</h1>
+          <p>Match +80%</p>
+        </div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-icon">
+          <ion-icon name="code-slash-outline"></ion-icon>
+        </div>
+        <div class="stat-info">
+          <h1>{{ totalDevs }}</h1>
+          <p>Développeurs</p>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h2 class="section-title">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        Compétences disponibles
+      </h2>
+      <ion-card class="skills-card" *ngIf="competences.length > 0">
+        <ion-card-content>
+          <div *ngFor="let comp of competences" class="progress-item">
+            <div class="progress-header">
+              <span class="comp-name">{{ comp.nom }}</span>
+              <span class="comp-stats">{{ comp.count }} devs · {{ comp.pourcentage }}%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" [style.width.%]="comp.pourcentage"></div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+      <div *ngIf="competences.length === 0" class="empty-state">
+        <ion-icon name="code-slash-outline"></ion-icon>
+        <p>Aucune compétence trouvée</p>
+      </div>
+    </div>
+  </div>
+</ion-content>

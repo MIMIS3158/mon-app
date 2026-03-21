@@ -3,11 +3,7 @@
     <ion-title class="Accueil">Accueil Entrepreneur</ion-title>
   </ion-toolbar> 
   <ion-toolbar>
-    <ion-searchbar
-      placeholder="Rechercher un développeur"
-      [(ngModel)]="searchTerm"
-      (ionInput)="onSearch()"
-      class="searchbar">
+    <ion-searchbar placeholder="Rechercher un développeur" [(ngModel)]="searchTerm" (ionInput)="onSearch()" class="searchbar" >
     </ion-searchbar>  
   </ion-toolbar>
 </ion-header>
@@ -16,6 +12,15 @@
   <ion-item *ngFor="let dev of filteredDevelopers" (click)="viewProfile(dev)" button>
     <ion-label>
       <h2>{{ dev.Nomdev }} {{ dev.Prenomdev }}</h2>
+    
+<div class="stars">
+  <ion-icon *ngFor="let s of getStars(dev.moyenneNote); let i = index"
+    [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'"
+    color="warning">
+  </ion-icon>
+  <span class="note-text" *ngIf="dev.moyenneNote">{{ dev.moyenneNote | number:'1.1-1' }}/5</span>
+  <span class="note-text" *ngIf="!dev.moyenneNote">Pas encore évalué</span>
+</div>
       <ion-badge *ngIf="dev.Niveau" color="primary">{{ dev.Niveau }}</ion-badge>
       <ion-badge *ngIf="dev.Disponibilite" 
         [color]="dev.Disponibilite === 'disponible' ? 'success' : 'danger'">
@@ -47,7 +52,9 @@
 </ion-list>
   <ion-grid class="stats-grid">
     <ion-row>
-      <ion-col size="12" size-md="3">
+     
+     
+       <ion-col size="12" size-md="3">
         <ion-card (click)="goToMesProjets()" button class="stat-card">
           <ion-card-content>
             <div class="stat-content">
@@ -60,45 +67,64 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-      <ion-col size="12" size-md="3">
-        <ion-card (click)="goToPostulations()" button class="stat-card">
-          <ion-card-content>
-            <div class="stat-content">
-              <ion-icon name="people-outline"></ion-icon>
-              <div>
-                <h2>Postulations</h2>
-                <p>Candidatures reçues</p>
-              </div>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="3">
-        <ion-card (click)="goToEnCours()" button class="stat-card">
-          <ion-card-content>
-            <div class="stat-content">
-              <ion-icon name="time-outline"></ion-icon>
-              <div>
-                <h2>En cours</h2>
-                <p>Projets actifs</p>
-              </div>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-      <ion-col size="12" size-md="3">
-        <ion-card (click)="goToTermines()" button class="stat-card">
-          <ion-card-content>
-            <div class="stat-content">
-              <ion-icon name="checkmark-done-outline"></ion-icon>
-              <div>
-                <h2>Terminés</h2>
-                <p>Projets clôturés</p>
-              </div>
-            </div>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+<ion-col size="12" size-md="3">
+  <ion-card (click)="goToPostulations()" button class="stat-card">
+    <ion-card-content>
+      <div class="stat-content">
+        <div style="position: relative; display: inline-block;">
+          <ion-icon name="people-outline"></ion-icon>
+          <span *ngIf="notificationsCount > 0" class="badge-notif">
+            {{ notificationsCount > 9 ? '9+' : notificationsCount }}
+          </span>
+        </div>
+        <div>
+          <h2>Postulations</h2>
+          <p>Candidatures reçues</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-col>
+
+
+<ion-col size="12" size-md="3">
+  <ion-card (click)="goToEnCours()" button class="stat-card">
+    <ion-card-content>
+      <div class="stat-content">
+        <div style="position: relative; display: inline-block;">
+          <ion-icon name="time-outline"></ion-icon>
+          <span *ngIf="enCoursCount > 0" class="badge-notif">
+            {{ enCoursCount > 9 ? '9+' : enCoursCount }}
+          </span>
+        </div>
+        <div>
+          <h2>En cours</h2>
+          <p>Projets actifs</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-col>
+
+
+<ion-col size="12" size-md="3">
+  <ion-card (click)="goToTermines()" button class="stat-card">
+    <ion-card-content>
+      <div class="stat-content">
+        <div style="position: relative; display: inline-block;">
+          <ion-icon name="checkmark-done-outline"></ion-icon>
+          <span *ngIf="terminesCount > 0" class="badge-notif">
+            {{ terminesCount > 9 ? '9+' : terminesCount }}
+          </span>
+        </div>
+        <div>
+          <h2>Terminés</h2>
+          <p>Projets clôturés</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-col>
     </ion-row>
   </ion-grid>
 </ion-content>
@@ -116,16 +142,36 @@
             <ion-icon name="person"></ion-icon>
           </ion-button>
         </ion-col>       
-        <ion-col class="tab-button" text-center>
+        <!--<ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
             <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
-        </ion-col>        
+        </ion-col>  -->
+            
+<ion-col class="tab-button" text-center>
+  <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+    <div style="position: relative; display: inline-block;">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <span *ngIf="messagesNonLus > 0" class="badge-notif">
+        {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+      </span>
+    </div>
+  </ion-button>
+</ion-col>
+        
+        
+        
        <!-- <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('signout')">
             <ion-icon name="log-out"></ion-icon>
           </ion-button>
         </ion-col>-->
+        <ion-col class="tab-button" text-center>
+        <ion-button  fill="clear" expand="full" (click)="goTo('dashboard')">
+  <ion-icon name="bar-chart-outline"></ion-icon>
+  
+</ion-button>
+</ion-col>
          <ion-col class="tab-button" text-center>
         <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
         <ion-icon name="settings"></ion-icon>

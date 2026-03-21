@@ -8,13 +8,9 @@ if ($conn->connect_error) {
     echo json_encode(["error" => "Connexion échouée"]);
     exit;
 }
-
 $data = json_decode(file_get_contents("php://input"), true);
-
 $password = password_hash($data['Password'], PASSWORD_DEFAULT);
-
 $stmt = $conn->prepare("INSERT INTO users (Nom, Prenom, Email, Password, role) VALUES (?, ?, ?, ?, ?)");
-
 $stmt->bind_param("sssss",
     $data['Nom'],
     $data['Prenom'],
@@ -22,10 +18,6 @@ $stmt->bind_param("sssss",
     $password,
     $data['role']
 );
-
-/*if ($stmt->execute()) {
-    echo json_encode(["success" => true, "role" => $data['role']]);
-}*/ 
 if ($stmt->execute()) {
     echo json_encode([
         "success" => true,
@@ -36,6 +28,5 @@ if ($stmt->execute()) {
     http_response_code(500);
     echo json_encode(["error" => "Erreur inscription"]);
 }
-
 $conn->close();
 ?>

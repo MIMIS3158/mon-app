@@ -1,42 +1,28 @@
-// ==========================================
-// HEADER
-// ==========================================
-
 ion-header {
   ion-toolbar {
     --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --color: white;
     padding: 8px 0;
-
     ion-title {
       font-weight: 700;
       font-size: 1.3rem;
       text-align: center;
     }
-
     .back-button {
       --color: white;
       --background-hover: rgba(255, 255, 255, 0.2);
       transition: all 0.3s ease;
-
       ion-icon {
         font-size: 24px;
       }
-
       &:hover {
         --background: rgba(255, 255, 255, 0.2);
       }
     }
   }
 }
-
-// ==========================================
-// CONTENT
-// ==========================================
 ion-content {
   --background: linear-gradient(180deg, #f8f9fd 0%, #e9ecef 100%);
-
-  // Carte Résumé
   .summary-card {
     margin: 20px 0;
     border-radius: 20px;
@@ -44,14 +30,11 @@ ion-content {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     border: none;
     animation: fadeInDown 0.6s ease;
-
     ion-card-content {
       padding: 32px 20px;
     }
-
     .summary-content {
       text-align: center;
-
       .average-score {
         font-size: 4rem;
         font-weight: 800;
@@ -59,17 +42,14 @@ ion-content {
         color: white;
         text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       }
-
       .stars-container {
         margin: 16px 0;
-
         .star-icon {
           font-size: 32px;
           margin: 0 4px;
           filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
         }
       }
-
       .total-reviews {
         font-size: 1.1rem;
         font-weight: 600;
@@ -78,11 +58,8 @@ ion-content {
       }
     }
   }
-
-  // Grille de statistiques
   .stats-grid {
     margin: 24px 0;
-
     .stat-col {
       text-align: center;
       background: white;
@@ -92,51 +69,42 @@ ion-content {
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
       transition: all 0.3s ease;
       animation: fadeInUp 0.6s ease backwards;
-
       &:hover {
         transform: translateY(-4px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
       }
-
       &.positive {
         animation-delay: 0.1s;
-
         h3 {
           color: #48bb78;
           font-size: 2.5rem;
           font-weight: 700;
           margin: 0 0 8px 0;
         }
-
         p {
           color: #48bb78;
           font-weight: 600;
           font-size: 1rem;
           margin: 0;
-
           ion-icon {
             font-size: 20px;
             vertical-align: middle;
           }
         }
       }
-
       &.negative {
         animation-delay: 0.2s;
-
         h3 {
           color: #f56565;
           font-size: 2.5rem;
           font-weight: 700;
           margin: 0 0 8px 0;
         }
-
         p {
           color: #f56565;
           font-weight: 600;
           font-size: 1rem;
           margin: 0;
-
           ion-icon {
             font-size: 20px;
             vertical-align: middle;
@@ -145,8 +113,6 @@ ion-content {
       }
     }
   }
-
-  // État vide
   .empty-state {
     text-align: center;
     margin: 80px 20px;
@@ -155,34 +121,28 @@ ion-content {
     border-radius: 20px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     animation: fadeIn 0.6s ease;
-
     .empty-icon {
       font-size: 80px;
       color: #cbd5e0;
       margin-bottom: 20px;
     }
-
     h3 {
       font-size: 1.5rem;
       font-weight: 700;
       color: #2c3e50;
       margin: 0 0 12px 0;
     }
-
     p {
       font-size: 1rem;
       color: #8e8e93;
       margin: 0;
     }
   }
-
-  // Liste des évaluations
   .evaluations-list {
     background: transparent;
     padding: 0;
     margin-top: 24px;
   }
-
   .evaluation-card {
     margin: 0 0 16px 0;
     border-radius: 16px;
@@ -191,22 +151,18 @@ ion-content {
     border: 1px solid rgba(102, 126, 234, 0.1);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     animation: fadeInUp 0.5s ease backwards;
-
     &:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 28px rgba(102, 126, 234, 0.2);
     }
-
     ion-card-header {
       padding: 20px 20px 12px;
       background: linear-gradient(135deg, #667eea08 0%, #764ba208 100%);
-
       .card-header-content {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
         gap: 12px;
-
         .project-title {
           font-size: 1.2rem;
           font-weight: 700;
@@ -214,22 +170,18 @@ ion-content {
           margin: 0;
           flex: 1;
         }
-
         .rating-stars {
           display: flex;
           gap: 2px;
           flex-shrink: 0;
-
           ion-icon {
             font-size: 20px;
           }
         }
       }
     }
-
     ion-card-content {
       padding: 16px 20px 20px;
-
       .evaluator-name {
         font-size: 0.9rem;
         font-weight: 600;
@@ -238,12 +190,10 @@ ion-content {
         display: flex;
         align-items: center;
         gap: 6px;
-
         ion-icon {
           font-size: 18px;
         }
       }
-
       .comment {
         font-size: 0.95rem;
         color: #4a5568;
@@ -254,7 +204,6 @@ ion-content {
         border-radius: 10px;
         border-left: 3px solid #667eea;
       }
-
       .date {
         font-size: 0.85rem;
         color: #8e8e93;
@@ -262,7 +211,6 @@ ion-content {
         display: flex;
         align-items: center;
         gap: 6px;
-
         ion-icon {
           font-size: 16px;
         }
@@ -270,10 +218,6 @@ ion-content {
     }
   }
 }
-
-// ==========================================
-// ANIMATIONS
-// ==========================================
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -282,7 +226,6 @@ ion-content {
     opacity: 1;
   }
 }
-
 @keyframes fadeInDown {
   from {
     opacity: 0;
@@ -293,7 +236,6 @@ ion-content {
     transform: translateY(0);
   }
 }
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -304,8 +246,6 @@ ion-content {
     transform: translateY(0);
   }
 }
-
-// Animation progressive des cartes
 .evaluation-card {
   @for $i from 1 through 10 {
     &:nth-child(#{$i}) {
@@ -313,44 +253,33 @@ ion-content {
     }
   }
 }
-
-// ==========================================
-// RESPONSIVE
-// ==========================================
 @media (max-width: 576px) {
   ion-content {
     .summary-card {
       margin: 16px 0;
-
       .summary-content {
         .average-score {
           font-size: 3rem;
         }
-
         .stars-container .star-icon {
           font-size: 26px;
         }
       }
     }
-
     .stats-grid .stat-col {
       margin: 0 4px;
       padding: 16px;
-
       h3 {
         font-size: 2rem !important;
       }
-
       p {
         font-size: 0.9rem !important;
       }
     }
-
     .evaluation-card {
       ion-card-header .card-header-content {
         flex-direction: column;
         align-items: flex-start;
-
         .project-title {
           font-size: 1.1rem;
         }

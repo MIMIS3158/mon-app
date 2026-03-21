@@ -21,6 +21,7 @@ export class ChatPage implements OnInit, OnDestroy {
   receiverName: string = '';
 receiverPhoto: string = '';
 
+
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute
@@ -56,6 +57,10 @@ receiverPhoto: string = '';
       error: () => {}
     });
   }
+
+
+
+
 
   envoyerMessage() {
     if (!this.newMessage.trim()) return;
