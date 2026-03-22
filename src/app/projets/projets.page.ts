@@ -29,6 +29,11 @@ export class ProjetsPage implements OnInit {
   selectedProject: any = null;
   statutFiltre: string = 'tous'; 
   private apiUrl = 'http://localhost/myApp/api';
+enCoursCount: number = 0;
+  terminesCount: number = 0;
+  messagesNonLus: number = 0;
+  notificationsCount: number = 0;
+  private badgeInterval: any;
 
 
 
@@ -46,6 +51,9 @@ export class ProjetsPage implements OnInit {
       this.statutFiltre = params['statut'] || 'tous';
     });  
     this.loadProjects();
+     this.loadBadges();
+  this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+
    
     
   }
@@ -186,6 +194,24 @@ export class ProjetsPage implements OnInit {
       });
       return await modal.present();
     }
+
+loadBadges() {
+  const userId = localStorage.getItem('userId');
+  const role = localStorage.getItem('role');
+  this.http.get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+    .subscribe({
+      next: (data) => {
+        this.messagesNonLus = data.messages;
+        this.notificationsCount = data.notifications;
+        this.enCoursCount = data.en_cours;
+        this.terminesCount = data.termines;
+      },
+      error: () => {}
+    });
+}
+ionViewWillLeave() {
+  if (this.badgeInterval) clearInterval(this.badgeInterval);
+}
 
  
 

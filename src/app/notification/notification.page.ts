@@ -33,6 +33,11 @@ export class NotificationPage implements OnInit {
   selectedTab = 'pending';
   notifications: Notification[] = [];
   displayedNotifications: Notification[] = [];
+  enCoursCount: number = 0;
+  terminesCount: number = 0;
+  messagesNonLus: number = 0;
+  notificationsCount: number = 0;
+  private badgeInterval: any;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -46,6 +51,9 @@ export class NotificationPage implements OnInit {
       }
       this.loadNotifications();
     });
+        this.loadBadges();
+  this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+
 }
   ionViewWillEnter() {
     this.loadNotifications();
@@ -141,6 +149,24 @@ async ouvrirParametre() {
     });
     return await modal.present();
   }
+  
+loadBadges() {
+  const userId = localStorage.getItem('userId');
+  const role = localStorage.getItem('role');
+  this.http.get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+    .subscribe({
+      next: (data) => {
+        this.messagesNonLus = data.messages;
+        this.notificationsCount = data.notifications;
+        this.enCoursCount = data.en_cours;
+        this.terminesCount = data.termines;
+      },
+      error: () => {}
+    });
+}
+ionViewWillLeave() {
+  if (this.badgeInterval) clearInterval(this.badgeInterval);
+}
   goTo(tab: string) {
     switch(tab) {
       case 'notification':

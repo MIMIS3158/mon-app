@@ -30,10 +30,20 @@
       <div class="projet-progress">
         <div class="projet-progress-bar" [style.width.%]="projet.score" [style.background]="getBarColor(projet.score)"></div>
       </div>
+     
       <div style="display:flex; flex-wrap:wrap; gap:6px;">
-        <span *ngFor="let c of projet.matched" class="badge-matched">✓ {{ c }}</span>
-        <span *ngFor="let c of projet.notMatched" class="badge-notmatched">{{ c }}</span>
-      </div>
+  <span *ngFor="let c of projet.matched" class="badge-matched">✓ {{ c }}</span>
+  <span *ngFor="let c of projet.notMatched" class="badge-notmatched">{{ c }}</span>
+</div>
+
+<ion-button 
+  expand="block" 
+  size="small"
+  style="margin-top: 10px; --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); --border-radius: 8px;"
+  (click)="postuler(projet)">
+  <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+  Postuler
+</ion-button>
     </div>
   </div>
   <div *ngIf="filteredProjets.length === 0" style="text-align:center; padding:60px 20px;">

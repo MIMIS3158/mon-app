@@ -114,11 +114,22 @@
             <ion-icon name="person"></ion-icon>
           </ion-button>
         </ion-col>       
-        <ion-col class="tab-button" text-center>
+       <!--- <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
             <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
-        </ion-col>        
+        </ion-col>   -->
+                    
+<ion-col class="tab-button" text-center>
+  <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+    <div style="position: relative; display: inline-block;">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <span *ngIf="messagesNonLus > 0" class="badge-notif">
+        {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+      </span>
+    </div>
+  </ion-button>
+</ion-col>     
        <!-- <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('signout')">
             <ion-icon name="log-out"></ion-icon>

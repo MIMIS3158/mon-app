@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-recommended',
   templateUrl: './recommended.page.html',
@@ -12,7 +13,7 @@ export class RecommendedPage implements OnInit {
   activeFilter: string = 'all';
   devId: number = parseInt(localStorage.getItem('userId') || '0');
   private apiUrl = 'http://localhost/myApp/api';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
   ngOnInit() {
     if (!this.devId) {
       console.error("Utilisateur non connecté");
@@ -46,4 +47,13 @@ export class RecommendedPage implements OnInit {
     if (score >= 50) return '#378ADD';  
     return '#EF9F27';                   
   }
+  postuler(projet: any) {
+  localStorage.setItem('selectedProject', JSON.stringify({
+    id: projet.id,
+    Nomduprojet: projet.nom,
+    Budget: projet.budget,
+    Duree: projet.duree
+  }));
+  this.router.navigate(['/description']);
+}
 }

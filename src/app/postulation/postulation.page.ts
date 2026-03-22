@@ -32,6 +32,14 @@ export class PostulationPage implements OnInit {
   selectedTab = 'all';
   allPostulations: Postulation[] = [];
   displayedPostulations: Postulation[] = [];
+    enCoursCount: number = 0;
+  terminesCount: number = 0;
+  messagesNonLus: number = 0;
+  notificationsCount: number = 0;
+  private badgeInterval: any;
+
+
+
 
   constructor(
     private router: Router,
@@ -40,6 +48,9 @@ export class PostulationPage implements OnInit {
   ) {}
   ngOnInit() {
     this.loadPostulations();
+     this.loadBadges();
+  this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+
   }
   ionViewWillEnter() {
     this.loadPostulations();
@@ -148,6 +159,24 @@ cancelProject(postulation: Postulation) {
   }
   ouvrirRecommended() {
   this.router.navigate(['/recommended']);
+}
+
+loadBadges() {
+  const userId = localStorage.getItem('userId');
+  const role = localStorage.getItem('role');
+  this.http.get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+    .subscribe({
+      next: (data) => {
+        this.messagesNonLus = data.messages;
+        this.notificationsCount = data.notifications;
+        this.enCoursCount = data.en_cours;
+        this.terminesCount = data.termines;
+      },
+      error: () => {}
+    });
+}
+ionViewWillLeave() {
+  if (this.badgeInterval) clearInterval(this.badgeInterval);
 }
   goTo(tab: string) {
     switch(tab) {
