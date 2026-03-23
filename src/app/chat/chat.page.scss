@@ -4,27 +4,31 @@ ion-header {
     --color: white;
     padding: 8px 0;
     --min-height: 64px;
-
     ion-back-button {
       --color: white;
       --icon-font-size: 24px;
     }
-
+    ion-buttons[slot="end"] {
+      ion-button {
+        --color: white;
+        margin: 0 4px;
+        ion-icon {
+          font-size: 24px;
+        }
+      }
+    }
     > div {
       display: flex !important;
       align-items: center !important;
       gap: 12px !important;
       padding: 4px 8px !important;
-
       img {
         width: 40px !important;
         height: 40px !important;
         border-radius: 50% !important;
         object-fit: cover !important;
         border: 2px solid rgba(255, 255, 255, 0.3) !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
       }
-
       > div {
         width: 40px !important;
         height: 40px !important;
@@ -36,9 +40,7 @@ ion-header {
         justify-content: center !important;
         font-weight: 700 !important;
         font-size: 18px !important;
-        border: 2px solid rgba(255, 255, 255, 0.3) !important;
       }
-
       p {
         margin: 0 !important;
         font-weight: 700 !important;
@@ -46,169 +48,135 @@ ion-header {
         color: white !important;
       }
     }
-
-    ion-buttons[slot="end"] {
-      ion-button {
-        --color: white;
-        margin-left: 4px;
-
-        ion-icon {
-          font-size: 24px;
-        }
-      }
-    }
   }
 }
-
 ion-content {
   --background: #e5ddd5;
   --padding-top: 0;
   --padding-bottom: 0;
   --padding-start: 0;
   --padding-end: 0;
-
-  .messages-container {
-    padding: 16px 16px 20px 16px;
-    max-width: 900px;
-    margin: 0 auto;
-    min-height: 100%;
+}
+.messages-container {
+  padding: 12px;
+  padding-bottom: 16px; 
+  min-height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  .empty-chat {
     display: flex;
     flex-direction: column;
-    gap: 6px;
-
-    .empty-chat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 80px 20px;
-      flex: 1;
-
-      ion-icon {
-        font-size: 80px;
-        color: #cbd5e0;
-        margin-bottom: 16px;
-        opacity: 0.7;
-      }
-
-      p {
-        font-size: 1.1rem;
-        color: #718096;
-        font-weight: 600;
-        margin: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    flex: 1;
+    ion-icon {
+      font-size: 80px;
+      color: #cbd5e0;
+      margin-bottom: 16px;
+      opacity: 0.7;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #718096;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+  .message-wrapper {
+    display: flex;
+    margin-bottom: 6px;
+    animation: slideIn 0.2s ease;
+    &.mine {
+      justify-content: flex-end;
+      .message-bubble {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 2px 12px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        .message-text {
+          color: white;
+        }
+        .message-time {
+          color: rgba(255, 255, 255, 0.9);
+        }
       }
     }
-
-    .message-wrapper {
-      display: flex;
-      margin-bottom: 6px;
-      animation: slideIn 0.2s ease;
-
-      &.mine {
-        justify-content: flex-end;
-
-        .message-bubble {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-          color: white;
-          border-radius: 12px 12px 2px 12px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-
-          .message-text {
-            color: white;
-          }
-
-          .message-time {
-            color: rgba(255, 255, 255, 0.9);
-          }
-        }
-      }
-
-      &.theirs {
-        justify-content: flex-start;
-
-        .message-bubble {
-          background: white;
-          color: #2d3748;
-          border-radius: 12px 12px 12px 2px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-          .message-text {
-            color: #2d3748;
-          }
-
-          .message-time {
-            color: #718096;
-          }
-        }
-      }
-
+    &.theirs {
+      justify-content: flex-start;
       .message-bubble {
-        max-width: 75%;
-        padding: 8px 12px;
-        position: relative;
-        word-wrap: break-word;
-
+        background: white;
+        color: #2d3748;
+        border-radius: 12px 12px 12px 2px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         .message-text {
-          font-size: 0.95rem;
-          line-height: 1.4;
-          margin: 0 0 4px 0;
-          white-space: pre-wrap;
-          word-break: break-word;
+          color: #2d3748;
         }
-
         .message-time {
-          font-size: 0.7rem;
-          font-weight: 500;
-          display: block;
-          text-align: right;
-          margin-top: 2px;
-          opacity: 0.75;
+          color: #718096;
         }
+      }
+    }
+    .message-bubble {
+      max-width: 75%;
+      padding: 8px 12px;
+      position: relative;
+      word-wrap: break-word;
+      .message-text {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        margin: 0 0 4px 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      .message-time {
+        font-size: 0.7rem;
+        font-weight: 500;
+        display: block;
+        text-align: right;
+        margin-top: 2px;
+        opacity: 0.75;
       }
     }
   }
 }
-
 ion-footer {
   .chat-footer {
     --background: white;
     --border-width: 0;
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
-    padding: 10px 16px;
-
+    padding: 10px 12px;
     .input-container {
       display: flex;
       align-items: center;
       gap: 8px;
       max-width: 900px;
       margin: 0 auto;
-
       .foot-btn {
-        background: transparent;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #f0f2f5;
         border: none;
-        color: #667eea;
-        cursor: pointer;
-        padding: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: #667eea;
+        cursor: pointer;
         transition: all 0.3s ease;
-        border-radius: 50%;
-
+        flex-shrink: 0;
         ion-icon {
-          font-size: 24px;
+          font-size: 20px;
         }
-
         &:hover {
-          background: rgba(102, 126, 234, 0.1);
+          background: #e9ecef;
           transform: scale(1.1);
         }
-
         &:active {
           transform: scale(0.95);
         }
       }
-
       .message-input {
         flex: 1;
         --background: #f0f2f5;
@@ -219,45 +187,36 @@ ion-footer {
         --padding-top: 10px;
         --padding-bottom: 10px;
         border-radius: 24px;
-        border: none;
         font-size: 0.95rem;
-        min-height: 44px;
+        min-height: 40px;
         max-height: 100px;
-        transition: all 0.3s ease;
-
         &::part(native) {
           border-radius: 24px;
+          border: none;
         }
-
         &:focus-within {
           --background: #e9ecef;
         }
       }
-
       ion-button {
         --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        --border-radius: 12px;
-        width: 44px;
-        height: 44px;
+        --border-radius: 50%;
+        width: 40px;
+        height: 40px;
         margin: 0;
         --box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
         transition: all 0.3s ease;
         flex-shrink: 0;
-
         ion-icon {
-          font-size: 22px;
+          font-size: 20px;
           transform: rotate(-45deg);
         }
-
         &:hover:not([disabled]) {
           transform: translateY(-2px);
-          --box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
         }
-
         &:active:not([disabled]) {
           transform: translateY(0);
         }
-
         &[disabled] {
           --background: #cbd5e0;
           opacity: 0.5;
@@ -266,7 +225,6 @@ ion-footer {
     }
   }
 }
-
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -277,99 +235,49 @@ ion-footer {
     transform: translateY(0);
   }
 }
-
 @media (max-width: 576px) {
   ion-header ion-toolbar {
     --min-height: 60px;
-
     > div {
       gap: 10px !important;
-
       img,
       > div {
         width: 36px !important;
         height: 36px !important;
       }
-
       p {
         font-size: 1rem !important;
       }
     }
-
     ion-buttons[slot="end"] ion-button ion-icon {
       font-size: 22px;
     }
   }
-
-  ion-content {
-    .messages-container {
-      padding: 12px;
-      padding-bottom: 70px;
-      gap: 5px;
-
-      .empty-chat {
-        padding: 60px 16px;
+  .messages-container {
+    padding: 10px;
+    padding-bottom: 12px;
+  }
+  ion-footer .chat-footer {
+    padding: 8px 10px;
+    .input-container {
+      gap: 6px;
+      .foot-btn {
+        width: 34px;
+        height: 34px;
 
         ion-icon {
-          font-size: 64px;
-        }
-
-        p {
-          font-size: 1rem;
+          font-size: 18px;
         }
       }
-
-      .message-wrapper {
-        margin-bottom: 5px;
-
-        &.mine .message-bubble,
-        &.theirs .message-bubble {
-          max-width: 85%;
-          padding: 7px 11px;
-
-          .message-text {
-            font-size: 0.9rem;
-          }
-
-          .message-time {
-            font-size: 0.65rem;
-          }
-        }
+      .message-input {
+        min-height: 38px;
+        font-size: 0.9rem;
       }
-    }
-  }
-
-  ion-footer {
-    .chat-footer {
-      padding: 8px 12px;
-
-      .input-container {
-        gap: 6px;
-
-        .foot-btn {
-          padding: 6px;
-
-          ion-icon {
-            font-size: 20px;
-          }
-        }
-
-        .message-input {
-          --padding-start: 14px;
-          --padding-end: 14px;
-          --padding-top: 9px;
-          --padding-bottom: 9px;
-          min-height: 42px;
-          font-size: 0.9rem;
-        }
-
-        ion-button {
-          width: 42px;
-          height: 42px;
-
-          ion-icon {
-            font-size: 20px;
-          }
+      ion-button {
+        width: 38px;
+        height: 38px;
+        ion-icon {
+          font-size: 18px;
         }
       }
     }
