@@ -57,10 +57,15 @@
           <div *ngFor="let comp of competences" class="progress-item">
             <div class="progress-header">
               <span class="comp-name">{{ comp.nom }}</span>
-              <span class="comp-stats">{{ comp.count }} devs · {{ comp.pourcentage }}%</span>
+              <span class="comp-stats"
+                >{{ comp.count }} devs · {{ comp.pourcentage }}%</span
+              >
             </div>
             <div class="progress-bar-bg">
-              <div class="progress-bar-fill" [style.width.%]="comp.pourcentage"></div>
+              <div
+                class="progress-bar-fill"
+                [style.width.%]="comp.pourcentage"
+              ></div>
             </div>
           </div>
         </ion-card-content>

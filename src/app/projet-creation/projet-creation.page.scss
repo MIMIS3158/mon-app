@@ -31,7 +31,7 @@ ion-content.body {
       background-clip: text;
       position: relative;
       &::after {
-        content: '';
+        content: "";
         display: block;
         width: 80px;
         height: 4px;
@@ -161,7 +161,7 @@ ion-content.body {
       position: relative;
       overflow: hidden;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 50%;
         left: 50%;
@@ -197,7 +197,9 @@ ion-content.body {
     transform: translateY(0);
   }
 }
-ion-input, ion-textarea, ion-item {
+ion-input,
+ion-textarea,
+ion-item {
   animation: slideInLeft 0.5s ease backwards;
   @for $i from 1 through 10 {
     &:nth-of-type(#{$i}) {
@@ -226,7 +228,9 @@ ion-input, ion-textarea, ion-item {
         height: 3px;
       }
     }
-    ion-input, ion-textarea, ion-item {
+    ion-input,
+    ion-textarea,
+    ion-item {
       font-size: 0.95rem;
       margin-bottom: 16px;
       --padding-start: 16px;

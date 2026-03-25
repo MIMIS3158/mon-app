@@ -12,39 +12,45 @@
       <ion-card-header>
         <ion-card-title>{{ project.Nomduprojet }}</ion-card-title>
         <ion-card-subtitle>{{ project.Publierparentreprise }}</ion-card-subtitle>
-      </ion-card-header>   
+      </ion-card-header>
       <ion-card-content>
         <div class="project-info">
-          <p><strong>Description:</strong> {{ project.Descriptionduprojet }}</p>
-          <p><strong>Compétences requises:</strong> {{ project.Competences }}</p>
+          <p><strong>Description:</strong> {{ project.description }}</p>
+          <p>
+            <strong>Compétences requises:</strong> {{ project.Competences }}
+          </p>
           <p><strong>Budget:</strong> {{ project.Budget }}</p>
           <p><strong>Durée:</strong> {{ project.Duree }}</p>
-          <p><strong>Statut:</strong> 
+          <p>
+            <strong>Statut:</strong>
             <ion-badge [color]="project.Statut === 'Actif' ? 'success' : 'warning'">
               {{ project.Statut }}
             </ion-badge>
           </p>
-        </div>        
+        </div>
         <ion-item-divider>
           <ion-label>Votre candidature</ion-label>
         </ion-item-divider>
-        <div class="candidature-form">         
+        <div class="candidature-form">
           <ion-item>
             <ion-label position="floating">Message de motivation *</ion-label>
-            <ion-textarea  [(ngModel)]="messagePostulation"   rows="6"  placeholder="Expliquez pourquoi vous êtes le candidat idéal pour ce projet..."> </ion-textarea>
-          </ion-item>        
+            <ion-textarea [(ngModel)]="messagePostulation" rows="6"
+              placeholder="Expliquez pourquoi vous êtes le candidat idéal pour ce projet...">
+            </ion-textarea>
+          </ion-item>
           <ion-item>
             <ion-label position="floating">Votre tarif proposé (€/DA)</ion-label>
-            <ion-input type="text"  [(ngModel)]="Budget" ></ion-input>
-          </ion-item>         
+            <ion-input type="text" [(ngModel)]="Budget"></ion-input>
+          </ion-item>
           <ion-item>
             <ion-label position="floating">Durée estimée</ion-label>
             <ion-input [(ngModel)]="Duree"> </ion-input>
-          </ion-item>        
-          <ion-button  expand="block" (click)="onApply(project)" class="submit-btn" [disabled]="!messagePostulation || messagePostulation.trim() === ''">
+          </ion-item>
+          <ion-button expand="block" (click)="onApply(project)" class="submit-btn"
+            [disabled]="!messagePostulation || messagePostulation.trim() === ''">
             <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
             Envoyer ma candidature
-          </ion-button>      
+          </ion-button>
         </div>
       </ion-card-content>
     </ion-card>

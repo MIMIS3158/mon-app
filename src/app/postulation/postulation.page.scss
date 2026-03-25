@@ -2,7 +2,7 @@ $primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 $card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 ion-header {
   ion-toolbar {
-    --background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
+    --background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     --color: white;
     padding: 12px 0;
 
@@ -15,7 +15,7 @@ ion-header {
   }
 }
 ion-content {
-  --background: #f5f7fa;  
+  --background: #f5f7fa;
   ion-segment {
     margin: 20px 16px;
     --background: white;
@@ -29,9 +29,9 @@ ion-content {
     ion-segment-button {
       --background: white;
       --background-checked: $primary-gradient;
-      --color: #4a5568; 
-      --color-checked: white; 
-     --indicator-color: transparent;
+      --color: #4a5568;
+      --color-checked: white;
+      --indicator-color: transparent;
       min-width: 100px;
       margin: 0 4px;
       border-radius: 8px;
@@ -41,17 +41,16 @@ ion-content {
       box-shadow: none;
       transition: all 0.3s ease;
       text-transform: none;
-*
-      ion-label {
-        color: #4a5568 !important; 
+      * ion-label {
+        color: #4a5568 !important;
         font-weight: 700 !important;
       }
       &.segment-button-checked {
         transform: scale(1.05);
         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
         ion-label {
-         // color: white !important;
-          color: #4a5568 !important; 
+          // color: white !important;
+          color: #4a5568 !important;
         }
       }
       &::part(indicator-background) {
@@ -81,7 +80,7 @@ ion-content {
       background: linear-gradient(135deg, #f8f9ff 0%, #fdfbff 100%);
       position: relative;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -120,7 +119,7 @@ ion-content {
         display: flex;
         align-items: center;
         &::before {
-          content: '🏢';
+          content: "🏢";
           margin-right: 6px;
         }
       }

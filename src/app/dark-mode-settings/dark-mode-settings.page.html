@@ -1,4 +1,3 @@
-
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -12,7 +11,11 @@
   <ion-item>
     <ion-icon name="moon-outline" slot="start"></ion-icon>
     <ion-label>Mode sombre</ion-label>
-    <ion-toggle slot="end" [checked]="darkMode"(ionChange)="toggleTheme($event)">
+    <ion-toggle
+      slot="end"
+      [checked]="darkMode"
+      (ionChange)="toggleTheme($event)"
+    >
     </ion-toggle>
   </ion-item>
 </ion-content>

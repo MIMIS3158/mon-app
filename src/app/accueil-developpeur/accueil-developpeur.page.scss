@@ -28,7 +28,7 @@ ion-header {
         --color: #2c3e50;
         padding: 0;
         margin: 0;
-        flex: 1;        
+        flex: 1;
         &::part(native) {
           font-weight: 500;
           transition: all 0.3s ease;
@@ -79,11 +79,11 @@ ion-content {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 80px 20px;    
+    padding: 80px 20px;
     ion-spinner {
       margin-bottom: 20px;
       --color: #667eea;
-    }   
+    }
     p {
       color: #667eea;
       font-weight: 600;
@@ -252,7 +252,7 @@ ion-content {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
-        margin-top: 20px;       
+        margin-top: 20px;
         ion-button {
           flex: 1;
           min-width: 110px;
@@ -281,7 +281,11 @@ ion-content {
           }
           &.postuler {
             --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --background-hover: linear-gradient(135deg, #5568d3 0%, #65408b 100%);
+            --background-hover: linear-gradient(
+              135deg,
+              #5568d3 0%,
+              #65408b 100%
+            );
             --color: white;
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
 
@@ -291,7 +295,11 @@ ion-content {
           }
           &.Contacter {
             --background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --background-hover: linear-gradient(135deg, #d97de6 0%, #db4a5f 100%);
+            --background-hover: linear-gradient(
+              135deg,
+              #d97de6 0%,
+              #db4a5f 100%
+            );
             --color: white;
             box-shadow: 0 4px 12px rgba(240, 147, 251, 0.3);
 
@@ -312,7 +320,7 @@ ion-content {
     background: white;
     border-radius: 16px;
     margin: 40px 16px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);   
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     p {
       margin: 0;
       color: #8e8e93;
@@ -345,7 +353,7 @@ ion-footer {
         transition: all 0.3s ease;
       }
       &:hover {
-        --color: #667eea;       
+        --color: #667eea;
         ion-icon {
           transform: scale(1.15);
         }
@@ -360,7 +368,7 @@ ion-footer {
       --color: #667eea;
       position: relative;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 50%;
@@ -469,7 +477,7 @@ ion-card {
     max-width: 1000px;
   }
 }
-  .badge-notif {
+.badge-notif {
   position: absolute;
   top: -8px;
   right: -8px;

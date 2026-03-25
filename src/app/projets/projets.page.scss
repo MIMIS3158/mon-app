@@ -32,8 +32,8 @@ ion-content {
     ion-segment-button {
       --background: white;
       --background-checked: $primary-gradient;
-      --color: #4a5568; 
-      --color-checked: #4a5568 !important; 
+      --color: #4a5568;
+      --color-checked: #4a5568 !important;
       --indicator-color: transparent;
       min-width: 80px;
       margin: 0 4px;
@@ -51,7 +51,7 @@ ion-content {
         transform: scale(1.05);
         box-shadow: 0 4px 12px rgba(102, 126, 234, 0.25);
         ion-label {
-           color: #4a5568 !important;
+          color: #4a5568 !important;
         }
       }
       &::part(indicator-background) {
@@ -91,7 +91,7 @@ ion-content {
       transition: all 0.3s ease;
       position: relative;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -132,7 +132,7 @@ ion-content {
         align-items: baseline;
         gap: 8px;
         &::before {
-          content: '•';
+          content: "•";
           color: #667eea;
           font-weight: 900;
           font-size: 1.2rem;
@@ -285,7 +285,7 @@ ion-footer {
 }
 ion-card {
   @for $i from 1 through 20 {
-    &:nth-child(#{$i + 1}) { 
+    &:nth-child(#{$i + 1}) {
       animation-delay: #{$i * 0.05}s;
     }
   }
@@ -332,10 +332,9 @@ ion-card {
       }
     }
   }
-  
+
   ion-footer .tab-button ion-button ion-icon {
     font-size: 24px;
-    
   }
 }
 .badge-notif {

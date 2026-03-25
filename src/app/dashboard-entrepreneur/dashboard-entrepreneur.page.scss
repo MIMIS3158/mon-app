@@ -13,7 +13,7 @@ ion-header {
   }
 }
 ion-content {
-    --background: linear-gradient(180deg, #f8f9fd 0%, #e9ecef 100%);
+  --background: linear-gradient(180deg, #f8f9fd 0%, #e9ecef 100%);
 }
 .banner {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -46,24 +46,36 @@ ion-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   &.green {
     background: white;
-    border-top: 4px solid #4CAF50;
-    .stat-icon ion-icon { color: #4CAF50; }
-    h1 { color: #4CAF50; }
+    border-top: 4px solid #4caf50;
+    .stat-icon ion-icon {
+      color: #4caf50;
+    }
+    h1 {
+      color: #4caf50;
+    }
   }
   &.blue {
     background: white;
-    border-top: 4px solid #2196F3;
-    .stat-icon ion-icon { color: #2196F3; }
-    h1 { color: #2196F3; }
+    border-top: 4px solid #2196f3;
+    .stat-icon ion-icon {
+      color: #2196f3;
+    }
+    h1 {
+      color: #2196f3;
+    }
   }
   &.purple {
     background: white;
-    border-top: 4px solid #9C27B0;
-    .stat-icon ion-icon { color: #9C27B0; }
-    h1 { color: #9C27B0; }
+    border-top: 4px solid #9c27b0;
+    .stat-icon ion-icon {
+      color: #9c27b0;
+    }
+    h1 {
+      color: #9c27b0;
+    }
   }
   .stat-icon {
     ion-icon {
@@ -103,7 +115,7 @@ ion-content {
 }
 .skills-card {
   border-radius: 16px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   margin: 0;
 }
 .progress-item {

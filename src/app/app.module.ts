@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import { FormsModule } from '@angular/forms';  
+import { FormsModule } from '@angular/forms';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { HttpClientModule } from '@angular/common/http';
@@ -12,14 +12,14 @@ import { AppRoutingModule } from './app-routing.module';
   declarations: [AppComponent],
   bootstrap: [AppComponent],
   imports: [
-    BrowserModule, 
-    HttpClientModule,       
-    FormsModule,            
+    BrowserModule,
+    HttpClientModule,
+    FormsModule,
     IonicModule.forRoot({
       // innerHTMLTemplatesEnabled: true,
     }),
     AppRoutingModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }]
 })
 export class AppModule {}

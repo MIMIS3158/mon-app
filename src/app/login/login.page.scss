@@ -31,7 +31,7 @@ ion-content {
             transition: all 0.3s ease;
             position: relative;
             &::after {
-              content: '';
+              content: "";
               position: absolute;
               bottom: -2px;
               left: 0;
@@ -62,7 +62,7 @@ ion-content {
         background-clip: text;
         position: relative;
         &::after {
-          content: '';
+          content: "";
           display: block;
           width: 60px;
           height: 4px;
@@ -137,7 +137,7 @@ ion-content {
           position: relative;
           padding-bottom: 2px;
           &::after {
-            content: '';
+            content: "";
             position: absolute;
             bottom: 0;
             left: 0;
@@ -166,7 +166,7 @@ ion-content {
     --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --background-hover: linear-gradient(135deg, #5568d3 0%, #65408b 100%);
     --color: white;
-    --border-radius: 25px;
+    // --border-radius: 25px;
     --padding-top: 18px;
     --padding-bottom: 18px;
     width: 90%;
@@ -178,12 +178,12 @@ ion-content {
     text-transform: none;
     letter-spacing: 0.8px;
     height: 56px;
-    box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
+    // box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: 50%;
       left: 50%;
@@ -310,7 +310,7 @@ ion-content {
   pointer-events: none;
   opacity: 0.8;
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     width: 20px;
     height: 20px;
@@ -344,9 +344,16 @@ ion-content {
   }
 }
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-8px); }
-  75% { transform: translateX(8px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(8px);
+  }
 }
 .error-message {
   color: #f5576c;

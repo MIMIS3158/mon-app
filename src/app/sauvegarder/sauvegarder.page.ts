@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-sauvegarder',
   templateUrl: './sauvegarder.page.html',
@@ -8,21 +9,20 @@ import { HttpClient } from '@angular/common/http';
   standalone: false
 })
 export class SauvegarderPage implements OnInit {
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
+
   projets: any[] = [];
-  constructor(
-    private router: Router,
-    private http: HttpClient
-  ) {}
+  constructor(private router: Router, private http: HttpClient) {}
   ngOnInit() {}
   ionViewWillEnter() {
     this.loadSavedProjects();
   }
   loadSavedProjects() {
     const userId = localStorage.getItem('userId');
-    this.http.get<any[]>(`${this.apiUrl}/favorites.php?id_developpeur=${userId}`)
+    this.http
+      .get<any[]>(`${this.apiUrl}/favorites.php?id_developpeur=${userId}`)
       .subscribe({
-        next: (projets) => {
+        next: projets => {
           this.projets = projets;
         },
         error: () => {}
@@ -30,7 +30,10 @@ export class SauvegarderPage implements OnInit {
   }
   supprimerFavori(projetId: number) {
     const userId = localStorage.getItem('userId');
-    this.http.delete(`${this.apiUrl}/favorites.php?id=${projetId}&id_developpeur=${userId}`)
+    this.http
+      .delete(
+        `${this.apiUrl}/favorites.php?id=${projetId}&id_developpeur=${userId}`
+      )
       .subscribe({
         next: () => {
           this.loadSavedProjects();

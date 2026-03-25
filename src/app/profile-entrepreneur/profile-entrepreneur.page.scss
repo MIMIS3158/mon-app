@@ -31,7 +31,7 @@ ion-content {
       background-clip: text;
       position: relative;
       &::after {
-        content: '';
+        content: "";
         display: block;
         width: 80px;
         height: 4px;
@@ -217,8 +217,9 @@ ion-content {
     transform: translateY(0);
   }
 }
-ion-input, ion-select {
-  animation: slideInLeft 0.5s ease backwards; 
+ion-input,
+ion-select {
+  animation: slideInLeft 0.5s ease backwards;
   @for $i from 1 through 20 {
     &:nth-of-type(#{$i}) {
       animation-delay: #{$i * 0.04}s;
@@ -251,7 +252,8 @@ ion-input, ion-select {
         width: 120px;
         height: 120px;
       }
-      ion-input, ion-select {
+      ion-input,
+      ion-select {
         font-size: 0.95rem;
         margin-bottom: 16px;
         --padding-start: 16px;

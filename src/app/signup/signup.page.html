@@ -1,59 +1,54 @@
 <ion-content>
-    <ion-card>
+  <ion-card>
     <div class="form-box">
       <div class="register-container" id="register">
         <ion-label class="signup">S'inscrire</ion-label>
-         <div class="two-forms">
+        <div class="two-forms">
           <ion-grid class="name-grid">
             <ion-row>
-            <div class="input-box">
-              <ion-icon name="person" slot="start" class="child"></ion-icon>
-            <ion-col size="6" class="col-left">
-            <input label="Nom" [(ngModel)]="user.Nom"   class="input-field" placeholder="Entrez votre Nom" >
-            </ion-col>
-          </div>
-          <br>
-            <div class="input-box">
-              <ion-icon name="person" slot="end" class="part"></ion-icon>
-              <ion-col size="6" class="col-right">
-            <input label="Prenom" [(ngModel)]="user.Prenom" class="input-field"  placeholder="Entrez votre Prenom" >
-           </ion-col>
-           
-           </div>
-          </ion-row>
+              <div class="input-box">
+                <ion-icon name="person" slot="start" class="child"></ion-icon>
+                <ion-col size="6" class="col-left">
+                  <input label="Nom" [(ngModel)]="user.nom" class="input-field" placeholder="Entrez votre Nom"
+                    required />
+                </ion-col>
+              </div>
+              <br />
+              <div class="input-box">
+                <ion-icon name="person" slot="end" class="part"></ion-icon>
+                <ion-col size="6" class="col-right">
+                  <input label="Prenom" [(ngModel)]="user.prenom" class="input-field" placeholder="Entrez votre Prenom"
+                    required />
+                </ion-col>
+              </div>
+            </ion-row>
           </ion-grid>
-         <br>
-           <div class="input-box">
-           <ion-icon name="mail" slot="start" class="first"></ion-icon>
-           <input label="Email"  [(ngModel)]="user.Email" class="input-field"  placeholder="Entrez votre Email" type="email" >
-           
-           </div>
-         <br>
-           <div class="input-box">
-          <ion-icon name="lock-closed" slot="start" class="second"></ion-icon>
-          <input label="Password"  [(ngModel)]="user.Password"  class="input-field"  placeholder="Entrez votre password" type="password" >
-          
+          <br />
+          <div class="input-box">
+            <ion-icon name="mail" slot="start" class="first"></ion-icon>
+            <input label="Email" [(ngModel)]="user.email" class="input-field" placeholder="Entrez votre Email"
+              type="email" required />
           </div>
-         <br>
-         </div>
-         <label><a  class="role">Je suis:</a></label>
-    <ion-radio-group [(ngModel)]="user.role">
-      <div class="input-box">
-        <ion-radio value="developer" class="bloc">Développeur</ion-radio>
- 
-        <ion-radio value="entrepreneur" class="block">Entrepreneur</ion-radio>
-      </div>
-    </ion-radio-group>
-          
+          <br />
+          <div class="input-box">
+            <ion-icon name="lock-closed" slot="start" class="second"></ion-icon>
+            <input label="Password" [(ngModel)]="user.password" class="input-field" placeholder="Entrez votre password"
+              type="password" required />
+          </div>
+          <br />
+        </div>
+        <label><a class="role">Je suis:</a></label>
+        <ion-radio-group [(ngModel)]="user.role" required>
+          <div class="input-box">
+            <ion-radio value="developer" class="bloc">Développeur</ion-radio>
+
+            <ion-radio value="entrepreneur" class="block">Entrepreneur</ion-radio>
+          </div>
+        </ion-radio-group>
       </div>
     </div>
-    </ion-card>
-    
-   <ion-button  (click)="register()" class="center-btn" >S'inscrire</ion-button>
+  </ion-card>
 
-  </ion-content>
-
-
-
-
-  
+  <ion-button (click)="register()" class="center-btn" color="primary"
+    [disabled]="!user || !user.email || !user.password || !user.nom || !user.prenom || !user.role">S'inscrire</ion-button>
+</ion-content>

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router,ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ModalController } from '@ionic/angular'; 
+import { ModalController } from '@ionic/angular';
 
 import { ParametresPage } from '../parametres/parametres.page';
+import { environment } from 'src/environments/environment';
 
 export interface Notification {
   id?: number;
@@ -17,9 +18,8 @@ export interface Notification {
   statut: 'En attente' | 'Acceptée' | 'Terminée';
   date_postulation: string;
   developpeurEvalue?: boolean;
-    developpeur_user_id?: number;
+  developpeur_user_id?: number;
 }
-
 
 @Component({
   selector: 'app-notification',
@@ -28,8 +28,8 @@ export interface Notification {
   standalone: false
 })
 export class NotificationPage implements OnInit {
+  private apiUrl = environment.apiUrl;
 
-  private apiUrl = 'http://localhost/myApp/api';
   selectedTab = 'pending';
   notifications: Notification[] = [];
   displayedNotifications: Notification[] = [];
@@ -41,8 +41,8 @@ export class NotificationPage implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-     private route: ActivatedRoute,
-    private modalController: ModalController 
+    private route: ActivatedRoute,
+    private modalController: ModalController
   ) {}
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
@@ -51,46 +51,53 @@ export class NotificationPage implements OnInit {
       }
       this.loadNotifications();
     });
-        this.loadBadges();
-  this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
-
-}
+    this.loadBadges();
+    this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+  }
   ionViewWillEnter() {
     this.loadNotifications();
-  } 
- loadNotifications() {
+  }
+  loadNotifications() {
     const userId = localStorage.getItem('userId');
-    this.http.get<Notification[]>(
-        `${this.apiUrl}/get_candidatures_entrepreneur.php?userId=${userId}`)
-        .subscribe({
-            next: (candidatures) => {
-                this.notifications = candidatures;
-                this.filterNotifications();
-            },
-            error: () => {}
-        });
-}
+    this.http
+      .get<Notification[]>(
+        `${this.apiUrl}/get_candidatures_entrepreneur.php?userId=${userId}`
+      )
+      .subscribe({
+        next: candidatures => {
+          this.notifications = candidatures;
+          this.filterNotifications();
+        },
+        error: () => {}
+      });
+  }
   onTabChange() {
     this.filterNotifications();
   }
   filterNotifications() {
-    switch(this.selectedTab) {
+    switch (this.selectedTab) {
       case 'all':
         this.displayedNotifications = [...this.notifications];
         break;
       case 'pending':
-        this.displayedNotifications = this.notifications.filter(n => n.statut === 'En attente');
+        this.displayedNotifications = this.notifications.filter(
+          n => n.statut === 'En attente'
+        );
         break;
       case 'accepted':
-        this.displayedNotifications = this.notifications.filter(n => n.statut === 'Acceptée');
-        break;   
-        case 'completed':
-    this.displayedNotifications = this.notifications.filter(n => n.statut === 'Terminée');
-    break;
+        this.displayedNotifications = this.notifications.filter(
+          n => n.statut === 'Acceptée'
+        );
+        break;
+      case 'completed':
+        this.displayedNotifications = this.notifications.filter(
+          n => n.statut === 'Terminée'
+        );
+        break;
     }
   }
   getStatusColor(status: string): string {
-    switch(status) {
+    switch (status) {
       case 'En attente':
         return 'warning';
       case 'Acceptée':
@@ -102,18 +109,9 @@ export class NotificationPage implements OnInit {
     }
   }
   accepter(notif: Notification) {
-    if (!notif.id) return; 
-    this.http.put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=accepter`, {})    
-    .subscribe({
-        next: () => {
-          this.loadNotifications();
-        },
-        error: () => {}
-      });
-  }
-  refuser(notif: Notification) {
-    if (!notif.id) return;    
-    this.http.put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=refuser`, {})
+    if (!notif.id) return;
+    this.http
+      .put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=accepter`, {})
       .subscribe({
         next: () => {
           this.loadNotifications();
@@ -121,54 +119,66 @@ export class NotificationPage implements OnInit {
         error: () => {}
       });
   }
- contacterDeveloppeur(notif: Notification) {
+  refuser(notif: Notification) {
+    if (!notif.id) return;
+    this.http
+      .put(`${this.apiUrl}/candidature.php?id=${notif.id}&action=refuser`, {})
+      .subscribe({
+        next: () => {
+          this.loadNotifications();
+        },
+        error: () => {}
+      });
+  }
+  contacterDeveloppeur(notif: Notification) {
     this.router.navigate(['/chat'], {
-        queryParams: { 
-            projectId: notif.project_id,
-            userId: notif.developpeur_user_id  
-        }
+      queryParams: {
+        projectId: notif.project_id,
+        userId: notif.developpeur_user_id
+      }
     });
-}
+  }
   evaluerDeveloppeur(notif: Notification) {
     this.router.navigate(['/evaluation'], {
-        state: {
-            projet: {
-                id: notif.project_id,
-                Nomduprojet: notif.Nomduprojet,
-                Publierparentreprise: notif.Nomdev
-            },
-            type: 'entrepreneur',
-            developpeurId: notif.developpeur_id
-        }
+      state: {
+        projet: {
+          id: notif.project_id,
+          Nomduprojet: notif.Nomduprojet,
+          Publierparentreprise: notif.Nomdev
+        },
+        type: 'entrepreneur',
+        developpeurId: notif.developpeur_id
+      }
     });
-}
-async ouvrirParametre() {
+  }
+  async ouvrirParametre() {
     const modal = await this.modalController.create({
       component: ParametresPage,
       cssClass: 'settings-modal'
     });
     return await modal.present();
   }
-  
-loadBadges() {
-  const userId = localStorage.getItem('userId');
-  const role = localStorage.getItem('role');
-  this.http.get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
-    .subscribe({
-      next: (data) => {
-        this.messagesNonLus = data.messages;
-        this.notificationsCount = data.notifications;
-        this.enCoursCount = data.en_cours;
-        this.terminesCount = data.termines;
-      },
-      error: () => {}
-    });
-}
-ionViewWillLeave() {
-  if (this.badgeInterval) clearInterval(this.badgeInterval);
-}
+
+  loadBadges() {
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+    this.http
+      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+      .subscribe({
+        next: data => {
+          this.messagesNonLus = data.messages;
+          this.notificationsCount = data.notifications;
+          this.enCoursCount = data.en_cours;
+          this.terminesCount = data.termines;
+        },
+        error: () => {}
+      });
+  }
+  ionViewWillLeave() {
+    if (this.badgeInterval) clearInterval(this.badgeInterval);
+  }
   goTo(tab: string) {
-    switch(tab) {
+    switch (tab) {
       case 'notification':
         break;
       case 'accueil':
@@ -180,9 +190,9 @@ ionViewWillLeave() {
       case 'conversations':
         this.router.navigate(['/conversations']);
         break;
-        case 'dashboard':
-          this.router.navigate(['/dashboard-entrepreneur']);
-          break;
+      case 'dashboard':
+        this.router.navigate(['/dashboard-entrepreneur']);
+        break;
       case 'parametres':
         this.router.navigate(['/parametres']);
         break;

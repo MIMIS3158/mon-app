@@ -30,7 +30,7 @@ ion-content {
           -webkit-text-fill-color: transparent;
           background-clip: text;
           &::after {
-            content: '';
+            content: "";
             display: block;
             width: 60px;
             height: 4px;
@@ -156,7 +156,7 @@ ion-content {
               color: #4a5568;
               cursor: pointer;
               &::part(container) {
-                display: none; 
+                display: none;
               }
               &::part(label) {
                 padding: 0;

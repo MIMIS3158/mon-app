@@ -13,7 +13,7 @@ import { DescriptionPage } from './description.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    HttpClientModule, 
+    HttpClientModule,
     DescriptionPageRoutingModule
   ],
   declarations: [DescriptionPage]

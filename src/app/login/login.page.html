@@ -1,25 +1,24 @@
-
 <ion-content>
- <ion-card>
-  <div class="register-container" id="register"> <div class="two">
-            <label>Pas de compte ? <a  routerLink="/signup">S'inscrire</a></label>
-          </div>
+  <ion-card>
+    <div class="register-container" id="register">
+      <div class="two">
+        <label>Pas de compte ? <a routerLink="/signup">S'inscrire</a></label>
+      </div>
 
-        <ion-label class="signin">Se connecter</ion-label>
-          <div class="input-box">
-           <ion-icon name="person" slot="start" class="child"></ion-icon>
-          <input label="Username"  [(ngModel)]="user.Email" class="input-field"  placeholder="User ou Email"   >
-           </div>
-         <br>
-           <div class="input-box">
-          <ion-icon name="lock-closed" slot="start" class="part"></ion-icon>
-          <input label="Password"  [(ngModel)]="user.Password"  class="input-field"  placeholder="Entrez votre password" type="password"  >
-           </div>
-           <label> <a  routerLink="/forgot-password">Forgot password?</a></label>
-          </div>
-        </ion-card>
-        <ion-button (click)="login()"  class="center-btn" >Se connecter</ion-button>  
-        </ion-content>
-        
-
-
+      <ion-label class="signin">Se connecter</ion-label>
+      <div class="input-box">
+        <ion-icon name="person" slot="start" class="child"></ion-icon>
+        <input label="Username" [(ngModel)]="user.email" class="input-field" placeholder="Votre Email" />
+      </div>
+      <br />
+      <div class="input-box">
+        <ion-icon name="lock-closed" slot="start" class="part"></ion-icon>
+        <input label="Password" [(ngModel)]="user.password" class="input-field" placeholder="Votre mot de passe"
+          type="password" />
+      </div>
+      <label> <a routerLink="/forgot-password">Mot de pase oublié?</a></label>
+    </div>
+  </ion-card>
+  <ion-button (click)="login()" class="center-btn" shape="round" color="primary"
+    [disabled]="!user || !user.email || !user.password">Se connecter</ion-button>
+</ion-content>

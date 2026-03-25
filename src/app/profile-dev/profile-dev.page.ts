@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AlertsService } from '../shared/services/alerts.service';
 
 @Component({
   selector: 'app-profile-dev',
@@ -9,8 +11,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: false
 })
 export class ProfileDevPage implements OnInit {
-
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
 
   Nomdev: string = '';
   Prenomdev: string = '';
@@ -20,7 +21,7 @@ export class ProfileDevPage implements OnInit {
   CompetencesTechniques: string = '';
   Experience: string = '';
   portfolio: File | null = null;
-  profileImage: string = 'assets/téléchargement (10).jpeg';
+  profileImage: string = 'assets/profile_avatar.jpeg';
   profileImageFile: File | null = null;
   SelectedFileName: string | null = null;
   Niveau: string = '';
@@ -35,40 +36,41 @@ export class ProfileDevPage implements OnInit {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private alertsService: AlertsService
   ) {}
 
- ngOnInit() {
+  ngOnInit() {
     const selectedDev = localStorage.getItem('selectedDeveloper');
     if (selectedDev) {
-        const dev = JSON.parse(selectedDev);
-        this.isViewMode = true; 
-        this.Nomdev = dev.Nomdev || '';
-        this.Prenomdev = dev.Prenomdev || '';
-        this.CompetencesTechniques = dev.CompetencesTechniques || '';
-        this.Experience = dev.Experience || '';
-        this.Niveau = dev.Niveau || '';
-        this.Ville = dev.Ville || '';
-        this.Pays = dev.Pays || '';
-        this.Github = dev.Github || '';
-        this.profileImage = dev.photo || 'assets/téléchargement (10).jpeg';
-        this.SelectedFileName = dev.Portfolio || null;
-        localStorage.removeItem('selectedDeveloper');
-        return;
+      const dev = JSON.parse(selectedDev);
+      this.isViewMode = true;
+      this.Nomdev = dev.Nomdev || '';
+      this.Prenomdev = dev.Prenomdev || '';
+      this.CompetencesTechniques = dev.CompetencesTechniques || '';
+      this.Experience = dev.Experience || '';
+      this.Niveau = dev.Niveau || '';
+      this.Ville = dev.Ville || '';
+      this.Pays = dev.Pays || '';
+      this.Github = dev.Github || '';
+      this.profileImage = dev.photo || 'assets/profile_avatar.jpeg';
+      this.SelectedFileName = dev.Portfolio || null;
+      localStorage.removeItem('selectedDeveloper');
+      return;
     }
     this.isViewMode = false;
     this.loadProfile();
-   
-}
+  }
 
-  isViewMode: boolean = false; 
+  isViewMode: boolean = false;
 
   loadProfile() {
     const userId = localStorage.getItem('userId');
     if (!userId) return;
-    this.http.get<any>(`${this.apiUrl}/profile_dev.php?userId=${userId}`)
+    this.http
+      .get<any>(`${this.apiUrl}/profile_dev.php?userId=${userId}`)
       .subscribe({
-        next: (profile) => {
+        next: profile => {
           if (!profile || Object.keys(profile).length === 0) return;
           this.Nomdev = profile.Nomdev || '';
           this.Prenomdev = profile.Prenomdev || '';
@@ -77,7 +79,8 @@ export class ProfileDevPage implements OnInit {
           this.Telephone = profile.Telephone || '';
           this.CompetencesTechniques = profile.CompetencesTechniques || '';
           this.Experience = profile.Experience || '';
-          this.profileImage = profile.profileImage || 'assets/téléchargement (10).jpeg';
+          this.profileImage =
+            profile.profileImage || 'assets/profile_avatar.jpeg';
           this.SelectedFileName = profile.portfolio || null;
           this.Niveau = profile.Niveau || '';
           this.DateNaissance = profile.DateNaissance || '';
@@ -119,7 +122,7 @@ export class ProfileDevPage implements OnInit {
     }
   }
 
-    enregistrerProfil() {
+  enregistrerProfil() {
     const formData = new FormData();
     formData.append('action', 'add');
     formData.append('user_id', localStorage.getItem('userId') || '');
@@ -136,25 +139,22 @@ export class ProfileDevPage implements OnInit {
     formData.append('Ville', this.Ville);
     formData.append('Biographie', this.Biographie);
     formData.append('Github', this.Github);
-    if (this.profileImageFile) formData.append('profileImage', this.profileImageFile);
+    if (this.profileImageFile)
+      formData.append('profileImage', this.profileImageFile);
     if (this.portfolio) formData.append('portfolio', this.portfolio);
 
     console.log(' Enregistrement en cours...');
-    alert(" PROFIL ENREGISTRÉ !");
-        
-      
+    this.alertsService.alert(' PROFIL ENREGISTRÉ !');
 
-    this.http.post(`${this.apiUrl}/profile_dev.php`, formData)
-      .subscribe({
-        next: (response: any) => {
-          console.log(' Profil enregistré avec succès !', response);
-          this.loadProfile();
-        },
-        error: (err: any) => {
-          console.error(' Erreur enregistrement:', err);
-        }
-      });
-      
+    this.http.post(`${this.apiUrl}/profile_dev.php`, formData).subscribe({
+      next: (response: any) => {
+        console.log(' Profil enregistré avec succès !', response);
+        this.loadProfile();
+      },
+      error: (err: any) => {
+        console.error(' Erreur enregistrement:', err);
+      }
+    });
   }
 
   ModifierProfil() {
@@ -174,32 +174,32 @@ export class ProfileDevPage implements OnInit {
     formData.append('Ville', this.Ville);
     formData.append('Biographie', this.Biographie);
     formData.append('Github', this.Github);
-    if (this.profileImageFile) formData.append('profileImage', this.profileImageFile);
+    if (this.profileImageFile)
+      formData.append('profileImage', this.profileImageFile);
     if (this.portfolio) formData.append('portfolio', this.portfolio);
 
     console.log(' Modification en cours...');
     console.log('user_id:', localStorage.getItem('userId'));
 
-    this.http.post(`${this.apiUrl}/profile_dev.php`, formData)
-      .subscribe({
-        next: (response: any) => {
-          console.log(' Profil modifié avec succès !', response);
-          alert(" PROFIL MODIFIÉ !");
-          this.loadProfile();
-          
-         
-        },
-        error: (err: any) => {
-          console.error(' Erreur modification:', err);
-        }
-      });
+    this.http.post(`${this.apiUrl}/profile_dev.php`, formData).subscribe({
+      next: (response: any) => {
+        console.log(' Profil modifié avec succès !', response);
+        this.alertsService.alert(' PROFIL MODIFIÉ !');
+        this.loadProfile();
+      },
+      error: (err: any) => {
+        console.error(' Erreur modification:', err);
+      }
+    });
   }
   contacter() {
-    const selectedDev = JSON.parse(localStorage.getItem('selectedDeveloper') || '{}');
+    const selectedDev = JSON.parse(
+      localStorage.getItem('selectedDeveloper') || '{}'
+    );
     this.router.navigate(['/chat'], {
-        queryParams: { 
-            developerId: selectedDev.id
-        }
+      queryParams: {
+        developerId: selectedDev.id
+      }
     });
-}
+  }
 }

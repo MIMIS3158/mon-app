@@ -8,15 +8,12 @@ import { AccueilEntrepreneurPageRoutingModule } from './accueil-entrepreneur-rou
 
 import { AccueilEntrepreneurPage } from './accueil-entrepreneur.page';
 
-
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    AccueilEntrepreneurPageRoutingModule,
-  
+    AccueilEntrepreneurPageRoutingModule
   ],
   declarations: [AccueilEntrepreneurPage]
 })

@@ -18,4 +18,3 @@ import { DeconnexionPage } from './signout.page';
   declarations: [DeconnexionPage]
 })
 export class SignoutPageModule {}
-

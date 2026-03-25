@@ -8,37 +8,115 @@
 </ion-header>
 
 <ion-content>
- <ion-card-content>
-  <h1 class="title">Mon Profil </h1>
-   <div class="profile-container">
-  <img [src]="profileImage" class="profile-image" (click)="selectImage()" />
-  <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)">
-</div>
- <ion-input label="Nom" [(ngModel)]="Nom" name="Nom" placeholder="Entrez votre Nom"></ion-input>
- <ion-input label="Prenom" [(ngModel)]="Prenom" name="Prenom" placeholder="Entrez votre Prenom"></ion-input>
- <ion-input label="Email" [(ngModel)]="Email" name="Email" placeholder="Entrez votre Email" type="email"></ion-input>
- <ion-input label="Telephone" [(ngModel)]="Telephone" name="tlp" placeholder="Entrez votre Telephone" type="Number"></ion-input>
- <ion-input label="Secteur" [(ngModel)]="Secteur" name="sctr" placeholder="Entrez votre Secteur"></ion-input>
- <ion-input label="Entreprise" [(ngModel)]="Entreprise" name="entrp" placeholder="Entrez votre Entreprise"></ion-input>
- <ion-input label="Description" [(ngModel)]="Description" name="desc" placeholder="Entrez votre Description"></ion-input>
-<ion-input label="Date de naissance" [(ngModel)]="DateNaissance" type="date"></ion-input>
-<ion-input label="Pays" [(ngModel)]="Pays" placeholder="Entrez votre pays"></ion-input>
-<ion-input label="Ville" [(ngModel)]="Ville" placeholder="Entrez votre ville"></ion-input>
-<ion-input label="Site web" [(ngModel)]="SiteWeb" placeholder="Lien site web"></ion-input>
-<ion-input label="LinkedIn" [(ngModel)]="Linkedin" placeholder="Lien LinkedIn"></ion-input>
-<ion-select label="Taille entreprise" [(ngModel)]="TailleEntreprise" placeholder="Choisir la taille">
-  <ion-select-option value="1-10">1-10</ion-select-option>
-  <ion-select-option value="11-50">11-50</ion-select-option>
-  <ion-select-option value="51-200">51-200</ion-select-option>
-  <ion-select-option value="200+">200+</ion-select-option>
-</ion-select>
-<ion-input label="Année de création" [(ngModel)]="AnneeCreation" type="number" placeholder="............"></ion-input>
-<ion-input label="Budget moyen (DA)" [(ngModel)]="BudgetMoyen" type="number" placeholder=".........."></ion-input>
+  <ion-card-content>
+    <h1 class="title">Mon Profil</h1>
+    <div class="profile-container">
+      <img [src]="profileImage" class="profile-image" (click)="selectImage()" />
+      <input
+        type="file"
+        #fileInput
+        hidden
+        accept="image/*"
+        (change)="onImageSelected($event)"
+      />
+    </div>
+    <ion-input
+      label="Nom"
+      [(ngModel)]="Nom"
+      name="Nom"
+      placeholder="Entrez votre Nom"
+    ></ion-input>
+    <ion-input
+      label="Prenom"
+      [(ngModel)]="Prenom"
+      name="Prenom"
+      placeholder="Entrez votre Prenom"
+    ></ion-input>
+    <ion-input
+      label="Email"
+      [(ngModel)]="Email"
+      name="Email"
+      placeholder="Entrez votre Email"
+      type="email"
+    ></ion-input>
+    <ion-input
+      label="Telephone"
+      [(ngModel)]="Telephone"
+      name="tlp"
+      placeholder="Entrez votre Telephone"
+      type="Number"
+    ></ion-input>
+    <ion-input
+      label="Secteur"
+      [(ngModel)]="Secteur"
+      name="sctr"
+      placeholder="Entrez votre Secteur"
+    ></ion-input>
+    <ion-input
+      label="Entreprise"
+      [(ngModel)]="Entreprise"
+      name="entrp"
+      placeholder="Entrez votre Entreprise"
+    ></ion-input>
+    <ion-input
+      label="Description"
+      [(ngModel)]="Description"
+      name="desc"
+      placeholder="Entrez votre Description"
+    ></ion-input>
+    <ion-input
+      label="Date de naissance"
+      [(ngModel)]="DateNaissance"
+      type="date"
+    ></ion-input>
+    <ion-input
+      label="Pays"
+      [(ngModel)]="Pays"
+      placeholder="Entrez votre pays"
+    ></ion-input>
+    <ion-input
+      label="Ville"
+      [(ngModel)]="Ville"
+      placeholder="Entrez votre ville"
+    ></ion-input>
+    <ion-input
+      label="Site web"
+      [(ngModel)]="SiteWeb"
+      placeholder="Lien site web"
+    ></ion-input>
+    <ion-input
+      label="LinkedIn"
+      [(ngModel)]="Linkedin"
+      placeholder="Lien LinkedIn"
+    ></ion-input>
+    <ion-select
+      label="Taille entreprise"
+      [(ngModel)]="TailleEntreprise"
+      placeholder="Choisir la taille"
+    >
+      <ion-select-option value="1-10">1-10</ion-select-option>
+      <ion-select-option value="11-50">11-50</ion-select-option>
+      <ion-select-option value="51-200">51-200</ion-select-option>
+      <ion-select-option value="200+">200+</ion-select-option>
+    </ion-select>
+    <ion-input
+      label="Année de création"
+      [(ngModel)]="AnneeCreation"
+      type="number"
+      placeholder="............"
+    ></ion-input>
+    <ion-input
+      label="Budget moyen (DA)"
+      [(ngModel)]="BudgetMoyen"
+      type="number"
+      placeholder=".........."
+    ></ion-input>
+  </ion-card-content>
 
-</ion-card-content>
-
- <ion-button class="center-btn" expand="block" (click)="enregistrerProfil()">Enregistrer</ion-button>
- <ion-button class="border-btn" expand="block" (click)="ModifierProfil()">Modifier</ion-button>
-
-
+  <ion-button class="center-btn" expand="block" (click)="enregistrerProfil()"
+    >Enregistrer</ion-button
+  >
+  <ion-button class="border-btn" expand="block" (click)="ModifierProfil()"
+    >Modifier</ion-button
+  >
 </ion-content>

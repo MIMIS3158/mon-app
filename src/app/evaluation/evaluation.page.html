@@ -25,12 +25,20 @@
       <div class="opinion-section">
         <ion-label class="section-label">Type d'avis</ion-label>
         <div class="opinion-buttons">
-          <ion-button [class.active]="avisType === 'positif'"  (click)="avisType = 'positif'"  class="opinion-btn positive">
+          <ion-button
+            [class.active]="avisType === 'positif'"
+            (click)="avisType = 'positif'"
+            class="opinion-btn positive"
+          >
             <ion-icon name="thumbs-up" slot="start"></ion-icon>
             Positif
           </ion-button>
-          
-          <ion-button  [class.active]="avisType === 'negatif'"  (click)="avisType = 'negatif'"  class="opinion-btn negative">
+
+          <ion-button
+            [class.active]="avisType === 'negatif'"
+            (click)="avisType = 'negatif'"
+            class="opinion-btn negative"
+          >
             <ion-icon name="thumbs-down" slot="start"></ion-icon>
             Négatif
           </ion-button>
@@ -39,25 +47,34 @@
       <div class="rating-section">
         <ion-label class="section-label">Note</ion-label>
         <div class="stars">
-          <ion-icon 
-            *ngFor="let n of [1,2,3,4,5]" 
+          <ion-icon
+            *ngFor="let n of [1,2,3,4,5]"
             [name]="n <= note ? 'star' : 'star-outline'"
-            (click)="note = n">
+            (click)="note = n"
+          >
           </ion-icon>
         </div>
         <p class="note-text">{{ getNoteText() }}</p>
       </div>
       <div class="comment-section">
         <ion-label class="section-label">Commentaire</ion-label>
-        <ion-textarea [(ngModel)]="commentaire"   rows="5"  placeholder="Partagez votre expérience..."  class="comment-textarea">
+        <ion-textarea
+          [(ngModel)]="commentaire"
+          rows="5"
+          placeholder="Partagez votre expérience..."
+          class="comment-textarea"
+        >
         </ion-textarea>
       </div>
-      <ion-button expand="block" (click)="publierAvis()" [disabled]="!note || !commentaire || !avisType"  class="submit-btn">
+      <ion-button
+        expand="block"
+        (click)="publierAvis()"
+        [disabled]="!note || !commentaire || !avisType"
+        class="submit-btn"
+      >
         <ion-icon name="send" slot="start"></ion-icon>
         Publier l'avis
       </ion-button>
-      
     </ion-card-content>
   </ion-card>
-
 </ion-content>

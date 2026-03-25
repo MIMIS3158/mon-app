@@ -16,4 +16,3 @@ import { ProjetCreationPage } from './projet-creation.page';
   declarations: [ProjetCreationPage]
 })
 export class ProjetCreationPageModule {}
-

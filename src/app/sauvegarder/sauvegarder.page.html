@@ -23,7 +23,7 @@
       <ion-card-subtitle>{{ projet.Publierparentreprise }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p>{{ projet.Descriptionduprojet }}</p>
+      <p>{{ projet.description }}</p>
       <ion-grid>
         <ion-row>
           <ion-col size="6">
@@ -40,11 +40,11 @@
         </ion-row>
       </ion-grid>
       <div style="display: flex; gap: 10px;">
-        <ion-button  (click)="ouvrirProjet(projet)" style="flex: 1;">
+        <ion-button (click)="ouvrirProjet(projet)" style="flex: 1;">
           <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
           Postuler
         </ion-button>
-        <ion-button  expand="block" color="danger"  fill="outline" (click)="supprimerFavori(projet.id)" style="flex: 1;">
+        <ion-button expand="block" color="danger" fill="outline" (click)="supprimerFavori(projet.id)" style="flex: 1;">
           <ion-icon name="bookmark" slot="start"></ion-icon>
           Retirer
         </ion-button>

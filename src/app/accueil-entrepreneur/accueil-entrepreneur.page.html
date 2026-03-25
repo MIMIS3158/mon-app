@@ -1,60 +1,58 @@
 <ion-header>
   <ion-toolbar>
     <ion-title class="Accueil">Accueil Entrepreneur</ion-title>
-  </ion-toolbar> 
+  </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar placeholder="Rechercher un développeur" [(ngModel)]="searchTerm" (ionInput)="onSearch()" class="searchbar" >
-    </ion-searchbar>  
+    <ion-searchbar placeholder="Rechercher un développeur" [(ngModel)]="searchTerm" (ionInput)="onSearch()"
+      class="searchbar">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-padding">
   <ion-list *ngIf="searchTerm.length > 0">
-  <ion-item *ngFor="let dev of filteredDevelopers" (click)="viewProfile(dev)" button>
-    <ion-label>
-      <h2>{{ dev.Nomdev }} {{ dev.Prenomdev }}</h2>
-    
-<div class="stars">
-  <ion-icon *ngFor="let s of getStars(dev.moyenneNote); let i = index"
-    [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'"
-    color="warning">
-  </ion-icon>
-  <span class="note-text" *ngIf="dev.moyenneNote">{{ dev.moyenneNote | number:'1.1-1' }}/5</span>
-  <span class="note-text" *ngIf="!dev.moyenneNote">Pas encore évalué</span>
-</div>
-      <ion-badge *ngIf="dev.Niveau" color="primary">{{ dev.Niveau }}</ion-badge>
-      <ion-badge *ngIf="dev.Disponibilite" 
-        [color]="dev.Disponibilite === 'disponible' ? 'success' : 'danger'">
-        {{ dev.Disponibilite }}
-      </ion-badge>
-     <p>Compétences: {{ dev.CompetencesTechniques }}</p>
-<p *ngIf="dev.Experience">
-  <ion-icon name="time-outline"></ion-icon>
-  Expérience: {{ dev.Experience }}
-</p>
-<p *ngIf="dev.Portfolio">
-  Portfolio: {{ dev.Portfolio }}
-</p>
-      <p *ngIf="dev.Ville">
-        <ion-icon name="location-outline"></ion-icon>
-        {{ dev.Ville }}, {{ dev.Pays }}
-      </p>
-      <p *ngIf="dev.Github">
-        <ion-icon name="logo-github"></ion-icon>
-        <a [href]="dev.Github" target="_blank">GitHub</a>
-      </p>
-      <p *ngIf="dev.TarifJournalier">
-        <ion-icon name="cash-outline"></ion-icon>
-        {{ dev.TarifJournalier }} DA/jour
-      </p>
-    </ion-label>
-    <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
-  </ion-item>
-</ion-list>
+    <ion-item *ngFor="let dev of filteredDevelopers" (click)="viewProfile(dev)" button>
+      <ion-label>
+        <h2>{{ dev.Nomdev }} {{ dev.Prenomdev }}</h2>
+
+        <div class="stars">
+          <ion-icon *ngFor="let s of getStars(dev.moyenneNote); let i = index"
+            [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'" color="warning">
+          </ion-icon>
+          <span class="note-text" *ngIf="dev.moyenneNote">{{ dev.moyenneNote | number:'1.1-1' }}/5</span>
+          <span class="note-text" *ngIf="!dev.moyenneNote">Pas encore évalué</span>
+        </div>
+        <ion-badge *ngIf="dev.Niveau" color="primary">{{ dev.Niveau }}</ion-badge>
+        <ion-badge *ngIf="dev.Disponibilite" [color]="dev.Disponibilite === 'disponible' ? 'success' : 'danger'">
+          {{ dev.Disponibilite }}
+        </ion-badge>
+        <p>Compétences: {{ dev.CompetencesTechniques }}</p>
+        <p *ngIf="dev.Experience">
+          <ion-icon name="time-outline"></ion-icon>
+          Expérience: {{ dev.Experience }}
+        </p>
+        <p *ngIf="dev.Portfolio">
+          Portfolio: {{ dev.Portfolio }}
+        </p>
+        <p *ngIf="dev.Ville">
+          <ion-icon name="location-outline"></ion-icon>
+          {{ dev.Ville }}, {{ dev.Pays }}
+        </p>
+        <p *ngIf="dev.Github">
+          <ion-icon name="logo-github"></ion-icon>
+          <a [href]="dev.Github" target="_blank">GitHub</a>
+        </p>
+        <p *ngIf="dev.TarifJournalier">
+          <ion-icon name="cash-outline"></ion-icon>
+          {{ dev.TarifJournalier }} DA/jour
+        </p>
+      </ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+  </ion-list>
+
   <ion-grid class="stats-grid">
     <ion-row>
-     
-     
-       <ion-col size="12" size-md="3">
+      <ion-col size="12" size-md="3">
         <ion-card (click)="goToMesProjets()" button class="stat-card">
           <ion-card-content>
             <div class="stat-content">
@@ -67,116 +65,112 @@
           </ion-card-content>
         </ion-card>
       </ion-col>
-<ion-col size="12" size-md="3">
-  <ion-card (click)="goToPostulations()" button class="stat-card">
-    <ion-card-content>
-      <div class="stat-content">
-        <div style="position: relative; display: inline-block;">
-          <ion-icon name="people-outline"></ion-icon>
-          <span *ngIf="notificationsCount > 0" class="badge-notif">
-            {{ notificationsCount > 9 ? '9+' : notificationsCount }}
-          </span>
-        </div>
-        <div>
-          <h2>Postulations</h2>
-          <p>Candidatures reçues</p>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
-</ion-col>
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToPostulations()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <div style="position: relative; display: inline-block;">
+                <ion-icon name="people-outline"></ion-icon>
+                <span *ngIf="notificationsCount > 0" class="badge-notif">
+                  {{ notificationsCount > 9 ? '9+' : notificationsCount }}
+                </span>
+              </div>
+              <div>
+                <h2>Candidatures</h2>
+                <p>Suivi des demandes</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToEnCours()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <div style="position: relative; display: inline-block;">
+                <ion-icon name="time-outline"></ion-icon>
+                <span *ngIf="enCoursCount > 0" class="badge-notif">
+                  {{ enCoursCount > 9 ? '9+' : enCoursCount }}
+                </span>
+              </div>
+              <div>
+                <h2>En cours</h2>
+                <p>Projets actifs</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
 
-<ion-col size="12" size-md="3">
-  <ion-card (click)="goToEnCours()" button class="stat-card">
-    <ion-card-content>
-      <div class="stat-content">
-        <div style="position: relative; display: inline-block;">
-          <ion-icon name="time-outline"></ion-icon>
-          <span *ngIf="enCoursCount > 0" class="badge-notif">
-            {{ enCoursCount > 9 ? '9+' : enCoursCount }}
-          </span>
-        </div>
-        <div>
-          <h2>En cours</h2>
-          <p>Projets actifs</p>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
-</ion-col>
-
-
-<ion-col size="12" size-md="3">
-  <ion-card (click)="goToTermines()" button class="stat-card">
-    <ion-card-content>
-      <div class="stat-content">
-        <div style="position: relative; display: inline-block;">
-          <ion-icon name="checkmark-done-outline"></ion-icon>
-          <span *ngIf="terminesCount > 0" class="badge-notif">
-            {{ terminesCount > 9 ? '9+' : terminesCount }}
-          </span>
-        </div>
-        <div>
-          <h2>Terminés</h2>
-          <p>Projets clôturés</p>
-        </div>
-      </div>
-    </ion-card-content>
-  </ion-card>
-</ion-col>
+      <ion-col size="12" size-md="3">
+        <ion-card (click)="goToTermines()" button class="stat-card">
+          <ion-card-content>
+            <div class="stat-content">
+              <div style="position: relative; display: inline-block;">
+                <ion-icon name="checkmark-done-outline"></ion-icon>
+                <span *ngIf="terminesCount > 0" class="badge-notif">
+                  {{ terminesCount > 9 ? '9+' : terminesCount }}
+                </span>
+              </div>
+              <div>
+                <h2>Terminés</h2>
+                <p>Projets clôturés</p>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
     </ion-row>
   </ion-grid>
+
 </ion-content>
 <ion-footer slot="fixed">
   <ion-toolbar>
     <ion-grid>
       <ion-row class="grid">
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
             <ion-icon name="home"></ion-icon>
           </ion-button>
-        </ion-col>      
+        </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('profil')">
             <ion-icon name="person"></ion-icon>
           </ion-button>
-        </ion-col>       
+        </ion-col>
         <!--<ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
             <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
         </ion-col>  -->
-            
-<ion-col class="tab-button" text-center>
-  <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
-    <div style="position: relative; display: inline-block;">
-      <ion-icon name="chatbubbles"></ion-icon>
-      <span *ngIf="messagesNonLus > 0" class="badge-notif">
-        {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-      </span>
-    </div>
-  </ion-button>
-</ion-col>
-        
-        
-        
-       <!-- <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
+
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
+            <div style="position: relative; display: inline-block;">
+              <ion-icon name="chatbubbles"></ion-icon>
+              <span class="badge-notif" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </span>
+            </div>
+          </ion-button>
+        </ion-col>
+
+        <!-- <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('signout')">
             <ion-icon name="log-out"></ion-icon>
           </ion-button>
         </ion-col>-->
         <ion-col class="tab-button" text-center>
-        <ion-button  fill="clear" expand="full" (click)="goTo('dashboard')">
-  <ion-icon name="bar-chart-outline"></ion-icon>
-  
-</ion-button>
-</ion-col>
-         <ion-col class="tab-button" text-center>
-        <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
-        <ion-icon name="settings"></ion-icon>
-        </ion-button>
-      </ion-col>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard')">
+            <ion-icon name="bar-chart-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="openSettings()">
+            <ion-icon name="settings"></ion-icon>
+          </ion-button>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-toolbar>

@@ -1,8 +1,8 @@
-
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ToastController, AlertController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-evaluation',
@@ -11,11 +11,10 @@ import { ToastController, AlertController } from '@ionic/angular';
   standalone: false
 })
 export class EvaluationPage implements OnInit {
-
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
 
   projet: any = null;
-  idEvalue: number = 0; 
+  idEvalue: number = 0;
   type: 'developpeur' | 'entrepreneur' = 'developpeur';
   note: number = 0;
   commentaire: string = '';
@@ -31,7 +30,7 @@ export class EvaluationPage implements OnInit {
     if (navigation?.extras.state) {
       this.projet = navigation.extras.state['projet'];
       this.type = navigation.extras.state['type'];
-      
+
       if (this.type === 'developpeur') {
         this.idEvalue = navigation.extras.state['entrepreneurId'];
       } else {
@@ -48,17 +47,23 @@ export class EvaluationPage implements OnInit {
   }
 
   get typeEvalue(): string {
-    return this.type === 'developpeur' ? 'l\'entrepreneur' : 'le développeur';
+    return this.type === 'developpeur' ? "l'entrepreneur" : 'le développeur';
   }
 
   getNoteText(): string {
-    switch(this.note) {
-      case 1: return 'Très insatisfait';
-      case 2: return 'Insatisfait';
-      case 3: return 'Moyen';
-      case 4: return 'Satisfait';
-      case 5: return 'Excellent !';
-      default: return 'Sélectionnez une note';
+    switch (this.note) {
+      case 1:
+        return 'Très insatisfait';
+      case 2:
+        return 'Insatisfait';
+      case 3:
+        return 'Moyen';
+      case 4:
+        return 'Satisfait';
+      case 5:
+        return 'Excellent !';
+      default:
+        return 'Sélectionnez une note';
     }
   }
 
@@ -73,11 +78,11 @@ export class EvaluationPage implements OnInit {
       message: 'Êtes-vous sûr de vouloir publier cet avis ?',
       buttons: [
         { text: 'Annuler', role: 'cancel' },
-        { 
-          text: 'Publier', 
-          handler: () => { 
-            this.envoyerEvaluation(); 
-          } 
+        {
+          text: 'Publier',
+          handler: () => {
+            this.envoyerEvaluation();
+          }
         }
       ]
     });
@@ -95,18 +100,19 @@ export class EvaluationPage implements OnInit {
       user_id: localStorage.getItem('userId')
     };
 
-    this.http.post(`${this.apiUrl}/add_evaluation.php`, evaluationData)
+    this.http
+      .post(`${this.apiUrl}/add_evaluation.php`, evaluationData)
       .subscribe({
         next: (response: any) => {
           this.presentToast('Évaluation publiée avec succès !', 'success');
-          
+
           if (this.type === 'developpeur') {
             this.router.navigate(['/postulation']);
           } else {
             this.router.navigate(['/notification']);
           }
         },
-        error: (error) => {
+        error: error => {
           console.error('Erreur:', error);
           this.presentToast('Erreur lors de la publication', 'danger');
         }

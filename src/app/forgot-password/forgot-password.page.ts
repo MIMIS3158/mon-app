@@ -1,12 +1,20 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { NavController } from '@ionic/angular';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { environment } from 'src/environments/environment';
 
-
-function passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+function passwordMatchValidator(
+  group: AbstractControl
+): ValidationErrors | null {
   const pw = group.get('password')?.value;
   const confirm = group.get('confirm')?.value;
   return pw === confirm ? null : { mismatch: true };
@@ -21,20 +29,22 @@ function passwordMatchValidator(group: AbstractControl): ValidationErrors | null
     trigger('slideIn', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(20px)' }),
-        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+        animate(
+          '300ms ease-out',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        )
       ])
     ])
   ]
 })
 export class ForgotPasswordPage implements OnInit, OnDestroy {
+  private apiUrl = environment.apiUrl;
 
-  private apiUrl = 'http://localhost/myApp/api';
-
-  currentStep = 1;         
+  currentStep = 1;
   isLoading = false;
   errorMsg = '';
 
-  otpIndexes  = [0,1,2,3,4,5];
+  otpIndexes = [0, 1, 2, 3, 4, 5];
   otpDigits: string[] = ['', '', '', '', '', ''];
   resendTimer = 0;
   private timerInterval: any;
@@ -62,19 +72,24 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]]
     });
 
-    this.passwordForm = this.fb.group({
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      confirm: ['', Validators.required]
-    }, { validators: passwordMatchValidator });
+    this.passwordForm = this.fb.group(
+      {
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirm: ['', Validators.required]
+      },
+      { validators: passwordMatchValidator }
+    );
   }
 
   ngOnDestroy() {
     if (this.timerInterval) clearInterval(this.timerInterval);
   }
 
- 
   sendCode() {
-    if (this.emailForm.invalid) { this.emailForm.markAllAsTouched(); return; }
+    if (this.emailForm.invalid) {
+      this.emailForm.markAllAsTouched();
+      return;
+    }
     this.isLoading = true;
     this.errorMsg = '';
     const email = this.emailForm.get('email')?.value;
@@ -87,12 +102,12 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
       },
       error: (err: any) => {
         this.isLoading = false;
-        this.errorMsg = err?.error?.message || 'Email introuvable. Vérifiez votre adresse.';
+        this.errorMsg =
+          err?.error?.message || 'Email introuvable. Vérifiez votre adresse.';
       }
     });
   }
 
-  
   verifyCode() {
     const code = this.getOtpValue();
     if (code.length < 6) return;
@@ -100,26 +115,35 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     this.errorMsg = '';
     const email = this.emailForm.get('email')?.value;
 
-    this.http.post(`${this.apiUrl}/verify_code.php`, { email, code }).subscribe({
-      next: (res: any) => {
-        this.isLoading = false;
-        this.resetToken = res.reset_token;  
-        if (!this.resetToken) {
-          this.errorMsg = "Erreur: token manquant. Recommencez la vérification.";
-          return;
+    this.http
+      .post(`${this.apiUrl}/verify_code.php`, { email, code })
+      .subscribe({
+        next: (res: any) => {
+          this.isLoading = false;
+          this.resetToken = res.reset_token;
+          if (!this.resetToken) {
+            this.errorMsg =
+              'Erreur: token manquant. Recommencez la vérification.';
+            return;
+          }
+          this.currentStep = 3;
+        },
+        error: (err: any) => {
+          this.isLoading = false;
+          this.errorMsg = err?.error?.message || 'Code incorrect ou expiré.';
+          this.otpDigits = ['', '', '', '', '', ''];
         }
-        this.currentStep = 3;
-      },
-      error: (err: any) => {
-        this.isLoading = false;
-        this.errorMsg = err?.error?.message || 'Code incorrect ou expiré.';
-        this.otpDigits = ['', '', '', '', '', ''];
-      }
-    });
+      });
   }
   resetPassword() {
-    if (this.passwordForm.invalid) { this.passwordForm.markAllAsTouched(); return; }
-    if (!this.resetToken) { this.errorMsg = "Token manquant."; return; }
+    if (this.passwordForm.invalid) {
+      this.passwordForm.markAllAsTouched();
+      return;
+    }
+    if (!this.resetToken) {
+      this.errorMsg = 'Token manquant.';
+      return;
+    }
 
     this.isLoading = true;
     this.errorMsg = '';
@@ -127,52 +151,64 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     const password = this.passwordForm.get('password')?.value;
     const email = this.emailForm.get('email')?.value;
 
-    this.http.post(`${this.apiUrl}/reset_password.php`, {
-      reset_token: this.resetToken,
-      password: password
-    }).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.loginAfterReset(email, password);
-      },
-      error: (err: any) => {
-        this.isLoading = false;
-        this.errorMsg = err?.error?.message || 'Erreur lors de la réinitialisation.';
-      }
-    });
+    this.http
+      .post(`${this.apiUrl}/reset_password.php`, {
+        reset_token: this.resetToken,
+        password: password
+      })
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.loginAfterReset(email, password);
+        },
+        error: (err: any) => {
+          this.isLoading = false;
+          this.errorMsg =
+            err?.error?.message || 'Erreur lors de la réinitialisation.';
+        }
+      });
   }
   private loginAfterReset(email: string, password: string) {
-    this.http.post(`${this.apiUrl}/login.php`, { Email: email, Password: password }).subscribe({
-      next: (res: any) => {
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('role', res.user.role);
-        localStorage.setItem('userId', res.user.id);
+    this.http
+      .post(`${this.apiUrl}/login.php`, { Email: email, Password: password })
+      .subscribe({
+        next: (res: any) => {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('role', res.user.role);
+          localStorage.setItem('userId', res.user.id);
 
-        this.goToLogin();
-      },
-      error: () => {
-        this.router.navigateByUrl('/signin');
-      }
-    });
+          this.goToLogin();
+        },
+        error: () => {
+          this.router.navigateByUrl('/signin');
+        }
+      });
   }
   goToLogin() {
     const role = localStorage.getItem('role');
     if (role === 'developer') this.router.navigateByUrl('/accueil-developpeur');
-    else if (role === 'entrepreneur') this.router.navigateByUrl('/accueil-entrepreneur');
+    else if (role === 'entrepreneur')
+      this.router.navigateByUrl('/accueil-entrepreneur');
     else this.router.navigateByUrl('/signin');
   }
-  getOtpValue(): string { return this.otpDigits.join(''); }
+  getOtpValue(): string {
+    return this.otpDigits.join('');
+  }
   onOtpInput(event: any, index: number) {
     const val = event.target.value.replace(/\D/g, '');
     this.otpDigits[index] = val ? val[val.length - 1] : '';
     event.target.value = this.otpDigits[index];
-    if (val && index < 5) document.getElementById('otp-' + (index + 1))?.focus();
+    if (val && index < 5)
+      document.getElementById('otp-' + (index + 1))?.focus();
   }
   onOtpKeydown(event: KeyboardEvent, index: number) {
     if (event.key === 'Backspace' && !this.otpDigits[index] && index > 0)
       document.getElementById('otp-' + (index - 1))?.focus();
   }
-  resendCode() { this.otpDigits = ['', '', '', '', '', '']; this.sendCode(); }
+  resendCode() {
+    this.otpDigits = ['', '', '', '', '', ''];
+    this.sendCode();
+  }
   startResendTimer() {
     this.resendTimer = 60;
     if (this.timerInterval) clearInterval(this.timerInterval);
@@ -194,12 +230,11 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
       { pct: 25, color: '#dc2626', label: 'Très faible' },
       { pct: 50, color: '#f59e0b', label: 'Moyen' },
       { pct: 75, color: '#0d9488', label: 'Fort' },
-      { pct: 100, color: '#16a34a', label: 'Très fort' },
+      { pct: 100, color: '#16a34a', label: 'Très fort' }
     ];
     const entry = map[pw.length === 0 ? 0 : Math.min(score, 4)];
     this.strengthPct = entry.pct;
     this.strengthColor = entry.color;
     this.strengthLabel = entry.label;
   }
-
 }

@@ -1,14 +1,14 @@
 <ion-app>
-  <ion-split-pane contentId="main-content">
+  <ion-split-pane when="(min-width: 4000px)" contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-header>
         <ion-item lines="none">
           <ion-avatar item-start class="text-avatar">
-            <span>{{ 'MM' }}</span>
+            <span>{{ "MM" }}</span>
           </ion-avatar>
           <ion-label class="text-avatar-label">
             <ion-text class="text-avatar-label-header">
-              <h3>{{ 'Mimis' | uppercase }}</h3>
+              <h3>{{ "Mimis" | uppercase }}</h3>
             </ion-text>
           </ion-label>
         </ion-item>
@@ -21,9 +21,19 @@
 
           @for (p of appPages; track p; let i = $index) {
           <ion-menu-toggle auto-hide="false">
-            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false"
-              routerLinkActive="selected">
-              <ion-icon aria-hidden="true" slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+            <ion-item
+              routerDirection="root"
+              [routerLink]="[p.url]"
+              lines="none"
+              detail="false"
+              routerLinkActive="selected"
+            >
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                [ios]="p.icon + '-outline'"
+                [md]="p.icon + '-sharp'"
+              ></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
@@ -35,7 +45,12 @@
 
           @for (label of labels; track label) {
           <ion-item lines="none">
-            <ion-icon aria-hidden="true" slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
+            <ion-icon
+              aria-hidden="true"
+              slot="start"
+              ios="bookmark-outline"
+              md="bookmark-sharp"
+            ></ion-icon>
             <ion-label>{{ label }}</ion-label>
           </ion-item>
           }

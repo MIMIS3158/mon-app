@@ -1,22 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { ModalController } from '@ionic/angular'; 
+import { ModalController } from '@ionic/angular';
 import { ParametresPage } from '../parametres/parametres.page';
-
+import { environment } from 'src/environments/environment';
+import { AlertsService } from '../shared/services/alerts.service';
 
 export interface Postulation {
-  id_postulation?: number; 
+  id_postulation?: number;
   project_id?: number;
   Nomduprojet: string;
   Publierparentreprise: string;
   Budget?: number;
   Duree?: string;
   messagePostulation: string;
-  statut: 'En attente' | 'Acceptée' | 'Refusée' | 'Terminée'; 
+  statut: 'En attente' | 'Acceptée' | 'Refusée' | 'Terminée';
   date_postulation: string;
-  entrepreneurEvalue?: boolean; 
-  id_entrepreneur?: number; 
+  entrepreneurEvalue?: boolean;
+  id_entrepreneur?: number;
 }
 
 @Component({
@@ -26,131 +27,141 @@ export interface Postulation {
   standalone: false
 })
 export class PostulationPage implements OnInit {
-
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
 
   selectedTab = 'all';
   allPostulations: Postulation[] = [];
   displayedPostulations: Postulation[] = [];
-    enCoursCount: number = 0;
+  enCoursCount: number = 0;
   terminesCount: number = 0;
   messagesNonLus: number = 0;
   notificationsCount: number = 0;
   private badgeInterval: any;
 
-
-
-
   constructor(
     private router: Router,
     private http: HttpClient,
-    private modalController: ModalController 
+    private modalController: ModalController,
+    private alertsService: AlertsService
   ) {}
   ngOnInit() {
     this.loadPostulations();
-     this.loadBadges();
-  this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
-
+    this.loadBadges();
+    this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
   }
   ionViewWillEnter() {
     this.loadPostulations();
   }
-loadPostulations() {
-    const id_developpeur = localStorage.getItem('userId'); 
-    this.http.get<Postulation[]>(
-        `${this.apiUrl}/candidature.php?id_developpeur=${id_developpeur}`)
-        .subscribe({
-            next: (postulations) => {
-                this.allPostulations = postulations;
-                this.filterPostulations();
-            },
-            error: () => {}
-        });
-}
+  loadPostulations() {
+    const id_developpeur = localStorage.getItem('userId');
+    this.http
+      .get<Postulation[]>(
+        `${this.apiUrl}/candidature.php?id_developpeur=${id_developpeur}`
+      )
+      .subscribe({
+        next: postulations => {
+          this.allPostulations = postulations;
+          this.filterPostulations();
+        },
+        error: () => {}
+      });
+  }
 
   onTabChange() {
     this.filterPostulations();
   }
 
- filterPostulations() {
-  switch(this.selectedTab) {
-    case 'all':
-      this.displayedPostulations = [...this.allPostulations];
-      break;
-    case 'pending':
-      this.displayedPostulations = this.allPostulations.filter(p => p.statut === 'En attente');
-      break;
-    case 'accepted':
-      this.displayedPostulations = this.allPostulations.filter(p => p.statut === 'Acceptée');
-      break;
-    case 'completed': 
-      this.displayedPostulations = this.allPostulations.filter(p => p.statut === 'Terminée');
-      break;
-    case 'rejected':
-      this.displayedPostulations = this.allPostulations.filter(p => p.statut === 'Refusée');
-      break;
-  }
-}
-
-getStatusColor(status: string): string {
-  switch(status) {
-    case 'En attente':
-      return 'warning';
-    case 'Acceptée':
-      return 'success';
-    case 'Terminée': 
-      return 'tertiary';
-    case 'Refusée':
-      return 'danger';
-    default:
-      return 'medium';
-  }
-}
-
-
-evaluerEntrepreneur(postulation: Postulation) {
-  this.router.navigate(['/evaluation'], {
-    state: { 
-      projet: postulation,
-      entrepreneurId: postulation.id_entrepreneur,
-      type: 'developpeur' 
+  filterPostulations() {
+    switch (this.selectedTab) {
+      case 'all':
+        this.displayedPostulations = [...this.allPostulations];
+        break;
+      case 'pending':
+        this.displayedPostulations = this.allPostulations.filter(
+          p => p.statut === 'En attente'
+        );
+        break;
+      case 'accepted':
+        this.displayedPostulations = this.allPostulations.filter(
+          p => p.statut === 'Acceptée'
+        );
+        break;
+      case 'completed':
+        this.displayedPostulations = this.allPostulations.filter(
+          p => p.statut === 'Terminée'
+        );
+        break;
+      case 'rejected':
+        this.displayedPostulations = this.allPostulations.filter(
+          p => p.statut === 'Refusée'
+        );
+        break;
     }
-  });
-}
- startProject(postulation: Postulation) {
-  this.router.navigate(['/chat'], {
-    queryParams: { 
-      projectId: postulation.project_id,
-      userId: postulation.id_entrepreneur   
+  }
+
+  getStatusColor(status: string): string {
+    switch (status) {
+      case 'En attente':
+        return 'warning';
+      case 'Acceptée':
+        return 'success';
+      case 'Terminée':
+        return 'tertiary';
+      case 'Refusée':
+        return 'danger';
+      default:
+        return 'medium';
     }
-  });
-}
-terminerProject(postulation: Postulation) {
+  }
+
+  evaluerEntrepreneur(postulation: Postulation) {
+    this.router.navigate(['/evaluation'], {
+      state: {
+        projet: postulation,
+        entrepreneurId: postulation.id_entrepreneur,
+        type: 'developpeur'
+      }
+    });
+  }
+  startProject(postulation: Postulation) {
+    this.router.navigate(['/chat'], {
+      queryParams: {
+        projectId: postulation.project_id,
+        userId: postulation.id_entrepreneur
+      }
+    });
+  }
+  terminerProject(postulation: Postulation) {
     if (!postulation.id_postulation) return;
-    
-    this.http.put(
-        `${this.apiUrl}/candidature.php?id=${postulation.id_postulation}&action=terminer`, {})
-        .subscribe({
-            next: () => {
-                alert('Projet terminé !');
-                this.loadPostulations();
-            },
-            error: () => {}
-        });
-}
-cancelProject(postulation: Postulation) {
+
+    this.http
+      .put(
+        `${this.apiUrl}/candidature.php?id=${postulation.id_postulation}&action=terminer`,
+        {}
+      )
+      .subscribe({
+        next: () => {
+          this.alertsService.alert('Projet terminé !');
+          this.loadPostulations();
+        },
+        error: () => {}
+      });
+  }
+  cancelProject(postulation: Postulation) {
     if (!postulation.id_postulation) return;
-    this.http.delete(
-        `${this.apiUrl}/candidature.php?id=${postulation.id_postulation}`)
-        .subscribe({
-            next: () => { this.loadPostulations(); },
-            error: () => {}
-        });
-}
+    this.http
+      .delete(`${this.apiUrl}/candidature.php?id=${postulation.id_postulation}`)
+      .subscribe({
+        next: () => {
+          this.loadPostulations();
+        },
+        error: () => {}
+      });
+  }
   goToAccueil() {
     this.router.navigate(['/accueil-developpeur']);
   }
- async ouvrirParametre() {
+  async ouvrirParametre() {
     const modal = await this.modalController.create({
       component: ParametresPage,
       cssClass: 'settings-modal'
@@ -158,35 +169,36 @@ cancelProject(postulation: Postulation) {
     return await modal.present();
   }
   ouvrirRecommended() {
-  this.router.navigate(['/recommended']);
-}
+    this.router.navigate(['/recommended']);
+  }
 
-loadBadges() {
-  const userId = localStorage.getItem('userId');
-  const role = localStorage.getItem('role');
-  this.http.get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
-    .subscribe({
-      next: (data) => {
-        this.messagesNonLus = data.messages;
-        this.notificationsCount = data.notifications;
-        this.enCoursCount = data.en_cours;
-        this.terminesCount = data.termines;
-      },
-      error: () => {}
-    });
-}
-ionViewWillLeave() {
-  if (this.badgeInterval) clearInterval(this.badgeInterval);
-}
+  loadBadges() {
+    const userId = localStorage.getItem('userId');
+    const role = localStorage.getItem('role');
+    this.http
+      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+      .subscribe({
+        next: data => {
+          this.messagesNonLus = data.messages;
+          this.notificationsCount = data.notifications;
+          this.enCoursCount = data.en_cours;
+          this.terminesCount = data.termines;
+        },
+        error: () => {}
+      });
+  }
+  ionViewWillLeave() {
+    if (this.badgeInterval) clearInterval(this.badgeInterval);
+  }
   goTo(tab: string) {
-    switch(tab) {
+    switch (tab) {
       /*case 'accueil':
         break;
       case 'mes-postulation':
         this.router.navigate(['/postulation']);
         break;*/
-        case 'mes-postulation':
-          break;
+      case 'mes-postulation':
+        break;
       case 'accueil':
         this.router.navigate(['/accueil-developpeur']);
         break;
@@ -196,28 +208,27 @@ ionViewWillLeave() {
       case 'conversations':
         this.router.navigate(['/conversations']);
         break;
-        
-         case 'Recommended':
+
+      case 'Recommended':
         this.router.navigate(['/recommended']);
         break;
-        case 'parametres':
-  this.router.navigate(['/parametres']);
-  break;
+      case 'parametres':
+        this.router.navigate(['/parametres']);
+        break;
 
-      /* case 'evaluations':
+        /* case 'evaluations':
     this.router.navigate(['/mes-evaluations'], {
         state: {
             type: 'developpeur',
             idEvalue: null
         }
     });*/
-    break;
-  
+        break;
+
       case 'signout':
-       
-        localStorage.removeItem('userId');   
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
+        localStorage.removeItem('role');
         this.router.navigate(['/home']);
         break;
     }

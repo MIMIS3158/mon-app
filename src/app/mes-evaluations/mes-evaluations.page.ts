@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mes-evaluations',
@@ -9,21 +10,17 @@ import { HttpClient } from '@angular/common/http';
   standalone: false
 })
 export class MesEvaluationsPage implements OnInit {
-
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
 
   evaluations: any[] = [];
   moyenneNote: number = 0;
   totalAvis: number = 0;
   type: string = 'developpeur';
   idEvalue: number | null = null;
-  avisPositifs:number = 0;
-avisNegatifs:number = 0;
+  avisPositifs: number = 0;
+  avisNegatifs: number = 0;
 
-  constructor(
-    private router: Router,
-    private http: HttpClient
-  ) {
+  constructor(private router: Router, private http: HttpClient) {
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras.state) {
       this.type = nav.extras.state['type'] || 'developpeur';
@@ -31,33 +28,33 @@ avisNegatifs:number = 0;
     }
   }
   ngOnInit() {}
-ionViewWillEnter() {
-  if (!this.idEvalue) {
-    const role = localStorage.getItem('role');
-    if(role === 'developer'){
-      this.type = 'developeur';
-    } else {
-      this.type = 'entrepreneur';
+  ionViewWillEnter() {
+    if (!this.idEvalue) {
+      const role = localStorage.getItem('role');
+      if (role === 'developer') {
+        this.type = 'developeur';
+      } else {
+        this.type = 'entrepreneur';
+      }
     }
+    this.loadEvaluations();
   }
-  this.loadEvaluations();
-}
-    loadEvaluations() {
-const userId = localStorage.getItem('userId');
-const url = this.idEvalue
-  ? `${this.apiUrl}/get_evaluations.php?type=${this.type}&id_evalue=${this.idEvalue}`
-  : `${this.apiUrl}/get_evaluations.php?type=${this.type}&userId=${userId}`;
-this.http.get<any[]>(url).subscribe(evals => {
-this.evaluations = evals;
-this.totalAvis = evals.length;
-if(evals.length>0){
-const total = evals.reduce((sum,e)=>sum+Number(e.note),0);
-this.moyenneNote = total/evals.length;
-this.avisPositifs = evals.filter(e=>e.note>=4).length;
-this.avisNegatifs = evals.filter(e=>e.note<=2).length;
-}
-});
-}
+  loadEvaluations() {
+    const userId = localStorage.getItem('userId');
+    const url = this.idEvalue
+      ? `${this.apiUrl}/get_evaluations.php?type=${this.type}&id_evalue=${this.idEvalue}`
+      : `${this.apiUrl}/get_evaluations.php?type=${this.type}&userId=${userId}`;
+    this.http.get<any[]>(url).subscribe(evals => {
+      this.evaluations = evals;
+      this.totalAvis = evals.length;
+      if (evals.length > 0) {
+        const total = evals.reduce((sum, e) => sum + Number(e.note), 0);
+        this.moyenneNote = total / evals.length;
+        this.avisPositifs = evals.filter(e => e.note >= 4).length;
+        this.avisNegatifs = evals.filter(e => e.note <= 2).length;
+      }
+    });
+  }
   retour() {
     history.back();
   }

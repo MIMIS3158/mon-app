@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   standalone: false
 })
 export class DarkModeSettingsPage implements OnInit {
-
   darkMode: boolean = false;
 
   constructor() {}
@@ -16,9 +15,9 @@ export class DarkModeSettingsPage implements OnInit {
     this.darkMode = localStorage.getItem('darkMode') === 'true';
     document.body.classList.toggle('dark', this.darkMode);
   }
- toggleTheme(event: any) {
-  this.darkMode = event.detail.checked;
-  document.body.classList.toggle('dark', this.darkMode); 
-  localStorage.setItem('darkMode', String(this.darkMode));
-}
+  toggleTheme(event: any) {
+    this.darkMode = event.detail.checked;
+    document.body.classList.toggle('dark', this.darkMode);
+    localStorage.setItem('darkMode', String(this.darkMode));
+  }
 }

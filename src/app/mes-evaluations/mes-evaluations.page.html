@@ -15,7 +15,12 @@
       <div class="summary-content">
         <h2 class="average-score">{{ moyenneNote | number:'1.1-1' }}</h2>
         <div class="stars-container">
-          <ion-icon *ngFor="let n of [1,2,3,4,5]" [name]="n <= moyenneNote ? 'star' : 'star-outline'"  color="warning"  class="star-icon">
+          <ion-icon
+            *ngFor="let n of [1,2,3,4,5]"
+            [name]="n <= moyenneNote ? 'star' : 'star-outline'"
+            color="warning"
+            class="star-icon"
+          >
           </ion-icon>
         </div>
         <p class="total-reviews">{{ totalAvis }} avis</p>
@@ -44,9 +49,15 @@
     <ion-card *ngFor="let eval of evaluations" class="evaluation-card">
       <ion-card-header>
         <div class="card-header-content">
-          <ion-card-title class="project-title">{{ eval.Nomduprojet }}</ion-card-title>
+          <ion-card-title class="project-title"
+            >{{ eval.Nomduprojet }}</ion-card-title
+          >
           <div class="rating-stars">
-            <ion-icon *ngFor="let n of [1,2,3,4,5]"  [name]="n <= eval.note ? 'star' : 'star-outline'"  color="warning">
+            <ion-icon
+              *ngFor="let n of [1,2,3,4,5]"
+              [name]="n <= eval.note ? 'star' : 'star-outline'"
+              color="warning"
+            >
             </ion-icon>
           </div>
         </div>
@@ -64,5 +75,4 @@
       </ion-card-content>
     </ion-card>
   </ion-list>
-
 </ion-content>

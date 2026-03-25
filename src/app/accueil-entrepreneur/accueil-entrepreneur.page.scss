@@ -22,14 +22,14 @@ ion-header {
       --placeholder-color: #8e8e93;
       --icon-color: #667eea;
       --color: #2c3e50;
-      margin: 0 16px; 
-      width: calc(100% - 32px); 
-      max-width: none; 
+      margin: 0 16px;
+      width: calc(100% - 32px);
+      max-width: none;
 
       &::part(native) {
         font-weight: 500;
         transition: all 0.3s ease;
-        padding: 0 16px; 
+        padding: 0 16px;
       }
 
       &:focus-within {
@@ -206,7 +206,7 @@ ion-footer {
         transition: all 0.3s ease;
       }
       &:hover {
-        --color: #667eea; 
+        --color: #667eea;
         ion-icon {
           transform: scale(1.15);
         }
@@ -221,7 +221,7 @@ ion-footer {
       --color: #667eea;
       position: relative;
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 50%;
@@ -254,7 +254,7 @@ ion-footer {
 }
 ion-list ion-item {
   animation: fadeInUp 0.4s ease backwards;
-  
+
   @for $i from 1 through 10 {
     &:nth-child(#{$i}) {
       animation-delay: #{$i * 0.05}s;
@@ -327,7 +327,7 @@ ion-list ion-item {
     margin-right: auto;
   }
 }
-  .badge-notif {
+.badge-notif {
   position: absolute;
   top: -8px;
   right: -8px;

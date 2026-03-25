@@ -10,7 +10,6 @@
 </ion-header>
 
 <ion-content>
-
   <ion-segment [(ngModel)]="statutFiltre" mode="md">
     <ion-segment-button value="tous">
       <ion-label>Tous</ion-label>
@@ -21,7 +20,7 @@
     <ion-segment-button value="en cours">
       <ion-label>En cours</ion-label>
     </ion-segment-button>
-  <!--  <ion-segment-button value="terminé">
+    <!--  <ion-segment-button value="terminé">
       <ion-label>Terminés</ion-label>
     </ion-segment-button>-->
   </ion-segment>
@@ -36,40 +35,36 @@
     <ion-card-content *ngIf="selectedProject === project">
       <p>Entreprise : {{ project.Publierparentreprise }}</p>
       <p>Budget : {{ project.Budget }}</p>
-      <p>Durée :{{  project.Duree }}</p>
-      <p>Compétences :{{  project.Competences }}</p>
-      <p>Statut :{{  project.Statut }}</p>
-      <ion-button color="danger" size="small" fill="clear"
-        (click)="deleteproject(project)">
+      <p>Durée :{{ project.Duree }}</p>
+      <p>Compétences :{{ project.Competences }}</p>
+      <p>Statut : <ion-badge>{{ project.Statut | uppercase}}</ion-badge></p>
+      <ion-button color="danger" size="small" fill="clear" (click)="deleteproject(project)">
         <ion-icon name="trash-outline"></ion-icon>
-      </ion-button> 
-      <ion-button color="primary" size="small" fill="clear"
-        (click)="editproject(project)">
+      </ion-button>
+      <ion-button color="primary" size="small" fill="clear" (click)="editproject(project)">
         <ion-icon name="pencil-outline"></ion-icon>
       </ion-button>
-      <div *ngIf="project.Statut === 'en cours'">
-        <ion-button color="success" size="small" (click)="validerTravail(project)">
+
+      <div *ngIf="project.Statut?.toLowerCase() === 'en cours'">
+        <ion-button color="success" size="small" (click)="validateReceivedWork(project)">
           Valider
         </ion-button>
-        <ion-button color="warning" size="small" (click)="travailARefaire(project)">
+        <ion-button color="warning" size="small" (click)="notCompliant(project)">
           Travail à refaire
         </ion-button>
       </div>
-<div *ngIf="project.Statut === 'terminé'">
 
-  <ion-button 
-    *ngIf="!project.developpeurEvalue" 
-    color="primary" 
-    expand="block"
-    (click)="evaluerDeveloppeur(project)">
-    <ion-icon name="star" slot="start"></ion-icon>
-    Évaluer le développeur
-  </ion-button>
-  <div *ngIf="project.developpeurEvalue" class="already-evaluated">
-    <ion-icon name="checkmark-circle" color="success"></ion-icon>
-    <span>Développeur déjà évalué</span>
-  </div>
-</div>
+      <div *ngIf="project.Statut === 'terminé'">
+        <ion-button *ngIf="!project.developpeurEvalue" color="primary" expand="block"
+          (click)="evaluerDeveloppeur(project)">
+          <ion-icon name="star" slot="start"></ion-icon>
+          Évaluer le développeur
+        </ion-button>
+        <div *ngIf="project.developpeurEvalue" class="already-evaluated">
+          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <span>Développeur déjà évalué</span>
+        </div>
+      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>
@@ -81,47 +76,44 @@
           <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
             <ion-icon name="home"></ion-icon>
           </ion-button>
-        </ion-col>      
+        </ion-col>
         <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('profil')">
             <ion-icon name="person"></ion-icon>
           </ion-button>
-        </ion-col>       
-       <!-- <ion-col class="tab-button" text-center>
+        </ion-col>
+        <!-- <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
             <ion-icon name="chatbubbles"></ion-icon>
           </ion-button>
         </ion-col> -->
-                    
-<ion-col class="tab-button" text-center>
-  <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
-    <div style="position: relative; display: inline-block;">
-      <ion-icon name="chatbubbles"></ion-icon>
-      <span *ngIf="messagesNonLus > 0" class="badge-notif">
-        {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-      </span>
-    </div>
-  </ion-button>
-</ion-col>   
-                  
 
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+            <div style="position: relative; display: inline-block;">
+              <ion-icon name="chatbubbles"></ion-icon>
+              <span class="badge-notif" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </span>
+            </div>
+          </ion-button>
+        </ion-col>
 
-         <ion-col class="tab-button" text-center>
-        <ion-button  fill="clear" expand="full" (click)="goTo('dashboard')">
-  <ion-icon name="bar-chart-outline"></ion-icon>
-  
-</ion-button>
-</ion-col>    
-       <!-- <ion-col class="tab-button" text-center>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('dashboard')">
+            <ion-icon name="bar-chart-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <!-- <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="goTo('signout')">
             <ion-icon name="log-out"></ion-icon>
           </ion-button>
         </ion-col>-->
-         <ion-col class="tab-button" text-center>
-        <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
-        <ion-icon name="settings"></ion-icon>
-        </ion-button>
-      </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+            <ion-icon name="settings"></ion-icon>
+          </ion-button>
+        </ion-col>
       </ion-row>
     </ion-grid>
   </ion-toolbar>

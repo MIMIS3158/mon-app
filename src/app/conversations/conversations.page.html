@@ -7,17 +7,22 @@
       <h1 class="header-title">Messages</h1>
     </div>
   </ion-toolbar>
-   
+
   <ion-toolbar class="conv-toolbar">
     <div class="search-wrap">
       <ion-icon name="search-outline" class="search-icon"></ion-icon>
-      <input type="text" placeholder="Rechercher..."  [(ngModel)]="searchTerm" (input)="onSearch()" class="search-input">
+      <input
+        type="text"
+        placeholder="Rechercher..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="search-input"
+      />
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="conv-content">
-
   <div *ngIf="filteredConversations.length === 0" class="empty-state">
     <ion-icon name="chatbubbles-outline"></ion-icon>
     <h3>Aucune conversation</h3>
@@ -25,13 +30,20 @@
   </div>
 
   <div class="conv-list">
-    <div *ngFor="let conv of filteredConversations" class="conv-item" [class.unread]="conv.unread_count > 0" (click)="ouvrirChat(conv)">
+    <div
+      *ngFor="let conv of filteredConversations"
+      class="conv-item"
+      [class.unread]="conv.unread_count > 0"
+      (click)="ouvrirChat(conv)"
+    >
       <div class="av" [ngStyle]="{'background': getGradient(conv.contact_id)}">
-        {{ getInitiales(conv.contact_nom, conv.contact_prenom) }}        
+        {{ getInitiales(conv.contact_nom, conv.contact_prenom) }}
         <div class="online-dot" *ngIf="isOnline(conv.contact_id)"></div>
       </div>
       <div class="conv-info">
-        <div class="conv-name">{{ conv.contact_prenom }} {{ conv.contact_nom }}</div>
+        <div class="conv-name">
+          {{ conv.contact_prenom }} {{ conv.contact_nom }}
+        </div>
         <div class="conv-msg" [class.unread]="conv.unread_count > 0">
           {{ conv.last_message }}
         </div>
@@ -44,9 +56,9 @@
           {{ conv.unread_count }}
         </div>
       </div>
-    <button class="delete-btn" (click)="supprimerConversation(conv, $event)">
-  <ion-icon name="trash-outline"></ion-icon>
-</button>
+      <button class="delete-btn" (click)="supprimerConversation(conv, $event)">
+        <ion-icon name="trash-outline"></ion-icon>
+      </button>
     </div>
   </div>
 </ion-content>

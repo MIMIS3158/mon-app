@@ -182,7 +182,7 @@ ion-header {
         align-items: flex-end;
         gap: 8px;
         flex-shrink: 0;
-        margin-right: 40px; 
+        margin-right: 40px;
         .conv-time {
           font-size: 0.75rem;
           color: #a0aec0;
@@ -247,7 +247,8 @@ ion-header {
   }
 }
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: scale(1);
     opacity: 1;
   }

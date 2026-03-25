@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard-entrepreneur',
@@ -9,8 +10,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: false
 })
 export class DashboardEntrepreneurPage implements OnInit {
-
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
 
   interesses: number = 0;
   matchingDevs: number = 0;
@@ -18,10 +18,7 @@ export class DashboardEntrepreneurPage implements OnInit {
   competences: any[] = [];
   isLoading: boolean = true;
 
-  constructor(
-    private router: Router,
-    private http: HttpClient
-  ) {}
+  constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit() {
     this.loadDashboard();
@@ -32,9 +29,10 @@ export class DashboardEntrepreneurPage implements OnInit {
   loadDashboard() {
     const userId = localStorage.getItem('userId');
     this.isLoading = true;
-    this.http.get<any>(`${this.apiUrl}/dashboard.php?userId=${userId}`)
+    this.http
+      .get<any>(`${this.apiUrl}/dashboard.php?userId=${userId}`)
       .subscribe({
-        next: (data) => {
+        next: data => {
           this.interesses = data.interesses;
           this.matchingDevs = data.matching_devs;
           this.totalDevs = data.total_devs;

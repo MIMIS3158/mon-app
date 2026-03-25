@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AlertsService } from '../shared/services/alerts.service';
 
 @Component({
   selector: 'app-conversations',
@@ -9,8 +11,7 @@ import { HttpClient } from '@angular/common/http';
   standalone: false
 })
 export class ConversationsPage implements OnInit, OnDestroy {
-
-  private apiUrl = 'http://localhost/myApp/api';
+  private apiUrl = environment.apiUrl;
   conversations: any[] = [];
   filteredConversations: any[] = [];
   searchTerm: string = '';
@@ -18,14 +19,13 @@ export class ConversationsPage implements OnInit, OnDestroy {
   onlineUsers: number[] = [];
   private interval: any;
 
-  private gradients = [
-    'linear-gradient(135deg, #667eea, #764ba2)',
-    
-  ];
+  private gradients = ['linear-gradient(135deg, #667eea, #764ba2)'];
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private alertsService: AlertsService
   ) {}
+
   ngOnInit() {
     this.currentUserId = parseInt(localStorage.getItem('userId') || '0');
     this.loadConversations();
@@ -38,15 +38,17 @@ export class ConversationsPage implements OnInit, OnDestroy {
     if (this.interval) clearInterval(this.interval);
   }
   loadConversations() {
-    this.http.get<any[]>(
-      `${this.apiUrl}/get_conversations.php?user_id=${this.currentUserId}`
-    ).subscribe({
-      next: (data) => {
-        this.conversations = data;
-        this.onSearch();
-      },
-      error: () => {}
-    });
+    this.http
+      .get<any[]>(
+        `${this.apiUrl}/get_conversations.php?user_id=${this.currentUserId}`
+      )
+      .subscribe({
+        next: data => {
+          this.conversations = data;
+          this.onSearch();
+        },
+        error: () => {}
+      });
   }
   onSearch() {
     const term = this.searchTerm.toLowerCase().trim();
@@ -54,10 +56,11 @@ export class ConversationsPage implements OnInit, OnDestroy {
       this.filteredConversations = this.conversations;
       return;
     }
-    this.filteredConversations = this.conversations.filter(c =>
-      (c.contact_nom?.toLowerCase() || '').includes(term) ||
-      (c.contact_prenom?.toLowerCase() || '').includes(term) ||
-      (c.last_message?.toLowerCase() || '').includes(term)
+    this.filteredConversations = this.conversations.filter(
+      c =>
+        (c.contact_nom?.toLowerCase() || '').includes(term) ||
+        (c.contact_prenom?.toLowerCase() || '').includes(term) ||
+        (c.last_message?.toLowerCase() || '').includes(term)
     );
   }
   ouvrirChat(conv: any) {
@@ -78,37 +81,40 @@ export class ConversationsPage implements OnInit, OnDestroy {
     history.back();
   }
   loadOnlineUsers() {
-  this.http.get<any[]>(`${this.apiUrl}/online_users.php`)
-    .subscribe({
-      next: (data) => {
+    this.http.get<any[]>(`${this.apiUrl}/online_users.php`).subscribe({
+      next: data => {
         this.onlineUsers = data.map(u => u.user_id);
       },
       error: () => {}
     });
-}
-isOnline(userId: number): boolean {
-  return this.onlineUsers.includes(Number(userId));
-}
-supprimerConversation(conv: any, event?: Event) {
-  if (event) event.stopPropagation();
-  
-  const confirmed = confirm(`Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`);
-  if (!confirmed) return;
+  }
+  isOnline(userId: number): boolean {
+    return this.onlineUsers.includes(Number(userId));
+  }
+  supprimerConversation(conv: any, event?: Event) {
+    if (event) event.stopPropagation();
 
-  this.http.delete(
-    `${this.apiUrl}/delete_conversation.php?user_id=${this.currentUserId}&contact_id=${conv.contact_id}`
-  ).subscribe({
-    next: () => {
-      this.conversations = this.conversations.filter(
-        c => c.contact_id !== conv.contact_id
-      );
-      this.filteredConversations = this.filteredConversations.filter(
-        c => c.contact_id !== conv.contact_id
-      );
-    },
-    error: () => {
-      alert('Erreur lors de la suppression');
-    }
-  });
-}
+    const confirmed = confirm(
+      `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`
+    );
+    if (!confirmed) return;
+
+    this.http
+      .delete(
+        `${this.apiUrl}/delete_conversation.php?user_id=${this.currentUserId}&contact_id=${conv.contact_id}`
+      )
+      .subscribe({
+        next: () => {
+          this.conversations = this.conversations.filter(
+            c => c.contact_id !== conv.contact_id
+          );
+          this.filteredConversations = this.filteredConversations.filter(
+            c => c.contact_id !== conv.contact_id
+          );
+        },
+        error: () => {
+          this.alertsService.alert('Erreur lors de la suppression');
+        }
+      });
+  }
 }
