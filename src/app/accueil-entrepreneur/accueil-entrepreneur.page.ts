@@ -5,23 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ModalController } from '@ionic/angular';
 import { ParametresPage } from '../parametres/parametres.page';
 import { environment } from 'src/environments/environment';
-
-interface Developer {
-  id: number;
-  user_id: number;
-  Nomdev: string;
-  Prenomdev: string;
-  CompetencesTechniques: string;
-  Experience?: number;
-  Niveau?: string;
-  Disponibilite?: string;
-  Ville?: string;
-  Pays?: string;
-  Github?: string;
-  TarifJournalier?: number;
-  Portfolio?: string;
-  moyenneNote?: number;
-}
+import { Developer } from '../shared/models/developper';
 
 @Component({
   selector: 'app-accueil-entrepreneur',

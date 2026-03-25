@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AlertsService } from '../shared/services/alerts.service';
+import { Developer } from '../shared/models/developper';
 
 @Component({
   selector: 'app-profile-dev',
@@ -19,26 +20,16 @@ import { AlertsService } from '../shared/services/alerts.service';
 })
 export class ProfileDevPage implements OnInit, OnDestroy {
   private apiUrl = environment.apiUrl;
+  loading = true;
 
-  Nomdev: string = '';
-  Prenomdev: string = '';
-  Pseudo: string = '';
-  Emaildev: string = '';
-  Telephone: string = '';
-  CompetencesTechniques: string = '';
   skills: string[] = [];
 
-  Experience: string = '';
   portfolio: File | null = null;
   profileImage: string = 'assets/profile_avatar.jpeg';
   profileImageFile: File | null = null;
   SelectedFileName: string | null = null;
-  Niveau: string = '';
-  DateNaissance: string = '';
-  Pays: string = '';
-  Ville: string = '';
-  Biographie: string = '';
-  Github: string = '';
+
+  developer!: Developer;
 
   @ViewChild('fileInput', { static: false }) fileInput: any;
   @ViewChild('portfolioInput', { static: false }) portfolioInput!: ElementRef;
@@ -76,24 +67,14 @@ export class ProfileDevPage implements OnInit, OnDestroy {
     )
       .then(profile => {
         if (!profile || Object.keys(profile).length === 0) return;
-        this.Nomdev = profile.Nomdev || '';
-        this.Prenomdev = profile.Prenomdev || '';
-        this.Pseudo = profile.Pseudo || '';
-        this.Emaildev = profile.Emaildev || '';
-        this.Telephone = profile.Telephone || '';
-        this.CompetencesTechniques = profile.CompetencesTechniques || '';
-        this.skills = (this.CompetencesTechniques ?? '').split(',');
+        this.developer = profile;
 
-        this.Experience = profile.Experience || '';
+        this.skills = (profile.CompetencesTechniques ?? '').split(',');
+
         this.profileImage =
           profile.profileImage || 'assets/profile_avatar.jpeg';
         this.SelectedFileName = profile.portfolio || null;
-        this.Niveau = profile.Niveau || '';
-        this.DateNaissance = profile.DateNaissance || '';
-        this.Pays = profile.Pays || '';
-        this.Ville = profile.Ville || '';
-        this.Biographie = profile.Biographie || '';
-        this.Github = profile.Github || '';
+        this.loading = false;
       })
       .catch(err => console.error(' Erreur chargement profil:', err));
   }
@@ -126,59 +107,26 @@ export class ProfileDevPage implements OnInit, OnDestroy {
     }
   }
 
-  // profile is created after signup -> so do only update
-  // saveProfile() {
-  //   const formData = new FormData();
-  //   formData.append('action', 'add');
-  //   formData.append('user_id', localStorage.getItem('userId') || '');
-  //   formData.append('Nomdev', this.Nomdev);
-  //   formData.append('Prenomdev', this.Prenomdev);
-  //   formData.append('Pseudo', this.Pseudo);
-  //   formData.append('Emaildev', this.Emaildev);
-  //   formData.append('Telephone', this.Telephone);
-  //   formData.append('CompetencesTechniques', this.CompetencesTechniques);
-  //   formData.append('Experience', this.Experience);
-  //   formData.append('Niveau', this.Niveau);
-  //   formData.append('DateNaissance', this.DateNaissance);
-  //   formData.append('Pays', this.Pays);
-  //   formData.append('Ville', this.Ville);
-  //   formData.append('Biographie', this.Biographie);
-  //   formData.append('Github', this.Github);
-  //   if (this.profileImageFile)
-  //     formData.append('profileImage', this.profileImageFile);
-  //   if (this.portfolio) formData.append('portfolio', this.portfolio);
-
-  //   console.log(' Enregistrement en cours...');
-  //   this.alertsService.alert(' PROFIL ENREGISTRÉ !');
-
-  //   this.http.post(`${this.apiUrl}/profile_dev.php`, formData).subscribe({
-  //     next: (response: any) => {
-  //       console.log(' Profil enregistré avec succès !', response);
-  //       this.loadProfile();
-  //     },
-  //     error: (err: any) => {
-  //       console.error(' Erreur enregistrement:', err);
-  //     }
-  //   });
-  // }
-
   updateProfile() {
     const formData = new FormData();
     formData.append('action', 'update');
     formData.append('user_id', localStorage.getItem('userId') || '');
-    formData.append('Nomdev', this.Nomdev);
-    formData.append('Prenomdev', this.Prenomdev);
-    formData.append('Pseudo', this.Pseudo);
-    formData.append('Emaildev', this.Emaildev);
-    formData.append('Telephone', this.Telephone);
-    formData.append('CompetencesTechniques', this.CompetencesTechniques);
-    formData.append('Experience', this.Experience);
-    formData.append('Niveau', this.Niveau);
-    formData.append('DateNaissance', this.DateNaissance);
-    formData.append('Pays', this.Pays);
-    formData.append('Ville', this.Ville);
-    formData.append('Biographie', this.Biographie);
-    formData.append('Github', this.Github);
+    formData.append('Nomdev', this.developer?.Nomdev ?? '');
+    formData.append('Prenomdev', this.developer?.Prenomdev ?? '');
+    formData.append('Pseudo', this.developer?.Pseudo ?? '');
+    formData.append('Emaildev', this.developer?.Emaildev ?? '');
+    formData.append('Telephone', this.developer?.Telephone ?? '');
+    formData.append(
+      'CompetencesTechniques',
+      this.developer?.CompetencesTechniques ?? ''
+    );
+    formData.append('Experience', '' + (this.developer?.Experience ?? ''));
+    formData.append('Niveau', this.developer?.Niveau ?? '');
+    formData.append('DateNaissance', this.developer?.DateNaissance ?? '');
+    formData.append('Pays', this.developer?.Pays ?? '');
+    formData.append('Ville', this.developer?.Ville ?? '');
+    formData.append('Biographie', this.developer?.Biographie ?? '');
+    formData.append('Github', this.developer?.Github ?? '');
     if (this.profileImageFile)
       formData.append('profileImage', this.profileImageFile);
     if (this.portfolio) formData.append('portfolio', this.portfolio);
@@ -198,12 +146,12 @@ export class ProfileDevPage implements OnInit, OnDestroy {
   }
 
   contact() {
-    const selectedDev = JSON.parse(
+    const selectedDev: Developer = JSON.parse(
       localStorage.getItem('selectedDeveloper') || '{}'
     );
     this.router.navigate(['/chat'], {
       queryParams: {
-        developerId: selectedDev.id
+        userId: selectedDev.user_id
       }
     });
   }
