@@ -12,11 +12,15 @@ export class SauvegarderPage implements OnInit {
   private apiUrl = environment.apiUrl;
 
   projets: any[] = [];
+
   constructor(private router: Router, private http: HttpClient) {}
+
   ngOnInit() {}
+
   ionViewWillEnter() {
     this.loadSavedProjects();
   }
+
   loadSavedProjects() {
     const userId = localStorage.getItem('userId');
     this.http

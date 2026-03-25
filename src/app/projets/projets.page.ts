@@ -45,6 +45,7 @@ export class ProjetsPage implements OnInit {
     private toastController: ToastController,
     private modalController: ModalController
   ) {}
+
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       this.statutFiltre = params['statut'] || 'tous';

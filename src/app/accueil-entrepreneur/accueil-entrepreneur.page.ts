@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 
 interface Developer {
   id: number;
+  user_id: number;
   Nomdev: string;
   Prenomdev: string;
   CompetencesTechniques: string;
@@ -51,6 +52,7 @@ export class AccueilEntrepreneurPage implements OnInit {
     this.loadBadges();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
   }
+
   loadDevelopers() {
     this.http.get<Developer[]>(`${this.apiUrl}/get_developers.php`).subscribe({
       next: developers => {
@@ -59,6 +61,7 @@ export class AccueilEntrepreneurPage implements OnInit {
       }
     });
   }
+
   onSearch() {
     const term = this.searchTerm.toLowerCase().trim();
 
@@ -74,26 +77,38 @@ export class AccueilEntrepreneurPage implements OnInit {
         (dev.CompetencesTechniques?.toLowerCase() || '').includes(term)
     );
   }
+
   goToMesProjets() {
     this.router.navigate(['/projets']);
   }
+
   goToPostulations() {
     this.router.navigate(['/notification']);
   }
+
   goToEnCours() {
     this.router.navigate(['/projets'], {
       queryParams: { statut: 'en cours' }
     });
   }
+
   goToTermines() {
     this.router.navigate(['/notification'], {
       queryParams: { statut: 'terminé' }
     });
   }
+
   viewProfile(developer: Developer) {
     localStorage.setItem('selectedDeveloper', JSON.stringify(developer));
-    this.router.navigate(['/profile-dev']);
+    this.router.navigate(['/profile-dev'], {
+      queryParams: {
+        view: 'summary',
+        user_id: developer?.user_id
+      },
+      queryParamsHandling: 'merge'
+    });
   }
+
   async openSettings() {
     const modal = await this.modalController.create({
       component: ParametresPage,
@@ -101,6 +116,7 @@ export class AccueilEntrepreneurPage implements OnInit {
     });
     return await modal.present();
   }
+
   getStars(note: number | undefined): string[] {
     const stars: string[] = [];
     const n = note || 0;
@@ -127,6 +143,7 @@ export class AccueilEntrepreneurPage implements OnInit {
         error: () => {}
       });
   }
+
   ionViewWillLeave() {
     if (this.badgeInterval) clearInterval(this.badgeInterval);
   }

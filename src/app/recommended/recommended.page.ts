@@ -15,7 +15,9 @@ export class RecommendedPage implements OnInit {
   filteredProjets: any[] = [];
   activeFilter: string = 'all';
   devId: number = parseInt(localStorage.getItem('userId') || '0');
+
   constructor(private http: HttpClient, private router: Router) {}
+
   ngOnInit() {
     if (!this.devId) {
       console.error('Utilisateur non connecté');

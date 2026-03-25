@@ -1,9 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AlertsService } from '../shared/services/alerts.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-profile-dev',
@@ -11,7 +17,7 @@ import { firstValueFrom } from 'rxjs';
   styleUrls: ['./profile-dev.page.scss'],
   standalone: false
 })
-export class ProfileDevPage implements OnInit {
+export class ProfileDevPage implements OnInit, OnDestroy {
   private apiUrl = environment.apiUrl;
 
   Nomdev: string = '';
@@ -20,6 +26,8 @@ export class ProfileDevPage implements OnInit {
   Emaildev: string = '';
   Telephone: string = '';
   CompetencesTechniques: string = '';
+  skills: string[] = [];
+
   Experience: string = '';
   portfolio: File | null = null;
   profileImage: string = 'assets/profile_avatar.jpeg';
@@ -34,39 +42,33 @@ export class ProfileDevPage implements OnInit {
 
   @ViewChild('fileInput', { static: false }) fileInput: any;
   @ViewChild('portfolioInput', { static: false }) portfolioInput!: ElementRef;
+  routeQueryParams$: Subscription;
+  isViewMode: boolean = false;
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    private alertsService: AlertsService
-  ) {}
+    private alertsService: AlertsService,
+    private route: ActivatedRoute
+  ) {
+    this.routeQueryParams$ = this.route.queryParams.subscribe(async params => {
+      this.isViewMode = params?.['view'] === 'summary';
+      var userId = params?.['user_id'];
 
-  ngOnInit() {
-    const selectedDev = localStorage.getItem('selectedDeveloper');
-    if (selectedDev) {
-      const dev = JSON.parse(selectedDev);
-      this.isViewMode = true;
-      this.Nomdev = dev.Nomdev || '';
-      this.Prenomdev = dev.Prenomdev || '';
-      this.CompetencesTechniques = dev.CompetencesTechniques || '';
-      this.Experience = dev.Experience || '';
-      this.Niveau = dev.Niveau || '';
-      this.Ville = dev.Ville || '';
-      this.Pays = dev.Pays || '';
-      this.Github = dev.Github || '';
-      this.profileImage = dev.photo || 'assets/profile_avatar.jpeg';
-      this.SelectedFileName = dev.Portfolio || null;
-      localStorage.removeItem('selectedDeveloper');
-      return;
-    }
-    this.isViewMode = false;
-    this.loadProfile();
+      setTimeout(() => {
+        this.loadProfile(userId);
+      }, 100);
+    });
   }
 
-  isViewMode: boolean = false;
+  ngOnDestroy(): void {
+    this.routeQueryParams$?.unsubscribe();
+  }
 
-  loadProfile() {
-    const userId = localStorage.getItem('userId');
+  ngOnInit() {}
+
+  loadProfile(user_id?: number) {
+    const userId = user_id ?? localStorage.getItem('userId');
     if (!userId) return;
 
     firstValueFrom(
@@ -80,6 +82,8 @@ export class ProfileDevPage implements OnInit {
         this.Emaildev = profile.Emaildev || '';
         this.Telephone = profile.Telephone || '';
         this.CompetencesTechniques = profile.CompetencesTechniques || '';
+        this.skills = (this.CompetencesTechniques ?? '').split(',');
+
         this.Experience = profile.Experience || '';
         this.profileImage =
           profile.profileImage || 'assets/profile_avatar.jpeg';
@@ -113,8 +117,9 @@ export class ProfileDevPage implements OnInit {
     this.portfolioInput.nativeElement.click();
   }
 
-  FileSelected(event: any) {
+  selectFile(event: any) {
     const file = event.target.files[0];
+
     if (file) {
       this.portfolio = file;
       this.SelectedFileName = file.name;
@@ -178,8 +183,8 @@ export class ProfileDevPage implements OnInit {
       formData.append('profileImage', this.profileImageFile);
     if (this.portfolio) formData.append('portfolio', this.portfolio);
 
-    console.log(' Modification en cours...');
-    console.log('user_id:', localStorage.getItem('userId'));
+    // console.log(' Modification en cours...');
+    // console.log('user_id:', localStorage.getItem('userId'));
 
     firstValueFrom(this.http.post(`${this.apiUrl}/profile_dev.php`, formData))
       .then((response: any) => {

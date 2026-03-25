@@ -1,15 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
+import { HttpClient } from '@angular/common/http';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
-  AbstractControl,
-  ValidationErrors
+  ValidationErrors,
+  Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { NavController } from '@ionic/angular';
-import { trigger, transition, style, animate } from '@angular/animations';
 import { environment } from 'src/environments/environment';
 
 function passwordMatchValidator(
@@ -63,8 +62,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient,
-    private navCtrl: NavController
+    private http: HttpClient
   ) {}
 
   ngOnInit() {

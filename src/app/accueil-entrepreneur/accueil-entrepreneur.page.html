@@ -12,20 +12,20 @@
   <ion-list *ngIf="searchTerm.length > 0">
     <ion-item *ngFor="let dev of filteredDevelopers" (click)="viewProfile(dev)" button>
       <ion-label>
-        <h2>{{ dev.Nomdev }} {{ dev.Prenomdev }}</h2>
+        <h2>{{ dev.Nomdev | titlecase}} {{ dev.Prenomdev | titlecase}}</h2>
 
         <div class="stars">
           <ion-icon *ngFor="let s of getStars(dev.moyenneNote); let i = index"
             [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'" color="warning">
           </ion-icon>
           <span class="note-text" *ngIf="dev.moyenneNote">{{ dev.moyenneNote | number:'1.1-1' }}/5</span>
-          <span class="note-text" *ngIf="!dev.moyenneNote">Pas encore évalué</span>
+          <!-- <span class="note-text" *ngIf="!dev.moyenneNote">Pas encore évalué</span> -->
         </div>
         <ion-badge *ngIf="dev.Niveau" color="primary">{{ dev.Niveau }}</ion-badge>
         <ion-badge *ngIf="dev.Disponibilite" [color]="dev.Disponibilite === 'disponible' ? 'success' : 'danger'">
           {{ dev.Disponibilite }}
         </ion-badge>
-        <p>Compétences: {{ dev.CompetencesTechniques }}</p>
+        <p>Compétences: {{ dev.CompetencesTechniques || '-' }}</p>
         <p *ngIf="dev.Experience">
           <ion-icon name="time-outline"></ion-icon>
           Expérience: {{ dev.Experience }}

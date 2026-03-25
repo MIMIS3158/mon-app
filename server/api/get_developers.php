@@ -18,6 +18,7 @@ $result = mysqli_query($conn, "
         d.Github,
         d.portfolio as Portfolio,
         d.profileImage as photo,
+        d.user_id,
         ROUND(AVG(e.note), 1) as moyenneNote
     FROM developers d
     LEFT JOIN evaluations e ON e.id_evalue = d.id 
