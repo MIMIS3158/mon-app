@@ -1,9 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button
-        [defaultHref]="isViewMode ? '/accueil-entrepreneur' : '/accueil-developpeur'"
-      ></ion-back-button>
+      <ion-back-button [defaultHref]="isViewMode ? '/accueil-entrepreneur' : '/accueil-developpeur'"></ion-back-button>
     </ion-buttons>
     <ion-title class="Accueil">
       {{ isViewMode ? 'Profil Développeur' : 'Mon Profil' }}
@@ -78,11 +76,7 @@
         </ion-label>
       </ion-item>
     </ion-list>
-    <ion-button
-      expand="block"
-      class="ion-margin contact-btn"
-      (click)="contacter()"
-    >
+    <ion-button expand="block" class="ion-margin contact-btn" (click)="contact()">
       <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
       Contacter
     </ion-button>
@@ -92,106 +86,34 @@
 
     <div class="profile-container">
       <img [src]="profileImage" class="profile-image" (click)="selectImage()" />
-      <input
-        type="file"
-        #fileInput
-        hidden
-        accept="image/*"
-        (change)="onImageSelected($event)"
-      />
+      <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)" />
     </div>
-    <ion-input
-      label="Nom"
-      [(ngModel)]="Nomdev"
-      placeholder="Entrez votre Nom"
-    ></ion-input>
-    <ion-input
-      label="Prenom"
-      [(ngModel)]="Prenomdev"
-      placeholder="Entrez votre Prenom"
-    ></ion-input>
-    <ion-input
-      label="Pseudo"
-      [(ngModel)]="Pseudo"
-      placeholder="Entrez votre Pseudo"
-    ></ion-input>
-    <ion-input
-      label="Email"
-      [(ngModel)]="Emaildev"
-      placeholder="Entrez votre Email"
-      type="email"
-    ></ion-input>
-    <ion-input
-      label="Telephone"
-      [(ngModel)]="Telephone"
-      placeholder="Entrez votre Telephone"
-    ></ion-input>
-    <ion-input
-      label="Competences Techniques"
-      [(ngModel)]="CompetencesTechniques"
-      placeholder="Entrez vos Competences"
-    ></ion-input>
-    <ion-input
-      label="Experience"
-      [(ngModel)]="Experience"
-      placeholder="Entrez votre Experience"
-    ></ion-input>
+    <ion-input label="Nom" [(ngModel)]="Nomdev" placeholder="Entrez votre Nom"></ion-input>
+    <ion-input label="Prenom" [(ngModel)]="Prenomdev" placeholder="Entrez votre Prenom"></ion-input>
+    <ion-input label="Pseudo" [(ngModel)]="Pseudo" placeholder="Entrez votre Pseudo"></ion-input>
+    <ion-input label="Email" [(ngModel)]="Emaildev" placeholder="Entrez votre Email" type="email"></ion-input>
+    <ion-input label="Telephone" [(ngModel)]="Telephone" placeholder="Entrez votre Telephone"></ion-input>
+    <ion-input label="Competences Techniques" [(ngModel)]="CompetencesTechniques"
+      placeholder="Entrez vos Competences"></ion-input>
+    <ion-input label="Experience" [(ngModel)]="Experience" placeholder="Entrez votre Experience"></ion-input>
     <ion-item lines="none" class="portfolio-item">
       <ion-label>Portfolio</ion-label>
       <ion-text *ngIf="SelectedFileName">{{ SelectedFileName }}</ion-text>
-      <ion-icon
-        slot="end"
-        name="cloud-upload-outline"
-        class="portfolio-icon"
-        (click)="openFilePicker()"
-      ></ion-icon>
+      <ion-icon slot="end" name="cloud-upload-outline" class="portfolio-icon" (click)="openFilePicker()"></ion-icon>
     </ion-item>
-    <input
-      type="file"
-      #portfolioInput
-      class="hidden-file-input"
-      accept=".pdf,.jsp"
-      (change)="FileSelected($event)"
-    />
-    <ion-select
-      label="Niveau"
-      [(ngModel)]="Niveau"
-      placeholder="Choisir votre niveau"
-    >
+    <input type="file" #portfolioInput class="hidden-file-input" accept=".pdf,.jsp" (change)="FileSelected($event)" />
+    <ion-select label="Niveau" [(ngModel)]="Niveau" placeholder="Choisir votre niveau">
       <ion-select-option value="junior">Junior</ion-select-option>
       <ion-select-option value="mid">Mid</ion-select-option>
       <ion-select-option value="senior">Senior</ion-select-option>
     </ion-select>
-    <ion-input
-      label="Date de naissance"
-      [(ngModel)]="DateNaissance"
-      type="date"
-    ></ion-input>
-    <ion-input
-      label="Pays"
-      [(ngModel)]="Pays"
-      placeholder="Entrez votre pays"
-    ></ion-input>
-    <ion-input
-      label="Ville"
-      [(ngModel)]="Ville"
-      placeholder="Entrez votre ville"
-    ></ion-input>
-    <ion-textarea
-      label="Biographie"
-      [(ngModel)]="Biographie"
-      placeholder="Parlez de vous..."
-    ></ion-textarea>
-    <ion-input
-      label="GitHub"
-      [(ngModel)]="Github"
-      placeholder="Lien GitHub"
-    ></ion-input>
-    <ion-button class="center-btn" expand="block" (click)="enregistrerProfil()"
-      >Enregistrer</ion-button
-    >
-    <ion-button class="border-btn" expand="block" (click)="ModifierProfil()"
-      >Modifier</ion-button
-    >
+    <ion-input label="Date de naissance" [(ngModel)]="DateNaissance" type="date"></ion-input>
+    <ion-input label="Pays" [(ngModel)]="Pays" placeholder="Entrez votre pays"></ion-input>
+    <ion-input label="Ville" [(ngModel)]="Ville" placeholder="Entrez votre ville"></ion-input>
+    <ion-textarea label="Biographie" [(ngModel)]="Biographie" placeholder="Parlez de vous..."></ion-textarea>
+    <ion-input label="GitHub" [(ngModel)]="Github" placeholder="Lien GitHub"></ion-input>
+
+    <ion-button class="center-btn" expand="block" (click)="updateProfile()">Enregistrer</ion-button>
+    <!-- <ion-button class="border-btn" expand="block" (click)="updateProfile()">Modifier</ion-button> -->
   </ion-card-content>
 </ion-content>
