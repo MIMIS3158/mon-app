@@ -65,9 +65,9 @@ if ($method === 'GET') {
     while ($row = mysqli_fetch_assoc($result)) {
         if (!$userId) {
             if (!empty($row['photo'])) {
-                $row['photo'] = 'http://localhost:8000/' . $row['photo'];
+                $row['photo'] = getEnvVar("APP_URL") . $row['photo'];
             } else {
-                $row['photo'] = 'http://localhost:8000/assets/profile_avatar.jpeg';
+                $row['photo'] = getEnvVar("APP_URL") . '/assets/profile_avatar.jpeg';
             }
             $row['entrepreneur'] = [
                 'id'               => $row['entrepreneur_id'],

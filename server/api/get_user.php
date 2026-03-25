@@ -10,7 +10,7 @@ mysqli_stmt_execute($stmt);
 
 $user = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
 if ($user && !empty($user['photo'])) {
-    $user['photo'] = 'http://localhost:8000/' . $user['photo'];
+    $user['photo'] = getEnvVar("APP_URL") . $user['photo'];
 }
 echo json_encode($user ?: ['error' => 'Introuvable']);
 mysqli_close($conn);

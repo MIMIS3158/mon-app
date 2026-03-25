@@ -28,10 +28,10 @@ $result = mysqli_query($conn, "
 $developers = [];
 while ($row = mysqli_fetch_assoc($result)) {
     if (!empty($row['photo'])) {
-        $row['photo'] = 'http://localhost:8000/api/' . $row['photo'];
+        $row['photo'] = getEnvVar("APP_URL") . $row['photo'];
     }
     if (!empty($row['Portfolio'])) {
-        $row['Portfolio'] = 'http://localhost:8000/api/' . $row['Portfolio'];
+        $row['Portfolio'] = getEnvVar("APP_URL") . $row['Portfolio'];
     }
     $row['moyenneNote'] = $row['moyenneNote'] ? (float)$row['moyenneNote'] : null;
     $developers[] = $row;

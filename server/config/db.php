@@ -1,4 +1,13 @@
 <?php
+
+$env = parse_ini_file(__DIR__ . '/../.env');
+
+function getEnvVar($key, $default = null)
+{
+    global $env;
+    return $env[$key] ?? $default;
+}
+
 class Database
 {
     private static $conn = null;
@@ -6,15 +15,14 @@ class Database
     public static function connect()
     {
         if (self::$conn === null) {
-            //fixme: use en vars to hide sensitive data from the code
-            // $conn = mysqli_connect(
-            //     getenv("DB_HOST"),
-            //     getenv("DB_USER"),
-            //     getenv("DB_PASS"),
-            //     getenv("DB_NAME")
-            // );
+            self::$conn = mysqli_connect(
+                getEnvVar('DB_HOST'),
+                getEnvVar('DB_USER'),
+                getEnvVar('DB_PASS'),
+                getEnvVar('DB_NAME')
+            );
 
-            self::$conn = mysqli_connect("localhost", "root", "", "freelance_db");
+            // self::$conn = mysqli_connect("localhost", "root", "", "freelance_db");
 
             if (!self::$conn) {
                 http_response_code(500);

@@ -187,7 +187,7 @@ if ($method === 'POST' && $action === 'add') {
     $data   = mysqli_fetch_assoc($result);
     if ($data) {
         if (!empty($data['profileImage'])) {
-            $data['profileImage'] = 'http://localhost:8000/api/' . $data['profileImage'];
+            $data['profileImage'] = getEnvVar("APP_URL") . $data['profileImage'];
         }
         if (empty($data['Nomdev']))    $data['Nomdev']    = $data['Nom'];
         if (empty($data['Prenomdev'])) $data['Prenomdev'] = $data['Prenom'];
