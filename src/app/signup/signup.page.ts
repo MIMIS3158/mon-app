@@ -19,6 +19,7 @@ export class SignupPage implements OnInit {
     email: '',
     password: '',
     role: '',
+    entreprise: '', 
   };
 
   constructor(
@@ -34,6 +35,10 @@ export class SignupPage implements OnInit {
       this.alertsService.alert('Veuillez choisir un rôle');
       return;
     }
+      if (this.user.role === 'entrepreneur' && !this.user.entreprise) {
+    this.alertsService.alert("Veuillez entrer le nom de votre entreprise");
+    return;
+  }
 
     this.http.post(`${this.apiUrl}/register.php`, this.user).subscribe({
       next: (response: any) => {
