@@ -13,8 +13,8 @@ import { DarkModeSettingsPage } from './dark-mode-settings.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DarkModeSettingsPageRoutingModule
+    DarkModeSettingsPageRoutingModule,
   ],
-  declarations: [DarkModeSettingsPage]
+  declarations: [DarkModeSettingsPage],
 })
 export class DarkModeSettingsPageModule {}

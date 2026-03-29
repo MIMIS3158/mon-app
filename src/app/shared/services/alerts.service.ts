@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { ToastController, AlertController } from '@ionic/angular';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AlertsService {
   constructor(
     private alertCtrl: AlertController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
   ) {}
 
   async alert(message: string, header = '', cssClass = 'my-custom-alert') {
@@ -19,9 +19,9 @@ export class AlertsService {
         {
           text: 'OK',
           cssClass: 'alert-button-confirm',
-          handler: () => {}
-        }
-      ]
+          handler: () => {},
+        },
+      ],
     });
 
     await alert.present();
@@ -31,8 +31,29 @@ export class AlertsService {
     const toast = await this.toastCtrl.create({
       message,
       cssClass,
-      duration: 1000
+      duration: 1000,
     });
     await toast.present();
   }
+  async confirm(message: string, header = 'Confirmation'): Promise<boolean> {
+  return new Promise(async (resolve) => {
+    const alert = await this.alertCtrl.create({
+      header,
+      message,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => resolve(false)
+        },
+        {
+          text: 'Confirmer',
+          cssClass: 'alert-button-confirm',
+          handler: () => resolve(true)
+        }
+      ]
+    });
+    await alert.present();
+  });
+}
 }

@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-dark-mode-settings',
   templateUrl: './dark-mode-settings.page.html',
   styleUrls: ['./dark-mode-settings.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class DarkModeSettingsPage implements OnInit {
   darkMode: boolean = false;

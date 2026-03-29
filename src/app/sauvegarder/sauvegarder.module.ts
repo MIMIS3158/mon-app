@@ -13,8 +13,8 @@ import { SauvegarderPage } from './sauvegarder.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    SauvegarderPageRoutingModule
+    SauvegarderPageRoutingModule,
   ],
-  declarations: [SauvegarderPage]
+  declarations: [SauvegarderPage],
 })
 export class SauvegarderPageModule {}

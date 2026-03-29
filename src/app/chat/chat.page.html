@@ -3,68 +3,131 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/conversations"></ion-back-button>
     </ion-buttons>
-    <div style="display:flex; align-items:center; gap:10px; padding: 4px 0;">
-      <img *ngIf="receiverPhoto" [src]="receiverPhoto"
-        style="width:38px;height:38px;border-radius:50%;object-fit:cover;" />
-      <div *ngIf="!receiverPhoto" style="width:38px;height:38px;border-radius:50%;
-                  background:#378ADD;color:white;
-                  display:flex;align-items:center;
-                  justify-content:center;font-weight:500;font-size:16px;">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 4px 0">
+      <img
+        *ngIf="receiverPhoto"
+        [src]="receiverPhoto"
+        style="width: 38px; height: 38px; border-radius: 50%; object-fit: cover"
+      />
+      <div
+        *ngIf="!receiverPhoto"
+        style="
+          width: 38px;
+          height: 38px;
+          border-radius: 50%;
+          background: #378add;
+          color: white;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 500;
+          font-size: 16px;
+        "
+      >
         {{ receiverName.charAt(0).toUpperCase() }}
       </div>
-      <p style="margin:0; font-weight:600; font-size:16px;">
+      <p style="margin: 0; font-weight: 600; font-size: 16px">
         {{ receiverName | titlecase}}
       </p>
     </div>
     <ion-buttons slot="end">
-      <ion-button style="--color: #ffffff;" (click)="comingSoon()">
+      <ion-button style="--color: #ffffff" (click)="comingSoon()">
         <ion-icon name="call-outline"></ion-icon>
       </ion-button>
-      <ion-button style="--color: #ffffff;" (click)="comingSoon()">
+      <ion-button style="--color: #ffffff" (click)="showContactInfo()">
         <ion-icon name="information-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 <ion-content class="chat-content" #content>
   <div class="messages-container">
     <div *ngIf="messages.length === 0" class="empty-chat">
       <ion-icon name="chatbubbles-outline"></ion-icon>
       <p>Aucun message pour le moment</p>
     </div>
-
     @if(messages) {
-    <div *ngFor="let msg of messages" class="message-wrapper" [ngClass]="isMine(msg) ? 'mine' : 'theirs'">
+    <div
+      *ngFor="let msg of messages"
+      class="message-wrapper"
+      [ngClass]="isMine(msg) ? 'mine' : 'theirs'"
+    >
       <div class="message-bubble">
-        <p class="message-text">{{ msg.message }}</p>
-        <span class="message-time">
-          {{ msg.date_envoi | date:'HH:mm' }}
-        </span>
+        <img *ngIf="msg.type_fichier === 'image'" 
+          [src]="msg.fichier" 
+          style="max-width:200px;border-radius:8px;display:block;margin-bottom:4px"/>
+        <a *ngIf="msg.type_fichier === 'document'" 
+          [href]="msg.fichier" target="_blank"
+          style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none;">
+          <ion-icon name="document-outline" style="font-size:24px;"></ion-icon>
+          <span>Voir le document</span>
+        </a>
+<div *ngIf="msg.type_fichier === 'location'"
+  style="display:flex;align-items:center;gap:8px;cursor:pointer;"
+  (click)="ouvrirLocalisation(msg.message)">
+  <ion-icon name="location-outline" style="font-size:24px;color:#667eea;"></ion-icon>
+  <span style="color:#667eea;text-decoration:underline;">Voir la localisation</span>
+</div>
+        <p class="message-text" *ngIf="!msg.type_fichier">{{ msg.message }}</p>
+        
+        <span class="message-time">{{ msg.date_envoi | date:'HH:mm' }}</span>
       </div>
     </div>
     }
-
   </div>
 </ion-content>
-<ion-footer>
+<div *ngIf="isBlocked" class="blocked-container">
+  <ion-icon name="ban-outline"></ion-icon>
+  <ng-container *ngIf="iAmBlocker">
+    <p class="blocked-title">Vous avez bloqué {{ receiverName | titlecase }}</p>
+    <p class="blocked-subtitle">Vous ne pouvez pas envoyer de messages.</p>
+    <ion-button expand="block" fill="outline" color="danger" (click)="debloquer()">
+      Débloquer
+    </ion-button>
+  </ng-container>
+
+  <ng-container *ngIf="!iAmBlocker">
+    <p class="blocked-title">Vous ne pouvez pas envoyer de messages</p>
+    <p class="blocked-subtitle">Cette personne a restreint les messages.</p>
+  </ng-container>
+</div>
+<ion-footer *ngIf="!isBlocked">
   <ion-toolbar class="chat-footer">
     <div class="input-container">
-      <button class="foot-btn" (click)="comingSoon()">
+<input type="file" id="galleryInput" hidden accept="image/*,.jfif"
+  (change)="onFileSelected($event)">
+      <input type="file" id="fileInput" hidden accept=".pdf,.doc,.docx"
+        (change)="onFileSelected($event)">
+      <input type="file" id="cameraInput" hidden accept="image/*" capture="environment"
+        (change)="onFileSelected($event)">
+      <button class="foot-btn" (click)="openActions()">
         <ion-icon name="add-outline"></ion-icon>
       </button>
-      <button class="foot-btn" (click)="comingSoon()">
+      <button class="foot-btn" (click)="openCamera()">
         <ion-icon name="camera-outline"></ion-icon>
       </button>
       <button class="foot-btn" (click)="comingSoon()">
         <ion-icon name="mic-outline"></ion-icon>
       </button>
-      <ion-textarea [(ngModel)]="newMessage" placeholder="Écrire un message..." rows="1" autoGrow="true"
-        class="message-input">
+
+      <ion-textarea
+        [(ngModel)]="newMessage"
+        placeholder="Écrire un message..."
+        rows="1"
+        autoGrow="true"
+        class="message-input"
+      >
       </ion-textarea>
-      <ion-button (click)="sendMessage()" [disabled]="!newMessage.trim()" color="primary" shape="round">
+
+      <ion-button
+        (click)="sendMessage()"
+        [disabled]="!newMessage.trim()"
+        color="primary"
+        shape="round"
+      >
         <ion-icon slot="icon-only" name="send"></ion-icon>
       </ion-button>
+
     </div>
   </ion-toolbar>
 </ion-footer>

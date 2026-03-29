@@ -13,8 +13,8 @@ import { ProfileEntrepreneurPage } from './profile-entrepreneur.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfileEntrepreneurPageRoutingModule
+    ProfileEntrepreneurPageRoutingModule,
   ],
-  declarations: [ProfileEntrepreneurPage]
+  declarations: [ProfileEntrepreneurPage],
 })
 export class ProfileEntrepreneurPageModule {}

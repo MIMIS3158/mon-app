@@ -8,7 +8,7 @@ import { AlertsService } from '../shared/services/alerts.service';
   selector: 'app-signup',
   templateUrl: './signup.page.html',
   styleUrls: ['./signup.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SignupPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -18,13 +18,13 @@ export class SignupPage implements OnInit {
     prenom: '',
     email: '',
     password: '',
-    role: ''
+    role: '',
   };
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
   ) {}
 
   ngOnInit() {}
@@ -55,7 +55,7 @@ export class SignupPage implements OnInit {
       },
       error: () => {
         this.alertsService.alert("Erreur lors de l'inscription");
-      }
+      },
     });
   }
 }

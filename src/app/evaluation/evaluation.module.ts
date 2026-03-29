@@ -13,8 +13,8 @@ import { EvaluationPage } from './evaluation.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    EvaluationPageRoutingModule
+    EvaluationPageRoutingModule,
   ],
-  declarations: [EvaluationPage]
+  declarations: [EvaluationPage],
 })
 export class EvaluationPageModule {}

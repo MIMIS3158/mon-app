@@ -14,8 +14,8 @@ import { ForgotPasswordPage } from './forgot-password.page';
     FormsModule,
     IonicModule,
     ReactiveFormsModule,
-    ForgotPasswordPageRoutingModule
+    ForgotPasswordPageRoutingModule,
   ],
-  declarations: [ForgotPasswordPage]
+  declarations: [ForgotPasswordPage],
 })
 export class ForgotPasswordPageModule {}

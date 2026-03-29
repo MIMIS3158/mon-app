@@ -47,7 +47,7 @@ if ($method === 'GET') {
             "SELECT p.*, c.nom_categorie,
                     e.user_id as entrepreneur_user_id,
                     e.Nom, e.Prenom,
-                    e.Secteur, e.TailleEntreprise,
+                    e.Secteur, 
                     e.AnneeCreation, e.Ville, e.Pays,
                     e.SiteWeb, e.Linkedin,
                     e.BudgetMoyen, e.profileImage as photo,
@@ -77,7 +77,7 @@ if ($method === 'GET') {
                 'Entreprise'       => $row['Publierparentreprise'],
                 'photo'            => $row['photo'] ?? null,
                 'Secteur'          => $row['Secteur'] ?? null,
-                'TailleEntreprise' => $row['TailleEntreprise'] ?? null,
+                //'TailleEntreprise' => $row['TailleEntreprise'] ?? null,
                 'AnneeCreation'    => $row['AnneeCreation'] ?? null,
                 'Ville'            => $row['Ville'] ?? null,
                 'Pays'             => $row['Pays'] ?? null,
@@ -91,7 +91,7 @@ if ($method === 'GET') {
                 $row['Prenom'],
                 $row['photo'],
                 $row['Secteur'],
-                $row['TailleEntreprise'],
+                //$row['TailleEntreprise'],
                 $row['AnneeCreation'],
                 $row['Ville'],
                 $row['Pays'],
@@ -148,7 +148,9 @@ if ($method === 'GET') {
         echo json_encode(["success" => true, "id" => mysqli_insert_id($conn)]);
     } else {
         http_response_code(500);
-        echo json_encode(["error" => mysqli_error($conn)]);
+       // echo json_encode(["error" => mysqli_error($conn)]);
+       error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la création du projet"]);
     }
     mysqli_stmt_close($stmt);
 } elseif ($method === 'PUT') {
@@ -216,7 +218,9 @@ if ($method === 'GET') {
             echo json_encode(["success" => true]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => mysqli_error($conn)]);
+            //echo json_encode(["error" => mysqli_error($conn)]);
+            error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du projet"]);
         }
         mysqli_stmt_close($stmt);
     }
@@ -241,7 +245,9 @@ if ($method === 'GET') {
         echo json_encode(["success" => true]);
     } else {
         http_response_code(500);
-        echo json_encode(["error" => mysqli_error($conn)]);
+       // echo json_encode(["error" => mysqli_error($conn)]);
+       error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la suppression du projet"]);
     }
     mysqli_stmt_close($stmt);
 } else {

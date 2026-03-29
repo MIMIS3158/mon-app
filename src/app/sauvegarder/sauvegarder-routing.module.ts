@@ -6,12 +6,12 @@ import { SauvegarderPage } from './sauvegarder.page';
 const routes: Routes = [
   {
     path: '',
-    component: SauvegarderPage
-  }
+    component: SauvegarderPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class SauvegarderPageRoutingModule {}

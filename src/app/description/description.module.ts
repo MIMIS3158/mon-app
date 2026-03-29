@@ -14,8 +14,8 @@ import { DescriptionPage } from './description.page';
     FormsModule,
     IonicModule,
     HttpClientModule,
-    DescriptionPageRoutingModule
+    DescriptionPageRoutingModule,
   ],
-  declarations: [DescriptionPage]
+  declarations: [DescriptionPage],
 })
 export class DescriptionPageModule {}

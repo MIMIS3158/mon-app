@@ -5,6 +5,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { ParametresPage } from '../parametres/parametres.page';
 import { environment } from 'src/environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 export interface Project {
   id?: number;
@@ -23,7 +24,7 @@ export interface Project {
   selector: 'app-projets',
   templateUrl: './projets.page.html',
   styleUrls: ['./projets.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ProjetsPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -43,11 +44,11 @@ export class ProjetsPage implements OnInit {
     private http: HttpClient,
     private alertController: AlertController,
     private toastController: ToastController,
-    private modalController: ModalController
+    private modalController: ModalController,
   ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.statutFiltre = params['statut'] || 'tous';
     });
     this.loadProjects();
@@ -57,40 +58,41 @@ export class ProjetsPage implements OnInit {
   ionViewWillEnter() {
     this.loadProjects();
   }
-  loadProjects() {
-    const userId = localStorage.getItem('userId');
-    this.http
-      .get<any[]>(`${this.apiUrl}/projects.php?userId=${userId}`)
-      .subscribe({
-        next: data => {
-          this.projects = data;
-        },
-        error: error => {
-          console.error('Erreur chargement projets:', error);
-          this.presentToast('Erreur lors du chargement des projets', 'danger');
-        }
-      });
+ 
+  async loadProjects() {
+  const userId = localStorage.getItem('userId');
+  try {
+    const data = await firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/projects.php`, {
+        params: { userId: userId! }
+      })
+    );
+    this.projects = data;
+  } catch(err) {
+    this.presentToast('Erreur lors du chargement des projets', 'danger');
   }
+}
   get projetsFiltres() {
     if (this.statutFiltre === 'tous') {
       return this.projects;
     }
-    return this.projects.filter(p => p.Statut === this.statutFiltre);
+    return this.projects.filter((p) => p.Statut === this.statutFiltre);
   }
-  validateReceivedWork(project: any) {
-    this.http
-      .put(`${this.apiUrl}/projects.php?id=${project.id}&action=valider`, {})
-      .subscribe({
-        next: (response: any) => {
-          this.presentToast('Travail validé !', 'success');
-          this.loadProjects();
-        },
-        error: error => {
-          console.error('Erreur validation:', error);
-          this.presentToast('Erreur lors de la validation', 'danger');
-        }
-      });
+ 
+
+  async validateReceivedWork(project: any) {
+  try {
+    await firstValueFrom(
+      this.http.put(`${this.apiUrl}/projects.php`, {}, {
+        params: { id: project.id, action: 'valider' }
+      })
+    );
+    this.presentToast('Travail validé !', 'success');
+    this.loadProjects();
+  } catch(err) {
+    this.presentToast('Erreur lors de la validation', 'danger');
   }
+}
   async notCompliant(project: any) {
     const alert = await this.alertController.create({
       header: 'Travail à refaire',
@@ -99,29 +101,31 @@ export class ProjetsPage implements OnInit {
       buttons: [
         {
           text: 'Annuler',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Confirmer',
           handler: () => {
-            this.http
+            /*this.http
               .put(
                 `${this.apiUrl}/projects.php?id=${project.id}&action=refaire`,
-                {}
-              )
+                {},
+              )*/this.http.put(`${this.apiUrl}/projects.php`, {}, {
+  params: { id: project.id, action: 'refaire' }
+})
               .subscribe({
                 next: () => {
                   this.presentToast('Demande envoyée', 'warning');
                   this.loadProjects();
                 },
-                error: error => {
+                error: (error) => {
                   console.error('Erreur:', error);
                   this.presentToast('Erreur lors de la demande', 'danger');
-                }
+                },
               });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
@@ -133,14 +137,17 @@ export class ProjetsPage implements OnInit {
       buttons: [
         {
           text: 'Annuler',
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: 'Supprimer',
           role: 'destructive',
           handler: () => {
-            this.http
-              .delete(`${this.apiUrl}/projects.php?id=${project.id}`)
+           /* this.http
+              .delete(`${this.apiUrl}/projects.php?id=${project.id}`)*/
+              this.http.delete(`${this.apiUrl}/projects.php`, {
+  params: { id: project.id }
+})
               .subscribe({
                 next: () => {
                   const index = this.projects.indexOf(project);
@@ -152,14 +159,14 @@ export class ProjetsPage implements OnInit {
                     this.selectedProject = null;
                   }
                 },
-                error: error => {
+                error: (error) => {
                   console.error('Erreur suppression:', error);
                   this.presentToast('Erreur lors de la suppression', 'danger');
-                }
+                },
               });
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
@@ -168,14 +175,14 @@ export class ProjetsPage implements OnInit {
       state: {
         projet: project,
         developpeurId: project.id_developpeur,
-        type: 'entrepreneur'
-      }
+        type: 'entrepreneur',
+      },
     });
   }
 
   editproject(project: any) {
     this.router.navigate(['/projet-creation'], {
-      queryParams: { id: project.id }
+      queryParams: { id: project.id },
     });
   }
 
@@ -188,14 +195,14 @@ export class ProjetsPage implements OnInit {
       message: message,
       duration: 2000,
       color: color,
-      position: 'bottom'
+      position: 'bottom',
     });
     await toast.present();
   }
   async ouvrirParametre() {
     const modal = await this.modalController.create({
       component: ParametresPage,
-      cssClass: 'settings-modal'
+      cssClass: 'settings-modal',
     });
     return await modal.present();
   }
@@ -203,16 +210,19 @@ export class ProjetsPage implements OnInit {
   loadBadges() {
     const userId = localStorage.getItem('userId');
     const role = localStorage.getItem('role');
-    this.http
-      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+   /* this.http
+      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)*/
+      this.http.get<any>(`${this.apiUrl}/badge.php`, {
+  params: { userId: userId!, role: role! }
+})
       .subscribe({
-        next: data => {
+        next: (data) => {
           this.messagesNonLus = data.messages;
           this.notificationsCount = data.notifications;
           this.enCoursCount = data.en_cours;
           this.terminesCount = data.termines;
         },
-        error: () => {}
+        error: () => {},
       });
   }
   ionViewWillLeave() {

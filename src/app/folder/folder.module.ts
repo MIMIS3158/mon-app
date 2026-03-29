@@ -10,6 +10,6 @@ import { FolderPage } from './folder.page';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, FolderPageRoutingModule],
-  declarations: [FolderPage]
+  declarations: [FolderPage],
 })
 export class FolderPageModule {}

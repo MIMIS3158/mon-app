@@ -9,20 +9,20 @@ import { firstValueFrom } from 'rxjs';
   selector: 'app-inscription',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class SigninPage implements OnInit {
   private apiUrl = environment.apiUrl;
 
   user = {
     email: '',
-    password: ''
+    password: '',
   };
 
   constructor(
     private router: Router,
     private http: HttpClient,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
   ) {}
 
   ngOnInit() {}
@@ -50,7 +50,7 @@ export class SigninPage implements OnInit {
         }
         localStorage.setItem('connected', 'true');
       })
-      .catch(ex => {
+      .catch((ex) => {
         this.alertsService.alert('Email ou mot de passe incorrect');
       });
   }

@@ -6,12 +6,12 @@ import { DashboardEntrepreneurPage } from './dashboard-entrepreneur.page';
 const routes: Routes = [
   {
     path: '',
-    component: DashboardEntrepreneurPage
-  }
+    component: DashboardEntrepreneurPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DashboardEntrepreneurPageRoutingModule {}

@@ -1,6 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title class="Accueil">Candidatures reçues</ion-title>
+    <!--<ion-title class="Accueil">Candidatures reçues</ion-title>-->
+    <ion-title class="Accueil">{{ pageTitle }}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-padding">
@@ -29,10 +30,18 @@
   <ion-list *ngIf="displayedNotifications.length > 0">
     <ion-card *ngFor="let notif of displayedNotifications">
       <ion-card-header>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
           <div>
             <ion-card-title>{{ notif.Nomdev || 'Développeur' }}</ion-card-title>
-            <ion-card-subtitle>Pour le projet: {{ notif.Nomduprojet }}</ion-card-subtitle>
+            <ion-card-subtitle
+              >Pour le projet: {{ notif.Nomduprojet }}</ion-card-subtitle
+            >
           </div>
 
           <ion-badge [color]="getStatusColor(notif.statut)">
@@ -72,20 +81,33 @@
             <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
             Accepter cette candidature
           </ion-button>
-          <ion-button expand="block" color="danger" fill="outline" (click)="refuser(notif)">
+          <ion-button
+            expand="block"
+            color="danger"
+            fill="outline"
+            (click)="refuser(notif)"
+          >
             <ion-icon name="close-circle-outline" slot="start"></ion-icon>
             Refuser
           </ion-button>
         </div>
         <div class="action-buttons" *ngIf="notif.statut === 'Acceptée'">
-          <ion-button expand="block" color="primary" (click)="contacterDeveloppeur(notif)">
+          <ion-button
+            expand="block"
+            color="primary"
+            (click)="contacterDeveloppeur(notif)"
+          >
             <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
             Contacter le développeur
           </ion-button>
         </div>
         <div class="action-buttons" *ngIf="notif.statut === 'Terminée'">
-          <ion-button *ngIf="!notif.developpeurEvalue" expand="block" color="warning"
-            (click)="evaluerDeveloppeur(notif)">
+          <ion-button
+            *ngIf="!notif.developpeurEvalue"
+            expand="block"
+            color="warning"
+            (click)="evaluerDeveloppeur(notif)"
+          >
             <ion-icon name="star-outline" slot="start"></ion-icon>
             Évaluer le développeur
           </ion-button>
@@ -119,12 +141,19 @@
         </ion-col>   -->
 
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
-            <div style="position: relative; display: inline-block;">
+          <ion-button
+            fill="clear"
+            expand="full"
+            (click)="goTo('conversations')"
+          >
+            <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
-              <span class="badge-notif" *ngIf="messagesNonLus > 0">
+              <!--<span class="badge-notif" *ngIf="messagesNonLus > 0">
                 {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-              </span>
+              </span>-->
+              <ion-badge color="danger" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </ion-badge>
             </div>
           </ion-button>
         </ion-col>

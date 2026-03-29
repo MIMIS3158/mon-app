@@ -11,8 +11,8 @@ import { ProjetCreationPage } from './projet-creation.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProjetCreationPageRoutingModule
+    ProjetCreationPageRoutingModule,
   ],
-  declarations: [ProjetCreationPage]
+  declarations: [ProjetCreationPage],
 })
 export class ProjetCreationPageModule {}

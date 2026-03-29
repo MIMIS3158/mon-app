@@ -5,6 +5,8 @@ import { ModalController } from '@ionic/angular';
 import { ParametresPage } from '../parametres/parametres.page';
 import { environment } from 'src/environments/environment';
 import { AlertsService } from '../shared/services/alerts.service';
+import { firstValueFrom } from 'rxjs';
+import { BadgeService } from '../shared/services/badge.service';
 
 export interface Postulation {
   id_postulation?: number;
@@ -24,7 +26,7 @@ export interface Postulation {
   selector: 'app-postulation',
   templateUrl: './postulation.page.html',
   styleUrls: ['./postulation.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class PostulationPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -42,7 +44,8 @@ export class PostulationPage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private modalController: ModalController,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
+    private badgeService: BadgeService,
   ) {}
   ngOnInit() {
     this.loadPostulations();
@@ -52,20 +55,19 @@ export class PostulationPage implements OnInit {
   ionViewWillEnter() {
     this.loadPostulations();
   }
-  loadPostulations() {
-    const id_developpeur = localStorage.getItem('userId');
-    this.http
-      .get<Postulation[]>(
-        `${this.apiUrl}/candidature.php?id_developpeur=${id_developpeur}`
-      )
-      .subscribe({
-        next: postulations => {
-          this.allPostulations = postulations;
-          this.filterPostulations();
-        },
-        error: () => {}
-      });
-  }
+
+  async loadPostulations() {
+  const id_developpeur = localStorage.getItem('userId');
+  try {
+    const postulations = await firstValueFrom(
+      this.http.get<Postulation[]>(`${this.apiUrl}/candidature.php`, {
+        params: { id_developpeur: id_developpeur! }
+      })
+    );
+    this.allPostulations = postulations;
+    this.filterPostulations();
+  } catch(err) {}
+}
 
   onTabChange() {
     this.filterPostulations();
@@ -78,22 +80,22 @@ export class PostulationPage implements OnInit {
         break;
       case 'pending':
         this.displayedPostulations = this.allPostulations.filter(
-          p => p.statut === 'En attente'
+          (p) => p.statut === 'En attente',
         );
         break;
       case 'accepted':
         this.displayedPostulations = this.allPostulations.filter(
-          p => p.statut === 'Acceptée'
+          (p) => p.statut === 'Acceptée',
         );
         break;
       case 'completed':
         this.displayedPostulations = this.allPostulations.filter(
-          p => p.statut === 'Terminée'
+          (p) => p.statut === 'Terminée',
         );
         break;
       case 'rejected':
         this.displayedPostulations = this.allPostulations.filter(
-          p => p.statut === 'Refusée'
+          (p) => p.statut === 'Refusée',
         );
         break;
     }
@@ -119,52 +121,54 @@ export class PostulationPage implements OnInit {
       state: {
         projet: postulation,
         entrepreneurId: postulation.id_entrepreneur,
-        type: 'developpeur'
-      }
+        type: 'developpeur',
+      },
     });
   }
   startProject(postulation: Postulation) {
     this.router.navigate(['/chat'], {
       queryParams: {
         projectId: postulation.project_id,
-        userId: postulation.id_entrepreneur
-      }
+        userId: postulation.id_entrepreneur,
+      },
     });
   }
-  terminerProject(postulation: Postulation) {
-    if (!postulation.id_postulation) return;
+ 
+async terminerProject(postulation: Postulation) {
+  if (!postulation.id_postulation) return;
+  try {
+    await firstValueFrom(
+      this.http.put(`${this.apiUrl}/candidature.php`, {}, {
+        params: { id: postulation.id_postulation!, action: 'terminer' }
+      })
+    );
+    this.alertsService.alert('Projet terminé !');
+    this.loadPostulations();
+  } catch(err) {}
+}
 
-    this.http
-      .put(
-        `${this.apiUrl}/candidature.php?id=${postulation.id_postulation}&action=terminer`,
-        {}
-      )
-      .subscribe({
-        next: () => {
-          this.alertsService.alert('Projet terminé !');
-          this.loadPostulations();
-        },
-        error: () => {}
-      });
-  }
-  cancelProject(postulation: Postulation) {
-    if (!postulation.id_postulation) return;
-    this.http
-      .delete(`${this.apiUrl}/candidature.php?id=${postulation.id_postulation}`)
-      .subscribe({
-        next: () => {
-          this.loadPostulations();
-        },
-        error: () => {}
-      });
-  }
+async cancelProject(postulation: Postulation) {
+  if (!postulation.id_postulation) return;
+  try {
+    await firstValueFrom(
+      this.http.delete(`${this.apiUrl}/candidature.php`, {
+        params: { id: postulation.id_postulation! }
+      })
+    );
+    this.loadPostulations();
+  } catch(err) {}
+}
+
+
+
+
   goToAccueil() {
     this.router.navigate(['/accueil-developpeur']);
   }
   async ouvrirParametre() {
     const modal = await this.modalController.create({
       component: ParametresPage,
-      cssClass: 'settings-modal'
+      cssClass: 'settings-modal',
     });
     return await modal.present();
   }
@@ -172,21 +176,37 @@ export class PostulationPage implements OnInit {
     this.router.navigate(['/recommended']);
   }
 
-  loadBadges() {
+  /*loadBadges() {
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
-    this.http
-      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+    const role = localStorage.getItem('role');*/
+   /* this.http
+      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)*/
+     /* this.http.get<any>(`${this.apiUrl}/badge.php`, {
+  params: { userId: userId!, role: role! }
+})
       .subscribe({
-        next: data => {
+        next: (data) => {
           this.messagesNonLus = data.messages;
           this.notificationsCount = data.notifications;
           this.enCoursCount = data.en_cours;
           this.terminesCount = data.termines;
         },
-        error: () => {}
+        error: () => {},
       });
-  }
+  }*/
+
+      loadBadges() {
+  this.badgeService.getBadges().subscribe({
+    next: (data) => {
+      this.messagesNonLus = data.messages;
+      this.notificationsCount = data.notifications;
+      this.enCoursCount = data.en_cours;
+      this.terminesCount = data.termines;
+    },
+    error: () => {},
+  });
+}
+
   ionViewWillLeave() {
     if (this.badgeInterval) clearInterval(this.badgeInterval);
   }

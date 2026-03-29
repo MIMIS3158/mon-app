@@ -6,12 +6,12 @@ import { ProjetCreationPage } from './projet-creation.page';
 const routes: Routes = [
   {
     path: '',
-    component: ProjetCreationPage
-  }
+    component: ProjetCreationPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class ProjetCreationPageRoutingModule {}

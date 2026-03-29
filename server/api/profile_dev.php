@@ -109,7 +109,9 @@ try {
             echo json_encode(["success" => true, "id" => mysqli_insert_id($conn)]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => mysqli_error($conn)]);
+            //echo json_encode(["error" => mysqli_error($conn)]);
+            error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la création du profil"]);
         }
         mysqli_stmt_close($stmt);
         return;
@@ -173,7 +175,9 @@ try {
             echo json_encode(["success" => true, "rows" => mysqli_stmt_affected_rows($stmt)]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => mysqli_error($conn)]);
+            //echo json_encode(["error" => mysqli_error($conn)]);
+            error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du profil"]);
         }
         if ($profileImage !== "") {
             $uPhoto = mysqli_prepare($conn, "UPDATE users SET photo = ? WHERE id = ?");

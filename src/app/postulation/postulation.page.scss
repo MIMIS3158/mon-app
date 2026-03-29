@@ -263,6 +263,17 @@ ion-footer {
     padding: 4px 0;
   }
   .tab-button {
+    div {
+      position: relative;
+      ion-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        font-size: 10px;
+        min-width: 18px;
+        text-align: center;
+      }
+    }
     ion-button {
       --color: #a0aec0;
       --ripple-color: rgba(102, 126, 234, 0.15);
@@ -363,7 +374,8 @@ ion-card {
     font-size: 24px;
   }
 }
-.badge-notif {
+
+/*.badge-notif {
   position: absolute;
   top: -8px;
   right: -8px;
@@ -377,4 +389,4 @@ ion-card {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-}
+}*/

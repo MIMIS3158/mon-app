@@ -192,7 +192,7 @@ ion-header {
             font-weight: 700;
           }
         }
-        .badge {
+        /*.badge {
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           color: white;
           font-size: 0.7rem;
@@ -201,6 +201,12 @@ ion-header {
           border-radius: 12px;
           min-width: 22px;
           text-align: center;
+          box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }*/
+        ion-badge {
+          --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          --color: white;
+          border-radius: 12px;
           box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
         }
       }
@@ -348,11 +354,11 @@ ion-header {
             font-size: 0.7rem;
           }
 
-          .badge {
+          /*.badge {
             font-size: 0.65rem;
             padding: 3px 7px;
             min-width: 20px;
-          }
+          }*/
         }
 
         .delete-btn {

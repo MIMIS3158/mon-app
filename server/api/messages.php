@@ -4,10 +4,12 @@ require_once __DIR__ . '/../config/cors.php';
 require_once __DIR__ . '/../config/db.php';
 $conn = Database::connect();
 
+$uploadDir = __DIR__ . '/../uploads/messages/';
+if (!is_dir($uploadDir)) {
+    mkdir($uploadDir, 0755, true);
+}
 
 $method = $_SERVER['REQUEST_METHOD'];
-
-// GET MESSAGES
 if ($method === 'GET') {
     $sender_id   = $_GET['sender_id'] ?? null;
     $receiver_id = $_GET['receiver_id'] ?? null;
@@ -52,9 +54,13 @@ if ($method === 'GET') {
     $result = mysqli_stmt_get_result($stmt);
     $messages = [];
     while ($row = mysqli_fetch_assoc($result)) {
+        if (!empty($row['fichier'])) {
+            $row['fichier'] = getEnvVar("APP_URL") . '/' . $row['fichier'];
+        }
         $messages[] = $row;
     }
     mysqli_stmt_close($stmt);
+    
     $update = mysqli_prepare($conn, "
         UPDATE messages SET lu = 1 
         WHERE receiver_id = ? AND sender_id = ? AND lu = 0
@@ -64,59 +70,89 @@ if ($method === 'GET') {
     mysqli_stmt_close($update);
     echo json_encode($messages);
 }
-// CREATE MESSAGE
 else if ($method === 'POST') {
-    $data        = json_decode(file_get_contents("php://input"), true);
-    $sender_id   = $data['sender_id'] ?? null;
-    $receiver_id = $data['receiver_id'] ?? null;
-    $project_id  = $data['project_id'] ?? null;
-    $message     = trim($data['message'] ?? '');
-    if (!$sender_id || !$receiver_id || $message === '') {
-        http_response_code(400);
-        echo json_encode(["error" => "Données manquantes ou message vide"]);
-        exit;
-    }
-    $checkUser = mysqli_prepare($conn, "SELECT id FROM users WHERE id = ?");
-    mysqli_stmt_bind_param($checkUser, "i", $sender_id);
-    mysqli_stmt_execute($checkUser);
-    mysqli_stmt_store_result($checkUser);
-    if (mysqli_stmt_num_rows($checkUser) === 0) {
-        http_response_code(400);
-        echo json_encode(["error" => "sender_id invalide"]);
-        exit;
-    }
-    mysqli_stmt_close($checkUser);
-    $checkUser = mysqli_prepare($conn, "SELECT id FROM users WHERE id = ?");
-    mysqli_stmt_bind_param($checkUser, "i", $receiver_id);
-    mysqli_stmt_execute($checkUser);
-    mysqli_stmt_store_result($checkUser);
-    if (mysqli_stmt_num_rows($checkUser) === 0) {
-        http_response_code(400);
-        echo json_encode(["error" => "receiver_id invalide"]);
-        exit;
-    }
-    mysqli_stmt_close($checkUser);
-    if (empty($project_id) || $project_id == 0) $project_id = null;
-    if ($project_id === null) {
-        $stmt = mysqli_prepare($conn, "
-            INSERT INTO messages (sender_id, receiver_id, project_id, message, date_envoi, lu)
-            VALUES (?, ?, NULL, ?, NOW(), 0)
-        ");
-        mysqli_stmt_bind_param($stmt, "iis", $sender_id, $receiver_id, $message);
+    $sender_id   = null;
+    $receiver_id = null;
+    $project_id  = null;
+    $message     = '';
+    $fichier     = null;
+    $type_fichier = null;
+    if (!empty($_FILES)) {
+        $sender_id   = $_POST['sender_id'] ?? null;
+        $receiver_id = $_POST['receiver_id'] ?? null;
+        $project_id  = $_POST['project_id'] ?? null;
+        $message     = trim($_POST['message'] ?? '');
+        if (!empty($_FILES['fichier']['name'])) {
+            $ext = strtolower(pathinfo($_FILES['fichier']['name'], PATHINFO_EXTENSION));
+            $allowedImages = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'jfif'];
+            $allowedDocs   = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+            
+            if (in_array($ext, $allowedImages)) {
+                $type_fichier = 'image';
+            } elseif (in_array($ext, $allowedDocs)) {
+                $type_fichier = 'document';
+            } else {
+                http_response_code(400);
+                echo json_encode(["error" => "Type de fichier non autorisé"]);
+                exit;
+            }
+
+            $filename = time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+            if (move_uploaded_file($_FILES['fichier']['tmp_name'], $uploadDir . $filename)) {
+                $fichier = 'uploads/messages/' . $filename;
+            }
+        }
     } else {
-        $stmt = mysqli_prepare($conn, "
-            INSERT INTO messages (sender_id, receiver_id, project_id, message, date_envoi, lu)
-            VALUES (?, ?, ?, ?, NOW(), 0)
-        ");
-        mysqli_stmt_bind_param($stmt, "iiis", $sender_id, $receiver_id, $project_id, $message);
+        $data        = json_decode(file_get_contents("php://input"), true);
+        $sender_id   = $data['sender_id'] ?? null;
+        $receiver_id = $data['receiver_id'] ?? null;
+        $project_id  = $data['project_id'] ?? null;
+        $message     = trim($data['message'] ?? '');
+        
+        
+        if (!empty($data['localisation'])) {
+            $type_fichier = 'location';
+            $message = $data['localisation'];
+        }
     }
+
+    if (!$sender_id || !$receiver_id) {
+        http_response_code(400);
+        echo json_encode(["error" => "Données manquantes"]);
+        exit;
+    }
+
+    /*if ($message === '' && !$fichier) {
+        http_response_code(400);
+        echo json_encode(["error" => "Message ou fichier requis"]);
+        exit;
+    }*/
+        if ($message === '' && !$fichier && $type_fichier !== 'location') {
+    http_response_code(400);
+    echo json_encode(["error" => "Message ou fichier requis"]);
+    exit;
+}
+   
+
+    if (empty($project_id) || $project_id == 0) $project_id = null;
+
+    $stmt = mysqli_prepare($conn, "
+        INSERT INTO messages (sender_id, receiver_id, project_id, message, fichier, type_fichier, date_envoi, lu)
+        VALUES (?, ?, ?, ?, ?, ?, NOW(), 0)
+    ");
+    mysqli_stmt_bind_param($stmt, "iiisss", 
+        $sender_id, $receiver_id, $project_id, 
+        $message, $fichier, $type_fichier
+    );
+
     if (mysqli_stmt_execute($stmt)) {
         echo json_encode(["success" => true, "message" => "Message envoyé"]);
     } else {
-        http_response_code(500);
-        echo json_encode(["error" => mysqli_error($conn)]);
+        error_log(mysqli_error($conn));
+        echo json_encode(["error" => "Une erreur est survenue lors de l'envoi du message"]);
     }
     mysqli_stmt_close($stmt);
 }
 
 mysqli_close($conn);
+?>

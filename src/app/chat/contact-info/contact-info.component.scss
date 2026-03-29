@@ -1,0 +1,182 @@
+ion-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --color: white;
+    padding: 8px 0;
+    ion-title {
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: 0.3px;
+    }
+    ion-buttons ion-button {
+      --color: white;
+
+      ion-icon {
+        font-size: 28px;
+      }
+    }
+  }
+}
+ion-content {
+  --background: #f5f7fa;
+  .profile-section {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    position: relative;
+    margin-bottom: 24px;
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid #764ba2;
+    }
+    .profile-photo {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      display: block;
+      margin: 0 auto 20px;
+      background: white;
+    }
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: 800;
+      border: 5px solid white;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      margin: 0 auto 20px;
+      backdrop-filter: blur(10px);
+    }
+    .profile-name {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: white;
+      margin: 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+  ion-list {
+    background: transparent;
+    padding: 24px 16px;
+    ion-item {
+      --background: white;
+      --padding-start: 20px;
+      --padding-end: 20px;
+      --min-height: 64px;
+      --border-color: transparent;
+      margin-bottom: 12px;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      &:hover {
+        transform: translateX(4px);
+        box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+      }
+      &:active {
+        transform: translateX(2px);
+      }
+      ion-icon[slot="start"] {
+        font-size: 24px;
+        margin-right: 16px;
+      }
+      ion-icon[slot="end"] {
+        font-size: 20px;
+        color: #cbd5e0;
+      }
+      ion-label {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2d3748;
+        &[color="danger"] {
+          --color: #ef4444;
+          color: #ef4444;
+        }
+      }
+      &:has(ion-label[color="danger"]):hover {
+        background: #fef2f2;
+        box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+      }
+    }
+  }
+}
+.profile-section {
+  animation: fadeInDown 0.5s ease;
+}
+ion-list ion-item {
+  animation: slideIn 0.4s ease backwards;
+  &:nth-child(1) { animation-delay: 0.1s; }
+  &:nth-child(2) { animation-delay: 0.15s; }
+  &:nth-child(3) { animation-delay: 0.2s; }
+  &:nth-child(4) { animation-delay: 0.25s; }
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@media (max-width: 576px) {
+  .profile-section {
+    padding: 32px 16px;
+
+    .profile-photo,
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 16px;
+    }
+    .profile-avatar {
+      font-size: 2.5rem;
+    }
+    .profile-name {
+      font-size: 1.5rem;
+    }
+  }
+  ion-list {
+    padding: 20px 12px;
+    ion-item {
+      --min-height: 56px;
+      margin-bottom: 10px;
+
+      ion-icon[slot="start"] {
+        font-size: 22px;
+        margin-right: 14px;
+      }
+      ion-label {
+        font-size: 0.95rem;
+      }
+    }
+  }
+}

@@ -69,7 +69,9 @@ if (mysqli_stmt_execute($stmt)) {
     echo json_encode(['success' => 'Évaluation publiée avec succès']);
 } else {
     http_response_code(500);
-    echo json_encode(['error' => mysqli_error($conn)]);
+    //echo json_encode(['error' => mysqli_error($conn)]);
+    error_log(mysqli_error($conn));
+echo json_encode(['error' => "Une erreur est survenue lors de la publication de l'évaluation"]);
 }
 mysqli_stmt_close($stmt);
 mysqli_close($conn);

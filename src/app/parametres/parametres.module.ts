@@ -13,8 +13,8 @@ import { ParametresPage } from './parametres.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ParametresPageRoutingModule
+    ParametresPageRoutingModule,
   ],
-  declarations: [ParametresPage]
+  declarations: [ParametresPage],
 })
 export class ParametresPageModule {}

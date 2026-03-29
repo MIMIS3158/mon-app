@@ -6,12 +6,12 @@ import { RecommendedPage } from './recommended.page';
 const routes: Routes = [
   {
     path: '',
-    component: RecommendedPage
-  }
+    component: RecommendedPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class RecommendedPageRoutingModule {}

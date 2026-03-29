@@ -17,6 +17,7 @@ $en_cours = 0;
 $termines = 0;
 $evaluations = 0;
 $msgStmt = mysqli_prepare($conn, "SELECT COUNT(*) FROM messages WHERE receiver_id = ? AND lu = 0");
+
 mysqli_stmt_bind_param($msgStmt, "i", $user_id);
 mysqli_stmt_execute($msgStmt);
 mysqli_stmt_bind_result($msgStmt, $messages_non_lus);

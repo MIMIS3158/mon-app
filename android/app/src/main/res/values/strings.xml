@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ProConnect</string>
+    <string name="title_activity_main">ProConnect</string>
+    <string name="package_name">com.proconnect.app</string>
+    <string name="custom_url_scheme">com.proconnect.app</string>
+</resources>

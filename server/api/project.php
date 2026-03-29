@@ -61,7 +61,9 @@ if ($method === 'POST') {
     );
     if (!mysqli_stmt_execute($stmt)) {
         http_response_code(500);
-        echo json_encode(["success" => false, "errors" => [mysqli_stmt_error($stmt)]]);
+        //echo json_encode(["success" => false, "errors" => [mysqli_stmt_error($stmt)]]);
+        error_log(mysqli_stmt_error($stmt));
+echo json_encode(["success" => false, "errors" => ["Une erreur est survenue lors de la création du projet"]]);
         exit;
     }
     echo json_encode(["success" => true, "id" => mysqli_insert_id($conn)]);
@@ -111,7 +113,9 @@ if ($method === 'POST') {
     );
     if (!mysqli_stmt_execute($stmt)) {
         http_response_code(500);
-        echo json_encode(["success" => false, "errors" => [mysqli_stmt_error($stmt)]]);
+        //echo json_encode(["success" => false, "errors" => [mysqli_stmt_error($stmt)]]);
+        error_log(mysqli_stmt_error($stmt));
+echo json_encode(["success" => false, "errors" => ["Une erreur est survenue lors de la mise à jour du projet"]]);
         exit;
     }
     echo json_encode(["success" => true, "message" => "Projet modifié avec succès"]);

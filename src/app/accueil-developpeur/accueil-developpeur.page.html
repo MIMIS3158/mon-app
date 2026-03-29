@@ -4,10 +4,18 @@
   </ion-toolbar>
   <ion-toolbar>
     <div class="search-container">
-      <ion-searchbar placeholder="Rechercher un projet ou un langage" [(ngModel)]="searchTerm" (ionInput)="onSearch()"
-        class="searchbar">
+      <ion-searchbar
+        placeholder="Rechercher un projet ou un langage"
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch()"
+        class="searchbar"
+      >
       </ion-searchbar>
-      <ion-button class="reset-header-button" (click)="resetFilters()" fill="solid">
+      <ion-button
+        class="reset-header-button"
+        (click)="resetFilters()"
+        fill="solid"
+      >
         <ion-icon name="refresh-outline"></ion-icon>
       </ion-button>
     </div>
@@ -26,9 +34,15 @@
           <ion-col size="6">
             <ion-item>
               <ion-label>Compétence</ion-label>
-              <ion-select [(ngModel)]="selectedCompetence" (ionChange)="onFilter()">
+              <ion-select
+                [(ngModel)]="selectedCompetence"
+                (ionChange)="onFilter()"
+              >
                 <ion-select-option value="">Toutes</ion-select-option>
-                <ion-select-option *ngFor="let Competence of CompetencesList" [value]="Competence">
+                <ion-select-option
+                  *ngFor="let Competence of CompetencesList"
+                  [value]="Competence"
+                >
                   {{ Competence }}
                 </ion-select-option>
               </ion-select>
@@ -39,7 +53,10 @@
               <ion-label>Statut</ion-label>
               <ion-select [(ngModel)]="selectedStatus" (ionChange)="onFilter()">
                 <ion-select-option value="">Tous</ion-select-option>
-                <ion-select-option *ngFor="let status of statusList" [value]="status">
+                <ion-select-option
+                  *ngFor="let status of statusList"
+                  [value]="status"
+                >
                   {{ status }}
                 </ion-select-option>
               </ion-select>
@@ -50,9 +67,15 @@
           <ion-col size="6">
             <ion-item>
               <ion-label>Catégorie</ion-label>
-              <ion-select [(ngModel)]="selectedCategorie" (ionChange)="onFilter()">
+              <ion-select
+                [(ngModel)]="selectedCategorie"
+                (ionChange)="onFilter()"
+              >
                 <ion-select-option value="">Toutes</ion-select-option>
-                <ion-select-option *ngFor="let categorie of categoriesList" [value]="categorie.id_categorie">
+                <ion-select-option
+                  *ngFor="let categorie of categoriesList"
+                  [value]="categorie.id_categorie"
+                >
                   {{ categorie.nom_categorie }}
                 </ion-select-option>
               </ion-select>
@@ -62,9 +85,15 @@
             <ion-item>
               <ion-label>Trier par</ion-label>
               <ion-select [(ngModel)]="sortBy" (ionChange)="onFilter()">
-                <ion-select-option value="recent">Plus récents</ion-select-option>
-                <ion-select-option value="budget-high">Budget décroissant</ion-select-option>
-                <ion-select-option value="budget-low">Budget croissant</ion-select-option>
+                <ion-select-option value="recent"
+                  >Plus récents</ion-select-option
+                >
+                <ion-select-option value="budget-high"
+                  >Budget décroissant</ion-select-option
+                >
+                <ion-select-option value="budget-low"
+                  >Budget croissant</ion-select-option
+                >
               </ion-select>
             </ion-item>
           </ion-col>
@@ -81,7 +110,10 @@
         <ion-card-header class="entrepreneur-header">
           <div class="entrepreneur-profile">
             <ion-avatar>
-              <img [src]="project.entrepreneur?.photo || 'assets/default-avatar.png'" alt="Photo" />
+              <img
+                [src]="project.entrepreneur?.photo || 'assets/default-avatar.png'"
+                alt="Photo"
+              />
             </ion-avatar>
             <div class="entrepreneur-info">
               <h3>
@@ -89,13 +121,23 @@
                 }}
               </h3>
               <div class="stars">
-                <ion-icon *ngFor="let s of getStars(project.entrepreneur?.moyenneNote); let i = index"
-                  [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'" color="warning">
+                <ion-icon
+                  *ngFor="let s of getStars(project.entrepreneur?.moyenneNote); let i = index"
+                  [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'"
+                  color="warning"
+                >
                 </ion-icon>
-                <span class="note-text" *ngIf="project.entrepreneur?.moyenneNote">
+                <span
+                  class="note-text"
+                  *ngIf="project.entrepreneur?.moyenneNote"
+                >
                   {{ project.entrepreneur?.moyenneNote | number:'1.1-1' }}/5
                 </span>
-                <span class="note-text" *ngIf="!project.entrepreneur?.moyenneNote">Pas encore évalué</span>
+                <span
+                  class="note-text"
+                  *ngIf="!project.entrepreneur?.moyenneNote"
+                  >Pas encore évalué</span
+                >
               </div>
               <p>
                 {{ project.entrepreneur?.Entreprise ||
@@ -146,9 +188,16 @@
             </ion-row>
           </ion-grid>
           <div class="button-group">
-            <ion-button (click)="saveProject(project)" fill="outline" size="small"
-              [color]="isProjectSaved(project) ? 'warning' : 'medium'">
-              <ion-icon [name]="isProjectSaved(project) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
+            <ion-button
+              (click)="saveProject(project)"
+              fill="outline"
+              size="small"
+              [color]="isProjectSaved(project) ? 'warning' : 'medium'"
+            >
+              <ion-icon
+                [name]="isProjectSaved(project) ? 'bookmark' : 'bookmark-outline'"
+                slot="start"
+              ></ion-icon>
               {{ isProjectSaved(project) ? 'Sauvegardé' : 'Sauvegarder' }}
             </ion-button>
             <ion-button (click)="openDescription(project)" class="postuler">
@@ -176,7 +225,12 @@
     <ion-grid>
       <ion-row class="grid">
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
+          <ion-button
+            fill="clear"
+            expand="full"
+            color="secondary"
+            (click)="goTo('accueil')"
+          >
             <ion-icon name="home"></ion-icon>
           </ion-button>
         </ion-col>
@@ -186,17 +240,30 @@
           </ion-button>
         </ion-col>-->
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('mes-postulation')">
-            <div style="position: relative; display: inline-block;">
+          <ion-button
+            fill="clear"
+            expand="full"
+            color="secondary"
+            (click)="goTo('mes-postulation')"
+          >
+            <div style="position: relative; display: inline-block">
               <ion-icon name="folder-open"></ion-icon>
-              <span *ngIf="notificationsCount > 0" class="badge-notif">
+              <!--- <span *ngIf="notificationsCount > 0" class="badge-notif">
                 {{ notificationsCount > 9 ? '9+' : notificationsCount }}
-              </span>
+              </span>-->
+              <ion-badge color="danger" *ngIf="notificationsCount > 0">
+                {{ notificationsCount > 9 ? '9+' : notificationsCount }}
+              </ion-badge>
             </div>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('profil')">
+          <ion-button
+            fill="clear"
+            expand="full"
+            color="secondary"
+            (click)="goTo('profil')"
+          >
             <ion-icon name="person"></ion-icon>
           </ion-button>
         </ion-col>
@@ -206,12 +273,20 @@
           </ion-button>
         </ion-col>-->
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
-            <div style="position: relative; display: inline-block;">
+          <ion-button
+            fill="clear"
+            expand="full"
+            color="secondary"
+            (click)="goTo('conversations')"
+          >
+            <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
-              <span class="badge-notif" *ngIf="messagesNonLus > 0">
+              <!--- <span class="badge-notif" *ngIf="messagesNonLus > 0">
                 {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-              </span>
+              </span>-->
+              <ion-badge color="danger" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </ion-badge>
             </div>
           </ion-button>
         </ion-col>
@@ -228,12 +303,22 @@
           </ion-button>
         </ion-col>-->
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('Recommended')">
+          <ion-button
+            fill="clear"
+            expand="full"
+            color="secondary"
+            (click)="goTo('Recommended')"
+          >
             <ion-icon name="star"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" color="secondary" (click)="openSettings()">
+          <ion-button
+            fill="clear"
+            expand="full"
+            color="secondary"
+            (click)="openSettings()"
+          >
             <ion-icon name="settings"></ion-icon>
           </ion-button>
         </ion-col>

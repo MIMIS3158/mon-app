@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../config/cors.php';
 require_once __DIR__ . '/../config/db.php';
@@ -12,9 +12,15 @@ if ($dev_id === 0) {
     exit;
 }
 $compDev = [];
-$devRes = $conn->query("SELECT CompetencesTechniques FROM developers WHERE user_id = $dev_id");
+/*$devRes = $conn->query("SELECT CompetencesTechniques FROM developers WHERE user_id = $dev_id");
 if ($devRes && $devRes->num_rows > 0) {
-    $row = $devRes->fetch_assoc();
+    $row = $devRes->fetch_assoc();*/
+    $devStmt = mysqli_prepare($conn, "SELECT CompetencesTechniques FROM developers WHERE user_id = ?");
+mysqli_stmt_bind_param($devStmt, "i", $dev_id);
+mysqli_stmt_execute($devStmt);
+$devRes = mysqli_stmt_get_result($devStmt);
+if ($devRes && mysqli_num_rows($devRes) > 0) {
+    $row = mysqli_fetch_assoc($devRes);
     $raw = strtolower($row['CompetencesTechniques'] ?? '');
     $raw = str_replace([';', '|', '/'], ',', $raw);
     $compDev = array_filter(array_map('trim', explode(',', $raw)));

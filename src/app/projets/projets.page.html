@@ -38,25 +38,47 @@
       <p>Durée :{{ project.Duree }}</p>
       <p>Compétences :{{ project.Competences }}</p>
       <p>Statut : <ion-badge>{{ project.Statut | uppercase}}</ion-badge></p>
-      <ion-button color="danger" size="small" fill="clear" (click)="deleteproject(project)">
+      <ion-button
+        color="danger"
+        size="small"
+        fill="clear"
+        (click)="deleteproject(project)"
+      >
         <ion-icon name="trash-outline"></ion-icon>
       </ion-button>
-      <ion-button color="primary" size="small" fill="clear" (click)="editproject(project)">
+      <ion-button
+        color="primary"
+        size="small"
+        fill="clear"
+        (click)="editproject(project)"
+      >
         <ion-icon name="pencil-outline"></ion-icon>
       </ion-button>
 
       <div *ngIf="project.Statut?.toLowerCase() === 'en cours'">
-        <ion-button color="success" size="small" (click)="validateReceivedWork(project)">
+        <ion-button
+          color="success"
+          size="small"
+          (click)="validateReceivedWork(project)"
+        >
           Valider
         </ion-button>
-        <ion-button color="warning" size="small" (click)="notCompliant(project)">
+        <ion-button
+          color="warning"
+          size="small"
+          (click)="notCompliant(project)"
+        >
           Travail à refaire
         </ion-button>
       </div>
 
       <div *ngIf="project.Statut === 'terminé'">
-        <ion-button *ngIf="!project.developpeurEvalue" color="primary" expand="block"
-          (click)="evaluerDeveloppeur(project)">
+        <ion-button
+          *ngIf="!project.developpeurEvalue"
+          color="primary"
+          expand="block"
+          (click)="evaluerDeveloppeur(project)"
+        >
           <ion-icon name="star" slot="start"></ion-icon>
           Évaluer le développeur
         </ion-button>
@@ -89,12 +111,19 @@
         </ion-col> -->
 
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
-            <div style="position: relative; display: inline-block;">
+          <ion-button
+            fill="clear"
+            expand="full"
+            (click)="goTo('conversations')"
+          >
+            <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
-              <span class="badge-notif" *ngIf="messagesNonLus > 0">
+              <!-- <span class="badge-notif" *ngIf="messagesNonLus > 0">
                 {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-              </span>
+              </span>-->
+              <ion-badge color="danger" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </ion-badge>
             </div>
           </ion-button>
         </ion-col>

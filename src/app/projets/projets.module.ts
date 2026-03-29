@@ -10,6 +10,6 @@ import { ProjetsPage } from './projets.page';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, ProjetsPageRoutingModule],
-  declarations: [ProjetsPage]
+  declarations: [ProjetsPage],
 })
 export class ProjetsPageModule {}

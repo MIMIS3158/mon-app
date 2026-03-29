@@ -8,7 +8,7 @@ import { AlertsService } from '../shared/services/alerts.service';
   selector: 'app-profile-entrepreneur',
   templateUrl: './profile-entrepreneur.page.html',
   styleUrls: ['./profile-entrepreneur.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ProfileEntrepreneurPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -30,13 +30,16 @@ export class ProfileEntrepreneurPage implements OnInit {
   Ville: string = '';
   SiteWeb: string = '';
   Linkedin: string = '';
-  TailleEntreprise: string = '';
+  //TailleEntreprise: string = '';
   AnneeCreation: string = '';
   BudgetMoyen: string = '';
 
   @ViewChild('fileInput', { static: false }) fileInput: any;
 
-  constructor(private http: HttpClient, private alertsService: AlertsService) {}
+  constructor(
+    private http: HttpClient,
+    private alertsService: AlertsService,
+  ) {}
 
   ngOnInit() {
     this.loadProfile();
@@ -45,12 +48,15 @@ export class ProfileEntrepreneurPage implements OnInit {
 
   loadProfile() {
     firstValueFrom(
-      this.http.get<any>(
+      /*this.http.get<any>(
         `${this.apiUrl}/profile_entrepreneur.php?userId=${localStorage.getItem(
-          'userId'
-        )}`
-      )
-    ).then(profile => {
+          'userId',
+        )}`,
+      ),*/
+      this.http.get<any>(`${this.apiUrl}/profile_entrepreneur.php`, {
+  params: { userId: localStorage.getItem('userId')! }
+})
+    ).then((profile) => {
       this.Nom = profile.Nom ?? '';
       this.Prenom = profile.Prenom ?? '';
 
@@ -65,7 +71,7 @@ export class ProfileEntrepreneurPage implements OnInit {
       this.Ville = profile.Ville ?? '';
       this.SiteWeb = profile.SiteWeb ?? '';
       this.Linkedin = profile.Linkedin ?? '';
-      this.TailleEntreprise = profile.TailleEntreprise ?? '';
+      //this.TailleEntreprise = profile.TailleEntreprise ?? '';
       this.AnneeCreation = profile.AnneeCreation ?? '';
       this.BudgetMoyen = profile.BudgetMoyen ?? '';
     });
@@ -124,7 +130,7 @@ export class ProfileEntrepreneurPage implements OnInit {
     formData.append('Ville', this.Ville);
     formData.append('SiteWeb', this.SiteWeb);
     formData.append('Linkedin', this.Linkedin);
-    formData.append('TailleEntreprise', this.TailleEntreprise);
+    //formData.append('TailleEntreprise', this.TailleEntreprise);
     formData.append('AnneeCreation', this.AnneeCreation);
     formData.append('BudgetMoyen', this.BudgetMoyen);
 
@@ -133,7 +139,7 @@ export class ProfileEntrepreneurPage implements OnInit {
     }
 
     firstValueFrom(
-      this.http.post(`${this.apiUrl}/profile_entrepreneur.php`, formData)
+      this.http.post(`${this.apiUrl}/profile_entrepreneur.php`, formData),
     )
       .then((response: any) => {
         {
@@ -142,7 +148,7 @@ export class ProfileEntrepreneurPage implements OnInit {
           this.loadProfile();
         }
       })
-      .catch(ex => {
+      .catch((ex) => {
         console.error(' Update failed:', ex);
       });
   }
@@ -157,10 +163,10 @@ export class ProfileEntrepreneurPage implements OnInit {
       this.http.get<any[]>(`${this.apiUrl}/get_evaluations.php`, {
         params: {
           type: 'entrepreneur',
-          userId: userId ?? ''
-        }
-      })
-    ).then(evals => {
+          userId: userId ?? '',
+        },
+      }),
+    ).then((evals) => {
       {
         this.evaluations = evals;
         if (evals.length > 0) {

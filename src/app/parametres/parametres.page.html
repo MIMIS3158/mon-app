@@ -12,7 +12,11 @@
 <ion-content>
   <div class="profile-section">
     <ion-avatar>
-      <img [src]="profileImage || 'assets/profile_avatar.jpeg'" alt="Profile" (error)="onImageError($event)" />
+      <img
+        [src]="profileImage || 'assets/profile_avatar.jpeg'"
+        alt="Profile"
+        (error)="onImageError($event)"
+      />
     </ion-avatar>
     <h2>{{ userName | titlecase}}</h2>
     <p class="view-profile" (click)="openProfile()">Voir le profil</p>

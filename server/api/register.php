@@ -84,10 +84,16 @@ try {
         "role" => $role,
         "id" => (string) $userId
     ]);
-} catch (Exception $e) {
+} /*catch (Exception $e) {
     mysqli_rollback($conn);
     http_response_code(500);
     echo json_encode(["error" => $e->getMessage()]);
+}*/
+catch (Exception $e) {
+    mysqli_rollback($conn);
+    http_response_code(500);
+    error_log($e->getMessage());
+    echo json_encode(["error" => "Une erreur est survenue lors de l'inscription"]);
 }
 
 $conn->close();

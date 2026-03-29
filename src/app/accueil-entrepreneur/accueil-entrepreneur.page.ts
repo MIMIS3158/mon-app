@@ -1,17 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-
+import { firstValueFrom } from 'rxjs';
 import { ModalController } from '@ionic/angular';
 import { ParametresPage } from '../parametres/parametres.page';
 import { environment } from 'src/environments/environment';
 import { Developer } from '../shared/models/developper';
+import { BadgeService } from '../shared/services/badge.service';
 
 @Component({
   selector: 'app-accueil-entrepreneur',
   templateUrl: './accueil-entrepreneur.page.html',
   styleUrls: ['./accueil-entrepreneur.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class AccueilEntrepreneurPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -28,7 +29,8 @@ export class AccueilEntrepreneurPage implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private modalController: ModalController
+    private modalController: ModalController,
+     private badgeService: BadgeService,
   ) {}
 
   ngOnInit() {
@@ -36,15 +38,26 @@ export class AccueilEntrepreneurPage implements OnInit {
     this.loadBadges();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
   }
-
-  loadDevelopers() {
+  ionViewWillEnter() {
+    this.loadBadges();
+  }
+  /*loadDevelopers() {
     this.http.get<Developer[]>(`${this.apiUrl}/get_developers.php`).subscribe({
-      next: developers => {
+      next: (developers) => {
         this.developers = developers;
         this.filteredDevelopers = [];
-      }
+      },
     });
-  }
+  }*/
+ async loadDevelopers() {
+  try {
+    const developers = await firstValueFrom(
+      this.http.get<Developer[]>(`${this.apiUrl}/get_developers.php`)
+    );
+    this.developers = developers;
+    this.filteredDevelopers = [];
+  } catch(err) {}
+}
 
   onSearch() {
     const term = this.searchTerm.toLowerCase().trim();
@@ -55,10 +68,10 @@ export class AccueilEntrepreneurPage implements OnInit {
     }
 
     this.filteredDevelopers = this.developers.filter(
-      dev =>
+      (dev) =>
         (dev.Nomdev?.toLowerCase() || '').includes(term) ||
         (dev.Prenomdev?.toLowerCase() || '').includes(term) ||
-        (dev.CompetencesTechniques?.toLowerCase() || '').includes(term)
+        (dev.CompetencesTechniques?.toLowerCase() || '').includes(term),
     );
   }
 
@@ -72,13 +85,13 @@ export class AccueilEntrepreneurPage implements OnInit {
 
   goToEnCours() {
     this.router.navigate(['/projets'], {
-      queryParams: { statut: 'en cours' }
+      queryParams: { statut: 'en cours' },
     });
   }
 
   goToTermines() {
     this.router.navigate(['/notification'], {
-      queryParams: { statut: 'terminé' }
+      queryParams: { statut: 'terminé' },
     });
   }
 
@@ -87,16 +100,16 @@ export class AccueilEntrepreneurPage implements OnInit {
     this.router.navigate(['/profile-dev'], {
       queryParams: {
         view: 'summary',
-        user_id: developer?.user_id
+        user_id: developer?.user_id,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 
   async openSettings() {
     const modal = await this.modalController.create({
       component: ParametresPage,
-      cssClass: 'settings-modal'
+      cssClass: 'settings-modal',
     });
     return await modal.present();
   }
@@ -112,21 +125,35 @@ export class AccueilEntrepreneurPage implements OnInit {
     return stars;
   }
 
-  loadBadges() {
+  /*loadBadges() {
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
-    this.http
-      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+    const role = localStorage.getItem('role');*/
+   /* this.http
+      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)*/
+     /* this.http.get<any>(`${this.apiUrl}/badge.php`, {
+  params: { userId: userId!, role: role! }
+})
       .subscribe({
-        next: data => {
+        next: (data) => {
           this.messagesNonLus = data.messages;
           this.notificationsCount = data.notifications;
           this.enCoursCount = data.en_cours;
           this.terminesCount = data.termines;
         },
-        error: () => {}
+        error: () => {},
       });
-  }
+  }*/
+loadBadges() {
+  this.badgeService.getBadges().subscribe({
+    next: (data) => {
+      this.messagesNonLus = data.messages;
+      this.notificationsCount = data.notifications;
+      this.enCoursCount = data.en_cours;
+      this.terminesCount = data.termines;
+    },
+    error: () => {},
+  });
+}
 
   ionViewWillLeave() {
     if (this.badgeInterval) clearInterval(this.badgeInterval);

@@ -1,9 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="retour()">
+      <!--<ion-button (click)="retour()">
         <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      </ion-button>-->
+
+      <ion-back-button
+        [defaultHref]="type === 'developpeur' ? '/postulation' : '/notification'"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>Évaluer {{ typeEvalue }}</ion-title>
   </ion-toolbar>

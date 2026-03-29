@@ -5,7 +5,7 @@ import { AlertsService } from '../shared/services/alerts.service';
   selector: 'app-publier-projet',
   templateUrl: './publier-projet.page.html',
   styleUrls: ['./publier-projet.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class PublierProjetPage implements OnInit {
   Nom: String = '';
@@ -22,7 +22,7 @@ export class PublierProjetPage implements OnInit {
       Budget: this.Budget,
       duree: this.duree,
       Statut: this.Statut,
-      Description: this.Description
+      Description: this.Description,
     };
     console.log('Projet publié : ', donnees);
     this.alertsService.alert('Projet publié avec succès !');
@@ -34,7 +34,7 @@ export class PublierProjetPage implements OnInit {
       Budget: this.Budget,
       duree: this.duree,
       Statut: this.Statut,
-      Description: this.Description
+      Description: this.Description,
     };
     console.log('Projet modifié: ', donnees);
     this.alertsService.alert('Projet modifié avec succès !');

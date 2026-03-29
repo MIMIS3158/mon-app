@@ -4,7 +4,7 @@ import {
   ElementRef,
   OnDestroy,
   OnInit,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom, Subscription } from 'rxjs';
@@ -16,7 +16,7 @@ import { Developer } from '../shared/models/developper';
   selector: 'app-profile-dev',
   templateUrl: './profile-dev.page.html',
   styleUrls: ['./profile-dev.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ProfileDevPage implements OnInit, OnDestroy {
   private apiUrl = environment.apiUrl;
@@ -40,16 +40,18 @@ export class ProfileDevPage implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private alertsService: AlertsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
-    this.routeQueryParams$ = this.route.queryParams.subscribe(async params => {
-      this.isViewMode = params?.['view'] === 'summary';
-      var userId = params?.['user_id'];
+    this.routeQueryParams$ = this.route.queryParams.subscribe(
+      async (params) => {
+        this.isViewMode = params?.['view'] === 'summary';
+        var userId = params?.['user_id'];
 
-      setTimeout(() => {
-        this.loadProfile(userId);
-      }, 100);
-    });
+        setTimeout(() => {
+          this.loadProfile(userId);
+        }, 100);
+      },
+    );
   }
 
   ngOnDestroy(): void {
@@ -63,20 +65,22 @@ export class ProfileDevPage implements OnInit, OnDestroy {
     if (!userId) return;
 
     firstValueFrom(
-      this.http.get<any>(`${this.apiUrl}/profile_dev.php?userId=${userId}`)
+     /* this.http.get<any>(`${this.apiUrl}/profile_dev.php?userId=${userId}`),*/
+     this.http.get<any>(`${this.apiUrl}/profile_dev.php`, {
+  params: { userId: userId }
+})
     )
-      .then(profile => {
+      .then((profile) => {
         if (!profile || Object.keys(profile).length === 0) return;
         this.developer = profile;
 
         this.skills = (profile.CompetencesTechniques ?? '').split(',');
 
-        this.profileImage =
-          profile.profileImage || 'assets/profile_avatar.jpeg';
+        this.profileImage = profile.profileImage || 'assets/profile_avatar.jpeg';
         this.SelectedFileName = profile.portfolio || null;
         this.loading = false;
       })
-      .catch(err => console.error(' Erreur chargement profil:', err));
+      .catch((err) => console.error(' Erreur chargement profil:', err));
   }
 
   selectImage() {
@@ -118,7 +122,7 @@ export class ProfileDevPage implements OnInit, OnDestroy {
     formData.append('Telephone', this.developer?.Telephone ?? '');
     formData.append(
       'CompetencesTechniques',
-      this.developer?.CompetencesTechniques ?? ''
+      this.developer?.CompetencesTechniques ?? '',
     );
     formData.append('Experience', '' + (this.developer?.Experience ?? ''));
     formData.append('Niveau', this.developer?.Niveau ?? '');
@@ -138,6 +142,7 @@ export class ProfileDevPage implements OnInit, OnDestroy {
       .then((response: any) => {
         console.log(' Profil modifié avec succès !', response);
         this.alertsService.toast(' PROFIL MODIFIÉ !');
+        
         this.loadProfile();
       })
       .catch((err: any) => {
@@ -147,12 +152,12 @@ export class ProfileDevPage implements OnInit, OnDestroy {
 
   contact() {
     const selectedDev: Developer = JSON.parse(
-      localStorage.getItem('selectedDeveloper') || '{}'
+      localStorage.getItem('selectedDeveloper') || '{}',
     );
     this.router.navigate(['/chat'], {
       queryParams: {
-        userId: selectedDev.user_id
-      }
+        userId: selectedDev.user_id,
+      },
     });
   }
 }

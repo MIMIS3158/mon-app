@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { ModalController } from '@ionic/angular';
 import { ParametresPage } from '../parametres/parametres.page';
 import { environment } from 'src/environments/environment';
+import { firstValueFrom } from 'rxjs';
+import { BadgeService } from '../shared/services/badge.service';
 
 interface Categorie {
   id_categorie: number;
@@ -47,7 +49,7 @@ export interface Project {
   selector: 'app-accueil-developpeur',
   templateUrl: './accueil-developpeur.page.html',
   styleUrls: ['./accueil-developpeur.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class AccueilDeveloppeurPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -75,7 +77,8 @@ export class AccueilDeveloppeurPage implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private modalController: ModalController
+    private modalController: ModalController,
+     private badgeService: BadgeService,
   ) {}
 
   ngOnInit() {
@@ -86,26 +89,40 @@ export class AccueilDeveloppeurPage implements OnInit {
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
   }
 
-  loadCategories() {
+  /*loadCategories() {
     this.http
       .get<Categorie[]>(`${this.apiUrl}/categories.php`)
 
       .subscribe({
-        next: categories => {
+        next: (categories) => {
           this.categoriesList = categories;
           console.log('Catégories chargées :', this.categoriesList);
         },
-        error: error => {
+        error: (error) => {
           console.error('Erreur chargement catégories :', error);
-        }
+        },
       });
+  }*/
+ async loadCategories() {
+  try {
+    const categories = await firstValueFrom(
+      this.http.get<Categorie[]>(`${this.apiUrl}/categories.php`)
+    );
+    this.categoriesList = categories;
+  } catch(err) {
+    console.error('Erreur chargement catégories :', err);
   }
+}
 
-  loadProjects() {
+
+  ionViewWillEnter() {
+    this.loadBadges();
+  }
+  /*loadProjects() {
     this.isLoading = true;
 
     this.http.get<Project[]>(`${this.apiUrl}/projects.php`).subscribe({
-      next: projects => {
+      next: (projects) => {
         this.allProjects = projects;
         this.displayedProjects = [...projects];
         this.initFilters();
@@ -114,16 +131,31 @@ export class AccueilDeveloppeurPage implements OnInit {
       },
       error: () => {
         this.isLoading = false;
-      }
+      },
     });
+  }*/
+ async loadProjects() {
+  this.isLoading = true;
+  try {
+    const projects = await firstValueFrom(
+      this.http.get<Project[]>(`${this.apiUrl}/projects.php`)
+    );
+    this.allProjects = projects;
+    this.displayedProjects = [...projects];
+    this.initFilters();
+    this.applyFilters();
+    this.isLoading = false;
+  } catch(err) {
+    this.isLoading = false;
   }
+}
   initFilters() {
     const allCompetences = this.allProjects
-      .flatMap(p => p.Competences?.split(',').map(c => c.trim()) || [])
-      .filter(c => c);
+      .flatMap((p) => p.Competences?.split(',').map((c) => c.trim()) || [])
+      .filter((c) => c);
     this.CompetencesList = [...new Set(allCompetences)];
     this.statusList = [
-      ...new Set(this.allProjects.map(p => p.Statut).filter(s => s))
+      ...new Set(this.allProjects.map((p) => p.Statut).filter((s) => s)),
     ];
   }
   onSearch() {
@@ -134,7 +166,7 @@ export class AccueilDeveloppeurPage implements OnInit {
   }
   applyFilters() {
     const term = this.searchTerm.toLowerCase().trim();
-    let filtered = this.allProjects.filter(project => {
+    let filtered = this.allProjects.filter((project) => {
       const matchSearch =
         !term ||
         project.Nomduprojet?.toLowerCase().includes(term) ||
@@ -145,7 +177,7 @@ export class AccueilDeveloppeurPage implements OnInit {
       const matchCompetence =
         !this.selectedCompetence ||
         project.Competences?.toLowerCase().includes(
-          this.selectedCompetence.toLowerCase()
+          this.selectedCompetence.toLowerCase(),
         );
       const matchStatus =
         !this.selectedStatus || project.Statut === this.selectedStatus;
@@ -225,63 +257,63 @@ export class AccueilDeveloppeurPage implements OnInit {
     const projectId = project.id;
     const index = this.savedProjects.indexOf(projectId);
     if (index > -1) {
-      this.http
+     /* this.http
         .delete(
           `${
             this.apiUrl
           }/favorites.php?id=${projectId}&id_developpeur=${localStorage.getItem(
-            'userId'
-          )}`
-        )
+            'userId',
+          )}`,
+        )*/
+       this.http.delete(`${this.apiUrl}/favorites.php`, {
+  params: { id: projectId, id_developpeur: localStorage.getItem('userId')! }
+})
         .subscribe({
           next: () => {
             this.savedProjects.splice(index, 1);
             localStorage.setItem(
               'savedProjects',
-              JSON.stringify(this.savedProjects)
+              JSON.stringify(this.savedProjects),
             );
           },
-          error: () => {}
+          error: () => {},
         });
     } else {
       this.http
         .post(`${this.apiUrl}/favorites.php`, {
           project_id: projectId,
-          id_developpeur: localStorage.getItem('userId')
+          id_developpeur: localStorage.getItem('userId'),
         })
         .subscribe({
           next: () => {
             this.savedProjects.push(projectId);
             localStorage.setItem(
               'savedProjects',
-              JSON.stringify(this.savedProjects)
+              JSON.stringify(this.savedProjects),
             );
           },
-          error: () => {}
+          error: () => {},
         });
     }
   }
   isProjectSaved(project: Project): boolean {
     return project.id ? this.savedProjects.includes(project.id) : false;
   }
-  loadSavedProjects() {
-    const id_developpeur = localStorage.getItem('userId');
-    this.http
-      .get<{ project_id: number }[]>(
-        `${this.apiUrl}/favorites.php?id_developpeur=${id_developpeur}`
-      )
-      .subscribe({
-        next: favorites => {
-          this.savedProjects = favorites.map(f => f.project_id);
-        },
-        error: () => {
-          const saved = localStorage.getItem('savedProjects');
-          if (saved) {
-            this.savedProjects = JSON.parse(saved);
-          }
-        }
-      });
+
+  async loadSavedProjects() {
+  const id_developpeur = localStorage.getItem('userId');
+  try {
+    const favorites = await firstValueFrom(
+      this.http.get<{ project_id: number }[]>(`${this.apiUrl}/favorites.php`, {
+        params: { id_developpeur: id_developpeur! }
+      })
+    );
+    this.savedProjects = favorites.map(f => f.project_id);
+  } catch(err) {
+    const saved = localStorage.getItem('savedProjects');
+    if (saved) this.savedProjects = JSON.parse(saved);
   }
+}
   openDescription(project: Project) {
     localStorage.setItem('selectedProject', JSON.stringify(project));
     this.router.navigate(['/description']);
@@ -292,14 +324,14 @@ export class AccueilDeveloppeurPage implements OnInit {
     this.router.navigate(['/chat'], {
       queryParams: {
         projectId: project.id,
-        userId: project.entrepreneur?.user_id
-      }
+        userId: project.entrepreneur?.user_id,
+      },
     });
   }
   async openSettings() {
     const modal = await this.modalController.create({
       component: ParametresPage,
-      cssClass: 'settings-modal'
+      cssClass: 'settings-modal',
     });
     return await modal.present();
   }
@@ -310,19 +342,31 @@ export class AccueilDeveloppeurPage implements OnInit {
     if (this.badgeInterval) clearInterval(this.badgeInterval);
   }
 
-  loadBadges() {
+ /* loadBadges() {
     const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');
-    this.http
-      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)
+    const role = localStorage.getItem('role');*/
+    /*this.http
+      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)*/
+     /* this.http.get<any>(`${this.apiUrl}/badge.php`, {
+  params: { userId: userId!, role: role! }
+})
       .subscribe({
-        next: data => {
+        next: (data) => {
           this.messagesNonLus = data.messages;
           this.notificationsCount = data.notifications;
         },
-        error: () => {}
+        error: () => {},
       });
-  }
+  }*/
+  loadBadges() {
+  this.badgeService.getBadges().subscribe({
+    next: (data) => {
+      this.messagesNonLus = data.messages;
+      this.notificationsCount = data.notifications;
+    },
+    error: () => {},
+  });
+}
   goTo(tab: string) {
     switch (tab) {
       case 'accueil':
@@ -342,15 +386,7 @@ export class AccueilDeveloppeurPage implements OnInit {
         break;
       case 'parametres':
         this.router.navigate(['/parametres']);
-        break;
 
-        /* case 'evaluations':
-    this.router.navigate(['/mes-evaluations'], {
-        state: {
-            type: 'developpeur',
-            idEvalue: null
-        }
-    });*/
         break;
 
       case 'signout':

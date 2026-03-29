@@ -283,3 +283,33 @@ ion-footer {
     }
   }
 }
+.blocked-container {
+  text-align: center;
+  padding: 20px;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+
+  ion-icon {
+    font-size: 40px;
+    color: #ef4444;
+    margin-bottom: 8px;
+  }
+
+  .blocked-title {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #2d3748;
+    margin: 0 0 8px;
+  }
+
+  .blocked-subtitle {
+    font-size: 0.85rem;
+    color: #718096;
+    margin: 0 0 16px;
+  }
+
+  ion-button {
+    max-width: 200px;
+    margin: 0 auto;
+  }
+}

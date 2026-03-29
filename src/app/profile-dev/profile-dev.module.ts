@@ -13,8 +13,8 @@ import { ProfileDevPage } from './profile-dev.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ProfileDevPageRoutingModule
+    ProfileDevPageRoutingModule,
   ],
-  declarations: [ProfileDevPage]
+  declarations: [ProfileDevPage],
 })
 export class ProfileDevPageModule {}

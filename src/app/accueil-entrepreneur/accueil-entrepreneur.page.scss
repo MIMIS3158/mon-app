@@ -93,7 +93,7 @@ ion-content {
             }
           }
         }
-        ion-badge {
+        /* ion-badge {
           font-size: 0.75rem;
           font-weight: 600;
           padding: 4px 10px;
@@ -101,6 +101,13 @@ ion-content {
           margin-right: 8px;
           margin-bottom: 8px;
           display: inline-block;
+        }*/
+        ion-badge {
+          font-size: 0.75rem;
+          font-weight: 600;
+          padding: 5px 12px;
+          border-radius: 12px;
+          text-transform: capitalize;
         }
       }
       ion-icon[slot="end"] {
@@ -327,7 +334,7 @@ ion-list ion-item {
     margin-right: auto;
   }
 }
-.badge-notif {
+/*.badge-notif {
   position: absolute;
   top: -8px;
   right: -8px;
@@ -341,4 +348,4 @@ ion-list ion-item {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-}
+}*/

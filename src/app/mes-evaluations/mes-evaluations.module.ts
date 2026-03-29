@@ -13,8 +13,8 @@ import { MesEvaluationsPage } from './mes-evaluations.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MesEvaluationsPageRoutingModule
+    MesEvaluationsPageRoutingModule,
   ],
-  declarations: [MesEvaluationsPage]
+  declarations: [MesEvaluationsPage],
 })
 export class MesEvaluationsPageModule {}

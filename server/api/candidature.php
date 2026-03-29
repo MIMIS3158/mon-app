@@ -96,7 +96,9 @@ if ($method === 'GET') {
         echo json_encode(['success' => 'Candidature envoyée avec succès']);
     } else {
         http_response_code(500);
-        echo json_encode(['error' => mysqli_error($conn)]);
+       /* echo json_encode(['error' => mysqli_error($conn)]);*/
+       error_log(mysqli_error($conn));
+echo json_encode(['error' => "Une erreur est survenue lors de l'envoi de la candidature"]);
     }
     mysqli_stmt_close($stmt);
 } elseif ($method === 'PUT') {
@@ -132,7 +134,9 @@ if ($method === 'GET') {
         echo json_encode(['success' => 'Statut mis à jour']);
     } else {
         http_response_code(500);
-        echo json_encode(['error' => mysqli_error($conn)]);
+       /* echo json_encode(['error' => mysqli_error($conn)]);*/
+       error_log(mysqli_error($conn));
+echo json_encode(['error' => "Une erreur est survenue lors de la mise à jour"]);
     }
     mysqli_stmt_close($stmt);
 } elseif ($method === 'DELETE') {

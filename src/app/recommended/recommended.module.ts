@@ -13,8 +13,8 @@ import { RecommendedPage } from './recommended.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    RecommendedPageRoutingModule
+    RecommendedPageRoutingModule,
   ],
-  declarations: [RecommendedPage]
+  declarations: [RecommendedPage],
 })
 export class RecommendedPageModule {}

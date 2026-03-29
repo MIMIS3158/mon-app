@@ -8,7 +8,7 @@ import { AlertsService } from '../shared/services/alerts.service';
   selector: 'app-conversations',
   templateUrl: './conversations.page.html',
   styleUrls: ['./conversations.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ConversationsPage implements OnInit, OnDestroy {
   private apiUrl = environment.apiUrl;
@@ -23,7 +23,7 @@ export class ConversationsPage implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
   ) {}
 
   ngOnInit() {
@@ -38,16 +38,19 @@ export class ConversationsPage implements OnInit, OnDestroy {
     if (this.interval) clearInterval(this.interval);
   }
   loadConversations() {
-    this.http
-      .get<any[]>(
-        `${this.apiUrl}/get_conversations.php?user_id=${this.currentUserId}`
-      )
+    /*this.http
+      .get<
+        any[]
+      >(`${this.apiUrl}/get_conversations.php?user_id=${this.currentUserId}`)*/
+      this.http.get<any[]>(`${this.apiUrl}/get_conversations.php`, {
+  params: { user_id: this.currentUserId }
+})
       .subscribe({
-        next: data => {
+        next: (data) => {
           this.conversations = data;
           this.onSearch();
         },
-        error: () => {}
+        error: () => {},
       });
   }
   onSearch() {
@@ -57,18 +60,18 @@ export class ConversationsPage implements OnInit, OnDestroy {
       return;
     }
     this.filteredConversations = this.conversations.filter(
-      c =>
+      (c) =>
         (c.contact_nom?.toLowerCase() || '').includes(term) ||
         (c.contact_prenom?.toLowerCase() || '').includes(term) ||
-        (c.last_message?.toLowerCase() || '').includes(term)
+        (c.last_message?.toLowerCase() || '').includes(term),
     );
   }
   ouvrirChat(conv: any) {
     this.router.navigate(['/chat'], {
       queryParams: {
         userId: conv.contact_id,
-        projectId: 0
-      }
+        projectId: 0,
+      },
     });
   }
   getInitiales(nom: string, prenom: string): string {
@@ -82,39 +85,48 @@ export class ConversationsPage implements OnInit, OnDestroy {
   }
   loadOnlineUsers() {
     this.http.get<any[]>(`${this.apiUrl}/online_users.php`).subscribe({
-      next: data => {
-        this.onlineUsers = data.map(u => u.user_id);
+      next: (data) => {
+        this.onlineUsers = data.map((u) => u.user_id);
       },
-      error: () => {}
+      error: () => {},
     });
   }
   isOnline(userId: number): boolean {
     return this.onlineUsers.includes(Number(userId));
   }
-  supprimerConversation(conv: any, event?: Event) {
+  
+    async supprimerConversation(conv: any, event?: Event) {
     if (event) event.stopPropagation();
 
-    const confirmed = confirm(
-      `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`
-    );
+   /* const confirmed = confirm(
+      `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`,
+    );*/
+    const confirmed = await this.alertsService.confirm(
+    `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`
+  );
     if (!confirmed) return;
 
-    this.http
+   /* this.http
       .delete(
-        `${this.apiUrl}/delete_conversation.php?user_id=${this.currentUserId}&contact_id=${conv.contact_id}`
-      )
+        `${this.apiUrl}/delete_conversation.php?user_id=${this.currentUserId}&contact_id=${conv.contact_id}`,
+      )*/
+     this.http.delete(`${this.apiUrl}/delete_conversation.php`, {
+  params: { user_id: this.currentUserId, contact_id: conv.contact_id }
+})
       .subscribe({
         next: () => {
           this.conversations = this.conversations.filter(
-            c => c.contact_id !== conv.contact_id
+            (c) => c.contact_id !== conv.contact_id,
           );
           this.filteredConversations = this.filteredConversations.filter(
-            c => c.contact_id !== conv.contact_id
+            (c) => c.contact_id !== conv.contact_id,
           );
         },
         error: () => {
           this.alertsService.alert('Erreur lors de la suppression');
-        }
+        },
       });
-  }
+  
+    }
+    
 }

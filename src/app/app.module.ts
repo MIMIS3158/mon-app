@@ -18,8 +18,8 @@ import { AppRoutingModule } from './app-routing.module';
     IonicModule.forRoot({
       // innerHTMLTemplatesEnabled: true,
     }),
-    AppRoutingModule
+    AppRoutingModule,
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }]
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
 })
 export class AppModule {}

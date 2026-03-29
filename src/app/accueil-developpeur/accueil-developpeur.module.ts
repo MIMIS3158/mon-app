@@ -13,8 +13,8 @@ import { AccueilDeveloppeurPage } from './accueil-developpeur.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    AccueilDeveloppeurPageRoutingModule
+    AccueilDeveloppeurPageRoutingModule,
   ],
-  declarations: [AccueilDeveloppeurPage]
+  declarations: [AccueilDeveloppeurPage],
 })
 export class AccueilDeveloppeurPageModule {}

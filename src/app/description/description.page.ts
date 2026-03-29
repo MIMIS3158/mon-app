@@ -20,7 +20,7 @@ export interface Project {
   selector: 'app-description',
   templateUrl: './description.page.html',
   styleUrls: ['./description.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class DescriptionPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -33,7 +33,7 @@ export class DescriptionPage implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
   ) {}
 
   ngOnInit() {
@@ -56,7 +56,7 @@ export class DescriptionPage implements OnInit {
       message: this.messagePostulation,
       budget_propose: this.Budget,
       duree_estimee: this.Duree,
-      id_developpeur: id_developpeur
+      id_developpeur: id_developpeur,
     };
     this.http.post(`${this.apiUrl}/candidature.php`, candidature).subscribe({
       next: () => {
@@ -64,13 +64,13 @@ export class DescriptionPage implements OnInit {
         localStorage.removeItem('selectedProject');
         this.router.navigate(['/postulation']);
       },
-      error: err => {
+      error: (err) => {
         if (err.status === 409) {
           this.alertsService.alert('Vous avez déjà postulé à ce projet !');
         } else {
           this.alertsService.alert("Erreur lors de l'envoi !");
         }
-      }
+      },
     });
   }
   goBack() {

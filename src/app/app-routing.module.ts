@@ -7,34 +7,34 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'home',
     loadChildren: () =>
-      import('./home/home.module').then(m => m.HomePageModule),
-    canActivate: [GuestGuard]
+      import('./home/home.module').then((m) => m.HomePageModule),
+    canActivate: [GuestGuard],
   },
   {
     path: 'signup',
     loadChildren: () =>
-      import('./signup/signup.module').then(m => m.SignupPageModule),
-    canActivate: [GuestGuard]
+      import('./signup/signup.module').then((m) => m.SignupPageModule),
+    canActivate: [GuestGuard],
   },
 
   {
     path: 'signin',
     loadChildren: () =>
-      import('./login/login.module').then(m => m.SigninPageModule),
-    canActivate: [GuestGuard]
+      import('./login/login.module').then((m) => m.SigninPageModule),
+    canActivate: [GuestGuard],
   },
   {
     path: 'forgot-password',
     loadChildren: () =>
       import('./forgot-password/forgot-password.module').then(
-        m => m.ForgotPasswordPageModule
+        (m) => m.ForgotPasswordPageModule,
       ),
-    canActivate: [GuestGuard]
+    canActivate: [GuestGuard],
   },
   // {
   //   path: 'reset-password',
@@ -55,69 +55,69 @@ const routes: Routes = [
   {
     path: 'folder/:id',
     loadChildren: () =>
-      import('./folder/folder.module').then(m => m.FolderPageModule),
-    canActivate: [AuthGuard]
+      import('./folder/folder.module').then((m) => m.FolderPageModule),
+    canActivate: [AuthGuard],
   },
 
   {
     path: 'chat',
     loadChildren: () =>
-      import('./chat/chat.module').then(m => m.ChatPageModule),
-    canActivate: [AuthGuard]
+      import('./chat/chat.module').then((m) => m.ChatPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile-dev',
     loadChildren: () =>
       import('./profile-dev/profile-dev.module').then(
-        m => m.ProfileDevPageModule
+        (m) => m.ProfileDevPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'profile-entrepreneur',
     loadChildren: () =>
       import('./profile-entrepreneur/profile-entrepreneur.module').then(
-        m => m.ProfileEntrepreneurPageModule
+        (m) => m.ProfileEntrepreneurPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'project/publish',
     loadChildren: () =>
       import('./publier-projet/publier-projet.module').then(
-        m => m.PublishProjectPageModule
+        (m) => m.PublishProjectPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'postulation',
     loadChildren: () =>
       import('./postulation/postulation.module').then(
-        m => m.PostulationPageModule
+        (m) => m.PostulationPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'accueil-entrepreneur',
     loadChildren: () =>
       import('./accueil-entrepreneur/accueil-entrepreneur.module').then(
-        m => m.AccueilEntrepreneurPageModule
+        (m) => m.AccueilEntrepreneurPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'accueil-developpeur',
     loadChildren: () =>
       import('./accueil-developpeur/accueil-developpeur.module').then(
-        m => m.AccueilDeveloppeurPageModule
+        (m) => m.AccueilDeveloppeurPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'projets',
     loadChildren: () =>
-      import('./projets/projets.module').then(m => m.ProjetsPageModule),
-    canActivate: [AuthGuard]
+      import('./projets/projets.module').then((m) => m.ProjetsPageModule),
+    canActivate: [AuthGuard],
   },
   /*{
     path: 'conversation',
@@ -127,92 +127,92 @@ const routes: Routes = [
     path: 'projet-creation',
     loadChildren: () =>
       import('./projet-creation/projet-creation.module').then(
-        m => m.ProjetCreationPageModule
+        (m) => m.ProjetCreationPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'description',
     loadChildren: () =>
       import('./description/description.module').then(
-        m => m.DescriptionPageModule
+        (m) => m.DescriptionPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'notification',
     loadChildren: () =>
       import('./notification/notification.module').then(
-        m => m.NotificationPageModule
+        (m) => m.NotificationPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'evaluation',
     loadChildren: () =>
       import('./evaluation/evaluation.module').then(
-        m => m.EvaluationPageModule
+        (m) => m.EvaluationPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
 
   {
     path: 'parametres',
     loadChildren: () =>
       import('./parametres/parametres.module').then(
-        m => m.ParametresPageModule
+        (m) => m.ParametresPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'sauvegarder',
     loadChildren: () =>
       import('./sauvegarder/sauvegarder.module').then(
-        m => m.SauvegarderPageModule
+        (m) => m.SauvegarderPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'mes-evaluations',
     loadChildren: () =>
       import('./mes-evaluations/mes-evaluations.module').then(
-        m => m.MesEvaluationsPageModule
+        (m) => m.MesEvaluationsPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'conversations',
     loadChildren: () =>
       import('./conversations/conversations.module').then(
-        m => m.ConversationsPageModule
+        (m) => m.ConversationsPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
 
   {
     path: 'dark-mode-settings',
     loadChildren: () =>
       import('./dark-mode-settings/dark-mode-settings.module').then(
-        m => m.DarkModeSettingsPageModule
+        (m) => m.DarkModeSettingsPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'recommended',
     loadChildren: () =>
       import('./recommended/recommended.module').then(
-        m => m.RecommendedPageModule
+        (m) => m.RecommendedPageModule,
       ),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'dashboard-entrepreneur',
     loadChildren: () =>
       import('./dashboard-entrepreneur/dashboard-entrepreneur.module').then(
-        m => m.DashboardEntrepreneurPageModule
+        (m) => m.DashboardEntrepreneurPageModule,
       ),
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 
   /*
   {
@@ -231,8 +231,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

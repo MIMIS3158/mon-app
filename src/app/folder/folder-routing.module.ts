@@ -6,12 +6,12 @@ import { FolderPage } from './folder.page';
 const routes: Routes = [
   {
     path: '',
-    component: FolderPage
-  }
+    component: FolderPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class FolderPageRoutingModule {}

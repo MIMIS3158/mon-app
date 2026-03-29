@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   selector: 'app-parametres',
   templateUrl: './parametres.page.html',
   styleUrls: ['./parametres.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ParametresPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -16,7 +16,7 @@ export class ParametresPage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit() {
@@ -24,8 +24,10 @@ export class ParametresPage implements OnInit {
     const nom = localStorage.getItem('nom') || '';
     this.userName = `${prenom} ${nom}`.trim() || 'Utilisateur';
 
+   /* const photo = localStorage.getItem('profileImage') || '';
+    this.profileImage = photo ? `${this.apiUrl}/${photo}` : '';*/
     const photo = localStorage.getItem('profileImage') || '';
-    this.profileImage = photo ? `${this.apiUrl}/${photo}` : '';
+this.profileImage = photo ? `http://localhost:8000/${photo}` : '';
   }
 
   onImageError(event: any) {

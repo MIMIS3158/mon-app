@@ -13,8 +13,8 @@ import { PostulationPage } from './postulation.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PostulationPageRoutingModule
+    PostulationPageRoutingModule,
   ],
-  declarations: [PostulationPage]
+  declarations: [PostulationPage],
 })
 export class PostulationPageModule {}

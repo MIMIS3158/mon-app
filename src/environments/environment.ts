@@ -1,12 +1,24 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+const isAndroid = window.location.hostname !== 'localhost';
 
 export const environment = {
+    production: false,
+    apiUrl: isAndroid 
+        ? 'http://192.168.43.8:8000/api'   
+        : 'http://localhost:8000/api'       
+};
+/*
+export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/api'
+  apiUrl: 'http://localhost:8000/api',
 };
 
+export const environment = {
+  production: true,
+  apiUrl: 'http://192.168.x.x:8000/api'
+};*/
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.

@@ -26,8 +26,17 @@ if (!$row) {
     echo json_encode(['message' => 'Token invalide ou déjà utilisé.']);
     exit;
 }
-if (strtotime($row['expires_at']) < time()) {
+/*if (strtotime($row['expires_at']) < time()) {
     $conn->query("DELETE FROM password_resets WHERE reset_token = '$reset_token'");
+    http_response_code(400);
+    echo json_encode(['message' => 'Token expiré. Veuillez recommencer.']);
+    exit;
+}*/
+if (strtotime($row['expires_at']) < time()) {
+    $delStmt = mysqli_prepare($conn, "DELETE FROM password_resets WHERE reset_token = ?");
+    mysqli_stmt_bind_param($delStmt, "s", $reset_token);
+    mysqli_stmt_execute($delStmt);
+    mysqli_stmt_close($delStmt);
     http_response_code(400);
     echo json_encode(['message' => 'Token expiré. Veuillez recommencer.']);
     exit;
@@ -37,7 +46,14 @@ $user_id = $row['user_id'];
 $stmt2 = $conn->prepare("UPDATE users SET Password = ? WHERE id = ?");
 $stmt2->bind_param('si', $hashed, $user_id);
 $stmt2->execute();
-$conn->query("DELETE FROM password_resets WHERE reset_token = '$reset_token'");
+
+//$conn->query("DELETE FROM password_resets WHERE reset_token = '$reset_token'");
+$delStmt = mysqli_prepare($conn, "DELETE FROM password_resets WHERE reset_token = ?");
+mysqli_stmt_bind_param($delStmt, "s", $reset_token);
+mysqli_stmt_execute($delStmt);
+mysqli_stmt_close($delStmt);
+
+
 $stmt3 = $conn->prepare("SELECT id, role, Nom, Prenom, photo FROM users WHERE id = ? LIMIT 1");
 $stmt3->bind_param('i', $user_id);
 $stmt3->execute();

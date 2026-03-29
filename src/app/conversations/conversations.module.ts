@@ -13,8 +13,8 @@ import { ConversationsPage } from './conversations.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ConversationsPageRoutingModule
+    ConversationsPageRoutingModule,
   ],
-  declarations: [ConversationsPage]
+  declarations: [ConversationsPage],
 })
 export class ConversationsPageModule {}

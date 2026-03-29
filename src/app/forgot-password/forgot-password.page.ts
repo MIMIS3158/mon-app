@@ -6,13 +6,13 @@ import {
   FormBuilder,
   FormGroup,
   ValidationErrors,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 function passwordMatchValidator(
-  group: AbstractControl
+  group: AbstractControl,
 ): ValidationErrors | null {
   const pw = group.get('password')?.value;
   const confirm = group.get('confirm')?.value;
@@ -30,11 +30,11 @@ function passwordMatchValidator(
         style({ opacity: 0, transform: 'translateY(20px)' }),
         animate(
           '300ms ease-out',
-          style({ opacity: 1, transform: 'translateY(0)' })
-        )
-      ])
-    ])
-  ]
+          style({ opacity: 1, transform: 'translateY(0)' }),
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ForgotPasswordPage implements OnInit, OnDestroy {
   private apiUrl = environment.apiUrl;
@@ -62,20 +62,20 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
   ) {}
 
   ngOnInit() {
     this.emailForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
 
     this.passwordForm = this.fb.group(
       {
         password: ['', [Validators.required, Validators.minLength(8)]],
-        confirm: ['', Validators.required]
+        confirm: ['', Validators.required],
       },
-      { validators: passwordMatchValidator }
+      { validators: passwordMatchValidator },
     );
   }
 
@@ -102,7 +102,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
         this.isLoading = false;
         this.errorMsg =
           err?.error?.message || 'Email introuvable. Vérifiez votre adresse.';
-      }
+      },
     });
   }
 
@@ -130,7 +130,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
           this.isLoading = false;
           this.errorMsg = err?.error?.message || 'Code incorrect ou expiré.';
           this.otpDigits = ['', '', '', '', '', ''];
-        }
+        },
       });
   }
   resetPassword() {
@@ -152,7 +152,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
     this.http
       .post(`${this.apiUrl}/reset_password.php`, {
         reset_token: this.resetToken,
-        password: password
+        password: password,
       })
       .subscribe({
         next: () => {
@@ -163,7 +163,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
           this.isLoading = false;
           this.errorMsg =
             err?.error?.message || 'Erreur lors de la réinitialisation.';
-        }
+        },
       });
   }
   private loginAfterReset(email: string, password: string) {
@@ -179,7 +179,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
         },
         error: () => {
           this.router.navigateByUrl('/signin');
-        }
+        },
       });
   }
   goToLogin() {
@@ -228,7 +228,7 @@ export class ForgotPasswordPage implements OnInit, OnDestroy {
       { pct: 25, color: '#dc2626', label: 'Très faible' },
       { pct: 50, color: '#f59e0b', label: 'Moyen' },
       { pct: 75, color: '#0d9488', label: 'Fort' },
-      { pct: 100, color: '#16a34a', label: 'Très fort' }
+      { pct: 100, color: '#16a34a', label: 'Très fort' },
     ];
     const entry = map[pw.length === 0 ? 0 : Math.min(score, 4)];
     this.strengthPct = entry.pct;

@@ -9,16 +9,26 @@
               <div class="input-box">
                 <ion-icon name="person" slot="start" class="child"></ion-icon>
                 <ion-col size="6" class="col-left">
-                  <input label="Nom" [(ngModel)]="user.nom" class="input-field" placeholder="Entrez votre Nom"
-                    required />
+                  <input
+                    label="Nom"
+                    [(ngModel)]="user.nom"
+                    class="input-field"
+                    placeholder="Entrez votre Nom"
+                    required
+                  />
                 </ion-col>
               </div>
               <br />
               <div class="input-box">
                 <ion-icon name="person" slot="end" class="part"></ion-icon>
                 <ion-col size="6" class="col-right">
-                  <input label="Prenom" [(ngModel)]="user.prenom" class="input-field" placeholder="Entrez votre Prenom"
-                    required />
+                  <input
+                    label="Prenom"
+                    [(ngModel)]="user.prenom"
+                    class="input-field"
+                    placeholder="Entrez votre Prenom"
+                    required
+                  />
                 </ion-col>
               </div>
             </ion-row>
@@ -26,14 +36,26 @@
           <br />
           <div class="input-box">
             <ion-icon name="mail" slot="start" class="first"></ion-icon>
-            <input label="Email" [(ngModel)]="user.email" class="input-field" placeholder="Entrez votre Email"
-              type="email" required />
+            <input
+              label="Email"
+              [(ngModel)]="user.email"
+              class="input-field"
+              placeholder="Entrez votre Email"
+              type="email"
+              required
+            />
           </div>
           <br />
           <div class="input-box">
             <ion-icon name="lock-closed" slot="start" class="second"></ion-icon>
-            <input label="Password" [(ngModel)]="user.password" class="input-field" placeholder="Entrez votre password"
-              type="password" required />
+            <input
+              label="Password"
+              [(ngModel)]="user.password"
+              class="input-field"
+              placeholder="Entrez votre password"
+              type="password"
+              required
+            />
           </div>
           <br />
         </div>
@@ -42,13 +64,20 @@
           <div class="input-box">
             <ion-radio value="developer" class="bloc">Développeur</ion-radio>
 
-            <ion-radio value="entrepreneur" class="block">Entrepreneur</ion-radio>
+            <ion-radio value="entrepreneur" class="block"
+              >Entrepreneur</ion-radio
+            >
           </div>
         </ion-radio-group>
       </div>
     </div>
   </ion-card>
 
-  <ion-button (click)="register()" class="center-btn" color="primary"
-    [disabled]="!user || !user.email || !user.password || !user.nom || !user.prenom || !user.role">S'inscrire</ion-button>
+  <ion-button
+    (click)="register()"
+    class="center-btn"
+    color="primary"
+    [disabled]="!user || !user.email || !user.password || !user.nom || !user.prenom || !user.role"
+    >S'inscrire</ion-button
+  >
 </ion-content>

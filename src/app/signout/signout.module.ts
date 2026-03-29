@@ -13,8 +13,8 @@ import { DeconnexionPage } from './signout.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DeconnexionPageRoutingModule
+    DeconnexionPageRoutingModule,
   ],
-  declarations: [DeconnexionPage]
+  declarations: [DeconnexionPage],
 })
 export class SignoutPageModule {}

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   selector: 'app-signout',
   templateUrl: './signout.page.html',
   styleUrls: ['./signout.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class DeconnexionPage implements OnInit {
   constructor(private router: Router) {}

@@ -1,9 +1,11 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="retour()" class="back-button">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      <!--<ion-button (click)="retour()" class="back-button">-->
+
+      <ion-back-button
+        [defaultHref]="type === 'developeur' ? '/accueil-developpeur' : '/accueil-entrepreneur'"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title>Mes Évaluations</ion-title>
   </ion-toolbar>

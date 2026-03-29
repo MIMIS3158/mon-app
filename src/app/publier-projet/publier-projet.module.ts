@@ -13,8 +13,8 @@ import { PublierProjetPage } from './publier-projet.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PublierProjetPageRoutingModule
+    PublierProjetPageRoutingModule,
   ],
-  declarations: [PublierProjetPage]
+  declarations: [PublierProjetPage],
 })
 export class PublishProjectPageModule {}

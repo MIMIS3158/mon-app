@@ -6,12 +6,12 @@ import { DeconnexionPage } from './signout.page';
 const routes: Routes = [
   {
     path: '',
-    component: DeconnexionPage
-  }
+    component: DeconnexionPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DeconnexionPageRoutingModule {}

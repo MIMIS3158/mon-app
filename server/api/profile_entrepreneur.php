@@ -73,7 +73,7 @@ try {
         $ville          = nullIfEmpty($_POST['Ville'] ?? '');
         $siteWeb        = nullIfEmpty($_POST['SiteWeb'] ?? '');
         $linkedin       = nullIfEmpty($_POST['Linkedin'] ?? '');
-        $tailleEntreprise = nullIfEmpty($_POST['TailleEntreprise'] ?? '');
+       // $tailleEntreprise = nullIfEmpty($_POST['TailleEntreprise'] ?? '');
         $anneeCreation  = nullIfEmpty($_POST['AnneeCreation'] ?? '');
         $budgetMoyen    = nullIfEmpty($_POST['BudgetMoyen'] ?? '');
         $profileImageVal = $profileImage ?: null;
@@ -82,12 +82,12 @@ try {
             "INSERT INTO entrepreneurs
             (user_id, Nom, Prenom, Email, Telephone, Secteur, Entreprise,
              Description, DateNaissance, Pays, Ville, SiteWeb, Linkedin,
-             TailleEntreprise, AnneeCreation, BudgetMoyen, profileImage)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+             AnneeCreation, BudgetMoyen, profileImage)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );
         mysqli_stmt_bind_param(
             $stmt,
-            "issssssssssssssss",
+            "isssssssssssssss",
             $userId,
             $nom,
             $prenom,
@@ -101,7 +101,7 @@ try {
             $ville,
             $siteWeb,
             $linkedin,
-            $tailleEntreprise,
+            //$tailleEntreprise,
             $anneeCreation,
             $budgetMoyen,
             $profileImageVal
@@ -110,7 +110,9 @@ try {
             echo json_encode(["success" => true, "id" => mysqli_insert_id($conn)]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => mysqli_error($conn)]);
+            //echo json_encode(["error" => mysqli_error($conn)]);
+            error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la création du profil"]);
         }
         mysqli_stmt_close($stmt);
 
@@ -140,7 +142,7 @@ try {
             'Ville',
             'SiteWeb',
             'Linkedin',
-            'TailleEntreprise',
+            //'TailleEntreprise',
             'AnneeCreation',
             'BudgetMoyen'
         ];
@@ -172,7 +174,9 @@ try {
             echo json_encode(["success" => true, "rows" => mysqli_stmt_affected_rows($stmt)]);
         } else {
             http_response_code(500);
-            echo json_encode(["error" => mysqli_error($conn)]);
+            //echo json_encode(["error" => mysqli_error($conn)]);
+            error_log(mysqli_error($conn));
+echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du profil"]);
         }
         if ($profileImage !== "") {
             $uPhoto = mysqli_prepare($conn, "UPDATE users SET photo = ? WHERE id = ?");

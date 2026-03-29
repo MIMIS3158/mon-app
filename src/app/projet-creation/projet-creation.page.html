@@ -11,37 +11,74 @@
   <ion-card-content>
     <h1 class="title">Publier une mission</h1>
 
-    <ion-input label="Nom du projet  *" placeholder="Cliquez pour modifier" [(ngModel)]="newProject.Nomduprojet"
-      required>
+    <ion-input
+      label="Nom du projet  *"
+      placeholder="Cliquez pour modifier"
+      [(ngModel)]="newProject.Nomduprojet"
+      required
+    >
     </ion-input>
 
-    <ion-input label="Entreprise  *" placeholder="Cliquez pour modifier" [(ngModel)]="newProject.Publierparentreprise">
+    <ion-input
+      label="Entreprise  *"
+      placeholder="Cliquez pour modifier"
+      [(ngModel)]="newProject.Publierparentreprise"
+    >
     </ion-input>
 
-    <ion-input required label="Budget *" [(ngModel)]="newProject.Budget" type="text"
-      placeholder="Cliquez pour modifier"></ion-input>
+    <ion-input
+      required
+      label="Budget *"
+      [(ngModel)]="newProject.Budget"
+      type="text"
+      placeholder="Cliquez pour modifier"
+    ></ion-input>
 
-    <ion-input label="Durée" [(ngModel)]="newProject.Duree" type="text" placeholder="Cliquez pour modifier"></ion-input>
+    <ion-input
+      label="Durée"
+      [(ngModel)]="newProject.Duree"
+      type="text"
+      placeholder="Cliquez pour modifier"
+    ></ion-input>
 
-    <ion-input label="Compétences demandées" [(ngModel)]="newProject.Competences" placeholder="Cliquez pour modifier">
+    <ion-input
+      label="Compétences demandées"
+      [(ngModel)]="newProject.Competences"
+      placeholder="Cliquez pour modifier"
+    >
     </ion-input>
 
     <ion-item>
       <ion-label position="stacked">Catégorie *</ion-label>
-      <ion-select required [(ngModel)]="newProject.id_categorie" interface="popover"
-        placeholder="Sélectionnez une catégorie">
-        <ion-select-option *ngFor="let cat of categories" [value]="cat.id_categorie">
+      <ion-select
+        required
+        [(ngModel)]="newProject.id_categorie"
+        interface="popover"
+        placeholder="Sélectionnez une catégorie"
+      >
+        <ion-select-option
+          *ngFor="let cat of categories"
+          [value]="cat.id_categorie"
+        >
           {{ cat.nom_categorie }}
         </ion-select-option>
       </ion-select>
     </ion-item>
 
-    <ion-textarea required label="Description *" [(ngModel)]="newProject.description" minlength="20"
-      placeholder="Cliquez pour modifier">
+    <ion-textarea
+      required
+      label="Description *"
+      [(ngModel)]="newProject.description"
+      minlength="20"
+      placeholder="Cliquez pour modifier"
+    >
     </ion-textarea>
 
-    <ion-button class="center-btn" (click)="addProject()"
-      [disabled]="!newProject || !newProject.description || !newProject.Nomduprojet || !newProject.id_categorie || !newProject.Budget">
+    <ion-button
+      class="center-btn"
+      (click)="addProject()"
+      [disabled]="!newProject || !newProject.description || !newProject.Nomduprojet || !newProject.id_categorie || !newProject.Budget"
+    >
       Publier
     </ion-button>
   </ion-card-content>

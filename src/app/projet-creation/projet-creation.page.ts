@@ -14,7 +14,7 @@ interface Categorie {
   selector: 'app-projet-creation',
   templateUrl: './projet-creation.page.html',
   styleUrls: ['./projet-creation.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class ProjetCreationPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -31,7 +31,7 @@ export class ProjetCreationPage implements OnInit {
     Competences: '',
     Statut: 'en attente',
     id_categorie: null,
-    description: ''
+    description: '',
   };
   isEditMode: boolean = false;
   projectId: number | null = null;
@@ -39,12 +39,12 @@ export class ProjetCreationPage implements OnInit {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
   ) {}
 
   ngOnInit() {
     this.loadCategories();
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params['id']) {
         this.isEditMode = true;
         this.projectId = params['id'];
@@ -53,10 +53,13 @@ export class ProjetCreationPage implements OnInit {
     });
   }
   loadProject(id: any) {
-    this.http
-      .get<any>(`${this.apiUrl}/projects.php?projectId=${id}`)
+    /*this.http
+      .get<any>(`${this.apiUrl}/projects.php?projectId=${id}`)*/
+      this.http.get<any>(`${this.apiUrl}/projects.php`, {
+  params: { projectId: id }
+})
       .subscribe({
-        next: project => {
+        next: (project) => {
           if (!project) return;
           this.newProject = {
             Nomduprojet: project.Nomduprojet || '',
@@ -66,45 +69,48 @@ export class ProjetCreationPage implements OnInit {
             Competences: project.Competences || '',
             Statut: project.Statut || 'en attente',
             id_categorie: project.id_categorie || null,
-            description: project.description || ''
+            description: project.description || '',
           };
         },
-        error: () => {}
+        error: () => {},
       });
   }
   loadCategories() {
     this.http.get<Categorie[]>(this.categoriesUrl).subscribe({
-      next: data => {
+      next: (data) => {
         this.categories = data;
         console.log('Catégories chargées :', this.categories);
       },
-      error: error => {
+      error: (error) => {
         console.error('Erreur lors du chargement des catégories :', error);
         this.alertsService.alert('Impossible de charger les catégories');
-      }
+      },
     });
   }
   addProject() {
     if (!this.isValid()) return;
     const projectData = {
       ...this.newProject,
-      user_id: localStorage.getItem('userId')
+      user_id: localStorage.getItem('userId'),
     };
     if (this.isEditMode && this.projectId) {
-      this.http
-        .put(`${this.projectApiUrl}?id=${this.projectId}`, projectData)
+     /* this.http
+        .put(`${this.projectApiUrl}?id=${this.projectId}`, projectData)*/
+        this.http.put(`${this.projectApiUrl}`, projectData, {
+  params: { id: this.projectId! }
+})
         .subscribe({
           next: () => {
             this.alertsService.alert('Projet modifié avec succès !');
             this.router.navigate(['/projets']);
           },
-          error: err => {
+          error: (err) => {
             console.error('Erreur lors de la modification :', err);
             const message = err.error?.error || 'Erreur inconnue';
             this.alertsService.alert(
-              'Erreur lors de la modification : ' + message
+              'Erreur lors de la modification : ' + message,
             );
-          }
+          },
         });
     } else {
       this.http.post(this.projectApiUrl, projectData).subscribe({
@@ -112,13 +118,13 @@ export class ProjetCreationPage implements OnInit {
           this.alertsService.alert('Projet publié avec succès !');
           this.router.navigate(['/accueil-entrepreneur']);
         },
-        error: err => {
+        error: (err) => {
           console.error('Erreur lors de la publication :', err);
           const message = err.error?.error || 'Erreur inconnue';
           this.alertsService.alert(
-            'Erreur lors de la publication : ' + message
+            'Erreur lors de la publication : ' + message,
           );
-        }
+        },
       });
     }
   }

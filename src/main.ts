@@ -3,4 +3,4 @@ import { platformBrowser } from '@angular/platform-browser';
 
 platformBrowser()
   .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+  .catch((err) => console.error(err));

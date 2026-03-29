@@ -13,8 +13,8 @@ import { DashboardEntrepreneurPage } from './dashboard-entrepreneur.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardEntrepreneurPageRoutingModule
+    DashboardEntrepreneurPageRoutingModule,
   ],
-  declarations: [DashboardEntrepreneurPage]
+  declarations: [DashboardEntrepreneurPage],
 })
 export class DashboardEntrepreneurPageModule {}

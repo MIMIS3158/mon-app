@@ -1,22 +1,36 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button (click)="retour()">
+      <!--<ion-button (click)="retour()">
         <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
+      </ion-button>-->
+
+      <ion-back-button defaultHref="/accueil-developpeur"></ion-back-button>
     </ion-buttons>
     <ion-title>Projets Sauvegardés</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content class="ion-padding">
-  <div *ngIf="projets.length === 0" style="text-align: center; margin-top: 50px;">
-    <ion-icon name="bookmark-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
+  <div
+    *ngIf="projets.length === 0"
+    style="text-align: center; margin-top: 50px"
+  >
+    <ion-icon
+      name="bookmark-outline"
+      style="font-size: 64px; color: #ccc"
+    ></ion-icon>
     <h3>Aucun projet sauvegardé</h3>
     <p>Vous n'avez pas encore sauvegardé de projets</p>
   </div>
   <ion-card *ngFor="let projet of projets">
     <ion-card-header>
-      <div style="display: flex; justify-content: space-between; align-items: center;">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        "
+      >
         <ion-card-title>{{ projet.Nomduprojet }}</ion-card-title>
         <ion-badge color="warning">{{ projet.Statut }}</ion-badge>
       </div>
@@ -39,12 +53,18 @@
           </ion-col>
         </ion-row>
       </ion-grid>
-      <div style="display: flex; gap: 10px;">
-        <ion-button (click)="ouvrirProjet(projet)" style="flex: 1;">
+      <div style="display: flex; gap: 10px">
+        <ion-button (click)="ouvrirProjet(projet)" style="flex: 1">
           <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
           Postuler
         </ion-button>
-        <ion-button expand="block" color="danger" fill="outline" (click)="supprimerFavori(projet.id)" style="flex: 1;">
+        <ion-button
+          expand="block"
+          color="danger"
+          fill="outline"
+          (click)="supprimerFavori(projet.id)"
+          style="flex: 1"
+        >
           <ion-icon name="bookmark" slot="start"></ion-icon>
           Retirer
         </ion-button>

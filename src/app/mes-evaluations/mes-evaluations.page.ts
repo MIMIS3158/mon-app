@@ -2,12 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-mes-evaluations',
   templateUrl: './mes-evaluations.page.html',
   styleUrls: ['./mes-evaluations.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class MesEvaluationsPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -20,7 +21,10 @@ export class MesEvaluationsPage implements OnInit {
   avisPositifs: number = 0;
   avisNegatifs: number = 0;
 
-  constructor(private router: Router, private http: HttpClient) {
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+  ) {
     const nav = this.router.getCurrentNavigation();
     if (nav?.extras.state) {
       this.type = nav.extras.state['type'] || 'developpeur';
@@ -39,23 +43,52 @@ export class MesEvaluationsPage implements OnInit {
     }
     this.loadEvaluations();
   }
-  loadEvaluations() {
-    const userId = localStorage.getItem('userId');
-    const url = this.idEvalue
-      ? `${this.apiUrl}/get_evaluations.php?type=${this.type}&id_evalue=${this.idEvalue}`
-      : `${this.apiUrl}/get_evaluations.php?type=${this.type}&userId=${userId}`;
-    this.http.get<any[]>(url).subscribe(evals => {
+ 
+ /*loadEvaluations() {
+  const userId = localStorage.getItem('userId');
+  
+  const params: any = { type: this.type };
+  if (this.idEvalue) {
+    params['id_evalue'] = this.idEvalue;
+  } else {
+    params['userId'] = userId;
+  }
+
+  this.http.get<any[]>(`${this.apiUrl}/get_evaluations.php`, { params })
+    .subscribe((evals) => {
       this.evaluations = evals;
       this.totalAvis = evals.length;
       if (evals.length > 0) {
         const total = evals.reduce((sum, e) => sum + Number(e.note), 0);
         this.moyenneNote = total / evals.length;
-        this.avisPositifs = evals.filter(e => e.note >= 4).length;
-        this.avisNegatifs = evals.filter(e => e.note <= 2).length;
+        this.avisPositifs = evals.filter((e) => e.note >= 4).length;
+        this.avisNegatifs = evals.filter((e) => e.note <= 2).length;
       }
     });
+}*/
+async loadEvaluations() {
+  const userId = localStorage.getItem('userId');
+  const params: any = { type: this.type };
+  if (this.idEvalue) {
+    params['id_evalue'] = this.idEvalue;
+  } else {
+    params['userId'] = userId;
   }
-  retour() {
+  try {
+    const evals = await firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/get_evaluations.php`, { params })
+    );
+    this.evaluations = evals;
+    this.totalAvis = evals.length;
+    if (evals.length > 0) {
+      const total = evals.reduce((sum, e) => sum + Number(e.note), 0);
+      this.moyenneNote = total / evals.length;
+      this.avisPositifs = evals.filter(e => e.note >= 4).length;
+      this.avisNegatifs = evals.filter(e => e.note <= 2).length;
+    }
+  } catch(err) {}
+}
+  /* retour() {
     history.back();
-  }
+  }*/
 }

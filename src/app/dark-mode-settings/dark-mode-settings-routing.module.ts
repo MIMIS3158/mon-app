@@ -6,12 +6,12 @@ import { DarkModeSettingsPage } from './dark-mode-settings.page';
 const routes: Routes = [
   {
     path: '',
-    component: DarkModeSettingsPage
-  }
+    component: DarkModeSettingsPage,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class DarkModeSettingsPageRoutingModule {}

@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   selector: 'app-evaluation',
   templateUrl: './evaluation.page.html',
   styleUrls: ['./evaluation.page.scss'],
-  standalone: false
+  standalone: false,
 })
 export class EvaluationPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -24,7 +24,7 @@ export class EvaluationPage implements OnInit {
     private router: Router,
     private http: HttpClient,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
@@ -42,7 +42,7 @@ export class EvaluationPage implements OnInit {
   ngOnInit() {
     if (!this.projet || !this.idEvalue) {
       this.presentToast('Erreur : données manquantes', 'danger');
-      this.retour();
+      this.goBack();
     }
   }
 
@@ -82,9 +82,9 @@ export class EvaluationPage implements OnInit {
           text: 'Publier',
           handler: () => {
             this.envoyerEvaluation();
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
@@ -97,7 +97,7 @@ export class EvaluationPage implements OnInit {
       note: this.note,
       commentaire: this.commentaire,
       avis_type: this.avisType,
-      user_id: localStorage.getItem('userId')
+      user_id: localStorage.getItem('userId'),
     };
 
     this.http
@@ -112,14 +112,14 @@ export class EvaluationPage implements OnInit {
             this.router.navigate(['/notification']);
           }
         },
-        error: error => {
+        error: (error) => {
           console.error('Erreur:', error);
           this.presentToast('Erreur lors de la publication', 'danger');
-        }
+        },
       });
   }
 
-  retour() {
+  goBack() {
     if (this.type === 'developpeur') {
       this.router.navigate(['/postulation']);
     } else {
@@ -132,7 +132,7 @@ export class EvaluationPage implements OnInit {
       message: message,
       duration: 2000,
       color: color,
-      position: 'bottom'
+      position: 'bottom',
     });
     await toast.present();
   }
