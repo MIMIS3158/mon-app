@@ -16,6 +16,7 @@ $prenom = $data['prenom'] ?? null;
 $email = $data['email'] ?? null;
 $plainPassword = $data['password'] ?? null;
 $role = $data['role'] ?? null;
+$Publierparentreprise = $data['Publierparentreprise'] ?? null;
 
 if (!$nom || !$prenom || !$email || !$plainPassword || !$role) {
     http_response_code(400);
@@ -65,17 +66,16 @@ try {
     }
 
     if ($role === 'entrepreneur') {
-        $entStmt = $conn->prepare(
-            "INSERT INTO entrepreneurs (user_id, Nom, Prenom, Email) VALUES (?, ?, ?, ?)"
-        );
-        $entStmt->bind_param("isss", $userId, $nom, $prenom, $email);
-
-        if (!$entStmt->execute()) {
-            throw new Exception("Erreur création profil entrepreneur");
-        }
-
-        $entStmt->close();
+   $entStmt = $conn->prepare(
+    "INSERT INTO entrepreneurs (user_id, Nom, Prenom, Email, Entreprise) VALUES (?, ?, ?, ?, ?)"
+);
+$entStmt->bind_param("issss", $userId, $nom, $prenom, $email, $Publierparentreprise);
+    if (!$entStmt->execute()) {
+        throw new Exception("Erreur création profil entrepreneur");
     }
+
+    $entStmt->close();
+}
 
     mysqli_commit($conn);
 

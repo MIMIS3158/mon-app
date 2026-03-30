@@ -20,11 +20,12 @@
     </ion-input>
 
     <ion-input
-      label="Entreprise  *"
-      placeholder="Cliquez pour modifier"
-      [(ngModel)]="newProject.Publierparentreprise"
-    >
-    </ion-input>
+  label="Entreprise *"
+  placeholder="Cliquez pour modifier"
+  [(ngModel)]="newProject.Publierparentreprise"
+  [readonly]="true"
+>
+</ion-input>
 
     <ion-input
       required

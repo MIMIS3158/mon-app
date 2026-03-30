@@ -48,17 +48,8 @@
           <br />
 
 
-          <div *ngIf="user.role === 'entrepreneur'" class="input-box">
-  <ion-icon name="business" slot="start"></ion-icon>
-  <input
-    [(ngModel)]="user.entreprise"
-    class="input-field"
-    placeholder="Nom de l'entreprise"
-    required
-  />
-</div>
-<br>
-
+        
+        </div>
 
           <div class="input-box">
             <ion-icon name="lock-closed" slot="start" class="second"></ion-icon>
@@ -71,18 +62,29 @@
               required
             />
           </div>
-          <br />
-        </div>
+          
+
+
+      
         <label><a class="role">Je suis:</a></label>
         <ion-radio-group [(ngModel)]="user.role" required>
           <div class="input-box">
             <ion-radio value="developer" class="bloc">Développeur</ion-radio>
 
             <ion-radio value="entrepreneur" class="block"
-              >Entrepreneur</ion-radio
-            >
+              >Entrepreneur</ion-radio>
           </div>
         </ion-radio-group>
+          
+        <div *ngIf="user.role === 'entrepreneur'" class="input-box" style="margin-top: 16px;">
+          <ion-icon name="business" slot="start"></ion-icon>
+          <input
+            [(ngModel)]="user.Publierparentreprise"
+            class="input-field"
+            placeholder="Nom de l'entreprise"
+            required
+          />
+        </div>
       </div>
     </div>
   </ion-card>
@@ -92,7 +94,6 @@
     class="center-btn"
     color="primary"
     [disabled]="!user || !user.email || !user.password || !user.nom || !user.prenom || !user.role ||
-              (user.role === 'entrepreneur' && !user.entreprise)"
-    >S'inscrire</ion-button
-  >
+              (user.role === 'entrepreneur' && !user.Publierparentreprise)"
+    >S'inscrire</ion-button>
 </ion-content>

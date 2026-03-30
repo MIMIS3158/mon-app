@@ -40,6 +40,7 @@ export class SigninPage implements OnInit {
         localStorage.setItem('prenom', response.user.prenom || '');
         localStorage.setItem('nom', response.user.nom || '');
         localStorage.setItem('profileImage', response.user.photo || '');
+        localStorage.setItem('entreprise', response.user.entreprise || '');
 
         if (response.user.role === 'developer') {
           this.router.navigate(['/accueil-developpeur']);

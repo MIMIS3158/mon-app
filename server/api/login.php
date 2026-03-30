@@ -11,6 +11,16 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $user = $stmt->get_result()->fetch_assoc();
 if ($user && password_verify($password, $user['Password'])) {
+      $entreprise = '';
+    if ($user['role'] === 'entrepreneur') {
+        $entStmt = $conn->prepare("SELECT Entreprise FROM entrepreneurs WHERE user_id = ?");
+        $entStmt->bind_param("i", $user['id']);
+        $entStmt->execute();
+        $ent = $entStmt->get_result()->fetch_assoc();
+        $entreprise = $ent['Entreprise'] ?? '';
+        $entStmt->close();
+    }
+
     echo json_encode([
         "token" => "token-" . time(),
         "user" => [
@@ -18,7 +28,8 @@ if ($user && password_verify($password, $user['Password'])) {
             "role"   => $user['role'],
             "nom"    => $user['Nom'],
             "prenom" => $user['Prenom'],
-            "photo"  => $user['photo']
+            "photo"  => $user['photo'],
+            "entreprise" => $entreprise  
         ]
     ]);
 } else {

@@ -48,7 +48,7 @@ try {
             exit;
         }
         mysqli_stmt_close($check);
-        $profileImage = uploadFile('profileImage', ['jpg', 'jpeg', 'png', 'gif', 'webp'], $uploadDir);
+        $profileImage = uploadFile('profileImage', ['jpg', 'jpeg', 'png', 'gif', 'webp','jfif'], $uploadDir);
         $portfolio    = uploadFile('portfolio', ['pdf'], $uploadDir);
         $nomdev    = nullIfEmpty($_POST['Nomdev'] ?? '');
         $prenomdev = nullIfEmpty($_POST['Prenomdev'] ?? '');
@@ -125,7 +125,7 @@ echo json_encode(["error" => "Une erreur est survenue lors de la création du pr
             echo json_encode(["error" => "user_id manquant"]);
             exit;
         }
-        $profileImage = uploadFile('profileImage', ['jpg', 'jpeg', 'png', 'gif', 'webp'], $uploadDir);
+        $profileImage = uploadFile('profileImage', ['jpg', 'jpeg', 'png', 'gif', 'webp','jfif'], $uploadDir);
         $portfolio    = uploadFile('portfolio', ['pdf'], $uploadDir);
         $fields = [
             'Nomdev',
@@ -171,9 +171,16 @@ echo json_encode(["error" => "Une erreur est survenue lors de la création du pr
         $sql  = "UPDATE developers SET " . implode(', ', $setParts) . " WHERE user_id = ?";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, $types, ...$values);
-        if (mysqli_stmt_execute($stmt)) {
+      /*  if (mysqli_stmt_execute($stmt)) {
             echo json_encode(["success" => true, "rows" => mysqli_stmt_affected_rows($stmt)]);
-        } else {
+        } */
+       if (mysqli_stmt_execute($stmt)) {
+    echo json_encode([
+        "success" => true, 
+        "rows" => mysqli_stmt_affected_rows($stmt),
+        "profileImage" => $profileImage !== "" ? $profileImage : null
+    ]);
+}else {
             http_response_code(500);
             //echo json_encode(["error" => mysqli_error($conn)]);
             error_log(mysqli_error($conn));

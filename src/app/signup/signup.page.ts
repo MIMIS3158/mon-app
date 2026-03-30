@@ -19,7 +19,7 @@ export class SignupPage implements OnInit {
     email: '',
     password: '',
     role: '',
-    entreprise: '', 
+    Publierparentreprise: '', 
   };
 
   constructor(
@@ -35,7 +35,7 @@ export class SignupPage implements OnInit {
       this.alertsService.alert('Veuillez choisir un rôle');
       return;
     }
-      if (this.user.role === 'entrepreneur' && !this.user.entreprise) {
+      if (this.user.role === 'entrepreneur' && !this.user.Publierparentreprise) {
     this.alertsService.alert("Veuillez entrer le nom de votre entreprise");
     return;
   }
@@ -47,12 +47,14 @@ export class SignupPage implements OnInit {
         localStorage.setItem('token', 'token-' + Date.now());
         localStorage.setItem('prenom', this.user.prenom);
         localStorage.setItem('nom', this.user.nom);
+        localStorage.setItem('entreprise', this.user.Publierparentreprise);
 
         if (this.user.role === 'developer') {
           localStorage.setItem('is', 'dev');
           this.router.navigate(['/accueil-developpeur']);
         } else if (this.user.role === 'entrepreneur') {
           localStorage.setItem('is', 'business');
+          localStorage.setItem('entreprise', this.user.Publierparentreprise);
           this.router.navigate(['/accueil-entrepreneur']);
         }
 

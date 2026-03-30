@@ -5,6 +5,7 @@ ion-content {
   justify-content: center;
   min-height: 100vh;
   padding: 20px 0;
+
   ion-card {
     max-width: 550px;
     width: 90%;
@@ -15,9 +16,11 @@ ion-content {
     overflow: hidden;
     animation: fadeInScale 0.6s ease;
     border: none;
+
     .form-box {
       .register-container {
         padding: 48px 36px;
+
         .signup {
           display: block;
           font-size: 2rem;
@@ -29,6 +32,7 @@ ion-content {
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+
           &::after {
             content: "";
             display: block;
@@ -39,21 +43,25 @@ ion-content {
             border-radius: 2px;
           }
         }
+
         .two-forms {
           .name-grid {
             padding: 0;
             margin-bottom: 20px;
+
             ion-row {
               display: flex;
               gap: 12px;
               align-items: stretch;
               margin: 0;
+
               .input-box {
                 flex: 1;
                 margin-bottom: 0 !important;
                 display: flex;
                 align-items: center;
               }
+
               .col-left,
               .col-right {
                 padding: 0;
@@ -62,6 +70,7 @@ ion-content {
               }
             }
           }
+
           .input-box {
             position: relative;
             margin-bottom: 20px;
@@ -73,16 +82,19 @@ ion-content {
             padding: 0 18px;
             transition: all 0.3s ease;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+
             &:focus-within {
               border-color: #667eea;
               background: white;
               box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
               transform: translateY(-2px);
             }
+
             &:hover {
               border-color: #cbd5e0;
               box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
             }
+
             ion-icon {
               font-size: 22px;
               color: #667eea;
@@ -90,10 +102,12 @@ ion-content {
               transition: all 0.3s ease;
               flex-shrink: 0;
             }
+
             &:focus-within ion-icon {
               color: #764ba2;
               transform: scale(1.1);
             }
+
             .input-field {
               flex: 1;
               border: none;
@@ -104,25 +118,29 @@ ion-content {
               font-weight: 500;
               outline: none;
               width: 100%;
+
               &::placeholder {
                 color: #a0aec0;
                 font-style: italic;
               }
             }
+
             ion-col {
               padding: 0;
               width: 100%;
             }
           }
-          
+
           br {
             display: none;
           }
         }
+
         label {
           display: block;
           margin: 28px 0 20px;
           text-align: center;
+
           .role {
             font-size: 1.1rem;
             font-weight: 600;
@@ -130,6 +148,7 @@ ion-content {
             text-decoration: none;
           }
         }
+
         ion-radio-group {
           .input-box {
             display: flex;
@@ -140,10 +159,12 @@ ion-content {
             box-shadow: none;
             gap: 12px;
             margin-bottom: 0;
+
             &:hover {
               transform: none;
               box-shadow: none;
             }
+
             ion-radio {
               flex: 1;
               margin: 0;
@@ -156,21 +177,25 @@ ion-content {
               font-weight: 600;
               color: #4a5568;
               cursor: pointer;
+
               &::part(container) {
                 display: none;
               }
+
               &::part(label) {
                 padding: 0;
                 margin: 0;
                 text-align: center;
                 width: 100%;
               }
+
               &:hover {
                 border-color: #cbd5e0;
                 background: white;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
                 transform: translateY(-2px);
               }
+
               &.radio-checked {
                 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
                 border-color: #667eea;
@@ -181,9 +206,67 @@ ion-content {
             }
           }
         }
+
+        // ⭐ CHAMP NOM D'ENTREPRISE (conditionnel)
+        > div.input-box {
+          position: relative;
+          margin-bottom: 20px;
+          display: flex;
+          align-items: center;
+          background: #f8f9fd;
+          border: 2px solid #e2e8f0;
+          border-radius: 14px;
+          padding: 0 18px;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+          animation: slideInUp 0.4s ease;
+
+          &:focus-within {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+          }
+
+          &:hover {
+            border-color: #cbd5e0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+          }
+
+          ion-icon {
+            font-size: 22px;
+            color: #667eea;
+            margin-right: 14px;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+          }
+
+          &:focus-within ion-icon {
+            color: #764ba2;
+            transform: scale(1.1);
+          }
+
+          .input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 16px 0;
+            font-size: 1rem;
+            color: #2d3748;
+            font-weight: 500;
+            outline: none;
+            width: 100%;
+
+            &::placeholder {
+              color: #a0aec0;
+              font-style: italic;
+            }
+          }
+        }
       }
     }
   }
+
   .center-btn {
     --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --color: white;
@@ -199,15 +282,29 @@ ion-content {
     height: 56px;
     box-shadow: 0 8px 24px rgba(102, 126, 234, 0.4);
     transition: all 0.3s ease;
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 32px rgba(102, 126, 234, 0.5);
     }
+
     &:active {
       transform: translateY(-1px);
     }
+
+    &[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      --background: #cbd5e0;
+
+      &:hover {
+        transform: none;
+        box-shadow: 0 8px 24px rgba(203, 213, 224, 0.4);
+      }
+    }
   }
 }
+
 @keyframes fadeInScale {
   from {
     opacity: 0;
@@ -218,45 +315,76 @@ ion-content {
     transform: scale(1) translateY(0);
   }
 }
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 576px) {
   ion-content {
     padding: 10px 0;
+
     ion-card {
       width: 95%;
       margin: 20px auto;
       border-radius: 20px;
+
       .form-box .register-container {
         padding: 36px 24px;
+
         .signup {
           font-size: 1.7rem;
           margin-bottom: 32px;
         }
+
         .two-forms {
           .name-grid ion-row {
             flex-direction: column;
             gap: 20px;
+
             .input-box {
               margin-bottom: 0;
             }
           }
+
           .input-box {
             padding: 0 16px;
             margin-bottom: 20px;
+
             .input-field {
               padding: 14px 0;
               font-size: 0.95rem;
             }
           }
         }
+
         ion-radio-group .input-box {
           flex-direction: column;
           gap: 12px;
+
           ion-radio {
             padding: 16px;
           }
         }
+        > div.input-box {
+          padding: 0 16px;
+          margin-bottom: 20px;
+
+          .input-field {
+            padding: 14px 0;
+            font-size: 0.95rem;
+          }
+        }
       }
     }
+
     .center-btn {
       width: 95%;
       font-size: 1.05rem;
@@ -264,14 +392,17 @@ ion-content {
     }
   }
 }
+
 @media (min-width: 768px) {
   ion-content {
     ion-card {
       max-width: 600px;
+
       .form-box .register-container {
         padding: 56px 44px;
       }
     }
+
     .center-btn {
       max-width: 600px;
     }

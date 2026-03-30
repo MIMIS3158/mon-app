@@ -145,6 +145,11 @@ export class ProfileEntrepreneurPage implements OnInit {
         {
           console.log(' Profil modifié avec succès !', response);
           this.alertsService.alert(' PROFIL MODIFIÉ !');
+
+
+           if (response.profileImage) {
+      localStorage.setItem('profileImage', response.profileImage);
+    }
           this.loadProfile();
         }
       })

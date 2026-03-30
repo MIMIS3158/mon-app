@@ -141,8 +141,12 @@ export class ProfileDevPage implements OnInit, OnDestroy {
     firstValueFrom(this.http.post(`${this.apiUrl}/profile_dev.php`, formData))
       .then((response: any) => {
         console.log(' Profil modifié avec succès !', response);
-        this.alertsService.toast(' PROFIL MODIFIÉ !');
+       this.alertsService.alert(' PROFIL MODIFIÉ !');
         
+         if (response.profileImage) {
+      localStorage.setItem('profileImage', response.profileImage);
+    }
+    
         this.loadProfile();
       })
       .catch((err: any) => {

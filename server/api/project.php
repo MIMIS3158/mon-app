@@ -45,7 +45,7 @@ if ($method === 'POST') {
         "INSERT INTO projects 
         (entrepreneur_id, Nomduprojet, Publierparentreprise, Budget, Duree, Competences, Statut, id_categorie, Descriptionduprojet, DatePublication)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())"
-    );
+    );/*
     mysqli_stmt_bind_param(
         $stmt,
         "issssssss",
@@ -58,7 +58,21 @@ if ($method === 'POST') {
         $statut,
         $id_categorie,
         $description
-    );
+    );*/
+    
+mysqli_stmt_bind_param(
+    $stmt,
+    "issssssis",  
+    $entrepreneurId,
+    $nomduprojet,
+    $publierparentreprise,
+    $budget,
+    $duree,
+    $competences,
+    $statut,
+    $id_categorie,
+    $description
+);
     if (!mysqli_stmt_execute($stmt)) {
         http_response_code(500);
         //echo json_encode(["success" => false, "errors" => [mysqli_stmt_error($stmt)]]);

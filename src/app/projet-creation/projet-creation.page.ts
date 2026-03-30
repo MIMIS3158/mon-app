@@ -43,6 +43,7 @@ export class ProjetCreationPage implements OnInit {
   ) {}
 
   ngOnInit() {
+     this.newProject.Publierparentreprise = localStorage.getItem('entreprise') || '';
     this.loadCategories();
     this.route.queryParams.subscribe((params) => {
       if (params['id']) {
@@ -52,6 +53,7 @@ export class ProjetCreationPage implements OnInit {
       }
     });
   }
+ 
   loadProject(id: any) {
     /*this.http
       .get<any>(`${this.apiUrl}/projects.php?projectId=${id}`)*/
