@@ -25,7 +25,11 @@ export class AccueilEntrepreneurPage implements OnInit {
   messagesNonLus: number = 0;
   notificationsCount: number = 0;
   private badgeInterval: any;
-
+  
+// ✅ Ajoute ces 3 lignes
+filtreNiveau: string = '';
+filtreVille: string = '';
+filtreNote: number = 0;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -59,7 +63,7 @@ export class AccueilEntrepreneurPage implements OnInit {
   } catch(err) {}
 }
 
-  onSearch() {
+  /*onSearch() {
     const term = this.searchTerm.toLowerCase().trim();
 
     if (term === '') {
@@ -73,7 +77,40 @@ export class AccueilEntrepreneurPage implements OnInit {
         (dev.Prenomdev?.toLowerCase() || '').includes(term) ||
         (dev.CompetencesTechniques?.toLowerCase() || '').includes(term),
     );
+  }*/
+ onSearch() {
+  const term = this.searchTerm.toLowerCase().trim();
+
+  if (term === '' && !this.filtreNiveau && !this.filtreVille && !this.filtreNote) {
+    this.filteredDevelopers = [];
+    return;
   }
+
+  this.filteredDevelopers = this.developers.filter((dev) => {
+    const matchTerm = term === '' ||
+      (dev.Nomdev?.toLowerCase() || '').includes(term) ||
+      (dev.Prenomdev?.toLowerCase() || '').includes(term) ||
+      (dev.CompetencesTechniques?.toLowerCase() || '').includes(term);
+
+    const matchNiveau = !this.filtreNiveau || dev.Niveau === this.filtreNiveau;
+
+    const matchVille = !this.filtreVille ||
+      (dev.Ville?.toLowerCase() || '').includes(this.filtreVille.toLowerCase()) ||
+      (dev.Pays?.toLowerCase() || '').includes(this.filtreVille.toLowerCase());
+
+    const matchNote = !this.filtreNote || (dev.moyenneNote || 0) >= this.filtreNote;
+
+    return matchTerm && matchNiveau && matchVille && matchNote;
+  });
+}
+
+resetFilters() {
+  this.filtreNiveau = '';
+  this.filtreVille = '';
+  this.filtreNote = 0;
+  this.searchTerm = '';
+  this.filteredDevelopers = [];
+}
 
   goToMesProjets() {
     this.router.navigate(['/projets']);
