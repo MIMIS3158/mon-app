@@ -10,7 +10,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
 import { Router } from '@angular/router';
 
-//import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-chat',
@@ -266,7 +266,50 @@ async envoyerLocalisation() {
 ouvrirLocalisation(url: string) {
   window.open(url, '_blank');
 }
+/*
 openCamera() {
   document.getElementById('cameraInput')?.click();
+}*/
+async openCamera() {
+  try {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Camera
+    });
+
+    if (!image.base64String) return;
+
+    
+    const format = image.format || 'jpeg';
+    const mimeType = `image/${format}`;
+    const fileName = `photo.${format}`;
+
+    const blob = this.base64ToBlob(image.base64String, mimeType);
+    const file = new File([blob], fileName, { type: mimeType });
+
+    const formData = new FormData();
+    formData.append('sender_id', this.currentUserId.toString());
+    formData.append('receiver_id', this.receiverId.toString());
+    formData.append('project_id', this.projectId.toString());
+    formData.append('message', '');
+    formData.append('fichier', file);
+
+    this.http.post(this.messageUrl, formData).subscribe({
+      next: () => this.loadMessages(),
+      error: () => this.alertsService.alert('Erreur envoi photo')
+    });
+  } catch(err) {}
+}
+
+base64ToBlob(base64: string, type: string): Blob {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type });
 }
 }

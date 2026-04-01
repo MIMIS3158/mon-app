@@ -36,10 +36,19 @@
       [class.unread]="conv.unread_count > 0"
       (click)="ouvrirChat(conv)"
     >
-      <div class="av" [ngStyle]="{'background': getGradient(conv.contact_id)}">
+     <!-- <div class="av" [ngStyle]="{'background': getGradient(conv.contact_id)}">
         {{ getInitiales(conv.contact_nom, conv.contact_prenom) }}
         <div class="online-dot" *ngIf="isOnline(conv.contact_id)"></div>
-      </div>
+      </div>-->
+      <div class="av" [ngStyle]="{'background': getGradient(conv.contact_id)}">
+  <img *ngIf="conv.contact_photo" 
+       [src]="getPhotoUrl(conv.contact_photo)" 
+       style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />
+  <span *ngIf="!conv.contact_photo">
+    {{ getInitiales(conv.contact_nom, conv.contact_prenom) }}
+  </span>
+  <div class="online-dot" *ngIf="isOnline(conv.contact_id)"></div>
+</div>
       <div class="conv-info">
         <div class="conv-name">
           {{ conv.contact_prenom }} {{ conv.contact_nom }}

@@ -24,6 +24,7 @@ $stmt = mysqli_prepare($conn, "
         END as contact_id,
         u.Nom as contact_nom,
         u.Prenom as contact_prenom,
+        u.photo as contact_photo, 
         u.role as contact_role,
         (SELECT COUNT(*) FROM messages 
          WHERE receiver_id = ? AND sender_id = CASE 

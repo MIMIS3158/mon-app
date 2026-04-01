@@ -35,6 +35,7 @@ filtreNote: number = 0;
     private http: HttpClient,
     private modalController: ModalController,
      private badgeService: BadgeService,
+
   ) {}
 
   ngOnInit() {
@@ -44,6 +45,7 @@ filtreNote: number = 0;
   }
   ionViewWillEnter() {
     this.loadBadges();
+    
   }
   /*loadDevelopers() {
     this.http.get<Developer[]>(`${this.apiUrl}/get_developers.php`).subscribe({
