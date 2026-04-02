@@ -10,7 +10,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\""
+    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\"",
+    "android": "npx cap run android -l --external",
+    "server": "php -S 0.0.0.0:8000"
   },
   "lint-staged": {
     "{{src,e2e}/**/*,*}.{ts,css,scss,json}": [

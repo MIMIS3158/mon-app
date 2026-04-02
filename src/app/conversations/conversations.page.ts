@@ -42,9 +42,10 @@ export class ConversationsPage implements OnInit, OnDestroy {
       .get<
         any[]
       >(`${this.apiUrl}/get_conversations.php?user_id=${this.currentUserId}`)*/
-      this.http.get<any[]>(`${this.apiUrl}/get_conversations.php`, {
-  params: { user_id: this.currentUserId }
-})
+    this.http
+      .get<any[]>(`${this.apiUrl}/get_conversations.php`, {
+        params: { user_id: this.currentUserId },
+      })
       .subscribe({
         next: (data) => {
           this.conversations = data;
@@ -94,25 +95,26 @@ export class ConversationsPage implements OnInit, OnDestroy {
   isOnline(userId: number): boolean {
     return this.onlineUsers.includes(Number(userId));
   }
-  
-    async supprimerConversation(conv: any, event?: Event) {
+
+  async supprimerConversation(conv: any, event?: Event) {
     if (event) event.stopPropagation();
 
-   /* const confirmed = confirm(
+    /* const confirmed = confirm(
       `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`,
     );*/
     const confirmed = await this.alertsService.confirm(
-    `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`
-  );
+      `Supprimer la conversation avec ${conv.contact_prenom} ${conv.contact_nom} ?`,
+    );
     if (!confirmed) return;
 
-   /* this.http
+    /* this.http
       .delete(
         `${this.apiUrl}/delete_conversation.php?user_id=${this.currentUserId}&contact_id=${conv.contact_id}`,
       )*/
-     this.http.delete(`${this.apiUrl}/delete_conversation.php`, {
-  params: { user_id: this.currentUserId, contact_id: conv.contact_id }
-})
+    this.http
+      .delete(`${this.apiUrl}/delete_conversation.php`, {
+        params: { user_id: this.currentUserId, contact_id: conv.contact_id },
+      })
       .subscribe({
         next: () => {
           this.conversations = this.conversations.filter(
@@ -126,10 +128,9 @@ export class ConversationsPage implements OnInit, OnDestroy {
           this.alertsService.alert('Erreur lors de la suppression');
         },
       });
-  
-    }
-   getPhotoUrl(photo: string): string {
-  return 'http://localhost:8000/' + photo;
-}
-    
+  }
+
+  getPhotoUrl(photo: string): string {
+    return 'http://localhost:8000/' + photo;
+  }
 }
