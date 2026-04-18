@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar style="--background: var(--primary); color: white;">
+    <ion-title>Publier Workshop</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: var(--light);">
+
+  <form (ngSubmit)="publish()">
+
+    <ion-item>
+      <ion-input placeholder="Titre" [(ngModel)]="data.title" name="title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea placeholder="Description" [(ngModel)]="data.description" name="description"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-select placeholder="Niveau" [(ngModel)]="data.level" name="level">
+        <ion-select-option value="Débutant">Débutant</ion-select-option>
+        <ion-select-option value="Intermédiaire">Intermédiaire</ion-select-option>
+        <ion-select-option value="Avancé">Avancé</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Image URL" [(ngModel)]="data.image_url" name="image"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input placeholder="Vidéo URL" [(ngModel)]="data.video_url" name="video"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-checkbox [(ngModel)]="data.is_free" name="free"></ion-checkbox>
+      <ion-label>Gratuit</ion-label>
+    </ion-item>
+
+    <ion-item *ngIf="!data.is_free">
+      <ion-input type="number" placeholder="Prix" [(ngModel)]="data.price" name="price"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit">
+      Publier
+    </ion-button>
+
+  </form>
+
+</ion-content>

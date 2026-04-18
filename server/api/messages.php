@@ -70,6 +70,9 @@ if ($method === 'GET') {
     mysqli_stmt_close($update);
     echo json_encode($messages);
 }
+
+
+
 else if ($method === 'POST') {
     $sender_id   = null;
     $receiver_id = null;
@@ -81,6 +84,7 @@ else if ($method === 'POST') {
         $sender_id   = $_POST['sender_id'] ?? null;
         $receiver_id = $_POST['receiver_id'] ?? null;
         $project_id  = $_POST['project_id'] ?? null;
+        $mission_id  = $data['mission_id'] ?? null;
         $message     = trim($_POST['message'] ?? '');
         if (!empty($_FILES['fichier']['name'])) {
             $ext = strtolower(pathinfo($_FILES['fichier']['name'], PATHINFO_EXTENSION));
@@ -107,6 +111,7 @@ else if ($method === 'POST') {
         $sender_id   = $data['sender_id'] ?? null;
         $receiver_id = $data['receiver_id'] ?? null;
         $project_id  = $data['project_id'] ?? null;
+        
         $message     = trim($data['message'] ?? '');
         
         

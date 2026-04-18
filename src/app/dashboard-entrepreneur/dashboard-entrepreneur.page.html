@@ -1,9 +1,7 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <!--<ion-button (click)="retour()">
-        <ion-icon name="arrow-back" style="color: white;"></ion-icon>
-      </ion-button>-->
+      
       <ion-back-button defaultHref="/accueil-entrepreneur"></ion-back-button>
     </ion-buttons>
     <ion-title style="color: white; font-weight: bold"> Dashboard</ion-title>
@@ -76,5 +74,302 @@
         <p>Aucune compétence trouvée</p>
       </div>
     </div>
+  </div>
+</ion-content>-->
+<!----
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-entrepreneur"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+
+    
+    <div class="banner">
+      <div class="banner-content">
+        <div class="avatar">{{ userName.charAt(0).toUpperCase() }}</div>
+        <div>
+          <h2>Bonjour, {{ userName }} 👋</h2>
+          <p>Voici vos statistiques</p>
+        </div>
+      </div>
+    </div>
+
+   
+    <div class="stats-grid">
+      <div class="stat-card card-orange">
+        <ion-icon name="folder-open-outline"></ion-icon>
+        <h1>{{ totalProjets }}</h1>
+        <p>Projets publiés</p>
+      </div>
+      <div class="stat-card card-blue">
+        <ion-icon name="people-outline"></ion-icon>
+        <h1>{{ interesses }}</h1>
+        <p>Candidatures</p>
+      </div>
+      <div class="stat-card card-green">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <h1>{{ missionsTerminees }}</h1>
+        <p>Terminées</p>
+      </div>
+      <div class="stat-card card-purple">
+        <ion-icon name="flash-outline"></ion-icon>
+        <h1>{{ matchingDevs }}</h1>
+        <p>Match +80%</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 class="section-title">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        Taux de réussite
+      </h2>
+      <ion-card class="taux-card">
+        <ion-card-content>
+          <div class="taux-row">
+            <span>Missions terminées</span>
+            <span class="taux-pct">
+              {{ interesses > 0 ? (missionsTerminees / interesses * 100 | number:'1.0-0') : 0 }}%
+            </span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill green-fill"
+              [style.width.%]="interesses > 0 ? (missionsTerminees / interesses * 100) : 0">
+            </div>
+          </div>
+
+          <div class="taux-row" style="margin-top: 16px;">
+            <span>Développeurs matchés</span>
+            <span class="taux-pct">
+              {{ totalDevs > 0 ? (matchingDevs / totalDevs * 100 | number:'1.0-0') : 0 }}%
+            </span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill purple-fill"
+              [style.width.%]="totalDevs > 0 ? (matchingDevs / totalDevs * 100) : 0">
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+   
+    <div class="section">
+      <h2 class="section-title">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        Compétences disponibles
+      </h2>
+      <ion-card class="skills-card" *ngIf="competences.length > 0">
+        <ion-card-content>
+          <div *ngFor="let comp of competences; let i = index" class="progress-item">
+            <div class="progress-header">
+              <span class="comp-name">{{ comp.nom }}</span>
+              <span class="comp-stats">{{ comp.count }} devs · {{ comp.pourcentage }}%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" [class]="'color-' + (i % 4)"
+                [style.width.%]="comp.pourcentage">
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+  </div>
+</ion-content>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-entrepreneur"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+
+    <!-- Banner -->
+    <div class="banner">
+      <div class="banner-content">
+        <div class="avatar">{{ userName.charAt(0).toUpperCase() }}</div>
+        <div>
+          <h2>Bonjour, {{ userName }} 👋</h2>
+          <p>Voici vos statistiques</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats grid -->
+    <div class="stats-grid">
+      <div class="stat-card card-orange">
+        <ion-icon name="folder-open-outline"></ion-icon>
+        <h1>{{ totalProjets }}</h1>
+        <p>Projets publiés</p>
+      </div>
+      <div class="stat-card card-blue">
+        <ion-icon name="people-outline"></ion-icon>
+        <h1>{{ interesses }}</h1>
+        <p>Candidatures</p>
+      </div>
+      <div class="stat-card card-green">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        <h1>{{ missionsTerminees }}</h1>
+        <p>Terminées</p>
+      </div>
+      <div class="stat-card card-purple">
+        <ion-icon name="flash-outline"></ion-icon>
+        <h1>{{ matchingDevs }}</h1>
+        <p>Match +80%</p>
+      </div>
+    </div>
+
+    <!-- ══ BARRE DE LIMITE PROJETS ══ -->
+ <div class="limite-card" *ngIf="!isPremium">
+  <div class="limite-header">
+    <h4>
+      <ion-icon name="layers-outline"></ion-icon>
+      Limite publications
+    </h4>
+    <span class="limite-count"
+      [ngClass]="{
+        'ok':   totalPublications < limiteProjets,
+        'warn': totalPublications === limiteProjets - 1,
+        'full': totalPublications >= limiteProjets
+      }">
+      {{ totalPublications }} / {{ limiteProjets }}
+      
+    </span>
+  </div>
+
+  <div class="limite-bar-bg">
+    <div class="limite-bar-fill"
+      [ngClass]="{
+        'fill-ok':   totalPublications < limiteProjets,
+        'fill-warn': totalPublications === limiteProjets - 1,
+        'fill-full': totalPublications >= limiteProjets
+      }"
+      [style.width.%]="(totalPublications / limiteProjets) * 100 > 100 ? 100 : (totalPublications / limiteProjets) * 100">
+    </div>
+  </div>
+
+  <!-- Détail projets + missions -->
+  <div class="limite-detail">
+    <div class="limite-detail-item">
+      <ion-icon name="rocket-outline"></ion-icon>
+      <span>{{ projetsActifs }} projet(s)</span>
+    </div>
+    <div class="limite-detail-sep">+</div>
+    <div class="limite-detail-item">
+      <ion-icon name="flash-outline"></ion-icon>
+      <span>{{ missionsActives }} mission(s)</span>
+    </div>
+    <div class="limite-detail-sep">=</div>
+    <div class="limite-detail-item">
+      <strong>{{ totalPublications }} / {{ limiteProjets }}</strong>
+    </div>
+  </div>
+
+  <div class="limite-label">
+    <span>Plan Gratuit</span>
+    <span class="limite-msg-full" *ngIf="totalPublications >= limiteProjets">
+      ⚠️ Limite atteinte
+    </span>
+    <span *ngIf="totalPublications < limiteProjets">
+      {{ limiteProjets - totalPublications }} publication(s) restante(s)
+    </span>
+  </div>
+</div>
+
+<!-- Bannière upgrade -->
+<div class="upgrade-banner" *ngIf="!isPremium && totalPublications >= limiteProjets">
+  <div class="upgrade-icon">🚀</div>
+  <div class="upgrade-text">
+    <h4>Passez au plan Pro !</h4>
+    <p>Publications illimitées · Badge vérifié · Visibilité boostée</p>
+  </div>
+  <button class="upgrade-btn">990 DA/mois</button>
+</div>
+
+
+    <!-- Taux de réussite -->
+    <div class="section">
+      <h2 class="section-title">
+        <ion-icon name="trending-up-outline"></ion-icon>
+        Taux de réussite
+      </h2>
+      <ion-card class="taux-card">
+        <ion-card-content>
+          <div class="taux-row">
+            <span>Missions terminées</span>
+            <span class="taux-pct">
+              {{ interesses > 0 ? (missionsTerminees / interesses * 100 | number:'1.0-0') : 0 }}%
+            </span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill green-fill"
+              [style.width.%]="interesses > 0 ? (missionsTerminees / interesses * 100) : 0">
+            </div>
+          </div>
+
+          <div class="taux-row" style="margin-top: 16px;">
+            <span>Développeurs matchés</span>
+            <span class="taux-pct">
+              {{ totalDevs > 0 ? (matchingDevs / totalDevs * 100 | number:'1.0-0') : 0 }}%
+            </span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill purple-fill"
+              [style.width.%]="totalDevs > 0 ? (matchingDevs / totalDevs * 100) : 0">
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+   
+
+
+
+    <!-- Compétences -->
+    <div class="section">
+      <h2 class="section-title">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        Compétences disponibles
+      </h2>
+      <ion-card class="skills-card" *ngIf="competences.length > 0">
+        <ion-card-content>
+          <div *ngFor="let comp of competences; let i = index" class="progress-item">
+            <div class="progress-header">
+              <span class="comp-name">{{ comp.nom }}</span>
+              <span class="comp-stats">{{ comp.count }} devs · {{ comp.pourcentage }}%</span>
+            </div>
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" [class]="'color-' + (i % 4)"
+                [style.width.%]="comp.pourcentage">
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
   </div>
 </ion-content>

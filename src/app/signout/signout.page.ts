@@ -10,9 +10,8 @@ import { Router } from '@angular/router';
 export class DeconnexionPage implements OnInit {
   constructor(private router: Router) {}
 
-  ngOnInit() {} /*
-signout(){
+ ngOnInit() {
   localStorage.clear();
-  this.router.navigate(['/home']);
-}*/
+  this.router.navigate(['/signin']);
+}
 }

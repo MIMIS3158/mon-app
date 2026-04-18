@@ -1,4 +1,4 @@
-ion-content {
+/*ion-content {
   --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 
   .home-container {
@@ -199,4 +199,279 @@ ion-content {
       }
     }
   }
+}*/
+// ── Variables ProConnect ─────────────────────────────────
+$violet:       #7F77DD;
+$violet-light: #EEEDFE;
+$blue:         #378ADD;
+$blue-light:   #E6F1FB;
+$dark:         #1a1a2e;
+$gray:         #666;
+
+// ── Content ──────────────────────────────────────────────
+ion-content.onboarding-content {
+  --background: #ffffff;
+}
+
+// ── Swiper ───────────────────────────────────────────────
+.swiper-container {
+  width: 100%;
+  height: calc(100vh - 100px);
+  --swiper-pagination-color: #{$violet};
+  --swiper-pagination-bullet-inactive-color: #D3D1C7;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-size: 8px;
+}
+
+// ══════════════════════════════════════════════════════════
+// SPLASH SCREEN
+// ══════════════════════════════════════════════════════════
+.splash-wrapper {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, #7F77DD 0%, #5B54C8 40%, #378ADD 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+// Cercles déco fond
+.bg-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+.bc1 { width: 300px; height: 300px; top: -100px; left: -100px; }
+.bc2 { width: 220px; height: 220px; bottom: -70px; right: -70px; }
+.bc3 { width: 140px; height: 140px; top: 80px; right: -30px; }
+
+// Logo ring
+.splash-logo-wrap {
+  animation: splashLogoIn 0.8s cubic-bezier(.34, 1.56, .64, 1) forwards;
+}
+.splash-logo-ring {
+  width: 100px;
+  height: 100px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.splash-logo-inner {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// App name
+.splash-name {
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 0.02em;
+  animation: splashFadeUp 0.6s 0.3s ease both;
+}
+
+// Slogan typewriter
+.splash-slogan-wrap {
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.splash-slogan {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid rgba(255, 255, 255, 0.8);
+  width: 0;
+  animation:
+    splashTyping 2s steps(30, end) 0.8s forwards,
+    splashBlink 0.75s step-end 0.8s infinite;
+}
+
+// Barre chargement
+.splash-bar-wrap {
+  width: 130px;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  animation: splashFadeUp 0.5s 0.5s both;
+}
+.splash-bar {
+  height: 100%;
+  background: white;
+  border-radius: 2px;
+  width: 0%;
+  animation: splashProgress 2.2s 0.8s ease forwards;
+}
+
+// ══════════════════════════════════════════════════════════
+// SLIDES
+// ══════════════════════════════════════════════════════════
+.slide-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.slide-top {
+  width: 100%;
+  background: linear-gradient(160deg, $violet-light 0%, $blue-light 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 52px 24px 40px;
+  flex: 1;
+
+  svg { max-width: 100%; height: auto; }
+}
+
+.slide-bottom {
+  width: 100%;
+  padding: 28px 28px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+}
+
+.slide-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $violet;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.slide-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: $dark;
+  text-align: center;
+  line-height: 1.35;
+  margin-bottom: 10px;
+
+  .violet { color: $violet; }
+  .blue   { color: $blue;   }
+}
+
+.slide-desc {
+  font-size: 14px;
+  color: $gray;
+  text-align: center;
+  line-height: 1.7;
+}
+
+// ══════════════════════════════════════════════════════════
+// DOTS NAVIGATION
+// ══════════════════════════════════════════════════════════
+.dots-nav {
+  display: flex;
+  gap: 7px;
+  justify-content: center;
+  padding: 10px 0 4px;
+  background: white;
+
+  &.hidden { display: none; }
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D3D1C7;
+  transition: width 0.3s, background 0.3s;
+}
+.dot.active {
+  width: 22px;
+  border-radius: 4px;
+  background: $violet;
+}
+
+// ══════════════════════════════════════════════════════════
+// BOTTOM NAV
+// ══════════════════════════════════════════════════════════
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: #ffffff;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+  gap: 12px;
+  z-index: 100;
+
+  &.hidden { display: none; }
+}
+
+.skip-btn {
+  --color: #aaa;
+  font-size: 14px;
+  min-width: 80px;
+}
+
+.skip-placeholder {
+  min-width: 80px;
+}
+
+.next-btn {
+  --background: linear-gradient(90deg, #{$violet}, #{$blue});
+  --background-activated: linear-gradient(90deg, #{$violet}, #{$blue});
+  --border-radius: 14px;
+  --color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  flex: 1;
+  height: 50px;
+}
+
+// ══════════════════════════════════════════════════════════
+// ANIMATIONS SPLASH
+// ══════════════════════════════════════════════════════════
+@keyframes splashLogoIn {
+  from { opacity: 0; transform: scale(0.6) translateY(10px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0);    }
+}
+
+@keyframes splashFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+@keyframes splashTyping {
+  from { width: 0; }
+  to   { width: 220px; }
+}
+
+@keyframes splashBlink {
+  from, to { border-color: transparent; }
+  50%      { border-color: rgba(255, 255, 255, 0.8); }
+}
+
+@keyframes splashProgress {
+  from { width: 0%; }
+  to   { width: 100%; }
 }

@@ -8,12 +8,16 @@ export const environment = {
     apiUrl: isAndroid 
         ? 'http://192.168.43.8:8000/api'   
         : 'http://localhost:8000/api'       
-};*/
-
+};
+*/
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8000/api',
-};
+};/*
+export const environment = {
+  production: false,
+  apiUrl: 'http://192.168.43.9:8000/api',
+};*/
 /*
 export const environment = {
   production: true,

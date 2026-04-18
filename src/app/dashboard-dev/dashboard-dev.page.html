@@ -1,0 +1,250 @@
+<!--<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-developpeur"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mon Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loading">
+  <ion-progress-bar type="indeterminate" color="secondary"></ion-progress-bar>
+</ion-content>
+
+<ion-content *ngIf="!loading" class="ion-padding">
+
+ 
+  <ion-card class="niveau-card">
+    <ion-card-content>
+      <div class="niveau-header">
+        <span class="niveau-title">Niveau actuel</span>
+        <ion-badge [color]="getNiveauColor()">{{ niveau }}</ion-badge>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" [style.width.%]="niveauPct"></div>
+      </div>
+      <div class="niveau-labels">
+        <span>Junior</span>
+        <span>Intermédiaire</span>
+        <span>Senior</span>
+      </div>
+      <p class="niveau-msg">{{ niveauMsg }}</p>
+    </ion-card-content>
+  </ion-card>
+
+ 
+  <h3 class="section-title">Statistiques missions</h3>
+  <div class="stats-grid">
+    <div class="stat-box">
+      <p class="stat-value">{{ stats.total }}</p>
+      <p class="stat-label">Total</p>
+    </div>
+    <div class="stat-box terminees">
+      <p class="stat-value">{{ stats.terminees }}</p>
+      <p class="stat-label">Terminées</p>
+    </div>
+    <div class="stat-box encours">
+      <p class="stat-value">{{ stats.encours }}</p>
+      <p class="stat-label">En cours</p>
+    </div>
+    <div class="stat-box refusees">
+      <p class="stat-value">{{ stats.refusees }}</p>
+      <p class="stat-label">Refusées</p>
+    </div>
+  </div>
+
+  
+  <h3 class="section-title">Répartition</h3>
+  <ion-card>
+    <ion-card-content>
+      <div class="bar-row">
+        <span class="bar-label">Terminées</span>
+        <div class="bar-bg">
+          <div class="bar-fill green"
+            [style.width.%]="stats.total > 0 ? (stats.terminees / stats.total * 100) : 0">
+          </div>
+        </div>
+        <span class="bar-count">{{ stats.terminees }}</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">En cours</span>
+        <div class="bar-bg">
+          <div class="bar-fill purple"
+            [style.width.%]="stats.total > 0 ? (stats.encours / stats.total * 100) : 0">
+          </div>
+        </div>
+        <span class="bar-count">{{ stats.encours }}</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Refusées</span>
+        <div class="bar-bg">
+          <div class="bar-fill red"
+            [style.width.%]="stats.total > 0 ? (stats.refusees / stats.total * 100) : 0">
+          </div>
+        </div>
+        <span class="bar-count">{{ stats.refusees }}</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+ 
+  <h3 class="section-title">Évaluations reçues</h3>
+  <ion-card>
+    <ion-card-content class="eval-content">
+      <div class="note-big">{{ stats.moyenne || '-' }}</div>
+      <div>
+        <div class="stars-row">
+          <span *ngFor="let s of stars" [class]="s ? 'star filled' : 'star'">★</span>
+        </div>
+        <p class="eval-count">{{ stats.total_evals }} évaluation(s) reçue(s)</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-developpeur"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mon Dashboard</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Loading -->
+<ion-content *ngIf="loading">
+  <div class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+</ion-content>
+
+<!-- Erreur -->
+<ion-content *ngIf="!loading && errorMsg" class="ion-padding">
+  <div class="error-container">
+    <ion-icon name="alert-circle-outline" color="danger" size="large"></ion-icon>
+    <p>{{ errorMsg }}</p>
+    <ion-button (click)="loadStats()" fill="outline" size="small">
+      Réessayer
+    </ion-button>
+  </div>
+</ion-content>
+
+<!-- Contenu -->
+<ion-content *ngIf="!loading && !errorMsg" class="ion-padding dashboard-content">
+
+  <!-- Niveau -->
+  <ion-card class="niveau-card">
+    <ion-card-content>
+      <div class="niveau-header">
+        <span class="niveau-title">
+          <ion-icon name="trophy-outline"></ion-icon>
+          Niveau actuel
+        </span>
+        <ion-badge [color]="getNiveauColor()">{{ niveau }}</ion-badge>
+      </div>
+      
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" [style.width.%]="niveauPct"></div>
+      </div>
+      
+      <div class="niveau-labels">
+        <span [class.active]="niveau === 'Junior'">Junior</span>
+        <span [class.active]="niveau === 'Intermédiaire'">Intermédiaire</span>
+        <span [class.active]="niveau === 'Senior'">Senior</span>
+      </div>
+      
+      <p class="niveau-msg" *ngIf="niveauMsg">{{ niveauMsg }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Stats missions -->
+  <h3 class="section-title">
+    <ion-icon name="stats-chart-outline"></ion-icon>
+    Statistiques missions
+  </h3>
+  
+  <div class="stats-grid">
+    <div class="stat-box">
+      <p class="stat-value">{{ stats.total }}</p>
+      <p class="stat-label">Total</p>
+    </div>
+    <div class="stat-box terminees">
+      <p class="stat-value">{{ stats.terminees }}</p>
+      <p class="stat-label">Terminées</p>
+    </div>
+    <div class="stat-box encours">
+      <p class="stat-value">{{ stats.encours }}</p>
+      <p class="stat-label">En cours</p>
+    </div>
+    <div class="stat-box refusees">
+      <p class="stat-value">{{ stats.refusees }}</p>
+      <p class="stat-label">Refusées</p>
+    </div>
+  </div>
+
+  <!-- Graphique barres -->
+  <h3 class="section-title">
+    <ion-icon name="pie-chart-outline"></ion-icon>
+    Répartition
+  </h3>
+  
+  <ion-card class="chart-card">
+    <ion-card-content>
+      <div class="bar-row">
+        <span class="bar-label">Terminées</span>
+        <div class="bar-bg">
+          <div class="bar-fill green" 
+               [style.width.%]="stats.total > 0 ? (stats.terminees / stats.total * 100) : 0">
+          </div>
+        </div>
+        <span class="bar-count">{{ stats.terminees }}</span>
+      </div>
+      
+      <div class="bar-row">
+        <span class="bar-label">En cours</span>
+        <div class="bar-bg">
+          <div class="bar-fill purple"
+               [style.width.%]="stats.total > 0 ? (stats.encours / stats.total * 100) : 0">
+          </div>
+        </div>
+        <span class="bar-count">{{ stats.encours }}</span>
+      </div>
+      
+      <div class="bar-row">
+        <span class="bar-label">Refusées</span>
+        <div class="bar-bg">
+          <div class="bar-fill red"
+               [style.width.%]="stats.total > 0 ? (stats.refusees / stats.total * 100) : 0">
+          </div>
+        </div>
+        <span class="bar-count">{{ stats.refusees }}</span>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Évaluations -->
+  <h3 class="section-title">
+    <ion-icon name="star-outline"></ion-icon>
+    Évaluations reçues
+  </h3>
+  
+  <ion-card class="eval-card">
+    <ion-card-content>
+      <div class="eval-content">
+        <div class="note-big">{{ stats.moyenne > 0 ? stats.moyenne : '-' }}</div>
+        <div class="eval-details">
+          <div class="stars-row">
+            <ion-icon 
+              *ngFor="let s of stars; let i = index" 
+              [name]="s ? 'star' : 'star-outline'"
+              [color]="s ? 'warning' : 'medium'">
+            </ion-icon>
+          </div>
+          <p class="eval-count">{{ stats.total_evals }} évaluation(s) reçue(s)</p>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

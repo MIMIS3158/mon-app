@@ -130,7 +130,10 @@ export class ConversationsPage implements OnInit, OnDestroy {
       });
   }
 
-  getPhotoUrl(photo: string): string {
+  /*getPhotoUrl(photo: string): string {
     return 'http://localhost:8000/' + photo;
-  }
+  }*/
+ getPhotoUrl(photo: string): string {
+  return environment.apiUrl.replace('/api', '') + '/' + photo;
+}
 }

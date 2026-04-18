@@ -214,6 +214,7 @@ loadBadges() {
       case 'dashboard':
         this.router.navigate(['/dashboard-entrepreneur']);
         break;
+       
       /*case 'signout':
         localStorage.clear();
         this.router.navigate(['/home']);

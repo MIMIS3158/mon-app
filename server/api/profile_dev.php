@@ -199,18 +199,28 @@ echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du
     // GET
     if ($method === 'GET' && isset($_GET['userId'])) {
         $userId = $_GET['userId'];
-        $stmt = mysqli_prepare(
+       /* $stmt = mysqli_prepare(
             $conn,
             "SELECT d.*, u.Nom, u.Prenom, u.Email 
          FROM developers d
          JOIN users u ON d.user_id = u.id
          WHERE d.user_id = ? LIMIT 1"
-        );
+        );*/
+        $stmt = mysqli_prepare(
+    $conn,
+    "SELECT d.*, u.Nom, u.Prenom, u.Email,
+     (SELECT COUNT(*) FROM candidatures c 
+      WHERE c.developpeur_id = d.user_id 
+      AND c.statut = 'Terminée') as missions_completees
+ FROM developers d
+ JOIN users u ON d.user_id = u.id
+ WHERE d.user_id = ? LIMIT 1"
+);
         mysqli_stmt_bind_param($stmt, "i", $userId);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
         $data   = mysqli_fetch_assoc($result);
-        if ($data) {
+        /*if ($data) {
             if (!empty($data['profileImage'])) {
                 $data['profileImage'] = getEnvVar("APP_URL") . $data['profileImage'];
             }
@@ -218,7 +228,30 @@ echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du
             if (empty($data['Prenomdev'])) $data['Prenomdev'] = $data['Prenom'];
             if (empty($data['Emaildev']))  $data['Emaildev']  = $data['Email'];
             echo json_encode($data);
-        } else {
+        } */
+       if ($data) {
+    if (!empty($data['profileImage'])) {
+        $data['profileImage'] = getEnvVar("APP_URL") . $data['profileImage'];
+    }
+    if (empty($data['Nomdev']))    $data['Nomdev']    = $data['Nom'];
+    if (empty($data['Prenomdev'])) $data['Prenomdev'] = $data['Prenom'];
+    if (empty($data['Emaildev']))  $data['Emaildev']  = $data['Email'];
+
+    // ← AJOUTER : charger les projets depuis developer_projects
+    $pStmt = mysqli_prepare($conn, "SELECT id, name, tech, file_path FROM developer_projects WHERE user_id = ? ORDER BY created_at ASC");
+    mysqli_stmt_bind_param($pStmt, "i", $userId);
+    mysqli_stmt_execute($pStmt);
+    $pResult = mysqli_stmt_get_result($pStmt);
+    $projects = [];
+    while ($row = mysqli_fetch_assoc($pResult)) {
+        $projects[] = $row;
+    }
+    mysqli_stmt_close($pStmt);
+    $data['projects'] = $projects;
+    // ← FIN AJOUT
+
+    echo json_encode($data);
+}else {
             $uStmt = mysqli_prepare($conn, "SELECT Nom, Prenom, Email FROM users WHERE id = ?");
             mysqli_stmt_bind_param($uStmt, "i", $userId);
             mysqli_stmt_execute($uStmt);
@@ -234,6 +267,54 @@ echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du
         mysqli_stmt_close($stmt);
         return;
     }
+    // ADD PROJECT
+if ($method === 'POST' && $action === 'add_project') {
+    $userId = $_POST['user_id'] ?? null;
+    $name   = $_POST['name'] ?? 'Projet';
+    $tech   = $_POST['tech'] ?? 'PDF';
+    if (!$userId) {
+        http_response_code(400);
+        echo json_encode(["error" => "user_id manquant"]);
+        exit;
+    }
+    $filePath = uploadFile('portfolio', ['pdf', 'jpg', 'jpeg', 'png', 'zip'], $uploadDir);
+    $stmt = mysqli_prepare($conn, "INSERT INTO developer_projects (user_id, name, tech, file_path) VALUES (?, ?, ?, ?)");
+    $fileVal = $filePath ?: null;
+    mysqli_stmt_bind_param($stmt, "isss", $userId, $name, $tech, $fileVal);
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode([
+            "success" => true,
+            "id" => mysqli_insert_id($conn),
+            "name" => $name,
+            "tech" => $tech,
+            "file_path" => $fileVal ? getEnvVar("APP_URL") . $fileVal : null
+        ]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["error" => "Erreur ajout projet"]);
+    }
+    mysqli_stmt_close($stmt);
+    return;
+}
+if ($method === 'POST' && $action === 'delete_project') {
+    $projectId = $_POST['project_id'] ?? null;
+    $userId    = $_POST['user_id'] ?? null;
+    if (!$projectId || !$userId) {
+        http_response_code(400);
+        echo json_encode(["error" => "Données manquantes"]);
+        exit;
+    }
+    $stmt = mysqli_prepare($conn, "DELETE FROM developer_projects WHERE id = ? AND user_id = ?");
+    mysqli_stmt_bind_param($stmt, "ii", $projectId, $userId);
+    if (mysqli_stmt_execute($stmt)) {
+        echo json_encode(["success" => true]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["error" => "Erreur suppression"]);
+    }
+    mysqli_stmt_close($stmt);
+    return;
+}
 
     http_response_code(405);
     echo json_encode(["error" => "Requête non reconnue"]);

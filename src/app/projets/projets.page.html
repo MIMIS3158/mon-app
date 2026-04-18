@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!--<ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title size="large" class="Accueil ion-text-center">Projets</ion-title>
     <ion-buttons slot="end">
@@ -20,24 +20,35 @@
     <ion-segment-button value="en cours">
       <ion-label>En cours</ion-label>
     </ion-segment-button>
-    <!--  <ion-segment-button value="terminé">
-      <ion-label>Terminés</ion-label>
-    </ion-segment-button>-->
+
   </ion-segment>
   <p *ngIf="projetsFiltres.length === 0" class="ion-text-center ion-padding">
     Aucun projet {{ statutFiltre === 'tous' ? '' : statutFiltre }}
   </p>
   <ion-card class="color" *ngFor="let project of projetsFiltres">
     <ion-card-header (click)="afficherDetails(project)">
+       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+      <img 
+        *ngIf="logoEntreprise" 
+        [src]="logoEntreprise" 
+        style="width: 50px; height: 50px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0;"
+      />
       <ion-card-title>{{ project.Nomduprojet}}</ion-card-title>
-      <ion-card-subtitle>{{ project.Descriptionduprojet}}</ion-card-subtitle>
+
+      <ion-badge slot="end" [color]="getStatusColor(project.Statut)" style="margin-left: auto;">
+    {{ project.Statut | uppercase }}
+</ion-badge>
+       </div>
+       
+      
     </ion-card-header>
     <ion-card-content *ngIf="selectedProject === project">
+      <p>{{ project.Descriptionduprojet}}</p>
       <p>Entreprise : {{ project.Publierparentreprise }}</p>
       <p>Budget : {{ project.Budget }}</p>
       <p>Durée :{{ project.Duree }}</p>
       <p>Compétences :{{ project.Competences }}</p>
-      <p>Statut : <ion-badge>{{ project.Statut | uppercase}}</ion-badge></p>
+  
       <ion-button
         color="danger"
         size="small"
@@ -104,11 +115,7 @@
             <ion-icon name="person"></ion-icon>
           </ion-button>
         </ion-col>
-        <!-- <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
-            <ion-icon name="chatbubbles"></ion-icon>
-          </ion-button>
-        </ion-col> -->
+    
 
         <ion-col class="tab-button" text-center>
           <ion-button
@@ -118,9 +125,7 @@
           >
             <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
-              <!-- <span class="badge-notif" *ngIf="messagesNonLus > 0">
-                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-              </span>-->
+           
               <ion-badge color="danger" *ngIf="messagesNonLus > 0">
                 {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
               </ion-badge>
@@ -133,11 +138,255 @@
             <ion-icon name="bar-chart-outline"></ion-icon>
           </ion-button>
         </ion-col>
-        <!-- <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('signout')">
-            <ion-icon name="log-out"></ion-icon>
+        
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+            <ion-icon name="settings"></ion-icon>
           </ion-button>
-        </ion-col>-->
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>-->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <div class="topbar-icon">
+          <ion-icon name="folder-outline"></ion-icon>
+        </div>
+        <div>
+          
+          <ion-title class="Accueil">Mes Publications</ion-title>
+        </div>
+      </div>
+      <ion-button fill="clear" routerLink="/projet-creation" class="add-btn">
+        <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="page-wrapper">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num stat-green">{{ projects.length }}</div>
+        <div class="stat-label">Projets</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num stat-blue">{{ missions.length }}</div>
+        <div class="stat-label">Missions</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num stat-orange">{{ getCount('tous', 'en attente') }}</div>
+        <div class="stat-label">En attente</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num stat-purple">{{ getCount('tous', 'terminé') }}</div>
+        <div class="stat-label">Terminé</div>
+      </div>
+    </div>
+
+    <!-- FILTRE TYPE -->
+    <div class="filter-wrap">
+      <ion-segment [(ngModel)]="typeFiltre" mode="md" class="custom-segment">
+        <!--<ion-segment-button value="tous">
+          <ion-label>Tout</ion-label>
+        </ion-segment-button>-->
+        <ion-segment-button value="projets">
+          <ion-label>Projets</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="missions">
+          <ion-label>Missions</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <!-- FILTRE STATUT -->
+    <div class="filter-wrap">
+      <ion-segment [(ngModel)]="statutFiltre" mode="md" class="custom-segment statut-segment">
+        <ion-segment-button value="tous">
+          <ion-label>Tous</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="en attente">
+          <ion-label>En attente</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="en cours">
+          <ion-label>En cours</ion-label>
+        </ion-segment-button>
+        <!--<ion-segment-button value="accepté">
+          <ion-label>Accepté</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="terminé">
+          <ion-label>Terminé</ion-label>
+        </ion-segment-button>-->
+      </ion-segment>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" *ngIf="publicationsFiltrees.length === 0">
+      <ion-icon name="folder-open-outline"></ion-icon>
+      <p>Aucune publication trouvée</p>
+    </div>
+
+    <!-- LISTE -->
+    <div class="cards-list">
+      <div class="project-card" *ngFor="let item of publicationsFiltrees">
+
+        <!-- CARD HEADER -->
+        <div class="card-header" (click)="afficherDetails(item)">
+          <div class="card-header-left">
+            <div class="card-logo" *ngIf="logoEntreprise">
+              <img [src]="logoEntreprise" />
+            </div>
+            <div class="card-logo placeholder" *ngIf="!logoEntreprise">
+              <ion-icon name="business-outline"></ion-icon>
+            </div>
+            <div class="card-info">
+              <div class="card-type-badge" [ngClass]="item._type === 'mission' ? 'badge-mission' : 'badge-projet'">
+                {{ item._type === 'mission' ? 'Mission' : 'Projet' }}
+              </div>
+              <div class="card-title">{{ item.Nomduprojet || item.Titremission || item.titre }}</div>
+              <div class="card-company">{{ item.Publierparentreprise || item.entreprise }}</div>
+            </div>
+          </div>
+          <div class="card-header-right">
+            <div class="status-badge" [ngClass]="getStatusClass(item.Statut)">
+              {{ item.Statut }}
+            </div>
+            <ion-icon name="chevron-down-outline" class="chevron" [class.rotated]="isSelected(item)"></ion-icon>
+          </div>
+        </div>
+
+        <!-- CARD META -->
+        <div class="card-meta">
+          <span class="meta-chip" *ngIf="item.Duree || item.delai">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ item.Duree || item.delai }}
+          </span>
+          <span class="meta-chip" *ngIf="item.Budget || item.budget">
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+            {{ item.Budget || item.budget }}
+          </span>
+        </div>
+
+        <!-- CARD DETAILS -->
+        <div class="card-details" *ngIf="isSelected(item)">
+          <div class="details-divider"></div>
+
+          <!-- PROJET -->
+          <ng-container *ngIf="item._type === 'projet'">
+            <div class="detail-row" *ngIf="item.Descriptionduprojet">
+              <span class="detail-label">Description</span>
+              <span class="detail-value">{{ item.Descriptionduprojet }}</span>
+              <span class="detail-value" >{{item.categorie}}</span>
+            </div>
+            <div class="detail-row" *ngIf="item.Competences">
+              <span class="detail-label">Compétences</span>
+              <span class="detail-value">{{ item.Competences }}</span>
+            </div>
+            <div class="card-actions">
+              <ion-button color="danger" size="small" fill="outline" class="action-btn" (click)="deleteproject(item)">
+                <ion-icon name="trash-outline" slot="start"></ion-icon>
+                Supprimer
+              </ion-button>
+              <ion-button color="primary" size="small" fill="outline" class="action-btn" (click)="editproject(item)">
+                <ion-icon name="pencil-outline" slot="start"></ion-icon>
+                Modifier
+              </ion-button>
+            </div>
+            <div class="validate-actions" *ngIf="item.Statut?.toLowerCase() === 'en cours'">
+              <ion-button color="success" size="small" expand="block" (click)="validateReceivedWork(item)">
+                <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                Valider le travail
+              </ion-button>
+              <ion-button color="warning" size="small" expand="block" (click)="notCompliant(item)">
+                <ion-icon name="refresh-outline" slot="start"></ion-icon>
+                Travail à refaire
+              </ion-button>
+            </div>
+            <div *ngIf="item.Statut === 'terminé'">
+              <ion-button *ngIf="!item.developpeurEvalue" color="primary" expand="block" (click)="evaluerDeveloppeur(item)">
+                <ion-icon name="star" slot="start"></ion-icon>
+                Évaluer le développeur
+              </ion-button>
+              <div *ngIf="item.developpeurEvalue" class="already-evaluated">
+                <ion-icon name="checkmark-circle" color="success"></ion-icon>
+                <span>Développeur déjà évalué</span>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- MISSION -->
+          <ng-container *ngIf="item._type === 'mission'">
+            <div class="detail-row" *ngIf="item.description || item.Descriptionmission">
+              <span class="detail-label">Description</span>
+              <span class="detail-value">{{ item.description || item.Descriptionmission }}</span>
+            </div>
+            <div class="detail-row" *ngIf="item.competences || item.Competences">
+              <span class="detail-label">Compétences</span>
+              <span class="detail-value">{{ item.competences || item.Competences }}</span>
+            </div>
+            <div class="detail-row" *ngIf="item.niveau">
+              <span class="detail-label">Niveau requis</span>
+              <span class="detail-value">{{ item.niveau }}</span>
+            </div>
+            <div class="detail-row" *ngIf="item.type_mission">
+              <span class="detail-label">Type</span>
+              <span class="detail-value">{{ item.type_mission }}</span>
+            </div>
+            <div class="card-actions">
+              <ion-button color="danger" size="small" fill="outline" class="action-btn" (click)="deleteMission(item)">
+                <ion-icon name="trash-outline" slot="start"></ion-icon>
+                Supprimer
+              </ion-button>
+              <ion-button color="primary" size="small" fill="outline" class="action-btn" (click)="editMission(item)">
+                <ion-icon name="pencil-outline" slot="start"></ion-icon>
+                Modifier
+              </ion-button>
+            </div>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>
+
+<!-- FOOTER -->
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+            <div style="position: relative; display: inline-block">
+              <ion-icon name="chatbubbles"></ion-icon>
+              <ion-badge color="danger" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </ion-badge>
+            </div>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" (click)="goTo('dashboard')">
+            <ion-icon name="bar-chart-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
         <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
             <ion-icon name="settings"></ion-icon>

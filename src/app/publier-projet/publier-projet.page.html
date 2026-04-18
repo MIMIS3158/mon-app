@@ -44,3 +44,61 @@
 
 
 -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Paramètres</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()" class="close-button">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="profile-section">
+    <ion-avatar>
+      <img
+        [src]="profileImage || 'assets/profile_avatar.jpeg'"
+        alt="Profile"
+        (error)="onImageError($event)"
+      />
+    </ion-avatar>
+    <h2>{{ userName | titlecase}}</h2>
+    <p class="view-profile" (click)="openProfile()">Voir le profil</p>
+  </div>
+
+  <ion-list class="settings-list">
+    <ion-item button (click)="mesEvaluations()" class="menu-item">
+      <ion-icon name="star-outline" slot="start"></ion-icon>
+      <ion-label>Mes évaluations</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+
+   <!--- <ion-item button (click)="save()" class="menu-item">
+      <ion-icon name="bookmark-outline" slot="start"></ion-icon>
+      <ion-label>Sauvegarder</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>-->
+
+    <ion-item button (click)="aide()" class="menu-item">
+      <ion-icon name="help-circle-outline" slot="start"></ion-icon>
+      <ion-label>Aide </ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item>
+
+    <!-- //todo: implement ... -->
+    <!-- <ion-item button (click)="ModeSombre()" class="menu-item">
+      <ion-icon name="moon-outline" slot="start"></ion-icon>
+      <ion-label>Mode sombre</ion-label>
+      <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
+    </ion-item> -->
+
+    <div class="divider"></div>
+
+    <ion-item button (click)="logout()" class="menu-item logout">
+      <ion-icon name="log-out-outline" slot="start"></ion-icon>
+      <ion-label>Déconnexion</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

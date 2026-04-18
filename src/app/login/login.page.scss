@@ -1,4 +1,4 @@
-ion-content {
+/*ion-content {
   --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
@@ -364,4 +364,244 @@ ion-content {
   margin-left: 18px;
   font-weight: 500;
   animation: slideInUp 0.3s ease;
+}
+*/
+// ── Variables ProConnect ─────────────────────────────────
+$violet:       #7F77DD;
+$violet-mid:   #534AB7;
+$violet-light: #EEEDFE;
+$blue:         #378ADD;
+$dark:         #1a1a2e;
+$gray:         #64748b;
+$light-bg:     #f8f8ff;
+
+// ── Content ──────────────────────────────────────────────
+ion-content {
+  --background: #f0efff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px 0;
+}
+
+// ── Card ─────────────────────────────────────────────────
+ion-card {
+  max-width: 500px;
+  width: 92%;
+  margin: 40px auto 20px;
+  border-radius: 28px;
+  box-shadow:
+    0 4px 6px rgba(127, 119, 221, 0.07),
+    0 20px 40px rgba(127, 119, 221, 0.15);
+  background: white;
+  overflow: hidden;
+  animation: fadeInScale 0.5s ease;
+  border: none;
+
+  .register-container {
+    padding: 40px 32px 32px;
+
+    // ── Logo tag ────────────────────────────────────────
+    &::before {
+      content: 'ProConnect';
+      display: block;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: $violet;
+      margin-bottom: 6px;
+    }
+
+    // ── Lien inscription ────────────────────────────────
+    .two {
+      text-align: center;
+      margin-bottom: 8px;
+
+      label {
+        font-size: 0.88rem;
+        color: $gray;
+        margin: 0;
+
+        a {
+          color: $violet;
+          font-weight: 600;
+          text-decoration: none;
+          margin-left: 4px;
+
+          &:hover { text-decoration: underline; }
+        }
+      }
+    }
+
+    // ── Titre ───────────────────────────────────────────
+    .signin {
+      display: block;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: $dark;
+      text-align: center;
+      margin-bottom: 32px;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 48px;
+        height: 3px;
+        background: linear-gradient(90deg, $violet, $blue);
+        margin: 12px auto 0;
+        border-radius: 2px;
+      }
+    }
+
+    // ── Input box ───────────────────────────────────────
+    .input-box {
+      position: relative;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      background: $light-bg;
+      border: 1.5px solid $violet-light;
+      border-radius: 16px;
+      padding: 0 18px;
+      transition: all 0.25s ease;
+
+      &:focus-within {
+        border-color: $violet;
+        background: white;
+        box-shadow:
+          0 0 0 3px rgba(127, 119, 221, 0.12),
+          0 4px 12px rgba(127, 119, 221, 0.1);
+        transform: translateY(-1px);
+      }
+
+      &:hover:not(:focus-within) {
+        border-color: #AFA9EC;
+      }
+
+      ion-icon {
+        font-size: 20px;
+        color: $violet;
+        margin-right: 12px;
+        flex-shrink: 0;
+        transition: color 0.2s;
+      }
+
+      &:focus-within ion-icon {
+        color: $blue;
+      }
+
+      .input-field {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 15px 0;
+        font-size: 0.95rem;
+        color: $dark;
+        font-weight: 500;
+        outline: none;
+        width: 100%;
+
+        &::placeholder {
+          color: #b0aed8;
+          font-weight: 400;
+        }
+      }
+    }
+
+    // ── Mot de passe oublié ─────────────────────────────
+    > label {
+      display: block;
+      text-align: right;
+      margin-top: 8px;
+
+      a {
+        font-size: 0.85rem;
+        color: $violet;
+        font-weight: 500;
+        text-decoration: none;
+
+        &:hover { text-decoration: underline; }
+      }
+    }
+  }
+}
+
+// ── Bouton Se connecter ───────────────────────────────────
+.center-btn {
+  --background: linear-gradient(135deg, #{$violet} 0%, #{$blue} 100%);
+  --background-activated: linear-gradient(135deg, #{$violet-mid} 0%, #{$blue} 100%);
+  --color: white;
+  --border-radius: 16px;
+  --box-shadow: 0 8px 20px rgba(127, 119, 221, 0.4);
+  width: 92%;
+  max-width: 500px;
+  margin: 16px auto 40px;
+  display: block;
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-transform: none;
+  letter-spacing: 0.5px;
+  height: 54px;
+  transition: all 0.25s ease;
+
+  &:hover {
+    --box-shadow: 0 12px 28px rgba(127, 119, 221, 0.5);
+    transform: translateY(-2px);
+  }
+
+  &[disabled] {
+    opacity: 0.45;
+    --background: #AFA9EC;
+    --box-shadow: none;
+    &:hover { transform: none; }
+  }
+}
+
+// ── Fix autofill ─────────────────────────────────────────
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover,
+.input-field:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px #f8f8ff inset !important;
+  -webkit-text-fill-color: #1a1a2e !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+// ── Animations ────────────────────────────────────────────
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.96) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);    }
+}
+
+// ── Mobile ────────────────────────────────────────────────
+@media (max-width: 576px) {
+  ion-card {
+    width: 94%;
+    margin: 24px auto 16px;
+    border-radius: 22px;
+
+    .register-container {
+      padding: 32px 20px 24px;
+
+      .signin { font-size: 1.55rem; margin-bottom: 24px; }
+
+      .input-box {
+        padding: 0 14px;
+        .input-field { padding: 13px 0; font-size: 0.9rem; }
+      }
+    }
+  }
+
+  .center-btn { width: 94%; font-size: 1rem; height: 50px; }
+}
+
+// ── Tablet ────────────────────────────────────────────────
+@media (min-width: 768px) {
+  ion-card {
+    max-width: 560px;
+    .register-container { padding: 48px 40px 36px; }
+  }
+  .center-btn { max-width: 560px; }
 }

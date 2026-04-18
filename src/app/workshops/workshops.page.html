@@ -1,0 +1,199 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Workshops & Formations</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-developpeur"></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="loadWorkshops(true)">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <!-- Refresher -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Chargement des workshops...</p>
+  </div>
+
+  <div *ngIf="!loading">
+
+    <!-- Header info -->
+    <div class="page-header">
+      <div class="page-header-text">
+        <h2>Développez vos compétences</h2>
+        <p>{{ workshops.length }} workshop(s) disponibles</p>
+      </div>
+      <div class="free-badge-info">
+        <ion-icon name="lock-open-outline"></ion-icon>
+        <span>1 gratuit</span>
+      </div>
+    </div>
+
+    <!-- Banner premium si non premium -->
+    <div class="premium-banner" *ngIf="!isPremium">
+      <div class="premium-banner-left">
+        <span class="premium-icon">⭐</span>
+        <div>
+          <h4>Débloquez tout !</h4>
+          <p>Accédez à tous les workshops</p>
+        </div>
+      </div>
+      <button class="premium-btn" (click)="showPremiumModal = true">
+        Pro →
+      </button>
+    </div>
+
+    <!-- Liste workshops -->
+    <div class="workshops-list">
+      <div
+        *ngFor="let workshop of workshops; trackBy: trackById"
+        id="card-{{workshop.id}}"
+        class="workshop-card"
+        [class.is-free]="isFree(workshop)"
+        [class.is-locked]="!isFree(workshop) && !isPremium"
+        (click)="joinWorkshop(workshop)">
+
+        <!-- Thumbnail -->
+        <div class="card-thumb">
+          <ion-img [src]="workshop.thumbnail" alt="{{workshop.title}}"></ion-img>
+
+          <!-- Overlay cadenas si verrouillé -->
+          <div class="lock-overlay" *ngIf="!isFree(workshop) && !isPremium">
+            <div class="lock-circle">
+              <ion-icon name="lock-closed"></ion-icon>
+            </div>
+          </div>
+
+          <!-- Badge gratuit -->
+          <div class="thumb-badge free" *ngIf="isFree(workshop)">
+            <ion-icon name="play-circle"></ion-icon>
+            Gratuit
+          </div>
+
+          <!-- Badge premium -->
+          <div class="thumb-badge premium" *ngIf="!isFree(workshop)">
+            <ion-icon name="star"></ion-icon>
+            Premium
+          </div>
+
+          <!-- Durée -->
+          <div class="thumb-duration">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ workshop.duration }}
+          </div>
+        </div>
+
+        <!-- Contenu -->
+        <div class="card-body">
+          <div class="card-body-top">
+            <h3 class="card-title" [class.blurred]="!isFree(workshop) && !isPremium">
+              {{ workshop.title }}
+            </h3>
+            <p class="card-desc" [class.blurred]="!isFree(workshop) && !isPremium">
+              {{ workshop.description | slice:0:80 }}...
+            </p>
+          </div>
+
+          <!-- Infos -->
+          <div class="card-meta">
+            <div class="meta-item">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>{{ workshop.date | date:'dd/MM/yyyy' }}</span>
+            </div>
+            <div class="meta-item">
+              <ion-icon name="people-outline"></ion-icon>
+              <span>{{ workshop.participants }}/{{ workshop.max_participants }}</span>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="progress-wrap">
+            <div class="progress-track">
+              <div class="progress-fill"
+                [style.width.%]="getProgress(workshop)"
+                [class.fill-free]="isFree(workshop)"
+                [class.fill-lock]="!isFree(workshop) && !isPremium">
+              </div>
+            </div>
+            <span class="progress-label">{{ getProgress(workshop) }}% complet</span>
+          </div>
+
+          
+          <div class="card-action">
+            <button class="action-btn free-btn" *ngIf="isFree(workshop)">
+              <ion-icon name="play-circle-outline"></ion-icon>
+              Regarder maintenant
+            </button>
+            <button class="action-btn lock-btn" *ngIf="!isFree(workshop) && !isPremium">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              Débloquer avec Pro
+            </button>
+            <button class="action-btn premium-access-btn" *ngIf="!isFree(workshop) && isPremium">
+              <ion-icon name="play-circle-outline"></ion-icon>
+              Regarder maintenant
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Infinite scroll -->
+    <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <!-- Empty state -->
+    <div *ngIf="workshops.length === 0" class="empty-state">
+      <ion-icon name="videocam-off-outline"></ion-icon>
+      <h3>Aucun workshop disponible</h3>
+      <p>Les entrepreneurs publient bientôt !</p>
+    </div>
+
+  </div>
+
+  <!-- ══ MODAL PREMIUM ══ -->
+  <div class="premium-modal-overlay" *ngIf="showPremiumModal" (click)="showPremiumModal = false">
+    <div class="premium-modal" (click)="$event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-emoji">🔒</div>
+      <h3>Contenu Premium</h3>
+      <p>Débloquez l'accès à <strong>tous les workshops</strong> et formations complètes.</p>
+
+      <div class="modal-plans">
+        <div class="modal-plan">
+          <div class="plan-name">Gratuit</div>
+          <div class="plan-price">0 DA</div>
+          <div class="plan-desc">1 workshop seulement</div>
+        </div>
+        <div class="modal-plan featured">
+          <div class="plan-badge">⭐ Recommandé</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">990 DA<span>/mois</span></div>
+          <div class="plan-desc">Tous les workshops · Badge Pro</div>
+        </div>
+        <div class="modal-plan">
+          <div class="plan-name">Business</div>
+          <div class="plan-price">2490 DA<span>/mois</span></div>
+          <div class="plan-desc">Pro + IA Matching</div>
+        </div>
+      </div>
+
+      <button class="modal-btn-upgrade">🚀 Passer au Premium</button>
+      <button class="modal-btn-cancel" (click)="showPremiumModal = false">
+        Continuer en gratuit
+      </button>
+    </div>
+  </div>
+
+</ion-content>

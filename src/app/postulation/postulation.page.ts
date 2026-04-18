@@ -20,6 +20,7 @@ export interface Postulation {
   date_postulation: string;
   entrepreneurEvalue?: boolean;
   id_entrepreneur?: number;
+  expanded?: boolean;
 }
 
 @Component({

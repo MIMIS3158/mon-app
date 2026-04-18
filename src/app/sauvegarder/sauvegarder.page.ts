@@ -28,7 +28,7 @@ export class SauvegarderPage implements OnInit {
   }
 
  
-
+/*
   async loadSavedProjects() {
   const userId = localStorage.getItem('userId');
   try {
@@ -39,8 +39,18 @@ export class SauvegarderPage implements OnInit {
     );
     this.projets = projets;
   } catch(err) {}
+}*/
+async loadSavedProjects() {
+  const userId = localStorage.getItem('userId');
+  try {
+    const items = await firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/favorites.php`, {
+        params: { id_developpeur: userId!, type: 'details' }
+      })
+    );
+    this.projets = items;
+  } catch(err) {}
 }
-
  
 async supprimerFavori(projetId: number) {
   const userId = localStorage.getItem('userId');

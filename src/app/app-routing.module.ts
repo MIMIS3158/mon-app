@@ -213,6 +213,23 @@ const routes: Routes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'dashboard-dev',
+    loadChildren: () => import('./dashboard-dev/dashboard-dev.module').then( m => m.DashboardDevPageModule),
+    canActivate: [AuthGuard]
+  },
+  /*{
+    path: 'workshop',
+    loadChildren: () => import('./workshop/workshop.module').then( m => m.WorkshopPageModule)
+  },*/
+  {
+    path: 'workshops',
+    loadChildren: () => import('./workshops/workshops.module').then( m => m.WorkshopsPageModule)
+  },
+  {
+    path: 'publish-workshop',
+    loadChildren: () => import('./publish-workshop/publish-workshop.module').then( m => m.PublishWorkshopPageModule)
+  },
 
   /*
   {

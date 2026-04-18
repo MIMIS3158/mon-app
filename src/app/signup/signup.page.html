@@ -1,7 +1,11 @@
-<ion-content>
+<!--<ion-content>
   <ion-card>
     <div class="form-box">
       <div class="register-container" id="register">
+        <p class="login-link">
+  Vous avez déjà un compte ? 
+  <a routerLink="/signin">Se connecter</a>
+</p>
         <ion-label class="signup">S'inscrire</ion-label>
         <div class="two-forms">
           <ion-grid class="name-grid">
@@ -69,10 +73,10 @@
         <label><a class="role">Je suis:</a></label>
         <ion-radio-group [(ngModel)]="user.role" required>
           <div class="input-box">
-            <ion-radio value="developer" class="bloc">Développeur</ion-radio>
+            <ion-radio value="developer" class="bloc">I'm a freelancer, looking for work</ion-radio>
 
             <ion-radio value="entrepreneur" class="block"
-              >Entrepreneur</ion-radio>
+              >Je suis un client, je recrute pour un projet</ion-radio>
           </div>
         </ion-radio-group>
           
@@ -96,4 +100,112 @@
     [disabled]="!user || !user.email || !user.password || !user.nom || !user.prenom || !user.role ||
               (user.role === 'entrepreneur' && !user.Publierparentreprise)"
     >S'inscrire</ion-button>
+    
+</ion-content>-->
+<ion-content>
+  <ion-card>
+    <div class="form-box">
+      <div class="register-container" id="register">
+
+        <p class="login-link">
+          Vous avez déjà un compte ?
+          <a routerLink="/signin">Se connecter</a>
+        </p>
+
+        <ion-label class="signup">S'inscrire</ion-label>
+
+        <div class="two-forms">
+
+          <!-- Nom et Prénom -->
+          <ion-grid class="name-grid">
+            <ion-row>
+              <div class="input-box">
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-col size="6" class="col-left">
+                  <input
+                    [(ngModel)]="user.nom"
+                    class="input-field"
+                    placeholder="Entrez votre Nom"
+                    required
+                  />
+                </ion-col>
+              </div>
+
+              <div class="input-box">
+                <ion-icon name="person" slot="end"></ion-icon>
+                <ion-col size="6" class="col-right">
+                  <input
+                    [(ngModel)]="user.prenom"
+                    class="input-field"
+                    placeholder="Entrez votre Prenom"
+                    required
+                  />
+                </ion-col>
+              </div>
+            </ion-row>
+          </ion-grid>
+
+          <!-- Email -->
+          <div class="input-box">
+            <ion-icon name="mail" slot="start"></ion-icon>
+            <input
+              [(ngModel)]="user.email"
+              class="input-field"
+              placeholder="Entrez votre Email"
+              type="email"
+              required
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="input-box">
+            <ion-icon name="lock-closed" slot="start"></ion-icon>
+            <input
+              [(ngModel)]="user.password"
+              class="input-field"
+              placeholder="Entrez votre password"
+              type="password"
+              required
+            />
+          </div>
+
+        </div>
+        <!-- fin two-forms -->
+
+        <!-- Rôle -->
+        <label><a class="role">Je suis:</a></label>
+        <ion-radio-group [(ngModel)]="user.role" required>
+          <div class="input-box">
+            <ion-radio value="developer" class="bloc">
+              Je suis un freelance, je cherche du travail
+            </ion-radio>
+            <ion-radio value="entrepreneur" class="block">
+              Je suis un client, je recrute pour un projet
+            </ion-radio>
+          </div>
+        </ion-radio-group>
+
+        <!-- Nom entreprise (conditionnel) -->
+        <div *ngIf="user.role === 'entrepreneur'" class="input-box" style="margin-top: 16px;">
+          <ion-icon name="business" slot="start"></ion-icon>
+          <input
+            [(ngModel)]="user.Publierparentreprise"
+            class="input-field"
+            placeholder="Nom de l'entreprise"
+            required
+          />
+        </div>
+
+      </div>
+    </div>
+  </ion-card>
+
+  <ion-button
+    (click)="register()"
+    class="center-btn"
+    color="primary"
+    [disabled]="!user || !user.email || !user.password || !user.nom || !user.prenom || !user.role ||
+              (user.role === 'entrepreneur' && !user.Publierparentreprise)"
+  >S'inscrire</ion-button>
+
 </ion-content>

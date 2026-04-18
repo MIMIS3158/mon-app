@@ -18,7 +18,8 @@ export class RecommendedPage implements OnInit {
   allProjets: any[] = [];
   filteredProjets: any[] = [];
   activeFilter: string = 'all';
-  devId: number = parseInt(localStorage.getItem('userId') || '0');
+ devId: number = parseInt(localStorage.getItem('userId') || '0');
+  //devId: number = 0;
 
   constructor(
     private http: HttpClient,
@@ -28,8 +29,12 @@ export class RecommendedPage implements OnInit {
  
   async ngOnInit() {
   if (!this.devId) {
+    //this.devId = parseInt(localStorage.getItem('userId') || '0', 10);
     console.error('Utilisateur non connecté');
     return;
+    
+  
+
   }
   try {
     const data = await firstValueFrom(

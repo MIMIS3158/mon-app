@@ -7,7 +7,8 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div *ngIf="mesProjects.length > 0; else noProject">
+  <!--<div *ngIf="mesProjects.length > 0; else noProject">-->
+    <div *ngIf="mesProjects.length > 0">
     <ion-card *ngFor="let project of mesProjects">
       <ion-card-header>
         <ion-card-title>{{ project.Nomduprojet }}</ion-card-title>
@@ -17,10 +18,9 @@
       </ion-card-header>
       <ion-card-content>
         <div class="project-info">
-          <p><strong>Description:</strong> {{ project.description }}</p>
-          <p>
-            <strong>Compétences requises:</strong> {{ project.Competences }}
-          </p>
+          <p><strong>Description:</strong> {{ project.Descriptionduprojet }}</p>
+          
+           <p><strong>Catégorie:</strong> {{ project.nom_categorie }}</p>
           <p><strong>Budget:</strong> {{ project.Budget }}</p>
           <p><strong>Durée:</strong> {{ project.Duree }}</p>
           <p>
@@ -47,7 +47,7 @@
           </ion-item>
           <ion-item>
             <ion-label position="floating"
-              >Votre tarif proposé (€/DA)</ion-label
+              >Votre tarif proposé (€/DA/$)</ion-label
             >
             <ion-input type="text" [(ngModel)]="Budget"></ion-input>
           </ion-item>
@@ -68,12 +68,66 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <ng-template #noProject>
-    <div class="empty-state">
-      <ion-icon name="alert-circle-outline"></ion-icon>
-      <h3>Aucun projet sélectionné</h3>
-      <p>Retournez à l'accueil pour choisir un projet</p>
-      <ion-button (click)="goBack()"> Retour à l'accueil </ion-button>
+  <!-- SECTION MISSION -->
+<div *ngIf="isMission && mission">
+  <ion-card>
+    <div class="type-ribbon type-mission">
+      <ion-icon name="flash-outline"></ion-icon>
+      Mission
     </div>
-  </ng-template>
+    <ion-card-header>
+      <ion-card-title>{{ mission.titreMission }}</ion-card-title>
+      <ion-card-subtitle>{{ mission.entreprise }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="project-info">
+        <p><strong>Description:</strong> {{ mission.description }}</p>
+        <p><strong>Catégorie:</strong> {{ mission.nom_categorie }}</p>
+        <p><strong>Budget:</strong> {{ mission.budget }}</p>
+        <p><strong>Délai:</strong> {{ mission.delai }}</p>
+        <p><strong>Niveau:</strong> {{ mission.niveauExperience }}</p>
+        <p><strong>Type:</strong> {{ mission.typeMission }}</p>
+        <p>
+            <strong>Statut:</strong>
+            <ion-badge
+              [color]="mission.statut === 'Actif' ? 'success' : 'warning'"
+            >
+              {{ mission.statut }}
+            </ion-badge>
+          </p>
+      </div>
+      <ion-item-divider>
+        <ion-label>Votre candidature</ion-label>
+      </ion-item-divider>
+      <div class="candidature-form">
+        <ion-item>
+          <ion-label position="floating">Message de motivation *</ion-label>
+          <ion-textarea
+            [(ngModel)]="messagePostulation"
+            rows="6"
+            placeholder="Expliquez pourquoi vous êtes le candidat idéal..."
+          ></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Votre tarif proposé (DA)</ion-label>
+          <ion-input type="text" [(ngModel)]="Budget"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Durée estimée</ion-label>
+          <ion-input [(ngModel)]="Duree"></ion-input>
+        </ion-item>
+        <ion-button
+          expand="block"
+          (click)="onApplyMission()"
+          class="submit-btn"
+          [disabled]="!messagePostulation || messagePostulation.trim() === ''"
+        >
+          <ion-icon name="flash-outline" slot="start"></ion-icon>
+          Envoyer ma candidature
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
+ 
 </ion-content>

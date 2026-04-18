@@ -1,4 +1,4 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button
@@ -35,7 +35,7 @@
           <ul>
             <li *ngFor="let s of skills">{{s || '-'}}</li>
           </ul>
-          <!-- <p>{{ CompetencesTechniques }}</p> -->
+          
         </ion-label>
       </ion-item>
 
@@ -181,15 +181,10 @@
       accept=".pdf,.jsp"
       (change)="selectFile($event)"
     />
-    <ion-select
-      label="Niveau"
-      [(ngModel)]="developer.Niveau"
-      placeholder="Choisir votre niveau"
-    >
-      <ion-select-option value="junior">Junior</ion-select-option>
-      <ion-select-option value="mid">Mid</ion-select-option>
-      <ion-select-option value="senior">Senior</ion-select-option>
-    </ion-select>
+<ion-item>
+  <ion-label>Niveau</ion-label>
+  <ion-badge slot="end" color="primary">{{ developer.Niveau || 'Junior' }}</ion-badge>
+</ion-item>
     <ion-input
       label="Date de naissance"
       [(ngModel)]="developer.DateNaissance"
@@ -217,9 +212,327 @@
     ></ion-input>
 
     <ion-button class="center-btn" expand="block" (click)="updateProfile()"
-      >Enregistrer</ion-button
+      >Sauvegarder</ion-button
     >
-    <!-- <ion-button class="border-btn" expand="block" (click)="updateProfile()">Modifier</ion-button> -->
-  </ion-card-content>
+     </ion-card-content>
   }
+</ion-content>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [defaultHref]="isViewMode ? '/accueil-entrepreneur' : '/accueil-developpeur'"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title class="Accueil">
+      {{ isViewMode ? 'Profil Développeur' : 'Mon Profil' }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loading">
+  <ion-progress-bar type="indeterminate" color="secondary"></ion-progress-bar>
+</ion-content>
+
+<ion-content *ngIf="!loading">
+
+  <!-- ══════════════════════════════════
+       MODE VUE (entrepreneur voit le profil)
+       ══════════════════════════════════ -->
+  @if(isViewMode) {
+  <div class="page-wrapper">
+    <div class="layout-grid">
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-card avatar-card">
+          <img [src]="profileImage" class="profile-image-view" />
+          <h2>{{ developer.Nomdev | titlecase }} {{ developer.Prenomdev | titlecase }}</h2>
+          <ion-badge *ngIf="developer.Niveau" color="primary">{{ developer.Niveau }}</ion-badge>
+        </div>
+
+        <div class="sidebar-card contact-card">
+          <div class="contact-section-label">// contact</div>
+          <div class="contact-row" *ngIf="developer.Emaildev">
+            <ion-icon name="mail-outline"></ion-icon>
+            <div>
+              <span class="contact-label">email</span>
+              <span class="contact-value">{{ developer.Emaildev }}</span>
+            </div>
+          </div>
+          <div class="contact-row" *ngIf="developer.Telephone">
+            <ion-icon name="call-outline"></ion-icon>
+            <div>
+              <span class="contact-label">téléphone</span>
+              <span class="contact-value">{{ developer.Telephone }}</span>
+            </div>
+          </div>
+          <div class="contact-row" *ngIf="developer.Ville || developer.Pays">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <span class="contact-label">localisation</span>
+              <span class="contact-value">
+                {{ developer.Ville }}<span *ngIf="developer.Ville && developer.Pays">, </span>{{ developer.Pays }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card github-card" *ngIf="developer.Github">
+          <ion-icon name="logo-github"></ion-icon>
+          <span>{{ developer.Github }}</span>
+        </div>
+        
+
+        <ion-button expand="block" class="contact-btn" (click)="contact()">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+          Contacter
+        </ion-button>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+
+        <div class="section-card" *ngIf="skills.length > 0">
+          <div class="section-header">
+            <div class="section-icon icon-purple">
+              <ion-icon name="code-slash-outline"></ion-icon>
+            </div>
+            <span class="section-title">Compétences</span>
+          </div>
+        <!---  <div class="skills-wrap">
+            <span class="skill-tag" *ngFor="let s of skills">{{ s || '-' }}</span>
+          </div>-->
+          <div class="skills-wrap">
+  <span class="skill-tag" *ngFor="let s of skills">
+    <span class="skill-dot"></span>
+    {{ s || '-' }}
+  </span>
+</div>
+        </div>
+
+        <div class="section-card" *ngIf="developer.Experience">
+          <div class="section-header">
+            <div class="section-icon icon-amber">
+              <ion-icon name="time-outline"></ion-icon>
+            </div>
+            <span class="section-title">Expérience</span>
+          </div>
+          <p class="info-text">{{ developer.Experience }} ans</p>
+        </div>
+
+        <div class="section-card" *ngIf="developer.Github">
+          <div class="section-header">
+            <div class="section-icon icon-dark">
+              <ion-icon name="logo-github"></ion-icon>
+            </div>
+            <span class="section-title">GitHub</span>
+          </div>
+          <a [href]="developer.Github" target="_blank" class="info-link">{{ developer.Github }}</a>
+        </div>
+
+        <div class="section-card" *ngIf="SelectedFileName">
+          <div class="section-header">
+            <div class="section-icon icon-coral">
+              <ion-icon name="document-outline"></ion-icon>
+            </div>
+            <span class="section-title">Portfolio</span>
+          </div>
+          <a [href]="SelectedFileName" target="_blank" class="info-link">Voir le portfolio</a>
+        </div>
+
+        <div class="section-card" *ngIf="developer.Biographie">
+          <div class="section-header">
+            <div class="section-icon icon-blue">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <span class="section-title">Biographie</span>
+          </div>
+          <p class="info-text bio-text">{{ developer.Biographie }}</p>
+        </div>
+<div class="section-card" *ngIf="evaluations.length > 0">
+  <div class="section-header">
+    <div class="section-icon icon-amber">
+      <ion-icon name="star-outline"></ion-icon>
+    </div>
+    <span class="section-title">Évaluations ({{ moyenneNote | number:'1.1-1' }}/5)</span>
+  </div>
+  <div *ngFor="let e of evaluations" style="margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:8px;">
+    <p style="margin:0;font-size:13px;">{{ e.commentaire }}</p>
+    <span style="font-size:12px;color:#888;">Note : {{ e.note }}/5</span>
+  </div>
+</div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       MODE ÉDITION (développeur modifie son profil)
+       ══════════════════════════════════ -->
+  } @else {
+  <div class="page-wrapper">
+    <div class="layout-grid">
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-card avatar-card">
+          <div class="profile-container">
+            <img [src]="profileImage" class="profile-image" (click)="selectImage()" />
+            <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)" />
+          </div>
+          <div class="avatar-name">{{ developer.Nomdev || 'Votre Nom' }} {{ developer.Prenomdev || '' }}</div>
+          <div class="avatar-pseudo">{{ developer.Pseudo || '@pseudo' }}</div>
+        </div>
+
+        <div class="sidebar-card contact-card">
+          <div class="contact-section-label">// contact</div>
+          <div class="contact-row">
+            <ion-icon name="mail-outline"></ion-icon>
+            <div>
+              <span class="contact-label">email</span>
+              <span class="contact-value">{{ developer.Emaildev || '—' }}</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <ion-icon name="call-outline"></ion-icon>
+            <div>
+              <span class="contact-label">téléphone</span>
+              <span class="contact-value">{{ developer.Telephone || '—' }}</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <span class="contact-label">localisation</span>
+              <span class="contact-value">{{ developer.Ville || '—' }}<span *ngIf="developer.Ville && developer.Pays">, </span>{{ developer.Pays || '' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card github-card" *ngIf="developer.Github">
+          <ion-icon name="logo-github"></ion-icon>
+          <span>{{ developer.Github }}</span>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-teal">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <span class="section-title">Informations Personnelles</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <ion-input label="Nom" [(ngModel)]="developer.Nomdev" placeholder="Entrez votre Nom"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Prenom" [(ngModel)]="developer.Prenomdev" placeholder="Entrez votre Prenom"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Pseudo" [(ngModel)]="developer.Pseudo" placeholder="Entrez votre Pseudo"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Email" [(ngModel)]="developer.Emaildev" placeholder="Entrez votre Email" type="email"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Telephone" [(ngModel)]="developer.Telephone" placeholder="Entrez votre Telephone"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Date de naissance" [(ngModel)]="developer.DateNaissance" type="date"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Pays" [(ngModel)]="developer.Pays" placeholder="Entrez votre pays"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Ville" [(ngModel)]="developer.Ville" placeholder="Entrez votre ville"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-item class="niveau-item">
+                <ion-label>Niveau</ion-label>
+                <ion-badge slot="end" color="primary">{{ developer.Niveau || 'Junior' }}</ion-badge>
+              </ion-item>
+            </div>
+            <div class="form-field">
+              <ion-input label="GitHub" [(ngModel)]="developer.Github" placeholder="Lien GitHub"></ion-input>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-blue">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <span class="section-title">Biographie</span>
+          </div>
+         <ion-textarea [(ngModel)]="developer.Biographie" placeholder="Parlez de vous..." auto-grow="true"></ion-textarea>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-purple">
+              <ion-icon name="code-slash-outline"></ion-icon>
+            </div>
+            <span class="section-title">Compétences Techniques</span>
+          </div>
+          <!--<ion-input label="Competences Techniques" [(ngModel)]="developer.CompetencesTechniques" placeholder="Entrez vos Competences"></ion-input>-->
+      <div class="skills-wrap">
+  <span class="skill-tag" *ngFor="let s of skills; let i = index">
+    <span class="skill-dot"></span>
+    {{ s }}
+    <button class="skill-remove" (click)="removeSkill(i)">✕</button>
+  </span>
+  <button class="skill-add-btn" (click)="addSkill()">+ Ajouter</button>
+</div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-amber">
+              <ion-icon name="briefcase-outline"></ion-icon>
+            </div>
+            <span class="section-title">Expérience</span>
+          </div>
+         <ion-textarea [(ngModel)]="developer.Experience" placeholder="Entrez votre Experience" auto-grow="true"></ion-textarea>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-coral">
+              <ion-icon name="desktop-outline"></ion-icon>
+            </div>
+            <span class="section-title">Portfolio</span>
+          </div>
+         <!--- <ion-item lines="none" class="portfolio-item">
+            <ion-label>Fichier portfolio</ion-label>
+            <ion-text *ngIf="SelectedFileName">{{ SelectedFileName }}</ion-text>
+            <ion-icon slot="end" name="cloud-upload-outline" class="portfolio-icon" (click)="openFilePicker()"></ion-icon>
+          </ion-item>
+          <input type="file" #portfolioInput class="hidden-file-input" accept=".pdf,.jsp" (change)="selectFile($event)" />-->
+        <div class="portfolio-grid">
+ <div class="project-card" *ngFor="let p of projects; let i = index">
+  <button class="project-remove" (click)="removeProject(i, p)">✕</button>
+  <div class="project-card-icon">🌐</div>
+  <p class="project-card-name">{{ p.name }}</p>
+  <p class="project-card-tech">{{ p.tech }}</p>
+</div>
+  <div class="project-card-add" (click)="openFilePicker()">
+    <span class="add-plus">+</span>
+    <p>ajouter projet</p>
+  </div>
+</div>
+<input type="file" #portfolioInput class="hidden-file-input" accept=".pdf,.jsp" (change)="selectFile($event)" />
+        </div>
+
+        <ion-button class="center-btn" expand="block" (click)="updateProfile()">Sauvegarder</ion-button>
+
+      </div>
+    </div>
+  </div>
+  }
+
 </ion-content>

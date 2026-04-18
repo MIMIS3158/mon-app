@@ -35,6 +35,7 @@ export class ChatPage implements OnInit, OnDestroy {
   @ViewChild(IonContent) content!: IonContent;
   isBlocked: boolean = false;
   iAmBlocker: boolean = false;
+  missionId: number = 0;
 
 
   constructor(
@@ -46,21 +47,53 @@ export class ChatPage implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  ngOnInit() {
+ /* ngOnInit() {
     this.currentUserId = parseInt(localStorage.getItem('userId') || '0');
-
-    this.route.queryParams.subscribe((params) => {
+*/
+    /*this.route.queryParams.subscribe((params) => {
       this.receiverId = params['userId'] ? parseInt(params['userId']) : 0;
       this.projectId = params['projectId'] ? parseInt(params['projectId']) : 0;
       this.loadMessages();
       this.loadReceiver();
       this.checkIfBlocked();
-    });
+    });*/ /*
+    this.route.queryParams.subscribe((params) => {
+  this.receiverId = params['userId'] ? parseInt(params['userId']) : 0;
+  
+this.projectId = params['projectId'] ? parseInt(params['projectId']) : 0;
+this.missionId = params['missionId'] ? parseInt(params['missionId']) : 0;
+  this.projectId = params['projectId'] 
+    ? parseInt(params['projectId']) 
+    : params['missionId'] 
+      ? parseInt(params['missionId']) 
+      : 0;
+      
+  this.loadMessages();
+  this.loadReceiver();
+  this.checkIfBlocked();
+});
 
     this.interval = setInterval(() => {
       this.loadMessages();
     }, 3000);
-  }
+  }*/
+ ngOnInit() {
+  this.currentUserId = parseInt(localStorage.getItem('userId') || '0');
+
+  this.route.queryParams.subscribe((params) => {
+    this.receiverId = params['userId'] ? parseInt(params['userId']) : 0;
+    this.projectId = params['projectId'] ? parseInt(params['projectId']) : 0;
+    this.missionId = params['missionId'] ? parseInt(params['missionId']) : 0;
+
+    this.loadMessages();
+    this.loadReceiver();
+    this.checkIfBlocked();
+  });
+
+  this.interval = setInterval(() => {
+    this.loadMessages();
+  }, 3000);
+}
 
   ngAfterViewInit() {
     this.scrollToBottom();
@@ -98,7 +131,7 @@ export class ChatPage implements OnInit, OnDestroy {
     });
   }
 
-  sendMessage() {
+ /* sendMessage() {
     if (!this.newMessage.trim()) return;
 
     const body = {
@@ -112,7 +145,24 @@ export class ChatPage implements OnInit, OnDestroy {
       this.newMessage = '';
       this.loadMessages();
     });
-  }
+  }*/
+ sendMessage() {
+  if (!this.newMessage.trim()) return;
+
+  const body: any = {
+    sender_id: this.currentUserId,
+    receiver_id: this.receiverId,
+    project_id: this.projectId || null,
+    mission_id: this.missionId || null,
+      
+    message: this.newMessage,
+  };
+
+  firstValueFrom(this.http.post(this.messageUrl, body)).then(() => {
+    this.newMessage = '';
+    this.loadMessages();
+  });
+}
 
   isMine(msg: any): boolean {
     return msg.sender_id == this.currentUserId;
@@ -195,6 +245,7 @@ onFileSelected(event: any) {
   formData.append('sender_id', this.currentUserId.toString());
   formData.append('receiver_id', this.receiverId.toString());
   formData.append('project_id', this.projectId.toString());
+    formData.append('mission_id', this.missionId.toString());
   formData.append('message', '');
   formData.append('fichier', file);
 
@@ -293,6 +344,7 @@ async openCamera() {
     formData.append('sender_id', this.currentUserId.toString());
     formData.append('receiver_id', this.receiverId.toString());
     formData.append('project_id', this.projectId.toString());
+    formData.append('mission_id', this.missionId.toString());
     formData.append('message', '');
     formData.append('fichier', file);
 

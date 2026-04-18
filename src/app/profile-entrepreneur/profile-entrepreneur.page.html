@@ -1,4 +1,4 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="accueil-entrepreneur"></ion-back-button>
@@ -58,6 +58,16 @@
       name="entrp"
       placeholder="Entrez votre Entreprise"
     ></ion-input>
+    <ion-item>
+  <ion-label>Logo entreprise</ion-label>
+  <ion-button fill="outline" (click)="selectLogo()">
+    <ion-icon name="image-outline" slot="start"></ion-icon>
+    Choisir logo
+  </ion-button>
+  <img *ngIf="logoPreview" [src]="logoPreview" style="width:50px; height:50px; object-fit:contain; margin-left:10px;">
+</ion-item>
+<input type="file" #logoInput (change)="onLogoSelected($event)" accept="image/*" style="display:none">
+
     <ion-input
       label="Description"
       [(ngModel)]="Description"
@@ -89,12 +99,7 @@
       [(ngModel)]="Linkedin"
       placeholder="Lien LinkedIn"
     ></ion-input>
-    <!-- <ion-select label="Taille entreprise" [(ngModel)]="TailleEntreprise" placeholder="Choisir la taille">
-      <ion-select-option value="1-10">1-10</ion-select-option>
-      <ion-select-option value="11-50">11-50</ion-select-option>
-      <ion-select-option value="51-200">51-200</ion-select-option>
-      <ion-select-option value="200+">200+</ion-select-option>
-    </ion-select>-->
+   
     <ion-input
       label="Année de création"
       [(ngModel)]="AnneeCreation"
@@ -110,7 +115,265 @@
   </ion-card-content>
 
   <ion-button class="center-btn" expand="block" (click)="updateProfile()"
-    >Enregistrer</ion-button
+    >Sauvegarder</ion-button
   >
-  <!-- <ion-button class="border-btn" expand="block" (click)="updateProfile()">Modifier</ion-button> -->
+
+</ion-content>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="isViewMode ? '/accueil-developpeur' : '/accueil-entrepreneur'"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ isViewMode ? 'Profil Entrepreneur' : 'Mon Profil' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  @if(isViewMode) {
+  <div class="page-wrapper">
+    <div class="layout-grid">
+      <div class="sidebar">
+        <div class="sidebar-card avatar-card">
+          <img [src]="profileImage" class="profile-image-view" />
+          <div class="avatar-name">{{ Nom }} {{ Prenom }}</div>
+          <div class="avatar-pseudo">{{ Entreprise }}</div>
+        </div>
+        <div class="sidebar-card contact-card">
+          <div class="contact-section-label">// contact</div>
+          <div class="contact-row" *ngIf="Ville || Pays">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <span class="contact-label">localisation</span>
+              <span class="contact-value">{{ Ville }}<span *ngIf="Ville && Pays">, </span>{{ Pays }}</span>
+            </div>
+          </div>
+          <div class="contact-row" *ngIf="SiteWeb">
+            <ion-icon name="globe-outline"></ion-icon>
+            <div>
+              <span class="contact-label">site web</span>
+              <span class="contact-value">{{ SiteWeb }}</span>
+            </div>
+          </div>
+          <div class="contact-row" *ngIf="Linkedin">
+            <ion-icon name="logo-linkedin"></ion-icon>
+            <div>
+              <span class="contact-label">linkedin</span>
+              <span class="contact-value">{{ Linkedin }}</span>
+            </div>
+          </div>
+        </div>
+        <ion-button expand="block" class="contact-btn" (click)="contact()">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+          Contacter
+        </ion-button>
+      </div>
+
+      <div class="main-content">
+        <div class="section-card" *ngIf="Entreprise">
+          <div class="section-header">
+            <div class="section-icon icon-blue">
+              <ion-icon name="business-outline"></ion-icon>
+            </div>
+            <span class="section-title">Entreprise</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <img *ngIf="logo" [src]="logo" style="width:60px;height:60px;object-fit:contain;border-radius:8px;">
+            <div>
+              <p class="info-text"><strong>{{ Entreprise }}</strong></p>
+              <p class="info-text" *ngIf="Secteur">Secteur : {{ Secteur }}</p>
+              <p class="info-text" *ngIf="AnneeCreation">Fondée en {{ AnneeCreation }}</p>
+              <p class="info-text" *ngIf="BudgetMoyen">Budget moyen : {{ BudgetMoyen }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-card" *ngIf="Description">
+          <div class="section-header">
+            <div class="section-icon icon-purple">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <span class="section-title">Description</span>
+          </div>
+          <p class="info-text">{{ Description }}</p>
+        </div>
+
+        <div class="section-card" *ngIf="evaluations.length > 0">
+          <div class="section-header">
+            <div class="section-icon icon-amber">
+              <ion-icon name="star-outline"></ion-icon>
+            </div>
+            <span class="section-title">Évaluations ({{ moyenneNote | number:'1.1-1' }}/5)</span>
+          </div>
+          <div *ngFor="let e of evaluations" style="margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:8px;">
+            <p style="margin:0;font-size:13px;">{{ e.commentaire }}</p>
+            <span style="font-size:12px;color:#888;">Note : {{ e.note }}/5</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ 
+
+  } @else {
+  <div class="page-wrapper">
+    <div class="layout-grid">
+
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="sidebar-card avatar-card">
+          <div class="profile-container">
+            <img [src]="profileImage" class="profile-image" (click)="selectImage()" />
+            <input type="file" #fileInput hidden accept="image/*" (change)="onImageSelected($event)" />
+          </div>
+          <div class="avatar-name">{{ Nom || 'Votre Nom' }} {{ Prenom || '' }}</div>
+          <div class="avatar-pseudo">{{ Entreprise || 'Entreprise' }}</div>
+        </div>
+
+        <div class="sidebar-card contact-card">
+          <div class="contact-section-label">// contact</div>
+          <div class="contact-row">
+            <ion-icon name="mail-outline"></ion-icon>
+            <div>
+              <span class="contact-label">email</span>
+              <span class="contact-value">{{ Email || '—' }}</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <ion-icon name="call-outline"></ion-icon>
+            <div>
+              <span class="contact-label">téléphone</span>
+              <span class="contact-value">{{ Telephone || '—' }}</span>
+            </div>
+          </div>
+          <div class="contact-row">
+            <ion-icon name="location-outline"></ion-icon>
+            <div>
+              <span class="contact-label">localisation</span>
+              <span class="contact-value">{{ Ville || '—' }}<span *ngIf="Ville && Pays">, </span>{{ Pays || '' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-card github-card" *ngIf="SiteWeb">
+          <ion-icon name="globe-outline"></ion-icon>
+          <span>{{ SiteWeb }}</span>
+        </div>
+
+        <div class="sidebar-card github-card" *ngIf="Linkedin">
+          <ion-icon name="logo-linkedin"></ion-icon>
+          <span>{{ Linkedin }}</span>
+        </div>
+      </div>
+
+      <!-- MAIN CONTENT -->
+      <div class="main-content">
+
+        <!-- Informations Personnelles -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-teal">
+              <ion-icon name="person-outline"></ion-icon>
+            </div>
+            <span class="section-title">Informations Personnelles</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <ion-input label="Nom" [(ngModel)]="Nom" name="Nom" placeholder="Entrez votre Nom"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Prenom" [(ngModel)]="Prenom" name="Prenom" placeholder="Entrez votre Prenom"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Email" [(ngModel)]="Email" name="Email" placeholder="Entrez votre Email" type="email"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Telephone" [(ngModel)]="Telephone" name="tlp" placeholder="Entrez votre Telephone" type="number"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Date de naissance" [(ngModel)]="DateNaissance" type="date"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Pays" [(ngModel)]="Pays" placeholder="Entrez votre pays"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Ville" [(ngModel)]="Ville" placeholder="Entrez votre ville"></ion-input>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entreprise -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-blue">
+              <ion-icon name="business-outline"></ion-icon>
+            </div>
+            <span class="section-title">Entreprise</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <ion-input label="Entreprise" [(ngModel)]="Entreprise" name="entrp" placeholder="Entrez votre Entreprise"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Secteur" [(ngModel)]="Secteur" name="sctr" placeholder="Entrez votre Secteur"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Année de création" [(ngModel)]="AnneeCreation" type="number" placeholder="............"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="Budget moyen " [(ngModel)]="BudgetMoyen" placeholder=".........."></ion-input>
+            </div>
+          </div>
+
+          <!-- Logo -->
+          <div class="section-header" style="margin-top: 12px;">
+            <div class="section-icon icon-amber">
+              <ion-icon name="image-outline"></ion-icon>
+            </div>
+            <span class="section-title">Logo entreprise</span>
+          </div>
+          <ion-item lines="none" class="portfolio-item">
+            <ion-label>Choisir logo</ion-label>
+            <img *ngIf="logoPreview" [src]="logoPreview" style="width:40px; height:40px; object-fit:contain; border-radius:6px; margin-right:10px;">
+            <ion-icon slot="end" name="image-outline" class="portfolio-icon" (click)="selectLogo()"></ion-icon>
+          </ion-item>
+          <input type="file" #logoInput (change)="onLogoSelected($event)" accept="image/*" class="hidden-file-input">
+        </div>
+
+        <!-- Description -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-purple">
+              <ion-icon name="document-text-outline"></ion-icon>
+            </div>
+            <span class="section-title">Description</span>
+          </div>
+          <ion-textarea [(ngModel)]="Description" name="desc" placeholder="Décrivez votre entreprise..." auto-grow="true"></ion-textarea>
+        </div>
+
+        <!-- Liens -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-icon icon-dark">
+              <ion-icon name="link-outline"></ion-icon>
+            </div>
+            <span class="section-title">Liens</span>
+          </div>
+          <div class="form-grid">
+            <div class="form-field">
+              <ion-input label="Site web" [(ngModel)]="SiteWeb" placeholder="Lien site web"></ion-input>
+            </div>
+            <div class="form-field">
+              <ion-input label="LinkedIn" [(ngModel)]="Linkedin" placeholder="Lien LinkedIn"></ion-input>
+            </div>
+          </div>
+        </div>
+
+        <ion-button class="center-btn" expand="block" (click)="updateProfile()">Sauvegarder</ion-button>
+
+      </div>
+    </div>
+  </div>
+}
 </ion-content>

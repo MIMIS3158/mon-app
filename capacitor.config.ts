@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.proconnect.app',
-  appName: 'ProConnect',
+  appId: 'io.ionic.starter',
+  appName: 'ionic-app-base',
   webDir: 'www'
 };
 

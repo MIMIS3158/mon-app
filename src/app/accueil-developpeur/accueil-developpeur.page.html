@@ -1,4 +1,4 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-title class="Accueil">Accueil Développeur</ion-title>
   </ion-toolbar>
@@ -31,37 +31,7 @@
     <div class="filters-section">
       <ion-grid>
         <ion-row>
-          <ion-col size="6">
-            <ion-item>
-              <ion-label>Compétence</ion-label>
-              <ion-select
-                [(ngModel)]="selectedCompetence"
-                (ionChange)="onFilter()"
-              >
-                <ion-select-option value="">Toutes</ion-select-option>
-                <ion-select-option
-                  *ngFor="let Competence of CompetencesList"
-                  [value]="Competence"
-                >
-                  {{ Competence }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6">
-            <ion-item>
-              <ion-label>Statut</ion-label>
-              <ion-select [(ngModel)]="selectedStatus" (ionChange)="onFilter()">
-                <ion-select-option value="">Tous</ion-select-option>
-                <ion-select-option
-                  *ngFor="let status of statusList"
-                  [value]="status"
-                >
-                  {{ status }}
-                </ion-select-option>
-              </ion-select>
-            </ion-item>
-          </ion-col>
+      
         </ion-row>
         <ion-row>
           <ion-col size="6">
@@ -115,6 +85,8 @@
                 alt="Photo"
               />
             </ion-avatar>
+            
+    
             <div class="entrepreneur-info">
               <h3>
                 {{ project.entrepreneur?.Nom }} {{ project.entrepreneur?.Prenom
@@ -165,7 +137,16 @@
           </div>
         </ion-card-header>
         <ion-card-content>
+         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+    <img
+      *ngIf="project.entrepreneur?.logo"
+      [src]="project.entrepreneur?.logo"
+      alt="Logo entreprise"
+      style="width: 70px; height: 70px; object-fit: contain; border-radius: 8px; border: 1px solid #e2e8f0;"
+    />
+
           <h2 class="project-title">{{ project.Nomduprojet }}</h2>
+          </div>
           <p class="description">{{ project.description }}</p>
           <ion-grid class="project-details">
             <ion-row>
@@ -182,8 +163,10 @@
               </ion-col>
             </ion-row>
             <ion-row>
-              <ion-col size="12">
-                <p><strong>Compétences:</strong> {{ project.Competences }}</p>
+              <ion-col size="6">
+                <p>
+                  <strong>Catégorie:</strong> {{ project.nom_categorie }}
+                </p>
               </ion-col>
             </ion-row>
           </ion-grid>
@@ -212,6 +195,65 @@
         </ion-card-content>
       </ion-card>
     </ion-list>
+    
+<div *ngIf="displayedMissions.length > 0" style="margin-top: 16px;">
+  <ion-item-divider color="light">
+    <ion-label>
+      <strong>{{ displayedMissions.length }}</strong> mission(s) disponible(s)
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-card *ngFor="let mission of displayedMissions">
+    <ion-card-header>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <ion-badge color="primary" style="font-size:11px;">Mission</ion-badge>
+        <ion-badge [color]="getStatusColor(mission.statut)">
+          {{ mission.statut }}
+        </ion-badge>
+      </div>
+      <ion-card-title style="margin-top:8px;">{{ mission.titreMission }}</ion-card-title>
+      <ion-card-subtitle>{{ mission.entreprise }}</ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid class="project-details">
+        <ion-row>
+          <ion-col size="6">
+            <p><strong>Budget:</strong> {{ mission.budget || 'Non spécifié' }}</p>
+          </ion-col>
+          <ion-col size="6">
+            <p><strong>Délai:</strong> {{ mission.delai || 'Non spécifié' }}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <p><strong>Niveau:</strong> {{ mission.niveauExperience }}</p>
+          </ion-col>
+          <ion-col size="6">
+            <p><strong>Type:</strong> {{ mission.typeMission }}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="mission.description">
+          <ion-col size="12">
+            <p class="description">{{ mission.description }}</p>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div class="button-group">
+       
+        <ion-button (click)="postulerMission(mission)" class="postuler">
+          <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+          Postuler
+        </ion-button>
+        <ion-button (click)="contacterMission(mission)" class="Contacter">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+          Contacter
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</div>
     <ng-template #noProjects>
       <div class="no-projects">
         <p class="ion-text-center">Aucun projet disponible.</p>
@@ -234,11 +276,7 @@
             <ion-icon name="home"></ion-icon>
           </ion-button>
         </ion-col>
-        <!--<ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('mes-postulation')">
-            <ion-icon name="folder-open"></ion-icon>
-          </ion-button>
-        </ion-col>-->
+       
         <ion-col class="tab-button" text-center>
           <ion-button
             fill="clear"
@@ -248,9 +286,7 @@
           >
             <div style="position: relative; display: inline-block">
               <ion-icon name="folder-open"></ion-icon>
-              <!--- <span *ngIf="notificationsCount > 0" class="badge-notif">
-                {{ notificationsCount > 9 ? '9+' : notificationsCount }}
-              </span>-->
+              
               <ion-badge color="danger" *ngIf="notificationsCount > 0">
                 {{ notificationsCount > 9 ? '9+' : notificationsCount }}
               </ion-badge>
@@ -267,11 +303,7 @@
             <ion-icon name="person"></ion-icon>
           </ion-button>
         </ion-col>
-        <!-- <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full"  color="secondary" (click)="goTo('conversations')">
-            <ion-icon name="chatbubbles"></ion-icon>
-          </ion-button>
-        </ion-col>-->
+       
         <ion-col class="tab-button" text-center>
           <ion-button
             fill="clear"
@@ -281,9 +313,7 @@
           >
             <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
-              <!--- <span class="badge-notif" *ngIf="messagesNonLus > 0">
-                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
-              </span>-->
+              
               <ion-badge color="danger" *ngIf="messagesNonLus > 0">
                 {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
               </ion-badge>
@@ -291,25 +321,14 @@
           </ion-button>
         </ion-col>
 
-        <!--  <ion-col class="tab-button" text-center>
-            <ion-button fill="clear" expand="full"  color="secondary" (click)="goTo('evaluations')">
-                <ion-icon name="star"></ion-icon>
-            </ion-button>
-        </ion-col>
-
-          <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full"  color="secondary" (click)="goTo('signout')">
-            <ion-icon name="log-out"></ion-icon>
-          </ion-button>
-        </ion-col>-->
         <ion-col class="tab-button" text-center>
           <ion-button
             fill="clear"
             expand="full"
             color="secondary"
-            (click)="goTo('Recommended')"
+            (click)="goTo('dashboard-dev')"
           >
-            <ion-icon name="star"></ion-icon>
+            <ion-icon name="bar-chart-outline"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
@@ -319,6 +338,562 @@
             color="secondary"
             (click)="openSettings()"
           >
+            <ion-icon name="settings"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="Accueil">Accueil Développeur</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="search-container">
+      <ion-searchbar
+        placeholder="Rechercher un projet ou une mission"
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearch()"
+        class="searchbar"
+      ></ion-searchbar>
+      <ion-button class="reset-header-button" (click)="resetFilters()" fill="solid">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <ion-spinner></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+
+    
+    <div class="filters-section">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Catégorie</ion-label>
+              <ion-select [(ngModel)]="selectedCategorie" (ionChange)="onFilter()">
+                <ion-select-option value="">Toutes</ion-select-option>
+                <ion-select-option *ngFor="let categorie of categoriesList" [value]="categorie.id_categorie">
+                  {{ categorie.nom_categorie }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Trier par</ion-label>
+              <ion-select [(ngModel)]="sortBy" (ionChange)="onFilter()">
+                <ion-select-option value="recent">Plus récents</ion-select-option>
+                <ion-select-option value="budget-high">Budget décroissant</ion-select-option>
+                <ion-select-option value="budget-low">Budget croissant</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    
+    <ion-item-divider color="light">
+      <ion-label>
+        <strong>{{ displayedProjects.length }}</strong> résultat(s) trouvé(s)
+      </ion-label>
+    </ion-item-divider>
+
+ 
+    <ion-list *ngIf="displayedProjects.length > 0; else noProjects">
+      <ion-card *ngFor="let item of displayedProjects">
+
+      
+        <div class="type-ribbon" [ngClass]="item._type === 'mission' ? 'type-mission' : 'type-projet'">
+          <ion-icon [name]="item._type === 'mission' ? 'flash-outline' : 'rocket-outline'"></ion-icon>
+          {{ item._type === 'mission' ? 'Mission' : 'Projet' }}
+        </div>
+
+       
+        <ng-container *ngIf="item._type === 'projet'">
+          <ion-card-header class="entrepreneur-header">
+            <div class="entrepreneur-profile">
+              <ion-avatar>
+                <img [src]="item.entrepreneur?.photo || 'assets/default-avatar.png'" alt="Photo" />
+              </ion-avatar>
+              <div class="entrepreneur-info">
+                <h3>{{ item.entrepreneur?.Nom }} {{ item.entrepreneur?.Prenom }}</h3>
+                <div class="stars">
+                  <ion-icon
+                    *ngFor="let s of getStars(item.entrepreneur?.moyenneNote)"
+                    [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'"
+                    color="warning"
+                  ></ion-icon>
+                  <span class="note-text" *ngIf="item.entrepreneur?.moyenneNote">
+                    {{ item.entrepreneur?.moyenneNote | number:'1.1-1' }}/5
+                  </span>
+                  <span class="note-text" *ngIf="!item.entrepreneur?.moyenneNote">Pas encore évalué</span>
+                </div>
+                <p>{{ item.entrepreneur?.Entreprise || item.Publierparentreprise }}</p>
+                <p class="post-time">
+                  <ion-icon name="time-outline"></ion-icon>
+                  Publié le {{ item.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
+                </p>
+                <p *ngIf="item.entrepreneur?.Ville">
+                  <ion-icon name="location-outline"></ion-icon>
+                  {{ item.entrepreneur?.Ville }}, {{ item.entrepreneur?.Pays }}
+                </p>
+              </div>
+              <div class="badges-header">
+                <ion-badge [color]="getStatusColor(item.Statut)">{{ item.Statut }}</ion-badge>
+                <ion-badge color="success" *ngIf="isNewProject(item)">Nouveau</ion-badge>
+              </div>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+              <img
+                *ngIf="item.entrepreneur?.logo"
+                [src]="item.entrepreneur?.logo"
+                alt="Logo"
+                style="width:70px; height:70px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0;"
+              />
+              <h2 class="project-title">{{ item.Nomduprojet }}</h2>
+            </div>
+            <p class="description">{{ item.description }}</p>
+            <ion-grid class="project-details">
+              <ion-row>
+                <ion-col size="6"><p><strong>Budget:</strong> {{ item.Budget || 'Non spécifié' }}</p></ion-col>
+                <ion-col size="6"><p><strong>Durée:</strong> {{ item.Duree || 'Non spécifié' }}</p></ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6"><p><strong>Catégorie:</strong> {{ item.nom_categorie }}</p></ion-col>
+              </ion-row>
+            </ion-grid>
+            <div class="button-group">
+              <ion-button (click)="saveProject(item)" fill="outline" size="small" [color]="isProjectSaved(item) ? 'warning' : 'medium'">
+                <ion-icon [name]="isProjectSaved(item) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
+                {{ isProjectSaved(item) ? 'Sauvegardé' : 'Sauvegarder' }}
+              </ion-button>
+              <ion-button (click)="openDescription(item)" class="postuler">
+                <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+                Postuler
+              </ion-button>
+              <ion-button (click)="onContact(item)" class="Contacter">
+                <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+                Contacter
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ng-container>
+
+        
+        <ng-container *ngIf="item._type === 'mission'">
+          <ion-card-header style="padding-top:32px">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <div>
+                <ion-card-title>{{ item.titreMission }}</ion-card-title>
+                <ion-card-subtitle style="color:#378ADD; margin-top:4px;">{{ item.entreprise }}</ion-card-subtitle>
+              </div>
+              <ion-badge [color]="getStatusColor(item.statut)">{{ item.statut }}</ion-badge>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid class="project-details">
+              <ion-row>
+                <ion-col size="6"><p><strong>Budget:</strong> {{ item.budget || 'Non spécifié' }}</p></ion-col>
+                <ion-col size="6"><p><strong>Délai:</strong> {{ item.delai || 'Non spécifié' }}</p></ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6"><p><strong>Niveau:</strong> {{ item.niveauExperience }}</p></ion-col>
+                <ion-col size="6"><p><strong>Type:</strong> {{ item.typeMission }}</p></ion-col>
+              </ion-row>
+              <ion-row *ngIf="item.description">
+                <ion-col size="12"><p class="description">{{ item.description }}</p></ion-col>
+              </ion-row>
+            </ion-grid>
+            <div class="button-group">
+              <ion-button (click)="saveMission(item)" fill="outline" size="small" [color]="isMissionSaved(item) ? 'warning' : 'medium'">
+                <ion-icon [name]="isMissionSaved(item) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
+                {{ isMissionSaved(item) ? 'Sauvegardé' : 'Sauvegarder' }}
+              </ion-button>
+              <ion-button (click)="postulerMission(item)" class="postuler">
+                <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+                Postuler
+              </ion-button>
+              <ion-button (click)="contacterMission(item)" class="Contacter">
+                <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+                Contacter
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ng-container>
+
+      </ion-card>
+    </ion-list>
+
+    <ng-template #noProjects>
+      <div class="no-projects">
+        <p class="ion-text-center">Aucun résultat disponible.</p>
+      </div>
+    </ng-template>
+
+  </div>
+</ion-content>
+
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('mes-postulation')">
+            <div style="position:relative; display:inline-block">
+              <ion-icon name="folder-open"></ion-icon>
+              <ion-badge color="danger" *ngIf="notificationsCount > 0">
+                {{ notificationsCount > 9 ? '9+' : notificationsCount }}
+              </ion-badge>
+            </div>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
+            <div style="position:relative; display:inline-block">
+              <ion-icon name="chatbubbles"></ion-icon>
+              <ion-badge color="danger" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </ion-badge>
+            </div>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard-dev')">
+            <ion-icon name="bar-chart-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('workshops')">
+            <ion-icon name="hammer"></ion-icon>
+          </ion-button>
+        </ion-col>
+        
+        
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="openSettings()">
+            <ion-icon name="settings"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="Accueil">Accueil Développeur</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <div class="search-container">
+      <ion-searchbar ...></ion-searchbar>
+      <ion-button class="reset-header-button" ...>
+        <ion-icon name="refresh-outline"></ion-icon>
+      </ion-button>
+      <div class="avatar-btn" (click)="goTo('profil')">  
+        <ion-icon name="person-outline"></ion-icon>
+      </div>
+    </div>
+</ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <div *ngIf="isLoading" class="loading-spinner">
+    <ion-spinner></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="!isLoading">
+
+    <!-- FILTRES -->
+    <div class="filters-section">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Catégorie</ion-label>
+              <ion-select [(ngModel)]="selectedCategorie" (ionChange)="onFilter()">
+                <ion-select-option value="">Toutes</ion-select-option>
+                <ion-select-option *ngFor="let categorie of categoriesList" [value]="categorie.id_categorie">
+                  {{ categorie.nom_categorie }}
+                </ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item>
+              <ion-label>Trier par</ion-label>
+              <ion-select [(ngModel)]="sortBy" (ionChange)="onFilter()">
+                <ion-select-option value="recent">Plus récents</ion-select-option>
+                <ion-select-option value="budget-high">Budget décroissant</ion-select-option>
+                <ion-select-option value="budget-low">Budget croissant</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+
+    <!-- WORKSHOP BANNER -->
+    <div class="workshop-banner" (click)="goTo('workshops')">
+      <div class="workshop-deco">
+        <ion-icon name="school-outline"></ion-icon>
+      </div>
+      <div class="workshop-text">
+        <h3>Workshops Disponibles</h3>
+        <p>Améliore tes skills avec nos workshops</p>
+      </div>
+      <button class="workshop-cta">
+        Voir les Workshops
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- COMPTEUR -->
+    <ion-item-divider color="light">
+      <ion-label>
+        <strong>{{ displayedProjects.length }}</strong> résultat(s) trouvé(s)
+      </ion-label>
+    </ion-item-divider>
+
+    <!-- LISTE MÉLANGÉE PROJETS + MISSIONS -->
+    <ion-list *ngIf="displayedProjects.length > 0; else noProjects">
+      <ion-card *ngFor="let item of displayedProjects">
+
+        <!-- BADGE TYPE -->
+        <div class="type-ribbon" [ngClass]="item._type === 'mission' ? 'type-mission' : 'type-projet'">
+          <ion-icon [name]="item._type === 'mission' ? 'flash-outline' : 'rocket-outline'"></ion-icon>
+          {{ item._type === 'mission' ? 'Mission' : 'Projet' }}
+        </div>
+
+        <!-- ══ PROJET ══ -->
+        <ng-container *ngIf="item._type === 'projet'">
+          <ion-card-header class="entrepreneur-header">
+            <div class="entrepreneur-profile" (click)="voirProfilEntrepreneur(item)" style="cursor:pointer">
+              <ion-avatar>
+                <img 
+                [src]="item.entrepreneur?.photo || 'assets/default-avatar.png'" alt="Photo" />
+              </ion-avatar>
+
+              <div class="entrepreneur-info">
+                <h3>{{ item.entrepreneur?.Nom }} {{ item.entrepreneur?.Prenom }}</h3>
+                <div class="stars">
+                  <ion-icon
+                    *ngFor="let s of getStars(item.entrepreneur?.moyenneNote)"
+                    [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'"
+                    color="warning"
+                  ></ion-icon>
+                  <span class="note-text" *ngIf="item.entrepreneur?.moyenneNote">
+                    {{ item.entrepreneur?.moyenneNote | number:'1.1-1' }}/5
+                  </span>
+                  <span class="note-text" *ngIf="!item.entrepreneur?.moyenneNote">Pas encore évalué</span>
+                </div>
+                <p>{{ item.entrepreneur?.Entreprise || item.Publierparentreprise }}</p>
+                <p class="post-time">
+                  <ion-icon name="time-outline"></ion-icon>
+                  Publié le {{ item.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
+                </p>
+                <p *ngIf="item.entrepreneur?.Ville">
+                  <ion-icon name="location-outline"></ion-icon>
+                  {{ item.entrepreneur?.Ville }}, {{ item.entrepreneur?.Pays }}
+                </p>
+              </div>
+              <div class="badges-header">
+                <ion-badge [color]="getStatusColor(item.Statut)">{{ item.Statut }}</ion-badge>
+                <ion-badge color="success" *ngIf="isNewProject(item)">Nouveau</ion-badge>
+              </div>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+              <img
+                *ngIf="item.entrepreneur?.logo"
+                [src]="item.entrepreneur?.logo"
+                alt="Logo"
+                style="width:70px; height:70px; object-fit:contain; border-radius:8px; border:1px solid #e2e8f0;"
+              />
+              <h2 class="project-title">{{ item.Nomduprojet }}</h2>
+            </div>
+            <p class="description">{{ item.description }}</p>
+            <ion-grid class="project-details">
+              <ion-row>
+                <ion-col size="6"><p><strong>Budget:</strong> {{ item.Budget || 'Non spécifié' }}</p></ion-col>
+                <ion-col size="6"><p><strong>Durée:</strong> {{ item.Duree || 'Non spécifié' }}</p></ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6"><p><strong>Catégorie:</strong> {{ item.nom_categorie }}</p></ion-col>
+              </ion-row>
+            </ion-grid>
+            <div class="button-group">
+              <ion-button (click)="saveProject(item)" fill="outline" size="small" [color]="isProjectSaved(item) ? 'warning' : 'medium'">
+                <ion-icon [name]="isProjectSaved(item) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
+                {{ isProjectSaved(item) ? 'Sauvegardé' : 'Sauvegarder' }}
+              </ion-button>
+              <ion-button (click)="openDescription(item)" class="postuler">
+                <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+                Postuler
+              </ion-button>
+              <ion-button (click)="onContact(item)" class="Contacter">
+                <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+                Contacter
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ng-container>
+
+        <!-- ══ MISSION ══ -->
+        <ng-container *ngIf="item._type === 'mission'">
+             <ion-card-header class="entrepreneur-header">
+            <div class="entrepreneur-profile" (click)="voirProfilEntrepreneur(item)" style="cursor:pointer">
+              <ion-avatar>
+                <img [src]="item.entrepreneur?.photo || 'assets/default-avatar.png'" alt="Photo" />
+              </ion-avatar>
+              <div class="entrepreneur-info">
+                <h3>{{ item.entrepreneur?.Nom }} {{ item.entrepreneur?.Prenom }}</h3>
+                <div class="stars">
+                  <ion-icon
+                    *ngFor="let s of getStars(item.entrepreneur?.moyenneNote)"
+                    [name]="s === 'full' ? 'star' : s === 'half' ? 'star-half' : 'star-outline'"
+                    color="warning"
+                  ></ion-icon>
+                  <span class="note-text" *ngIf="item.entrepreneur?.moyenneNote">
+                    {{ item.entrepreneur?.moyenneNote | number:'1.1-1' }}/5
+                  </span>
+                  <span class="note-text" *ngIf="!item.entrepreneur?.moyenneNote">Pas encore évalué</span>
+                </div>
+                <p>{{ item.entrepreneur?.Entreprise || item.Publierparentreprise }}</p>
+                <p class="post-time">
+                  <ion-icon name="time-outline"></ion-icon>
+                  Publié le {{ item.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
+                </p>
+                <p *ngIf="item.entrepreneur?.Ville">
+                  <ion-icon name="location-outline"></ion-icon>
+                  {{ item.entrepreneur?.Ville }}, {{ item.entrepreneur?.Pays }}
+                </p>
+              </div>
+              <div class="badges-header">
+                <ion-badge [color]="getStatusColor(item.Statut)">{{ item.Statut }}</ion-badge>
+                <ion-badge color="success" *ngIf="isNewProject(item)">Nouveau</ion-badge>
+              </div>
+            </div>
+          </ion-card-header>
+          <ion-card-header style="padding-top:32px">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <div>
+                <!--<ion-card-title>{{ item.titreMission }}</ion-card-title>-->
+                <h2 class="project-title"><strong>{{ item.titreMission }}</strong></h2>
+                <!--<ion-card-subtitle style="color:#378ADD; margin-top:4px;">{{ item.entreprise }}</ion-card-subtitle>-->
+              </div>
+              <ion-badge [color]="getStatusColor(item.statut)">{{ item.statut }}</ion-badge>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-grid class="project-details">
+              <ion-row>
+                <ion-col size="6"><p><strong>Budget:</strong> {{ item.budget || 'Non spécifié' }}</p></ion-col>
+                <ion-col size="6"><p><strong>Délai:</strong> {{ item.delai || 'Non spécifié' }}</p></ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6"><p><strong>Niveau:</strong> {{ item.niveauExperience }}</p></ion-col>
+                <ion-col size="6"><p><strong>Type:</strong> {{ item.typeMission }}</p></ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col size="6"><p><strong>Catégorie:</strong> {{ item.nom_categorie }}</p></ion-col>
+              </ion-row>
+             
+            </ion-grid>
+            <div class="button-group">
+              <ion-button (click)="saveMission(item)" fill="outline" size="small" [color]="isMissionSaved(item) ? 'warning' : 'medium'">
+                <ion-icon [name]="isMissionSaved(item) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
+                {{ isMissionSaved(item) ? 'Sauvegardé' : 'Sauvegarder' }}
+              </ion-button>
+              <ion-button (click)="postulerMission(item)" class="postuler">
+                <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
+                Postuler
+              </ion-button>
+              <ion-button (click)="contacterMission(item)" class="Contacter">
+                <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+                Contacter
+              </ion-button>
+            </div>
+          </ion-card-content>
+        </ng-container>
+
+      </ion-card>
+    </ion-list>
+
+    <ng-template #noProjects>
+      <div class="no-projects">
+        <p class="ion-text-center">Aucun résultat disponible.</p>
+      </div>
+    </ng-template>
+
+  </div>
+</ion-content>
+
+<ion-footer slot="fixed">
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row class="grid">
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
+            <ion-icon name="home"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('mes-postulation')">
+            <div style="position:relative; display:inline-block">
+              <ion-icon name="folder-open"></ion-icon>
+              <ion-badge color="danger" *ngIf="notificationsCount > 0">
+                {{ notificationsCount > 9 ? '9+' : notificationsCount }}
+              </ion-badge>
+            </div>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('profil')">
+            <ion-icon name="person"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
+            <div style="position:relative; display:inline-block">
+              <ion-icon name="chatbubbles"></ion-icon>
+              <ion-badge color="danger" *ngIf="messagesNonLus > 0">
+                {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
+              </ion-badge>
+            </div>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard-dev')">
+            <ion-icon name="bar-chart-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+        <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="openSettings()">
             <ion-icon name="settings"></ion-icon>
           </ion-button>
         </ion-col>

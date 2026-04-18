@@ -20,6 +20,7 @@ export interface Notification {
   date_postulation: string;
   developpeurEvalue?: boolean;
   developpeur_user_id?: number;
+   expanded?: boolean;
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class NotificationPage implements OnInit {
   messagesNonLus: number = 0;
   notificationsCount: number = 0;
   private badgeInterval: any;
+ 
   
 pageTitle: string = 'Candidatures reçues';
   constructor(

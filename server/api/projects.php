@@ -50,7 +50,7 @@ if ($method === 'GET') {
                     e.Secteur, 
                     e.AnneeCreation, e.Ville, e.Pays,
                     e.SiteWeb, e.Linkedin,
-                    e.BudgetMoyen, e.profileImage as photo,
+                    e.BudgetMoyen, e.profileImage as photo, e.logo,
                     ROUND(AVG(ev.note), 1) as moyenneNote
              FROM projects p
              LEFT JOIN categories c ON p.id_categorie = c.id_categorie
@@ -76,6 +76,8 @@ if ($method === 'GET') {
                 'Prenom'           => $row['Prenom'] ?? null,
                 'Entreprise'       => $row['Publierparentreprise'],
                 'photo'            => $row['photo'] ?? null,
+                'logo'         => !empty($row['logo']) ? getEnvVar("APP_URL") . $row['logo'] : null, 
+    
                 'Secteur'          => $row['Secteur'] ?? null,
                 //'TailleEntreprise' => $row['TailleEntreprise'] ?? null,
                 'AnneeCreation'    => $row['AnneeCreation'] ?? null,

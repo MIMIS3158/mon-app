@@ -1,0 +1,27 @@
+.header {
+  --background: linear-gradient(45deg, #7F77DD, #5B54C8);
+  color: white;
+}
+
+.content {
+  --background: #EEEDFE;
+}
+
+.card {
+  background: white;
+  margin: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+h2 {
+  color: #5B54C8;
+  margin-bottom: 10px;
+}
+
+.btn {
+  margin: 20px;
+  --background: #6B63D0;
+  border-radius: 10px;
+}

@@ -67,6 +67,7 @@ try {
         $telephone      = nullIfEmpty($_POST['Telephone'] ?? '');
         $secteur        = nullIfEmpty($_POST['Secteur'] ?? '');
         $entreprise     = nullIfEmpty($_POST['Entreprise'] ?? '');
+        $logo           = uploadFile('logo', ['jpg', 'jpeg', 'png', 'gif', 'webp','jfif'], $uploadDir);
         $description    = nullIfEmpty($_POST['Description'] ?? '');
         $dateNaissance  = nullIfEmpty($_POST['DateNaissance'] ?? '');
         $pays           = nullIfEmpty($_POST['Pays'] ?? '');
@@ -77,17 +78,17 @@ try {
         $anneeCreation  = nullIfEmpty($_POST['AnneeCreation'] ?? '');
         $budgetMoyen    = nullIfEmpty($_POST['BudgetMoyen'] ?? '');
         $profileImageVal = $profileImage ?: null;
-        $stmt = mysqli_prepare(
+       /* $stmt = mysqli_prepare(
             $conn,
             "INSERT INTO entrepreneurs
             (user_id, Nom, Prenom, Email, Telephone, Secteur, Entreprise,
              Description, DateNaissance, Pays, Ville, SiteWeb, Linkedin,
              AnneeCreation, BudgetMoyen, profileImage)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
         );
         mysqli_stmt_bind_param(
             $stmt,
-            "isssssssssssssss",
+            "issssssssssssssss",
             $userId,
             $nom,
             $prenom,
@@ -95,6 +96,7 @@ try {
             $telephone,
             $secteur,
             $entreprise,
+            $logo,
             $description,
             $dateNaissance,
             $pays,
@@ -105,7 +107,37 @@ try {
             $anneeCreation,
             $budgetMoyen,
             $profileImageVal
-        );
+        );*/
+        $stmt = mysqli_prepare(
+    $conn,
+    "INSERT INTO entrepreneurs
+    (user_id, Nom, Prenom, Email, Telephone, Secteur, Entreprise,
+     logo, Description, DateNaissance, Pays, Ville, SiteWeb, Linkedin,
+     AnneeCreation, BudgetMoyen, profileImage)
+ VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"
+);
+$logoVal = $logo ?: null;
+mysqli_stmt_bind_param(
+    $stmt,
+    "issssssssssssssss",
+    $userId,
+    $nom,
+    $prenom,
+    $email,
+    $telephone,
+    $secteur,
+    $entreprise,
+    $logoVal,
+    $description,
+    $dateNaissance,
+    $pays,
+    $ville,
+    $siteWeb,
+    $linkedin,
+    $anneeCreation,
+    $budgetMoyen,
+    $profileImageVal
+);
         if (mysqli_stmt_execute($stmt)) {
             echo json_encode(["success" => true, "id" => mysqli_insert_id($conn)]);
         } else {
@@ -128,7 +160,7 @@ echo json_encode(["error" => "Une erreur est survenue lors de la création du pr
             exit;
         }
         $profileImage = uploadFile('profileImage', ['jpg', 'jpeg', 'png', 'gif', 'webp','jfif'], $uploadDir);
-
+        $logo = uploadFile('logo', ['jpg', 'jpeg', 'png', 'gif', 'webp', 'jfif'], $uploadDir);
         $fields = [
             'Nom',
             'Prenom',
@@ -161,6 +193,14 @@ echo json_encode(["error" => "Une erreur est survenue lors de la création du pr
             $values[]   = $profileImage;
             $types     .= 's';
         }
+
+        if ($logo !== "") {
+        $setParts[] = "logo = ?";
+        $values[]   = $logo;
+        $types     .= 's';
+    }
+
+
         if (empty($setParts)) {
             echo json_encode(["error" => "Aucune donnée à mettre à jour"]);
             exit;
@@ -177,7 +217,8 @@ echo json_encode(["error" => "Une erreur est survenue lors de la création du pr
     echo json_encode([
         "success" => true, 
         "rows" => mysqli_stmt_affected_rows($stmt),
-        "profileImage" => $profileImage !== "" ? $profileImage : null
+        "profileImage" => $profileImage !== "" ? $profileImage : null,
+        "logo" => $logo !== "" ? $logo : null
     ]);
 }else {
             http_response_code(500);
@@ -214,6 +255,9 @@ echo json_encode(["error" => "Une erreur est survenue lors de la mise à jour du
             if (!empty($data['profileImage'])) {
                 $data['profileImage'] = getEnvVar("APP_URL") . $data['profileImage'];
             }
+            if (!empty($data['logo'])) {
+            $data['logo'] = getEnvVar("APP_URL") . $data['logo'];
+        }
             if (empty($data['Nom']))    $data['Nom']    = $data['Nom'];
             if (empty($data['Prenom'])) $data['Prenom'] = $data['Prenom'];
             if (empty($data['Email']))  $data['Email']  = $data['Email'];

@@ -23,7 +23,7 @@ $stmt = mysqli_prepare($conn, "
         e.id_evaluateur,
         p.Nomduprojet
     FROM evaluations e
-    JOIN projects p ON e.id_projet = p.id
+    LEFT JOIN projects p ON e.id_projet = p.id
     WHERE e.id_evalue = ?
     ORDER BY e.date_evaluation DESC
 ");

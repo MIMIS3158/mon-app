@@ -1,4 +1,4 @@
-<ion-header>
+<!--<ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/projets"></ion-back-button>
@@ -9,7 +9,7 @@
 
 <ion-content class="body">
   <ion-card-content>
-    <h1 class="title">Publier une mission</h1>
+    <h1 class="title">Publier un projet</h1>
 
     <ion-input
       label="Nom du projet  *"
@@ -41,13 +41,6 @@
       type="text"
       placeholder="Cliquez pour modifier"
     ></ion-input>
-
-    <ion-input
-      label="Compétences demandées"
-      [(ngModel)]="newProject.Competences"
-      placeholder="Cliquez pour modifier"
-    >
-    </ion-input>
 
     <ion-item>
       <ion-label position="stacked">Catégorie *</ion-label>
@@ -83,4 +76,372 @@
       Publier
     </ion-button>
   </ion-card-content>
+</ion-content>-->
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/projets"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Publier</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <div class="page-wrapper">
+
+    <!-- ── ONGLETS ── -->
+    <div class="tabs-container">
+      <div class="tab-item" [class.active]="activeTab === 'projet'" (click)="activeTab = 'projet'">
+        <ion-icon name="rocket-outline"></ion-icon>
+        <span>Créer un projet</span>
+      </div>
+      <div class="tab-item" [class.active]="activeTab === 'mission'" (click)="activeTab = 'mission'">
+        <ion-icon name="flash-outline"></ion-icon>
+        <span>Publier une mission</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════
+         ONGLET 1 — PUBLIER UN PROJET
+         ════════════════════════════ -->
+    <ng-container *ngIf="activeTab === 'projet'">
+
+      <!-- Header -->
+      <div class="form-header">
+        <div class="form-header-icon icon-teal">
+          <ion-icon name="rocket-outline"></ion-icon>
+        </div>
+        <div>
+          <h1 class="form-title">Publier un projet</h1>
+          <p class="form-subtitle">Remplissez les informations de votre projet</p>
+        </div>
+      </div>
+
+      <!-- Informations générales -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-teal">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </div>
+          <span class="section-title">Informations générales</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <ion-input
+              label="Nom du projet *"
+              labelPlacement="stacked"
+              placeholder="Ex: Application mobile "
+              [(ngModel)]="newProject.Nomduprojet"
+              required
+            ></ion-input>
+          </div>
+          <div class="form-field">
+            <ion-input
+              label="Entreprise *"
+              labelPlacement="stacked"
+              placeholder="Nom de l'entreprise"
+              [(ngModel)]="newProject.Publierparentreprise"
+              [readonly]="true"
+            ></ion-input>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <ion-input
+              required
+              label="Budget *"
+              labelPlacement="stacked"
+              [(ngModel)]="newProject.Budget"
+              type="text"
+              placeholder="Ex: 150 000 DZD"
+            ></ion-input>
+          </div>
+          <div class="form-field">
+            <ion-input
+              label="Durée"
+              labelPlacement="stacked"
+              [(ngModel)]="newProject.Duree"
+              type="text"
+              placeholder="Ex: 3 mois"
+            ></ion-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- Catégorie -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-blue">
+            <ion-icon name="grid-outline"></ion-icon>
+          </div>
+          <span class="section-title">Catégorie</span>
+        </div>
+
+        <ion-item class="select-item" lines="none">
+          <ion-label position="stacked"></ion-label>
+          <!--<ion-select
+            required
+            [(ngModel)]="newProject.id_categorie"
+            interface="popover"
+            placeholder="Sélectionnez une catégorie"
+          >-->
+          <ion-select
+  required
+  [(ngModel)]="newProject.id_categorie"
+  interface="popover"
+  placeholder="Sélectionnez une catégorie"
+  [compareWith]="compareCategorie"
+  multiple="true"
+>
+            <ion-select-option
+              *ngFor="let cat of categories"
+              [value]="cat.id_categorie"
+            >
+              {{ cat.nom_categorie }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <!-- Description -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-purple">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <span class="section-title">Description</span>
+        </div>
+
+        <ion-textarea
+          required
+         
+          labelPlacement="stacked"
+          [(ngModel)]="newProject.description"
+          minlength="20"
+          placeholder="Décrivez votre projet, ses objectifs, les technologies souhaitées..."
+          [autoGrow]="true"
+        ></ion-textarea>
+        <p class="field-hint">Minimum 20 caractères recommandés</p>
+      </div>
+
+      <!-- Bouton -->
+      <ion-button
+        class="center-btn"
+        expand="block"
+        (click)="addProject()"
+        [disabled]="!newProject || !newProject.description || !newProject.Nomduprojet || !newProject.id_categorie || !newProject.Budget"
+      >
+        <ion-icon name="cloud-upload-outline" slot="start"></ion-icon>
+        Publier le projet
+      </ion-button>
+      <p class="required-note">* Champs obligatoires</p>
+
+    </ng-container>
+
+    <!-- ════════════════════════════
+         ONGLET 2 — PUBLIER UNE MISSION
+         ════════════════════════════ -->
+    <ng-container *ngIf="activeTab === 'mission'">
+
+      <!-- Header -->
+      <div class="form-header">
+        <div class="form-header-icon icon-amber">
+          <ion-icon name="flash-outline"></ion-icon>
+        </div>
+        <div>
+          <h1 class="form-title">Publier une mission</h1>
+          <p class="form-subtitle">Remplissez les informations de votre mission</p>
+        </div>
+      </div>
+
+      <!-- Informations générales -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-amber">
+            <ion-icon name="information-circle-outline"></ion-icon>
+          </div>
+          <span class="section-title">Informations générales</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <ion-input
+              label="Titre de la mission *"
+              labelPlacement="stacked"
+              placeholder="...................."
+              [(ngModel)]="newMission.titreMission"
+              required
+            ></ion-input>
+          </div>
+          <div class="form-field">
+            <ion-input
+              label="Entreprise *"
+              labelPlacement="stacked"
+              placeholder="Nom de l'entreprise"
+              [(ngModel)]="newMission.entreprise"
+              [readonly]="true"
+            ></ion-input>
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-field">
+            <ion-input
+              required
+              label="Budget *"
+              labelPlacement="stacked"
+              [(ngModel)]="newMission.budget"
+              type="text"
+              placeholder="Ex: 30 000 DZD"
+            ></ion-input>
+          </div>
+          <div class="form-field">
+            <ion-input
+              required
+              label="Délai de livraison *"
+              labelPlacement="stacked"
+              [(ngModel)]="newMission.delai"
+              type="text"
+              placeholder="Ex: 5 jours"
+            ></ion-input>
+          </div>
+        </div>
+      </div>
+
+      <!-- Niveau & Type -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-blue">
+            <ion-icon name="options-outline"></ion-icon>
+          </div>
+          <span class="section-title">Critères</span>
+        </div>
+
+        <div class="form-grid">
+          <ion-item class="select-item" lines="none">
+            <ion-label position="stacked">Niveau d'expérience *</ion-label>
+            <ion-select
+              [(ngModel)]="newMission.niveauExperience"
+              interface="popover"
+              placeholder="Sélectionnez"
+            >
+              <ion-select-option value="junior">Junior</ion-select-option>
+              <ion-select-option value="intermediaire">Intermédiaire</ion-select-option>
+              <ion-select-option value="senior">Senior</ion-select-option>
+            </ion-select>
+          </ion-item>
+
+          <ion-item class="select-item" lines="none">
+            <ion-label position="stacked">Type de mission *</ion-label>
+            <ion-select
+              [(ngModel)]="newMission.typeMission"
+              interface="popover"
+              placeholder="Sélectionnez"
+            >
+              <ion-select-option value="presentiel">Présentiel</ion-select-option>
+              <ion-select-option value="teletravail">Télétravail</ion-select-option>
+              <ion-select-option value="hybride">Hybride</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </div>
+      </div>
+
+      <!-- Catégorie -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-blue">
+            <ion-icon name="grid-outline"></ion-icon>
+          </div>
+          <span class="section-title">Catégorie</span>
+        </div>
+
+        <ion-item class="select-item" lines="none">
+          <ion-label position="stacked"></ion-label>
+         <!----<ion-select
+            required
+            [(ngModel)]="newMission.id_categorie"
+            interface="popover"
+            placeholder="Sélectionnez une catégorie"
+          >-->
+          <ion-select
+  required
+  [(ngModel)]="newMission.id_categorie"
+  interface="popover"
+  placeholder="Sélectionnez une catégorie"
+  [compareWith]="compareCategorie"
+  multiple="true"
+>
+            <ion-select-option
+              *ngFor="let cat of categories"
+              [value]="cat.id_categorie"
+            >
+              {{ cat.nom_categorie }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <!-- Description -->
+      <div class="section-card">
+        <div class="section-header">
+          <div class="section-icon icon-purple">
+            <ion-icon name="document-text-outline"></ion-icon>
+          </div>
+          <span class="section-title">Description</span>
+        </div>
+
+        <ion-textarea
+          required
+         
+          labelPlacement="stacked"
+          [(ngModel)]="newMission.description"
+          minlength="20"
+          placeholder="Décrivez la mission, les livrables attendus..."
+          [autoGrow]="true"
+        ></ion-textarea>
+        <p class="field-hint">Minimum 20 caractères recommandés</p>
+      </div>
+
+      <!-- Bouton -->
+      <ion-button
+        class="center-btn mission-btn"
+        expand="block"
+        (click)="addMission()"
+        [disabled]="!newMission || !newMission.description || !newMission.titreMission || !newMission.id_categorie || !newMission.budget || !newMission.delai"
+      >
+        <ion-icon name="flash-outline" slot="start"></ion-icon>
+        Publier la mission
+      </ion-button>
+      <p class="required-note">* Champs obligatoires</p>
+
+    </ng-container>
+
+  </div>
+  <!-- Modal Premium -->
+<div class="premium-modal-overlay" *ngIf="showPremiumModal" (click)="showPremiumModal = false">
+  <div class="premium-modal" (click)="$event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-emoji">🚀</div>
+    <h3>Limite atteinte !</h3>
+    <!--<p>Vous avez utilisé vos <strong>{{ limiteProjets }} projets gratuits</strong>. Passez au plan Pro pour publier sans limite.</p>-->
+    <p>Vous avez utilisé vos <strong>{{ limiteProjets }} publications gratuites</strong> (projets + missions). Passez au plan Pro pour publier sans limite.</p>
+    <div class="modal-plans">
+      <div class="modal-plan">
+        <div class="plan-name">Gratuit</div>
+        <div class="plan-price">0 DA</div>
+        <div class="plan-desc">{{ limiteProjets }} projets max</div>
+      </div>
+      <div class="modal-plan featured">
+        <div class="plan-badge">⭐ Recommandé</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">990 DA<span>/mois</span></div>
+        <div class="plan-desc">Projets illimités · Badge vérifié</div>
+      </div>
+    </div>
+    <button class="modal-btn-upgrade">Passer au Pro →</button>
+    <button class="modal-btn-cancel" (click)="showPremiumModal = false">Continuer en gratuit</button>
+  </div>
+</div>
 </ion-content>

@@ -31,9 +31,10 @@ export interface Project {
     Nom: string;
     Prenom: string;
     Entreprise: string;
+    logo?: string;
     photo?: string;
     Secteur: string;
-    TailleEntreprise?: string;
+    
     AnneeCreation?: number;
     Ville?: string;
     Pays?: string;
@@ -62,8 +63,12 @@ export class AccueilDeveloppeurPage implements OnInit {
   notificationsCount: number = 0;
 
   allProjects: Project[] = [];
-  displayedProjects: Project[] = [];
+ displayedProjects: any[] = [];
   savedProjects: number[] = [];
+
+  allMissions: any[] = [];
+displayedMissions: any[] = [];
+savedMissions: number[] = [];
 
   CompetencesList: string[] = [];
   statusList: string[] = [];
@@ -86,23 +91,10 @@ export class AccueilDeveloppeurPage implements OnInit {
     this.loadProjects();
     this.loadSavedProjects();
     this.loadBadges();
+    this.loadMissions();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
   }
 
-  /*loadCategories() {
-    this.http
-      .get<Categorie[]>(`${this.apiUrl}/categories.php`)
-
-      .subscribe({
-        next: (categories) => {
-          this.categoriesList = categories;
-          console.log('Catégories chargées :', this.categoriesList);
-        },
-        error: (error) => {
-          console.error('Erreur chargement catégories :', error);
-        },
-      });
-  }*/
  async loadCategories() {
   try {
     const categories = await firstValueFrom(
@@ -113,27 +105,35 @@ export class AccueilDeveloppeurPage implements OnInit {
     console.error('Erreur chargement catégories :', err);
   }
 }
-
+/*
+async loadMissions() {
+  try {
+    const missions = await firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/mission.php`)
+    );
+    this.allMissions = missions;
+    this.displayedMissions = [...missions];
+  } catch(err) {
+    console.error('Erreur chargement missions :', err);
+  }
+}*/
+async loadMissions() {
+  try {
+    const missions = await firstValueFrom(
+      this.http.get<any[]>(`${this.apiUrl}/mission.php`)
+    );
+    this.allMissions = missions;
+    this.displayedMissions = [...missions];
+    this.applyFilters(); // ← AJOUTER ÇA
+  } catch(err) {
+    console.error('Erreur chargement missions :', err);
+  }
+}
 
   ionViewWillEnter() {
     this.loadBadges();
   }
-  /*loadProjects() {
-    this.isLoading = true;
-
-    this.http.get<Project[]>(`${this.apiUrl}/projects.php`).subscribe({
-      next: (projects) => {
-        this.allProjects = projects;
-        this.displayedProjects = [...projects];
-        this.initFilters();
-        this.applyFilters();
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
-  }*/
+ 
  async loadProjects() {
   this.isLoading = true;
   try {
@@ -165,30 +165,41 @@ export class AccueilDeveloppeurPage implements OnInit {
     this.applyFilters();
   }
   applyFilters() {
-    const term = this.searchTerm.toLowerCase().trim();
-    let filtered = this.allProjects.filter((project) => {
-      const matchSearch =
-        !term ||
+  const term = this.searchTerm.toLowerCase().trim();
+
+  const projets = this.allProjects
+    .filter(project => {
+      const matchSearch = !term ||
         project.Nomduprojet?.toLowerCase().includes(term) ||
         project.Competences?.toLowerCase().includes(term) ||
         project.entrepreneur?.Nom?.toLowerCase().includes(term) ||
-        project.entrepreneur?.Prenom?.toLowerCase().includes(term) ||
         project.entrepreneur?.Entreprise?.toLowerCase().includes(term);
-      const matchCompetence =
-        !this.selectedCompetence ||
-        project.Competences?.toLowerCase().includes(
-          this.selectedCompetence.toLowerCase(),
-        );
-      const matchStatus =
-        !this.selectedStatus || project.Statut === this.selectedStatus;
-      const matchCategorie =
-        !this.selectedCategorie ||
+      const matchCategorie = !this.selectedCategorie ||
         Number(project.id_categorie) === Number(this.selectedCategorie);
-      return matchSearch && matchCompetence && matchStatus && matchCategorie;
-    });
-    filtered = this.sortProjects(filtered);
-    this.displayedProjects = filtered;
-  }
+      return matchSearch && matchCategorie;
+    })
+    .map(p => ({ ...p, _type: 'projet' }));
+
+  const missions = this.allMissions
+    .filter(mission => {
+      const matchSearch = !term ||
+        mission.titreMission?.toLowerCase().includes(term) ||
+        mission.entreprise?.toLowerCase().includes(term);
+      const matchCategorie = !this.selectedCategorie ||
+        Number(mission.id_categorie) === Number(this.selectedCategorie);
+      return matchSearch && matchCategorie;
+    })
+    .map(m => ({ ...m, _type: 'mission' }));
+
+  this.displayedProjects = [...projets, ...missions].sort((a: any, b: any) => {
+    const dateA = new Date(a.DatePublication || 0).getTime();
+    const dateB = new Date(b.DatePublication || 0).getTime();
+    return dateB - dateA;
+  });
+
+  this.displayedMissions = [];
+}
+ 
   sortProjects(projects: Project[]): Project[] {
     switch (this.sortBy) {
       case 'recent':
@@ -213,6 +224,30 @@ export class AccueilDeveloppeurPage implements OnInit {
         return projects;
     }
   }
+  isMissionSaved(mission: any): boolean {
+  return this.savedMissions.includes(mission.id);
+}
+
+saveMission(mission: any) {
+  if (!mission.id) return;
+  const index = this.savedMissions.indexOf(mission.id);
+  if (index > -1) {
+    this.http.delete(`${this.apiUrl}/favorites.php`, {
+      params: { mission_id: mission.id, id_developpeur: localStorage.getItem('userId')! }
+    }).subscribe({
+      next: () => { this.savedMissions.splice(index, 1); },
+      error: () => {}
+    });
+  } else {
+    this.http.post(`${this.apiUrl}/favorites.php`, {
+      mission_id: mission.id,
+      id_developpeur: localStorage.getItem('userId'),
+    }).subscribe({
+      next: () => { this.savedMissions.push(mission.id); },
+      error: () => {}
+    });
+  }
+}
   resetFilters() {
     this.searchTerm = '';
     this.selectedCompetence = '';
@@ -220,6 +255,7 @@ export class AccueilDeveloppeurPage implements OnInit {
     this.selectedCategorie = '';
     this.sortBy = 'recent';
     this.applyFilters();
+    this.displayedMissions = [...this.allMissions];
   }
   getStars(note: number | undefined): string[] {
     const stars: string[] = [];
@@ -257,14 +293,7 @@ export class AccueilDeveloppeurPage implements OnInit {
     const projectId = project.id;
     const index = this.savedProjects.indexOf(projectId);
     if (index > -1) {
-     /* this.http
-        .delete(
-          `${
-            this.apiUrl
-          }/favorites.php?id=${projectId}&id_developpeur=${localStorage.getItem(
-            'userId',
-          )}`,
-        )*/
+   
        this.http.delete(`${this.apiUrl}/favorites.php`, {
   params: { id: projectId, id_developpeur: localStorage.getItem('userId')! }
 })
@@ -300,21 +329,23 @@ export class AccueilDeveloppeurPage implements OnInit {
     return project.id ? this.savedProjects.includes(project.id) : false;
   }
 
-  async loadSavedProjects() {
+async loadSavedProjects() {
   const id_developpeur = localStorage.getItem('userId');
   try {
     const favorites = await firstValueFrom(
-      this.http.get<{ project_id: number }[]>(`${this.apiUrl}/favorites.php`, {
+      this.http.get<{ project_id: number, mission_id: number }[]>(`${this.apiUrl}/favorites.php`, {
         params: { id_developpeur: id_developpeur! }
       })
     );
-    this.savedProjects = favorites.map(f => f.project_id);
+    this.savedProjects = favorites.filter(f => f.project_id).map(f => f.project_id);
+    this.savedMissions = favorites.filter(f => f.mission_id).map(f => f.mission_id);
   } catch(err) {
     const saved = localStorage.getItem('savedProjects');
     if (saved) this.savedProjects = JSON.parse(saved);
   }
 }
   openDescription(project: Project) {
+    localStorage.removeItem('selectedMission');
     localStorage.setItem('selectedProject', JSON.stringify(project));
     this.router.navigate(['/description']);
   }
@@ -342,22 +373,7 @@ export class AccueilDeveloppeurPage implements OnInit {
     if (this.badgeInterval) clearInterval(this.badgeInterval);
   }
 
- /* loadBadges() {
-    const userId = localStorage.getItem('userId');
-    const role = localStorage.getItem('role');*/
-    /*this.http
-      .get<any>(`${this.apiUrl}/badge.php?userId=${userId}&role=${role}`)*/
-     /* this.http.get<any>(`${this.apiUrl}/badge.php`, {
-  params: { userId: userId!, role: role! }
-})
-      .subscribe({
-        next: (data) => {
-          this.messagesNonLus = data.messages;
-          this.notificationsCount = data.notifications;
-        },
-        error: () => {},
-      });
-  }*/
+
   loadBadges() {
   this.badgeService.getBadges().subscribe({
     next: (data) => {
@@ -365,6 +381,36 @@ export class AccueilDeveloppeurPage implements OnInit {
       this.notificationsCount = data.notifications;
     },
     error: () => {},
+  });
+}
+postulerMission(mission: any) {
+  localStorage.removeItem('selectedMission');
+  localStorage.setItem('selectedMission', JSON.stringify(mission));
+  this.router.navigate(['/description']);
+}
+/*
+contacterMission(mission: any) {
+  this.router.navigate(['/chat'], {
+    queryParams: {
+      missionId: mission.id,
+     userId: mission.user_id,
+    },
+  });
+}*/
+contacterMission(mission: any) {
+  this.router.navigate(['/chat'], {
+    queryParams: {
+      missionId: mission.id,
+      userId: mission.entrepreneur.user_id,  
+    },
+  });
+}
+
+voirProfilEntrepreneur(item: any) {
+  const userId = item.entrepreneur?.user_id;
+  if (!userId) return;
+  this.router.navigate(['/profile-entrepreneur'], {
+    queryParams: { view: 'summary', user_id: userId }
   });
 }
   goTo(tab: string) {
@@ -381,13 +427,17 @@ export class AccueilDeveloppeurPage implements OnInit {
         this.router.navigate(['/conversations']);
         break;
 
-      case 'Recommended':
-        this.router.navigate(['/recommended']);
+      case 'dashboard-dev':
+        this.router.navigate(['/dashboard-dev']);
+        break;
+         case 'workshops':
+        this.router.navigate(['/workshops']);
         break;
       case 'parametres':
         this.router.navigate(['/parametres']);
 
         break;
+
 
       case 'signout':
         localStorage.removeItem('userId');
