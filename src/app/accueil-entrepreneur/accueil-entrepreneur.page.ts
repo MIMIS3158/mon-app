@@ -30,6 +30,8 @@ export class AccueilEntrepreneurPage implements OnInit {
 filtreNiveau: string = '';
 filtreVille: string = '';
 filtreNote: number = 0;
+topDevs: any[] = [];
+matchingLoading: boolean = false;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -42,11 +44,35 @@ filtreNote: number = 0;
     this.loadDevelopers();
     this.loadBadges();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+    this.loadTopDevs();
   }
   ionViewWillEnter() {
     this.loadBadges();
     
   }
+  async loadTopDevs() {
+  this.matchingLoading = true;
+  try {
+    const res: any = await firstValueFrom(
+      this.http.post(`${this.apiUrl}/matching.php`, {})
+    );
+    this.topDevs = res.top3 || [];
+  } catch (err) {}
+  finally {
+    this.matchingLoading = false;
+  }
+}
+voirProfil(dev: any) {
+  this.router.navigate(['/profile-dev'], {
+    queryParams: { view: 'summary', user_id: dev.user_id }
+  });
+}
+
+contacterDev(dev: any) {
+  this.router.navigate(['/chat'], {
+    queryParams: { userId: dev.user_id }
+  });
+}
   /*loadDevelopers() {
     this.http.get<Developer[]>(`${this.apiUrl}/get_developers.php`).subscribe({
       next: (developers) => {
@@ -214,7 +240,9 @@ loadBadges() {
       case 'dashboard':
         this.router.navigate(['/dashboard-entrepreneur']);
         break;
-       
+       case 'meswork':
+        this.router.navigate(['/mes-workshops']);
+        break;
       /*case 'signout':
         localStorage.clear();
         this.router.navigate(['/home']);

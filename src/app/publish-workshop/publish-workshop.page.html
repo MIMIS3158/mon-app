@@ -1,50 +1,247 @@
-<ion-header>
-  <ion-toolbar style="--background: var(--primary); color: white;">
-    <ion-title>Publier Workshop</ion-title>
+<ion-header class="pw-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/mes-workshops" class="pw-back"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="pw-title">Publier un Workshop</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content style="--background: var(--light);">
+<ion-content class="pw-content">
 
-  <form (ngSubmit)="publish()">
+  <!-- HERO BAND -->
+  <div class="hero-band">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-icon-wrap">
+      <ion-icon name="school-outline"></ion-icon>
+    </div>
+    <div class="hero-text">
+      <h1>Nouveau Workshop</h1>
+      <p>Partagez votre expertise avec la communauté</p>
+    </div>
+  </div>
 
-    <ion-item>
-      <ion-input placeholder="Titre" [(ngModel)]="data.title" name="title"></ion-input>
-    </ion-item>
+  <div class="form-body">
 
-    <ion-item>
-      <ion-textarea placeholder="Description" [(ngModel)]="data.description" name="description"></ion-textarea>
-    </ion-item>
+    <!-- ── SECTION 1 : Informations générales ── -->
+    <div class="form-section" style="animation-delay: 0.05s">
+      <div class="section-label">
+        <div class="section-dot dot-teal"></div>
+        <span>Informations générales</span>
+      </div>
 
-    <ion-item>
-      <ion-select placeholder="Niveau" [(ngModel)]="data.level" name="level">
-        <ion-select-option value="Débutant">Débutant</ion-select-option>
-        <ion-select-option value="Intermédiaire">Intermédiaire</ion-select-option>
-        <ion-select-option value="Avancé">Avancé</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <div class="field-wrap">
+        <label class="field-label">Titre du workshop <span class="req">*</span></label>
+        <div class="input-shell">
+          <ion-icon name="text-outline" class="input-icon"></ion-icon>
+          <ion-input
+            [(ngModel)]="workshop.title"
+            placeholder="Ex: Maîtriser Angular en 4h"
+            class="pw-input"
+          ></ion-input>
+        </div>
+        <span class="field-hint">Soyez précis et accrocheur</span>
+      </div>
 
-    <ion-item>
-      <ion-input placeholder="Image URL" [(ngModel)]="data.image_url" name="image"></ion-input>
-    </ion-item>
+      <div class="field-wrap">
+        <label class="field-label">Description <span class="req">*</span></label>
+        <div class="textarea-shell">
+          <ion-textarea
+            [(ngModel)]="workshop.description"
+            placeholder="Décrivez le contenu, les objectifs et ce que les participants vont apprendre..."
+            [autoGrow]="true"
+            rows="4"
+            class="pw-textarea"
+          ></ion-textarea>
+        </div>
+        <span class="field-hint">Minimum 50 caractères recommandés</span>
+      </div>
+    </div>
 
-    <ion-item>
-      <ion-input placeholder="Vidéo URL" [(ngModel)]="data.video_url" name="video"></ion-input>
-    </ion-item>
+    <!-- ── SECTION 2 : Contenu ── -->
+    <div class="form-section" style="animation-delay: 0.1s">
+      <div class="section-label">
+        <div class="section-dot dot-blue"></div>
+        <span>Contenu & Médias</span>
+      </div>
 
-    <ion-item>
-      <ion-checkbox [(ngModel)]="data.is_free" name="free"></ion-checkbox>
-      <ion-label>Gratuit</ion-label>
-    </ion-item>
+      <div class="field-wrap">
+        <label class="field-label">URL de la vidéo</label>
+        <div class="input-shell">
+          <ion-icon name="play-circle-outline" class="input-icon"></ion-icon>
+          <ion-input
+            [(ngModel)]="workshop.video_url"
+            placeholder="https://youtube.com/watch?v=..."
+            type="url"
+            class="pw-input"
+          ></ion-input>
+        </div>
+        <span class="field-hint">YouTube, Vimeo ou lien direct</span>
+      </div>
 
-    <ion-item *ngIf="!data.is_free">
-      <ion-input type="number" placeholder="Prix" [(ngModel)]="data.price" name="price"></ion-input>
-    </ion-item>
+      <div class="field-wrap">
+        <label class="field-label">Miniature (URL image)</label>
+        <div class="input-shell">
+          <ion-icon name="image-outline" class="input-icon"></ion-icon>
+          <ion-input
+            [(ngModel)]="workshop.thumbnail"
+            placeholder="https://exemple.com/image.jpg"
+            type="url"
+            class="pw-input"
+            (ionChange)="onThumbnailChange()"
+          ></ion-input>
+        </div>
+        <!-- Preview thumbnail -->
+        <div class="thumb-preview" *ngIf="workshop.thumbnail">
+          <img [src]="workshop.thumbnail" alt="Aperçu miniature" (error)="thumbError = true" *ngIf="!thumbError"/>
+          <div class="thumb-error" *ngIf="thumbError">
+            <ion-icon name="image-broken-outline"></ion-icon>
+            <span>URL invalide</span>
+          </div>
+        </div>
+      </div>
 
-    <ion-button expand="block" type="submit">
-      Publier
-    </ion-button>
+      <div class="fields-row">
+        <div class="field-wrap flex-1">
+          <label class="field-label">Durée</label>
+          <div class="input-shell">
+            <ion-icon name="timer-outline" class="input-icon"></ion-icon>
+            <ion-input
+              [(ngModel)]="workshop.duration"
+              placeholder="Ex: 2h30"
+              class="pw-input"
+            ></ion-input>
+          </div>
+        </div>
 
-  </form>
+        <div class="field-wrap flex-1">
+          <label class="field-label">Date</label>
+          <div class="input-shell">
+            <ion-icon name="calendar-outline" class="input-icon"></ion-icon>
+            <ion-input
+              [(ngModel)]="workshop.date"
+              type="datetime-local"
+              class="pw-input"
+            ></ion-input>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION 3 : Accès & Prix ── -->
+    <div class="form-section" style="animation-delay: 0.15s">
+      <div class="section-label">
+        <div class="section-dot dot-amber"></div>
+        <span>Accès & Tarification</span>
+      </div>
+
+      <!-- Toggle gratuit/payant -->
+      <div class="toggle-card" [class.toggle-active]="workshop.is_free" (click)="workshop.is_free = !workshop.is_free">
+        <div class="toggle-left">
+          <div class="toggle-icon" [class.icon-green]="workshop.is_free" [class.icon-amber]="!workshop.is_free">
+            <ion-icon [name]="workshop.is_free ? 'lock-open-outline' : 'lock-closed-outline'"></ion-icon>
+          </div>
+          <div class="toggle-text">
+            <span class="toggle-title">{{ workshop.is_free ? 'Gratuit' : 'Premium' }}</span>
+            <span class="toggle-sub">{{ workshop.is_free ? 'Accessible à tous les développeurs' : 'Réservé aux abonnés Pro' }}</span>
+          </div>
+        </div>
+        <div class="toggle-switch" [class.switch-on]="workshop.is_free">
+          <div class="switch-thumb"></div>
+        </div>
+      </div>
+
+      <!-- Prix (si payant) -->
+      <div class="field-wrap price-field" *ngIf="!workshop.is_free" [@fadeIn]>
+        <label class="field-label">Prix (DA)</label>
+        <div class="input-shell input-shell-price">
+          <span class="price-prefix">DA</span>
+          <ion-input
+            [(ngModel)]="workshop.price"
+            type="number"
+            placeholder="990"
+            class="pw-input pw-input-price"
+            min="0"
+          ></ion-input>
+        </div>
+        <span class="field-hint">Laissez 0 pour inclure dans l'abonnement Pro</span>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label">Nombre max de participants</label>
+        <div class="input-shell">
+          <ion-icon name="people-outline" class="input-icon"></ion-icon>
+          <ion-input
+            [(ngModel)]="workshop.max_participants"
+            type="number"
+            placeholder="50"
+            class="pw-input"
+            min="1"
+          ></ion-input>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PREVIEW CARD ── -->
+    <div class="form-section preview-section" style="animation-delay: 0.2s" *ngIf="workshop.title">
+      <div class="section-label">
+        <div class="section-dot dot-purple"></div>
+        <span>Aperçu</span>
+      </div>
+
+      <div class="preview-card">
+        <div class="preview-thumb">
+          <img *ngIf="workshop.thumbnail && !thumbError" [src]="workshop.thumbnail" alt="" />
+          <div class="preview-thumb-placeholder" *ngIf="!workshop.thumbnail || thumbError">
+            <ion-icon name="school-outline"></ion-icon>
+          </div>
+          <div class="preview-badge" [class.badge-free]="workshop.is_free" [class.badge-premium]="!workshop.is_free">
+            <ion-icon [name]="workshop.is_free ? 'play-circle' : 'star'"></ion-icon>
+            {{ workshop.is_free ? 'Gratuit' : 'Premium' }}
+          </div>
+          <div class="preview-duration" *ngIf="workshop.duration">
+            <ion-icon name="time-outline"></ion-icon>
+            {{ workshop.duration }}
+          </div>
+        </div>
+        <div class="preview-body">
+          <h3 class="preview-title">{{ workshop.title }}</h3>
+          <p class="preview-desc">{{ workshop.description | slice:0:90 }}{{ (workshop.description.length || 0) > 90 ? '...' : '' }}</p>
+          <div class="preview-meta">
+            <span *ngIf="workshop.date">
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ workshop.date | date:'dd/MM/yyyy' }}
+            </span>
+            <span>
+              <ion-icon name="people-outline"></ion-icon>
+              0/{{ workshop.max_participants || 50 }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SUBMIT ── -->
+    <div class="submit-section" style="animation-delay: 0.25s">
+      <button
+        class="submit-btn"
+        (click)="publish()"
+        [class.btn-loading]="isSubmitting"
+        [disabled]="isSubmitting || !workshop.title || !workshop.description"
+      >
+        <span *ngIf="!isSubmitting">
+          <ion-icon name="cloud-upload-outline"></ion-icon>
+          Publier le Workshop
+        </span>
+        <span *ngIf="isSubmitting" class="btn-loading-inner">
+          <ion-spinner name="crescent"></ion-spinner>
+          Publication en cours...
+        </span>
+      </button>
+      <p class="submit-note">Le workshop sera visible immédiatement après publication</p>
+    </div>
+
+  </div>
 
 </ion-content>

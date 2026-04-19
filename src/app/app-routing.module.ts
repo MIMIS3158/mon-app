@@ -230,6 +230,14 @@ const routes: Routes = [
     path: 'publish-workshop',
     loadChildren: () => import('./publish-workshop/publish-workshop.module').then( m => m.PublishWorkshopPageModule)
   },
+  {
+    path: 'mes-workshops',
+    loadChildren: () => import('./mes-workshops/mes-workshops.module').then( m => m.MesWorkshopsPageModule)
+  },
+  {
+    path: 'payment',
+    loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
+  },
 
   /*
   {

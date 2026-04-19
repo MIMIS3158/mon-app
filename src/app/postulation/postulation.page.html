@@ -322,13 +322,13 @@
     <ion-grid>
       <ion-row class="grid">
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
             <ion-icon name="home"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('mes-postulation')">
-            <div style="position: relative; display: inline-block">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('mes-postulation')">
+            <div style="position:relative; display:inline-block">
               <ion-icon name="folder-open"></ion-icon>
               <ion-badge color="danger" *ngIf="notificationsCount > 0">
                 {{ notificationsCount > 9 ? '9+' : notificationsCount }}
@@ -336,14 +336,14 @@
             </div>
           </ion-button>
         </ion-col>
-        <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
+       <!-- <ion-col class="tab-button" text-center>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('profil')">
             <ion-icon name="person"></ion-icon>
           </ion-button>
-        </ion-col>
+        </ion-col>-->
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
-            <div style="position: relative; display: inline-block">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
+            <div style="position:relative; display:inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
               <ion-badge color="danger" *ngIf="messagesNonLus > 0">
                 {{ messagesNonLus > 9 ? '9+' : messagesNonLus }}
@@ -352,12 +352,12 @@
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('Recommended')">
-            <ion-icon name="star"></ion-icon>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard-dev')">
+            <ion-icon name="bar-chart"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="ouvrirParametre()">
             <ion-icon name="settings"></ion-icon>
           </ion-button>
         </ion-col>

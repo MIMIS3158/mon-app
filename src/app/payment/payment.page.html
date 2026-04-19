@@ -1,0 +1,284 @@
+<ion-header>
+  <ion-toolbar class="pay-header">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-entrepreneur"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Abonnement Pro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="pay-content">
+
+  <!-- HERO -->
+  <div class="pay-hero">
+    <div class="hero-orb orb-1"></div>
+    <div class="hero-orb orb-2"></div>
+    <div class="hero-badge" *ngIf="isPremium">
+      <ion-icon name="checkmark-circle"></ion-icon>
+      Abonnement actif
+    </div>
+    <div class="hero-icon">⭐</div>
+    <h1>Passez au Pro</h1>
+    <p>Publiez sans limite, accédez à tous les workshops</p>
+    <div class="hero-expires" *ngIf="isPremium && premiumExpiresAt">
+      Expire le {{ premiumExpiresAt | date:'dd/MM/yyyy' }}
+    </div>
+  </div>
+
+  <div class="pay-body">
+
+    <!-- FEATURES LIST -->
+    <div class="features-card">
+      <h3 class="features-title">Ce que vous obtenez</h3>
+      <div class="feature-item">
+        <div class="feature-icon icon-blue">
+          <ion-icon name="rocket-outline"></ion-icon>
+        </div>
+        <div class="feature-text">
+          <span class="feature-name">Projets illimités</span>
+          <span class="feature-desc">Publiez autant de projets que vous voulez</span>
+        </div>
+        <ion-icon name="checkmark-circle" class="check-icon"></ion-icon>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon icon-orange">
+          <ion-icon name="flash-outline"></ion-icon>
+        </div>
+        <div class="feature-text">
+          <span class="feature-name">Missions illimitées</span>
+          <span class="feature-desc">Aucune restriction sur les missions</span>
+        </div>
+        <ion-icon name="checkmark-circle" class="check-icon"></ion-icon>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon icon-purple">
+          <ion-icon name="school-outline"></ion-icon>
+        </div>
+        <div class="feature-text">
+          <span class="feature-name">Tous les workshops</span>
+          <span class="feature-desc">Accès complet à tous les contenus</span>
+        </div>
+        <ion-icon name="checkmark-circle" class="check-icon"></ion-icon>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon icon-green">
+          <ion-icon name="star-outline"></ion-icon>
+        </div>
+        <div class="feature-text">
+          <span class="feature-name">Badge Pro vérifié</span>
+          <span class="feature-desc">Profil mis en avant sur la plateforme</span>
+        </div>
+        <ion-icon name="checkmark-circle" class="check-icon"></ion-icon>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon icon-blue">
+          <ion-icon name="people-outline"></ion-icon>
+        </div>
+        <div class="feature-text">
+          <span class="feature-name">IA Matching</span>
+          <span class="feature-desc">Trouvez les meilleurs développeurs</span>
+        </div>
+        <ion-icon name="checkmark-circle" class="check-icon"></ion-icon>
+      </div>
+    </div>
+
+    <!-- PLANS -->
+    <h3 class="plans-title">Choisissez votre plan</h3>
+
+    <div class="plans-list">
+
+      <!-- PLAN MENSUEL -->
+      <div class="plan-card" [class.plan-selected]="selectedPlan === 'monthly'" (click)="selectPlan('monthly')">
+        <div class="plan-radio" [class.radio-on]="selectedPlan === 'monthly'">
+          <div class="radio-dot"></div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-name">Mensuel</div>
+          <div class="plan-desc">Renouvelable chaque mois</div>
+        </div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">990</span>
+          <span class="plan-currency">DA/mois</span>
+        </div>
+      </div>
+
+      <!-- PLAN TRIMESTRIEL -->
+      <div class="plan-card plan-popular" [class.plan-selected]="selectedPlan === 'quarterly'" (click)="selectPlan('quarterly')">
+        <div class="popular-tag">⭐ Populaire</div>
+        <div class="plan-radio" [class.radio-on]="selectedPlan === 'quarterly'">
+          <div class="radio-dot"></div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-name">Trimestriel</div>
+          <div class="plan-desc">3 mois — économisez 20%</div>
+        </div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">2490</span>
+          <span class="plan-currency">DA/3 mois</span>
+        </div>
+      </div>
+
+      <!-- PLAN ANNUEL -->
+      <div class="plan-card" [class.plan-selected]="selectedPlan === 'yearly'" (click)="selectPlan('yearly')">
+        <div class="plan-radio" [class.radio-on]="selectedPlan === 'yearly'">
+          <div class="radio-dot"></div>
+        </div>
+        <div class="plan-info">
+          <div class="plan-name">Annuel</div>
+          <div class="plan-desc">12 mois — économisez 40%</div>
+        </div>
+        <div class="plan-price-wrap">
+          <span class="plan-price">7190</span>
+          <span class="plan-currency">DA/an</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PAYMENT METHOD -->
+    <h3 class="plans-title">Méthode de paiement</h3>
+
+    <div class="payment-methods">
+      <div class="method-card" [class.method-selected]="selectedMethod === 'ccp'" (click)="selectedMethod = 'ccp'">
+        <div class="method-icon">🏦</div>
+        <span>CCP / Baridimob</span>
+      </div>
+      <div class="method-card" [class.method-selected]="selectedMethod === 'dahabia'" (click)="selectedMethod = 'dahabia'">
+        <div class="method-icon">💳</div>
+        <span>Carte Dahabia</span>
+      </div>
+      <div class="method-card" [class.method-selected]="selectedMethod === 'cash'" (click)="selectedMethod = 'cash'">
+        <div class="method-icon">💵</div>
+        <span>Espèces</span>
+      </div>
+    </div>
+
+    <!-- CCP DETAILS -->
+   <!--- <div class="ccp-info" *ngIf="selectedMethod === 'ccp'">
+      <div class="ccp-row">
+        <span class="ccp-label">Numéro CCP</span>
+        <span class="ccp-value">0023456789 / 12</span>
+        <button class="copy-btn" (click)="copy('0023456789 / 12')">
+          <ion-icon name="copy-outline"></ion-icon>
+        </button>
+      </div>
+      <div class="ccp-row">
+        <span class="ccp-label">Nom</span>
+        <span class="ccp-value">FreelanceHub SARL</span>
+      </div>
+      <p class="ccp-note">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        Après paiement, envoyez le reçu par message pour activation
+      </p>
+    </div>-->
+    <div class="ccp-info" *ngIf="selectedMethod === 'ccp'">
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Numéro CCP</ion-label>
+    <ion-input [(ngModel)]="ccpNumber"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Clé</ion-label>
+    <ion-input [(ngModel)]="ccpKey"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Nom</ion-label>
+    <ion-input [(ngModel)]="ccpName"></ion-input>
+  </ion-item>
+
+  <p class="ccp-note">
+    <ion-icon name="information-circle-outline"></ion-icon>
+    Après paiement, activation automatique
+  </p>
+
+</div>
+
+    <!-- DAHABIA DETAILS -->
+   <!--- <div class="ccp-info" *ngIf="selectedMethod === 'dahabia'">
+      <div class="ccp-row">
+        <span class="ccp-label">Numéro carte</span>
+        <span class="ccp-value">5999 **** **** 1234</span>
+      </div>
+      <p class="ccp-note">
+        <ion-icon name="information-circle-outline"></ion-icon>
+        Paiement sécurisé via Satim
+      </p>
+    </div>-->
+    <div class="ccp-info" *ngIf="selectedMethod === 'dahabia'">
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Numéro carte</ion-label>
+    <ion-input [(ngModel)]="cardNumber"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Nom sur la carte</ion-label>
+    <ion-input [(ngModel)]="cardName"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Date expiration</ion-label>
+    <ion-input [(ngModel)]="cardExp"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">CVV</ion-label>
+    <ion-input [(ngModel)]="cardCvv" type="password"></ion-input>
+  </ion-item>
+
+  <p class="ccp-note">
+    <ion-icon name="information-circle-outline"></ion-icon>
+    Paiement simulé sécurisé
+  </p>
+
+</div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="summary-card">
+      <h3 class="summary-title">Récapitulatif</h3>
+      <div class="summary-row">
+        <span>Plan {{ getPlanLabel() }}</span>
+        <span class="summary-price">{{ getPlanPrice() }} DA</span>
+      </div>
+      <div class="summary-row">
+        <span>Durée</span>
+        <span>{{ getPlanDuration() }}</span>
+      </div>
+      <div class="summary-divider"></div>
+      <div class="summary-row total-row">
+        <span>Total</span>
+        <span class="total-price">{{ getPlanPrice() }} DA</span>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button
+      class="pay-btn"
+      (click)="proceedPayment()"
+      [disabled]="isProcessing || isPremium"
+      [class.btn-processing]="isProcessing"
+    >
+      <span *ngIf="!isProcessing && !isPremium">
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        Confirmer — {{ getPlanPrice() }} DA
+      </span>
+      <span *ngIf="isProcessing">
+        <ion-spinner name="crescent"></ion-spinner>
+        Traitement en cours...
+      </span>
+      <span *ngIf="isPremium">
+        <ion-icon name="checkmark-circle-outline"></ion-icon>
+        Abonnement déjà actif
+      </span>
+    </button>
+
+    <p class="pay-note">
+      <ion-icon name="shield-checkmark-outline"></ion-icon>
+      Paiement sécurisé · Annulation à tout moment
+    </p>
+
+  </div>
+
+</ion-content>

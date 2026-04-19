@@ -219,7 +219,7 @@ extraireAnnees(experience: string): number {
   const match = experience?.match(/\d+/);
   return match ? parseInt(match[0]) : 0;
 }
-  contact() {
+  /*contact() {
     const selectedDev: Developer = JSON.parse(
       localStorage.getItem('selectedDeveloper') || '{}',
     );
@@ -229,7 +229,14 @@ extraireAnnees(experience: string): number {
       },
     });
  
-  }
+  }*/
+ contact() {
+  this.router.navigate(['/chat'], {
+    queryParams: {
+      userId: this.developer.user_id,  // ← prend du profil actuel
+    },
+  });
+}
   addSkill() {
   const skill = prompt('Ajouter une compétence :');
   if (skill && skill.trim()) {

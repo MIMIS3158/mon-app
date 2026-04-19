@@ -1,8 +1,8 @@
 ion-header {
   ion-toolbar {
-    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --color: white;
-    padding: 8px 0;
+     --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
+    --color: white !important;
+    --border-width: 0 !important;
 
     ion-title {
       font-weight: 700;
@@ -71,8 +71,23 @@ ion-header {
         }
       }
     }
+     .avatar-btn {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.2);
+        border: 1.5px solid rgba(255,255,255,0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+
+        ion-icon { font-size: 20px; color: white; }
+      }
+    }
   }
-}
 
 ion-content {
   --background: linear-gradient(180deg, #f8f9fd 0%, #e9ecef 100%);
@@ -469,6 +484,87 @@ ion-list ion-item {
       max-width: 100%;
       margin-left: auto;
       margin-right: 8px;
+    }
+  }
+}
+ion-searchbar {
+  --border-radius: 25px !important;
+}
+.section-recommandes {
+  margin: 16px;
+  
+  .section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    
+    ion-icon {
+      color: #667eea;
+      font-size: 1.4rem;
+    }
+  }
+
+  .dev-card {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.1);
+    animation: fadeInUp 0.5s ease;
+
+    .dev-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+
+      .dev-avatar {
+        font-size: 48px;
+        color: #667eea;
+      }
+
+      .dev-name {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #2c3e50;
+      }
+
+      .dev-score {
+        font-size: 0.85rem;
+        color: #667eea;
+        font-weight: 600;
+      }
+    }
+
+    .dev-note {
+      font-size: 0.9rem;
+      color: #f6ad55;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .dev-raison {
+      font-size: 0.82rem;
+      color: #718096;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .dev-actions {
+      display: flex;
+      gap: 8px;
+
+      ion-button {
+        flex: 1;
+        --border-radius: 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
     }
   }
 }

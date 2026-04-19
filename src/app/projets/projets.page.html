@@ -160,9 +160,12 @@
           <ion-title class="Accueil">Mes Publications</ion-title>
         </div>
       </div>
-      <ion-button fill="clear" routerLink="/projet-creation" class="add-btn">
+     <!--- <ion-button fill="clear" routerLink="/projet-creation" class="add-btn">
         <ion-icon name="add-outline" slot="icon-only"></ion-icon>
-      </ion-button>
+      </ion-button>-->
+      <ion-button fill="clear" routerLink="/projet-creation" class="add-btn">
+  <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+</ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
@@ -288,6 +291,7 @@
               <span class="detail-label">Compétences</span>
               <span class="detail-value">{{ item.Competences }}</span>
             </div>
+            <!---
             <div class="card-actions">
               <ion-button color="danger" size="small" fill="outline" class="action-btn" (click)="deleteproject(item)">
                 <ion-icon name="trash-outline" slot="start"></ion-icon>
@@ -307,7 +311,36 @@
                 <ion-icon name="refresh-outline" slot="start"></ion-icon>
                 Travail à refaire
               </ion-button>
+              <ion-button color="tertiary" size="small" fill="outline" class="action-btn" (click)="trouverDevs(item)">
+      <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+      Trouver les meilleurs devs 🤖
+    </ion-button>
             </div>
+          -->
+            <div class="card-actions">
+  <ion-button color="danger" size="small" fill="outline" class="action-btn" (click)="deleteproject(item)">
+    <ion-icon name="trash-outline" slot="start"></ion-icon>
+    Supprimer
+  </ion-button>
+  <ion-button color="primary" size="small" fill="outline" class="action-btn" (click)="editproject(item)">
+    <ion-icon name="pencil-outline" slot="start"></ion-icon>
+    Modifier
+  </ion-button>
+  <ion-button color="tertiary" size="small" fill="outline" class="action-btn" (click)="trouverDevs(item)">
+    <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+    Trouver les meilleurs devs 🤖
+  </ion-button>
+</div>
+<div class="validate-actions" *ngIf="item.Statut?.toLowerCase() === 'en cours'">
+  <ion-button color="success" size="small" expand="block" (click)="validateReceivedWork(item)">
+    <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+    Valider le travail
+  </ion-button>
+  <ion-button color="warning" size="small" expand="block" (click)="notCompliant(item)">
+    <ion-icon name="refresh-outline" slot="start"></ion-icon>
+    Travail à refaire
+  </ion-button>
+</div>
             <div *ngIf="item.Statut === 'terminé'">
               <ion-button *ngIf="!item.developpeurEvalue" color="primary" expand="block" (click)="evaluerDeveloppeur(item)">
                 <ion-icon name="star" slot="start"></ion-icon>
@@ -321,7 +354,7 @@
           </ng-container>
 
           <!-- MISSION -->
-          <ng-container *ngIf="item._type === 'mission'">
+         <!--- <ng-container *ngIf="item._type === 'mission'">
             <div class="detail-row" *ngIf="item.description || item.Descriptionmission">
               <span class="detail-label">Description</span>
               <span class="detail-value">{{ item.description || item.Descriptionmission }}</span>
@@ -347,14 +380,84 @@
                 <ion-icon name="pencil-outline" slot="start"></ion-icon>
                 Modifier
               </ion-button>
+              <ion-button color="tertiary" size="small" fill="outline" class="action-btn" (click)="trouverDevs(item)">
+        <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+        Trouver les meilleurs devs 🤖
+      </ion-button>
             </div>
-          </ng-container>
+            
+          </ng-container>-->
+          <!-- MISSION -->
+<ng-container *ngIf="item._type === 'mission'">
+  <div class="detail-row" *ngIf="item.description || item.Descriptionmission">
+    <span class="detail-label">Description</span>
+    <span class="detail-value">{{ item.description || item.Descriptionmission }}</span>
+  </div>
+  <div class="detail-row" *ngIf="item.competences || item.Competences">
+    <span class="detail-label">Compétences</span>
+    <span class="detail-value">{{ item.competences || item.Competences }}</span>
+  </div>
+  <div class="detail-row" *ngIf="item.niveau">
+    <span class="detail-label">Niveau requis</span>
+    <span class="detail-value">{{ item.niveau }}</span>
+  </div>
+  <div class="detail-row" *ngIf="item.type_mission">
+    <span class="detail-label">Type</span>
+    <span class="detail-value">{{ item.type_mission }}</span>
+  </div>
+  <div class="card-actions">
+    <ion-button color="danger" size="small" fill="outline" class="action-btn" (click)="deleteMission(item)">
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+      Supprimer
+    </ion-button>
+    <ion-button color="primary" size="small" fill="outline" class="action-btn" (click)="editMission(item)">
+      <ion-icon name="pencil-outline" slot="start"></ion-icon>
+      Modifier
+    </ion-button>
+    <ion-button color="tertiary" size="small" fill="outline" class="action-btn" (click)="trouverDevs(item)">
+      <ion-icon name="sparkles-outline" slot="start"></ion-icon>
+      Trouver les meilleurs devs 🤖
+    </ion-button>
+  </div>
+  <div class="validate-actions" *ngIf="item.Statut?.toLowerCase() === 'en cours'">
+    <ion-button color="success" size="small" expand="block" (click)="validateReceivedWork(item)">
+      <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+      Valider le travail
+    </ion-button>
+    <ion-button color="warning" size="small" expand="block" (click)="notCompliant(item)">
+      <ion-icon name="refresh-outline" slot="start"></ion-icon>
+      Travail à refaire
+    </ion-button>
+  </div>
+</ng-container>
+
+          <div *ngIf="matchingProjectId === item.id && matchingResults.length > 0" class="matching-results">
+  <h4>🤖 Top 3 développeurs compatibles</h4>
+  <div *ngFor="let dev of matchingResults" class="matching-dev">
+    <div class="dev-name">{{ dev.nom }}</div>
+    <div class="dev-score">Score : <strong>{{ dev.score }}%</strong></div>
+    <div class="dev-note">⭐ {{ dev.note }}/5</div>
+    <div class="dev-raison">{{ dev.raison }}</div>
+    <div class="dev-actions">
+      <ion-button size="small" fill="outline" color="primary" (click)="voirProfilDev(dev)">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        Voir profil
+      </ion-button>
+      <ion-button size="small" fill="solid" color="success" (click)="contacterDev(dev)">
+        <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+        Contacter
+      </ion-button>
+    </div>
+  </div>
+</div>
+
+</div>
 
         </div>
       </div>
     </div>
 
-  </div>
+  
 </ion-content>
 
 <!-- FOOTER -->
@@ -363,17 +466,17 @@
     <ion-grid>
       <ion-row class="grid">
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
             <ion-icon name="home"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
-            <ion-icon name="person"></ion-icon>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('meswork')">
+            <ion-icon name="school"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
             <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
               <ion-badge color="danger" *ngIf="messagesNonLus > 0">
@@ -383,12 +486,13 @@
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('dashboard')">
-            <ion-icon name="bar-chart-outline"></ion-icon>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard')">
+            <ion-icon name="bar-chart"></ion-icon>
           </ion-button>
         </ion-col>
+         
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="ouvrirParametre()">
             <ion-icon name="settings"></ion-icon>
           </ion-button>
         </ion-col>

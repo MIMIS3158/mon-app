@@ -230,5 +230,6 @@ echo json_encode([
     'missions_actives' => $missions_actives,
     'is_premium'       => false,
 ]);
+
 mysqli_close($conn);
 ?>

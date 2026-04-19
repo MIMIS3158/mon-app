@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-toolbar class="mes-header">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/accueil-entrepreneur"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Mes Workshops</ion-title>
+   <!--- <ion-buttons slot="end">
+      <ion-button routerLink="/publish-workshop">
+        <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>-->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="mes-content">
+
+  <div *ngIf="loading" class="loading-box">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Chargement...</p>
+  </div>
+
+  <div *ngIf="!loading" class="page-body">
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-num">{{ workshops.length }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num green">{{ getCountFree() }}</div>
+        <div class="stat-label">Gratuits</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num amber">{{ getCountPremium() }}</div>
+        <div class="stat-label">Premium</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num purple">{{ getTotalParticipants() }}</div>
+        <div class="stat-label">Inscrits</div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state" *ngIf="workshops.length === 0">
+      <div class="empty-icon">
+        <ion-icon name="school-outline"></ion-icon>
+      </div>
+      <h3>Aucun workshop publié</h3>
+      <p>Partagez votre expertise avec la communauté</p>
+      <button class="btn-add" routerLink="/publish-workshop">
+        <ion-icon name="add-outline"></ion-icon>
+        Créer mon premier workshop
+      </button>
+    </div>
+
+    <!-- LISTE -->
+    <div class="workshops-list">
+      <div class="workshop-item" *ngFor="let w of workshops">
+
+        <div class="item-thumb">
+          <img [src]="w.thumbnail" alt="" (error)="w.thumbnail = 'assets/default-avatar.png'" />
+          <div class="item-badge" [class.badge-free]="w.is_free" [class.badge-premium]="!w.is_free">
+            {{ w.is_free ? 'Gratuit' : 'Premium' }}
+          </div>
+        </div>
+
+        <div class="item-body">
+          <h3 class="item-title">{{ w.title }}</h3>
+          <p class="item-desc">{{ w.description | slice:0:70 }}...</p>
+
+          <div class="item-meta">
+            <span><ion-icon name="time-outline"></ion-icon> {{ w.duration || 'N/A' }}</span>
+            <span><ion-icon name="people-outline"></ion-icon> {{ w.participants }}/{{ w.max_participants }}</span>
+            <span *ngIf="w.date"><ion-icon name="calendar-outline"></ion-icon> {{ w.date | date:'dd/MM/yy' }}</span>
+          </div>
+
+          <!-- Progress participants -->
+          <div class="progress-wrap">
+            <div class="progress-track">
+              <div class="progress-fill" [style.width.%]="getProgress(w)"></div>
+            </div>
+            <span class="progress-label">{{ getProgress(w) }}%</span>
+          </div>
+
+          <div class="item-actions">
+            <button class="btn-edit" (click)="editWorkshop(w)">
+              <ion-icon name="pencil-outline"></ion-icon>
+              Modifier
+            </button>
+            <button class="btn-delete" (click)="deleteWorkshop(w)">
+              <ion-icon name="trash-outline"></ion-icon>
+              Supprimer
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FAB -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/publish-workshop" class="fab-add">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

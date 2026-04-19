@@ -603,11 +603,16 @@
 </ion-footer>-->
 <ion-header>
   <ion-toolbar>
-    <ion-title class="Accueil">Accueil Développeur</ion-title>
+    <ion-title class="Accueil">Accueil Freelancer</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <div class="search-container">
-      <ion-searchbar ...></ion-searchbar>
+      <ion-searchbar
+  placeholder="Rechercher un projet ou une mission"
+  [(ngModel)]="searchTerm"
+  (ionInput)="onSearch()"
+  class="searchbar"
+></ion-searchbar>
       <ion-button class="reset-header-button" ...>
         <ion-icon name="refresh-outline"></ion-icon>
       </ion-button>
@@ -872,11 +877,11 @@
             </div>
           </ion-button>
         </ion-col>
-        <ion-col class="tab-button" text-center>
+       <!-- <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('profil')">
             <ion-icon name="person"></ion-icon>
           </ion-button>
-        </ion-col>
+        </ion-col>-->
         <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
             <div style="position:relative; display:inline-block">
@@ -889,7 +894,7 @@
         </ion-col>
         <ion-col class="tab-button" text-center>
           <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard-dev')">
-            <ion-icon name="bar-chart-outline"></ion-icon>
+            <ion-icon name="bar-chart"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>

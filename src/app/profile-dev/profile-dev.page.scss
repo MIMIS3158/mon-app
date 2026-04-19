@@ -1,6 +1,7 @@
 ion-toolbar {
---background: #7F77DD; 
-  --color: #ffffff;
+ --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
+    --color: white !important;
+    --border-width: 0 !important;
   --border-color: transparent;
 }
 
@@ -234,7 +235,7 @@ ion-content {
 .section-icon ion-icon {
   font-size: 15px;
 }
-
+/*
 .icon-teal { background: #EEEDFE; }
 .icon-teal ion-icon { color: #534AB7; }
 
@@ -252,7 +253,53 @@ ion-content {
 
 .icon-dark   { background: #f1f5f9; }
 .icon-dark ion-icon   { color: #1a1a2e; }
+*/
+.icon-teal {
+  background: #E0F2FE;
+}
+.icon-teal ion-icon {
+  color: #c7ba02;
+}
 
+/* 💻 COMPÉTENCES */
+.icon-purple {
+  background: #F3E8FF;
+}
+.icon-purple ion-icon {
+  color: #ed643a;
+}
+
+/* 📄 BIOGRAPHIE */
+.icon-blue {
+  background: #fedfdb;
+}
+.icon-blue ion-icon {
+  color: #95eb25;
+}
+
+/* 💼 EXPERIENCE */
+.icon-amber {
+  background: #FEF3C7;
+}
+.icon-amber ion-icon {
+  color: #D97706;
+}
+
+/* 🌐 PORTFOLIO */
+.icon-coral {
+  background: #FFE4E6;
+}
+.icon-coral ion-icon {
+  color: #E11D48;
+}
+
+/* ⭐ DARK / AUTRES */
+.icon-dark {
+  background: #E2E8F0;
+}
+.icon-dark ion-icon {
+  color: #0F172A;
+}
 .section-title {
   font-size: 14px;
   font-weight: 700;
@@ -479,7 +526,8 @@ ion-textarea::part(label) {
 
 /* Bouton Enregistrer */
 .center-btn {
-  --background: #7F77DD;
+ // --background: #7F77DD;
+ --background: linear-gradient(135deg,#2563EB,#0ea5e9);
   --background-activated: #5B54C8;
   --border-radius: 9px;
   --color: #ffffff;

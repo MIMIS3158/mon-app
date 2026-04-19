@@ -168,9 +168,9 @@ this.missionId = params['missionId'] ? parseInt(params['missionId']) : 0;
     return msg.sender_id == this.currentUserId;
   }
 
-  loadReceiver() {
-   /* this.http.get<any>(`${this.userUrl}?id=${this.receiverId}`)
-   */  this.http.get<any>(this.userUrl, {
+  /*loadReceiver() {
+   // this.http.get<any>(`${this.userUrl}?id=${this.receiverId}`)
+      this.http.get<any>(this.userUrl, {
   params: { id: this.receiverId }
 }).subscribe({
       next: (user) => {
@@ -181,7 +181,37 @@ this.missionId = params['missionId'] ? parseInt(params['missionId']) : 0;
       error: () => {},
     });
   
-  }
+  }*/
+  loadReceiver() {
+  this.http.get<any>(this.userUrl, {
+    params: { id: this.receiverId }
+  }).subscribe({
+    next: (user) => {
+      this.receiverPhoto = user.photo || '';
+      
+      // Cherche d'abord dans developers
+      this.http.get<any>(`${this.apiUrl}/get_developers.php`, {
+        params: { userId: this.receiverId }
+      }).subscribe({
+        next: (devs) => {
+          const dev = Array.isArray(devs) 
+            ? devs.find((d: any) => d.user_id == this.receiverId) 
+            : devs;
+          if (dev && (dev.Nomdev || dev.Prenomdev)) {
+            this.receiverName = (dev.Prenomdev || '') + ' ' + (dev.Nomdev || '');
+          } else {
+            // Sinon prend depuis users
+            this.receiverName = (user.Prenom || '') + ' ' + (user.Nom || '');
+          }
+        },
+        error: () => {
+          this.receiverName = (user.Prenom || '') + ' ' + (user.Nom || '');
+        }
+      });
+    },
+    error: () => {},
+  });
+}
 
   scrollToBottom() {
     setTimeout(() => {

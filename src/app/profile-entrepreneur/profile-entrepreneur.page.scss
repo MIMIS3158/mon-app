@@ -601,8 +601,9 @@ ion-textarea {
   --padding-top: 10px;
 }*/
 ion-toolbar {
-  --background: #7F77DD;
-  --color: #ffffff;
+   --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
+    --color: white !important;
+    --border-width: 0 !important;
   --border-color: transparent;
 }
 ion-toolbar ion-title.Accueil {
@@ -679,7 +680,7 @@ ion-content {
 .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid #f1f5f9; }
 .section-icon { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .section-icon ion-icon { font-size: 15px; }
-.icon-teal { background: #EEEDFE; }
+/*.icon-teal { background: #EEEDFE; }
 .icon-teal ion-icon { color: #534AB7; }
 .icon-blue { background: #E6F1FB; }
 .icon-blue ion-icon { color: #185FA5; }
@@ -690,7 +691,53 @@ ion-content {
 .icon-coral { background: #FAECE7; }
 .icon-coral ion-icon { color: #993C1D; }
 .icon-dark { background: #f1f5f9; }
-.icon-dark ion-icon { color: #1a1a2e; }
+.icon-dark ion-icon { color: #1a1a2e; }*/
+.icon-teal {
+  background: #E0F2FE;
+}
+.icon-teal ion-icon {
+  color: #c7ba02;
+}
+
+/* 💻 COMPÉTENCES */
+.icon-purple {
+  background: #F3E8FF;
+}
+.icon-purple ion-icon {
+  color: #ed643a;
+}
+
+/* 📄 BIOGRAPHIE */
+.icon-blue {
+  background: #fedfdb;
+}
+.icon-blue ion-icon {
+  color: #95eb25;
+}
+
+/* 💼 EXPERIENCE */
+.icon-amber {
+  background: #FEF3C7;
+}
+.icon-amber ion-icon {
+  color: #D97706;
+}
+
+/* 🌐 PORTFOLIO */
+.icon-coral {
+  background: #FFE4E6;
+}
+.icon-coral ion-icon {
+  color: #E11D48;
+}
+
+/* ⭐ DARK / AUTRES */
+.icon-dark {
+  background: #E2E8F0;
+}
+.icon-dark ion-icon {
+  color: #0F172A;
+}
 .section-title { font-size: 14px; font-weight: 700; color: #1a1a2e; }
 .skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
 .skill-tag { display: flex; align-items: center; gap: 6px; background: #ffffff; color: #1a1a2e; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px solid #e2e8f0; }
@@ -722,7 +769,7 @@ ion-textarea::part(label) { color: #64748b; font-size: 11px; font-weight: 600; t
 .portfolio-item ion-text { font-size: 12px; color: #378ADD; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .portfolio-icon { font-size: 20px; color: #7F77DD; cursor: pointer; }
 .hidden-file-input { display: none; }
-.center-btn { --background: #7F77DD; --background-activated: #5B54C8; --border-radius: 9px; --color: #ffffff; font-weight: 700; font-size: 15px; height: 50px; margin-top: 4px; }
+.center-btn { --background: linear-gradient(135deg,#2563EB,#0ea5e9); --border-radius: 9px; --color: #ffffff; font-weight: 700; font-size: 15px; height: 50px; margin-top: 4px; }
 .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .project-card { background: #F0EFFD; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 16px 12px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; position: relative; }
 .project-card-icon { font-size: 26px; line-height: 1; }
@@ -735,8 +782,14 @@ ion-textarea::part(label) { color: #64748b; font-size: 11px; font-weight: 600; t
 .project-card-add:hover p { color: #7F77DD; }
 .skill-tag { position: relative; }
 .skill-remove { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: #e2e8f0; color: #64748b; font-size: 11px; cursor: pointer; margin-left: 4px; border: none; padding: 0; line-height: 1; }
-.skill-remove:hover { background: #fecaca; color: #dc2626; }
-.project-remove { position: absolute;
+
+.skill-remove:hover { 
+  background: #fecaca; 
+  color: #dc2626;
+ }
+
+.project-remove { 
+  position: absolute;
    top: 6px; 
    right: 6px; 
    width: 20px;

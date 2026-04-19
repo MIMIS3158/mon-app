@@ -288,6 +288,7 @@ export interface Project {
   id_developpeur?: number;
 }
 
+
 @Component({
   selector: 'app-projets',
   templateUrl: './projets.page.html',
@@ -311,6 +312,9 @@ export class ProjetsPage implements OnInit {
   logoEntreprise: string = '';
   selectedId: any = null;
 selectedType: string = '';
+matchingResults: any[] = [];
+matchingLoading: boolean = false;
+matchingProjectId: number | null = null;
 
   constructor(
     private router: Router,
@@ -337,7 +341,27 @@ selectedType: string = '';
     this.loadProjects();
     this.loadMissions();
   }
+/*async trouverDevs(project: any) {
+  this.matchingProjectId = project.id;
+  this.matchingLoading = true;
+  this.matchingResults = [];
 
+  try {
+    const res: any = await firstValueFrom(
+      this.http.post(`${this.apiUrl}/matching.php`, {
+        titre: project.Nomduprojet,
+        description: project.Descriptionduprojet || project.description,
+        budget: project.Budget,
+        duree: project.Duree,
+      })
+    );
+    this.matchingResults = res.top3 || [];
+  } catch (err) {
+    this.presentToast('Erreur lors du matching', 'danger');
+  } finally {
+    this.matchingLoading = false;
+  }
+}*/
   async loadProjects() {
     const userId = localStorage.getItem('userId');
     try {
@@ -640,14 +664,70 @@ afficherDetails(item: any) {
 isSelected(item: any): boolean {
   return this.selectedId === item.id && this.selectedType === item._type;
 }
+async trouverDevs(project: any) {
+  console.log('trouverDevs appelé:', project);
+  this.matchingProjectId = project.id;
+  this.matchingLoading = true;
+  this.matchingResults = [];
+
+  try {
+    const res: any = await firstValueFrom(
+      this.http.post(`${this.apiUrl}/matching.php`, {
+        titre: project.Nomduprojet,
+        description: project.Descriptionduprojet || project.description,
+        budget: project.Budget,
+        duree: project.Duree,
+      })
+    );
+    console.log('résultat matching:', res);
+    this.matchingResults = res.top3 || [];
+  } catch (err) {
+    console.log('erreur matching:', err);
+    this.presentToast('Erreur lors du matching', 'danger');
+  } finally {
+    this.matchingLoading = false;
+  }
+}
   goTo(tab: string) {
     switch (tab) {
-      case 'projets': break;
-      case 'accueil': this.router.navigate(['/accueil-entrepreneur']); break;
-      case 'profil': this.router.navigate(['/profile-entrepreneur']); break;
-      case 'conversations': this.router.navigate(['/conversations']); break;
-      case 'dashboard': this.router.navigate(['/dashboard-entrepreneur']); break;
-      case 'parametres': this.router.navigate(['/parametres']); break;
+      case 'projets':
+        break;
+      /*case 'mes-projets':
+        this.router.navigate(['/projets']);
+        break;*/
+      case 'profil':
+        this.router.navigate(['/profile-entrepreneur']);
+        break;
+      case 'conversations':
+        this.router.navigate(['/conversations']);
+        break;
+      case 'dashboard':
+        this.router.navigate(['/dashboard-entrepreneur']);
+        break;
+       case 'meswork':
+        this.router.navigate(['/mes-workshops']);
+        break;
+        case 'accueil':
+        this.router.navigate(['/accueil-entrepreneur']);
+        break;
+      /*case 'signout':
+        localStorage.clear();
+        this.router.navigate(['/home']);
+        break;*/
+      case 'parametres':
+        this.router.navigate(['/parametres']);
+        break;
     }
   }
+  voirProfilDev(dev: any) {
+  this.router.navigate(['/profile-dev'], {
+    queryParams: { view: 'summary', user_id: dev.user_id }
+  });
+}
+
+contacterDev(dev: any) {
+  this.router.navigate(['/chat'], {
+    queryParams: { userId: dev.user_id }
+  });
+}
 }

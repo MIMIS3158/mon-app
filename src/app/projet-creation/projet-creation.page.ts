@@ -363,11 +363,23 @@ showPremiumModal: boolean = false;
   });
 }
 
- async addProject() {
-    if (!this.isValid()) return;
-     await this.checkLimite();
-  const totalPublications = this.projetsActifs + this.missionsActives;
-if (!this.isPremium && totalPublications >= this.limiteProjets && !this.isEditMode) {
+ //async addProject() {
+   // if (!this.isValid()) return;
+    // await this.checkLimite();
+ /* const totalPublications = this.projetsActifs + this.missionsActives;
+if (!this.isPremium && totalPublications >= this.limiteProjets && !this.isEditMode) {*/
+//if (!this.isPremium && this.projetsActifs >= 3 && !this.isEditMode) {
+   // this.showPremiumModal = true;
+   // return;
+  //}
+  async addProject() {
+  if (!this.isValid()) return;
+  await this.checkLimite();
+  console.log('projetsActifs:', this.projetsActifs);
+  console.log('isPremium:', this.isPremium);
+  console.log('isEditMode:', this.isEditMode);
+  
+  if (!this.isPremium && this.projetsActifs >= 3 && !this.isEditMode) {
     this.showPremiumModal = true;
     return;
   }
@@ -413,10 +425,14 @@ if (!this.isPremium && totalPublications >= this.limiteProjets && !this.isEditMo
       this.alertsService.alert('Le budget est requis');
       return false;
     }
-    if (!this.newProject.id_categorie) {
+   /* if (!this.newProject.id_categorie) {
       this.alertsService.alert('Veuillez sélectionner une catégorie');
       return false;
-    }
+    }*/
+    if (!this.newProject.id_categorie || this.newProject.id_categorie.length === 0) {
+  this.alertsService.alert('Veuillez sélectionner une catégorie');
+  return false;
+}
     return true;
   }
 
@@ -438,13 +454,22 @@ if (!this.isPremium && totalPublications >= this.limiteProjets && !this.isEditMo
       },
     });
   }*/
- async addMission() {
+ /*async addMission() {
   if (!this.isValidMission()) return;
    // Vérification limite plan gratuit
   await this.checkLimite();
  // if (!this.isPremium && this.missionsActives >= this.limiteProjets && !this.isEditMode) {
- if (!this.isPremium && (this.missionsActives + 1) > 3 && !this.isEditMode) {
+ //if (!this.isPremium && (this.missionsActives + 1) > 3 && !this.isEditMode) {
+ if (!this.isPremium && this.missionsActives >= 3 && !this.isEditMode) {
 
+    this.showPremiumModal = true;
+    return;
+  }*/
+ async addMission() {
+  if (!this.isValidMission()) return;
+  await this.checkLimite();
+
+  if (!this.isPremium && this.missionsActives >= 3 && !this.isEditMode) {
     this.showPremiumModal = true;
     return;
   }
@@ -500,10 +525,14 @@ if (!this.isPremium && totalPublications >= this.limiteProjets && !this.isEditMo
       this.alertsService.alert('Le type de mission est requis', 'Champ manquant');
       return false;
     }
-    if (!this.newMission.id_categorie) {
+   /* if (!this.newMission.id_categorie) {
       this.alertsService.alert('Veuillez sélectionner une catégorie', 'Champ manquant');
       return false;
-    }
+    }*/
+    if (!this.newMission.id_categorie || this.newMission.id_categorie.length === 0) {
+  this.alertsService.alert('Veuillez sélectionner une catégorie', 'Champ manquant');
+  return false;
+}
     return true;
   }
   compareCategorie(a: any, b: any): boolean {
@@ -529,7 +558,7 @@ loadMission(id: any) {
     },
     error: () => {},
   });
-}
+}/*
 checkLimite(): Promise<boolean> {
   const userId = localStorage.getItem('userId');
   return new Promise((resolve) => {
@@ -544,6 +573,29 @@ this.missionsActives = data.missions_actives ?? 0;
         resolve(true);
       },
       error: () => resolve(true)
+    });
+  });
+}*/
+checkLimite(): Promise<boolean> {
+  const userId = localStorage.getItem('userId');
+  return new Promise((resolve) => {
+    //this.http.get<any>(`${this.apiUrl}/dashboard.php`, {
+    this.http.get<any>(`${this.apiUrl}/check-limite.php`, { 
+      params: { userId: userId! }
+    }).subscribe({
+      next: (data) => {
+        if (!data) { resolve(false); return; }
+        this.projetsActifs   = data.projets_actifs ?? 0;
+        this.missionsActives = data.missions_actives ?? 0;
+        this.isPremium       = data.is_premium ?? false;
+        resolve(true);
+      },
+      error: () => {
+        // En cas d'erreur, bloquer par sécurité
+        this.projetsActifs   = 99;
+        this.missionsActives = 99;
+        resolve(false);
+      }
     });
   });
 }

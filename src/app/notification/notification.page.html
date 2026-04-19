@@ -167,7 +167,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title class="Accueil">{{ pageTitle }}</ion-title>
-    <div class="header-sub" slot="end">Gérez vos candidatures</div>
+    
   </ion-toolbar>
 </ion-header>
 
@@ -292,23 +292,22 @@
   </ion-list>
 
 </ion-content>
-
 <ion-footer slot="fixed">
   <ion-toolbar>
     <ion-grid>
       <ion-row class="grid">
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('accueil')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('accueil')">
             <ion-icon name="home"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('profil')">
-            <ion-icon name="person"></ion-icon>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('meswork')">
+            <ion-icon name="school"></ion-icon>
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('conversations')">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('conversations')">
             <div style="position: relative; display: inline-block">
               <ion-icon name="chatbubbles"></ion-icon>
               <ion-badge color="danger" *ngIf="messagesNonLus > 0">
@@ -318,12 +317,13 @@
           </ion-button>
         </ion-col>
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="goTo('dashboard')">
-            <ion-icon name="bar-chart-outline"></ion-icon>
+          <ion-button fill="clear" expand="full" color="secondary" (click)="goTo('dashboard')">
+            <ion-icon name="bar-chart"></ion-icon>
           </ion-button>
         </ion-col>
+         
         <ion-col class="tab-button" text-center>
-          <ion-button fill="clear" expand="full" (click)="ouvrirParametre()">
+          <ion-button fill="clear" expand="full" color="secondary" (click)="ouvrirParametre()">
             <ion-icon name="settings"></ion-icon>
           </ion-button>
         </ion-col>

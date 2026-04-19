@@ -229,8 +229,8 @@ loadBadges() {
     switch (tab) {
       case 'notification':
         break;
-      case 'accueil':
-        this.router.navigate(['/accueil-entrepreneur']);
+      case 'mes-projets':
+        this.router.navigate(['/projets']);
         break;
       case 'profil':
         this.router.navigate(['/profile-entrepreneur']);
@@ -241,6 +241,16 @@ loadBadges() {
       case 'dashboard':
         this.router.navigate(['/dashboard-entrepreneur']);
         break;
+       case 'meswork':
+        this.router.navigate(['/mes-workshops']);
+        break;
+        case 'accueil':
+        this.router.navigate(['/accueil-entrepreneur']);
+        break;
+      /*case 'signout':
+        localStorage.clear();
+        this.router.navigate(['/home']);
+        break;*/
       case 'parametres':
         this.router.navigate(['/parametres']);
         break;

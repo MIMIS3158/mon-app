@@ -211,40 +211,34 @@ async cancelProject(postulation: Postulation) {
   ionViewWillLeave() {
     if (this.badgeInterval) clearInterval(this.badgeInterval);
   }
-  goTo(tab: string) {
-    switch (tab) {
-      /*case 'accueil':
-        break;
-      case 'mes-postulation':
-        this.router.navigate(['/postulation']);
-        break;*/
+   goTo(tab: string) {
+     switch (tab) {
       case 'mes-postulation':
         break;
-      case 'accueil':
+        case 'accueil':
         this.router.navigate(['/accueil-developpeur']);
         break;
-      case 'profil':
+      /*case 'mes-postulation':
+        this.router.navigate(['/postulation']);
+        break;*/
+    /*  case 'profil':
         this.router.navigate(['/profile-dev']);
-        break;
+        break;*/
       case 'conversations':
         this.router.navigate(['/conversations']);
         break;
 
-      case 'Recommended':
-        this.router.navigate(['/recommended']);
+      case 'dashboard-dev':
+        this.router.navigate(['/dashboard-dev']);
         break;
+        /* case 'workshops':
+        this.router.navigate(['/workshops']);
+        break;*/
       case 'parametres':
         this.router.navigate(['/parametres']);
+
         break;
 
-        /* case 'evaluations':
-    this.router.navigate(['/mes-evaluations'], {
-        state: {
-            type: 'developpeur',
-            idEvalue: null
-        }
-    });*/
-        break;
 
       case 'signout':
         localStorage.removeItem('userId');
