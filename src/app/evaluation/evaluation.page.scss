@@ -1,6 +1,6 @@
 ion-header {
   ion-toolbar {
-    background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
+    --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
     --color: white !important;
     --border-width: 0 !important;
     padding: 8px 0;
@@ -180,7 +180,8 @@ ion-content {
       }
       .submit-btn {
         margin-top: 24px;
-        --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        
+         --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
         --border-radius: 12px;
         height: 56px;
         font-weight: 700;

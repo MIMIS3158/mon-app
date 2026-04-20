@@ -1,6 +1,7 @@
 ion-header {
   ion-toolbar {
-    --background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    //--background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
     --color: white;
     padding: 8px 0;
     ion-title {
@@ -27,7 +28,8 @@ ion-content {
     margin: 20px 0;
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    //background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     background: linear-gradient(135deg, #1e40af 0%, #8c9bbd 55%, #e9830e 100%) !important;
     border: none;
     animation: fadeInDown 0.6s ease;
     ion-card-content {
