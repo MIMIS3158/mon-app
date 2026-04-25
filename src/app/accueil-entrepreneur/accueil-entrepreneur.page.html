@@ -1,11 +1,13 @@
 <ion-header>
+  
   <ion-toolbar>
-    <ion-title class="Accueil">Accueil Entrepreneur</ion-title>
+    <ion-title class="Accueil">{{ 'ACCUEIL_ENTREPRENEUR' | translate }}</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <div class="search-container">
      <ion-searchbar
-  placeholder="Rechercher un projet ou une mission"
+
+  [placeholder]="'MIMIS' | translate"
   [(ngModel)]="searchTerm"
   (ionInput)="onSearch()"
   class="searchbar"
@@ -21,14 +23,49 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <!-- HERO BANNER -->
+<div class="hero-banner">
+  <div class="hero-left">
+    <div class="hero-avatar">
+      <img *ngIf="logoEntreprise" [src]="logoEntreprise" />
+      <ion-icon *ngIf="!logoEntreprise" name="business-outline"></ion-icon>
+    </div>
+    <div class="hero-text">
+      <p class="hero-welcome">{{ 'BONJOUR' | translate }}</p>
+      <h2 class="hero-name">{{ entrepriseName || 'Entrepreneur' }}</h2>
+      <p class="hero-sub">{{ 'HERO_SUB' | translate }}</p>
+    </div>
+  </div>
+  <div class="hero-badge">
+    <ion-icon name="rocket-outline"></ion-icon>
+    <span>{{ 'PRO' | translate }}</span>
+  </div>
+</div>
+
+<!-- STATS RAPIDES -->
+<div class="quick-stats">
+  <div class="quick-stat" (click)="goToEnCours()">
+    <div class="qs-num blue">{{ enCoursCount }}</div>
+    <div class="qs-label">{{ 'EN_COURS' | translate }}</div>
+  </div>
+  <div class="quick-stat" (click)="goToPostulations()">
+    <div class="qs-num orange">{{ notificationsCount }}</div>
+    <div class="qs-label">{{ 'CANDIDATURES' | translate }}</div>
+  </div>
+  <div class="quick-stat" (click)="goToTermines()">
+    <div class="qs-num green">{{ terminesCount }}</div>
+    <div class="qs-label">{{ 'TERMINES' | translate }}</div>
+  </div>
+</div>
+  
   <div class="filters-section">
     <ion-grid>
       <ion-row>
         <ion-col size="6">
           <ion-item>
-            <ion-label>Niveau</ion-label>
+            <ion-label>{{ 'NIVEAU' | translate }}</ion-label>
             <ion-select [(ngModel)]="filtreNiveau" (ionChange)="onSearch()">
-              <ion-select-option value="">Tous</ion-select-option>
+              <ion-select-option value="">{{ 'TOUS' | translate }}</ion-select-option>
               <ion-select-option value="junior">Junior</ion-select-option>
               <ion-select-option value="mid">Mid</ion-select-option>
               <ion-select-option value="senior">Senior</ion-select-option>
@@ -37,9 +74,9 @@
         </ion-col>
         <ion-col size="6">
           <ion-item>
-            <ion-label>Note </ion-label>
+            <ion-label>{{ 'NOTE' | translate }}</ion-label>
             <ion-select [(ngModel)]="filtreNote" (ionChange)="onSearch()">
-              <ion-select-option [value]="0">Toutes</ion-select-option>
+              <ion-select-option [value]="0">{{ 'TOUS' | translate }}</ion-select-option>
               <ion-select-option [value]="1">★ 1+</ion-select-option>
               <ion-select-option [value]="2">★★ 2+</ion-select-option>
               <ion-select-option [value]="3">★★★ 3+</ion-select-option>
@@ -52,7 +89,7 @@
       <ion-row>
         <ion-col size="12">
           <ion-item>
-            <ion-label position="floating">Ville/Pays</ion-label>
+            <ion-label position="floating">{{ 'VILLE_PAYS' | translate }}</ion-label>
             <ion-input
               [(ngModel)]="filtreVille"
               (ionInput)="onSearch()"
@@ -66,7 +103,7 @@
   <ion-list *ngIf="searchTerm.length > 0 || filtreNiveau || filtreVille || filtreNote">
     <ion-item-divider color="light">
       <ion-label>
-        <strong>{{ filteredDevelopers.length }}</strong> développeur(s) trouvé(s)
+        <strong>{{ filteredDevelopers.length }}</strong> {{ 'DEVELOPPEURS_TROUVES' | translate }}
       </ion-label>
     </ion-item-divider>
     <ion-item *ngFor="let dev of filteredDevelopers" (click)="viewProfile(dev)" button>
@@ -81,10 +118,10 @@
           <span class="note-text" *ngIf="dev.moyenneNote">{{ dev.moyenneNote | number:'1.1-1' }}/5</span>
         </div>
         <ion-badge *ngIf="dev.Niveau" color="primary">{{ dev.Niveau }}</ion-badge>
-        <p>Compétences: {{ dev.CompetencesTechniques || '-' }}</p>
+        <p>{{ 'COMPETENCES' | translate }}:  {{ dev.CompetencesTechniques || '-' }}</p>
         <p *ngIf="dev.Experience">
           <ion-icon name="time-outline"></ion-icon>
-          Expérience: {{ dev.Experience }}
+         {{ 'EXPERIENCE' | translate }}: {{ dev.Experience }}
         </p>
         <p *ngIf="dev.Ville">
           <ion-icon name="location-outline"></ion-icon>
@@ -98,7 +135,7 @@
       <ion-icon name="chevron-forward-outline" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
-  <ion-grid class="stats-grid">
+  <!--<ion-grid class="stats-grid">
     <ion-row>
       <ion-col size="12" size-md="3">
         <ion-card (click)="goToMesProjets()" button class="stat-card">
@@ -168,18 +205,18 @@
         </ion-card>
       </ion-col>
     </ion-row>
-  </ion-grid>
+  </ion-grid>-->
 <div class="section-recommandes" *ngIf="topDevs.length > 0">
   <h3 class="section-title">
     <ion-icon name="sparkles-outline"></ion-icon>
-    Développeurs recommandés
+    {{ 'DEVS_RECOMMANDES' | translate }}
   </h3>
   <div *ngFor="let dev of topDevs" class="dev-card">
     <div class="dev-header">
       <ion-icon name="person-circle-outline" class="dev-avatar"></ion-icon>
       <div>
         <div class="dev-name">{{ dev.nom }}</div>
-        <div class="dev-score">Compatibilité : <strong>{{ dev.score }}%</strong></div>
+        <div class="dev-score">{{ 'COMPATIBILITE' | translate }} : <strong>{{ dev.score }}%</strong></div>
       </div>
     </div>
     <div class="dev-note">⭐ {{ dev.note }}/5</div>
@@ -187,11 +224,13 @@
     <div class="dev-actions">
       <ion-button size="small" fill="outline" color="primary" (click)="voirProfil(dev)">
         <ion-icon name="person-outline" slot="start"></ion-icon>
-        Voir profil
+        {{ 'VOIR_PROFIL' | translate }}
       </ion-button>
-      <ion-button size="small" fill="solid" color="success" (click)="contacterDev(dev)">
+     <!--- <ion-button size="small" fill="solid" color="success" (click)="contacterDev(dev)">-->
+      <ion-button size="small" fill="solid" color="primary" (click)="contacterDev(dev)">
+
         <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-        Contacter
+        {{ 'CONTACTER' | translate }}
       </ion-button>
     </div>
   </div>

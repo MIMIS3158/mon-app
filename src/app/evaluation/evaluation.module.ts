@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { EvaluationPageRoutingModule } from './evaluation-routing.module';
 
 import { EvaluationPage } from './evaluation.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { EvaluationPage } from './evaluation.page';
     FormsModule,
     IonicModule,
     EvaluationPageRoutingModule,
+    TranslateModule
   ],
   declarations: [EvaluationPage],
 })

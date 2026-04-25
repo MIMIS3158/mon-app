@@ -279,6 +279,17 @@ saveMission(mission: any) {
         return 'medium';
     }
   }
+  getStatutLabel(statut: string): string {
+  const map: any = {
+    'En attente': 'STATUT.en_attente',
+    'Accepté': 'STATUT.accepte',
+    'Refusé': 'STATUT.refuse',
+    'Terminé': 'STATUT.termine',
+    'Ouvert': 'STATUT.ouvert',
+    'Fermé': 'STATUT.ferme'
+  };
+  return map[statut] || statut;
+}
   isNewProject(project: Project): boolean {
     if (!project.DatePublication) return false;
 

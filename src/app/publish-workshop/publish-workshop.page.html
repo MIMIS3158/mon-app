@@ -96,7 +96,8 @@
         <div class="thumb-preview" *ngIf="workshop.thumbnail">
           <img [src]="workshop.thumbnail" alt="Aperçu miniature" (error)="thumbError = true" *ngIf="!thumbError"/>
           <div class="thumb-error" *ngIf="thumbError">
-            <ion-icon name="image-broken-outline"></ion-icon>
+           <!--- <ion-icon name="image-broken-outline"></ion-icon>-->
+           <ion-icon name="alert-circle-outline"></ion-icon>
             <span>URL invalide</span>
           </div>
         </div>
@@ -153,7 +154,8 @@
       </div>
 
       <!-- Prix (si payant) -->
-      <div class="field-wrap price-field" *ngIf="!workshop.is_free" [@fadeIn]>
+      <!--<div class="field-wrap price-field" *ngIf="!workshop.is_free" [@fadeIn]>-->
+        <div class="field-wrap price-field" *ngIf="!workshop.is_free">
         <label class="field-label">Prix (DA)</label>
         <div class="input-shell input-shell-price">
           <span class="price-prefix">DA</span>

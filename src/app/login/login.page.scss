@@ -367,7 +367,7 @@
 }
 */
 // ── Variables ProConnect ─────────────────────────────────
-$violet:       #7F77DD;
+$violet:       #5749eb;
 $violet-mid:   #534AB7;
 $violet-light: #EEEDFE;
 $blue:         #378ADD;
@@ -531,8 +531,9 @@ ion-card {
 
 // ── Bouton Se connecter ───────────────────────────────────
 .center-btn {
-  --background: linear-gradient(135deg, #{$violet} 0%, #{$blue} 100%);
-  --background-activated: linear-gradient(135deg, #{$violet-mid} 0%, #{$blue} 100%);
+  //--background: linear-gradient(135deg, #{$violet} 0%, #{$blue} 100%);
+  --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%);
+  --background-activated: linear-gradient(135deg, #4c43ce 0%, #2563EB 100%);
   --color: white;
   --border-radius: 16px;
   --box-shadow: 0 8px 20px rgba(127, 119, 221, 0.4);

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ForgotPasswordPageRoutingModule } from './forgot-password-routing.module';
 
 import { ForgotPasswordPage } from './forgot-password.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ForgotPasswordPage } from './forgot-password.page';
     IonicModule,
     ReactiveFormsModule,
     ForgotPasswordPageRoutingModule,
+    TranslateModule
   ],
   declarations: [ForgotPasswordPage],
 })

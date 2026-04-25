@@ -660,21 +660,54 @@ ion-content {
 .profile-container {
    margin-bottom: 12px;
    }
-.profile-image { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #7F77DD; box-shadow: 0 0 0 5px #EEEDFE; cursor: pointer; }
-.avatar-card h2 { font-size: 16px; font-weight: 800; color: #1a1a2e; margin: 0 0 6px 0; }
-.avatar-name { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; }
-.avatar-pseudo { font-size: 12px; color: #94a3b8; font-family: monospace; }
-.avatar-card ion-badge { --background: #EEEDFE; --color: #534AB7; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; border: 1px solid #CECBF6; margin-top: 6px; }
-.contact-section-label { font-size: 10px; color: #94a3b8; font-family: monospace; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.profile-image { width: 80px;
+   height: 80px;
+    border-radius: 50%;
+     object-fit: cover;
+      border: 3px solid #7F77DD; 
+      box-shadow: 0 0 0 5px #EEEDFE; 
+      cursor: pointer; 
+    }
+.avatar-card h2 { font-size: 16px;
+   font-weight: 800; 
+   color: #1a1a2e; 
+   margin: 0 0 6px 0; 
+  }
+.avatar-name { font-size: 17px; 
+  font-weight: 700;
+   color: #1a1a2e;
+    margin-bottom: 3px; 
+  }
+.avatar-pseudo { font-size: 14px;
+   color: #94a3b8;
+    font-family: monospace;
+   }
+.avatar-card ion-badge { --background: #EEEDFE; 
+  --color: #534AB7;
+   font-size: 11px; 
+   font-weight: 700;
+    padding: 4px 12px;
+     border-radius: 20px;
+      border: 1px solid #CECBF6;
+       margin-top: 6px;
+       }
+.contact-section-label { font-size: 12px;
+   color: #94a3b8; 
+   font-family: monospace;
+    text-transform: uppercase;
+     letter-spacing: 1px;
+      margin-bottom: 10px;
+     }
 .contact-row { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 0.5px solid #f1f5f9; }
 .contact-row:last-child { border-bottom: none; }
 .contact-row ion-icon { color: #378ADD; font-size: 16px; margin-top: 2px; flex-shrink: 0; }
-.contact-label { display: block; font-size: 10px; color: #94a3b8; font-family: monospace; text-transform: lowercase; }
-.contact-value { display: block; font-size: 12px; font-weight: 500; color: #1a1a2e; word-break: break-all; }
+.contact-label { display: block; font-size: 13px; color: #94a3b8; font-family: monospace; text-transform: lowercase; }
+.contact-value { display: block; font-size: 14px; font-weight: 500; color: #1a1a2e; word-break: break-all; }
 .github-card { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 .github-card ion-icon { font-size: 18px; color: #1a1a2e; flex-shrink: 0; }
-.github-card span { font-size: 12px; font-weight: 500; color: #1a1a2e; font-family: monospace; word-break: break-all; }
-.contact-btn { --background: #7F77DD; --background-activated: #5B54C8; --border-radius: 9px; --color: #ffffff; font-weight: 700; font-size: 14px; height: 46px; margin: 0; }
+.github-card span { font-size: 14px; font-weight: 500; color: #1a1a2e; font-family: monospace; word-break: break-all; }
+.contact-btn { --background: linear-gradient(135deg,#2563EB,#0ea5e9);font-size: 16px; 
+  --background-activated: #4c43ce; --border-radius: 9px; --color: #ffffff; font-weight: 700; font-size: 14px; height: 46px; margin: 0; }
 .main-content { flex: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 .section-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px; }
 .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 0.5px solid #f1f5f9; }
@@ -738,50 +771,64 @@ ion-content {
 .icon-dark ion-icon {
   color: #0F172A;
 }
-.section-title { font-size: 14px; font-weight: 700; color: #1a1a2e; }
+.section-title { font-size: 16px; font-weight: 700; color: #1a1a2e; }
 .skills-wrap { display: flex; flex-wrap: wrap; gap: 8px; }
-.skill-tag { display: flex; align-items: center; gap: 6px; background: #ffffff; color: #1a1a2e; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px solid #e2e8f0; }
+.skill-tag { display: flex; align-items: center; gap: 6px; background: #ffffff; color: #1a1a2e; font-size: 14px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px solid #e2e8f0; }
 .skill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 .skill-tag:nth-child(3n+1) .skill-dot { background: #7F77DD; }
 .skill-tag:nth-child(3n+2) .skill-dot { background: #378ADD; }
 .skill-tag:nth-child(3n+3) .skill-dot { background: #5B54C8; }
-.skill-add-btn { display: flex; align-items: center; gap: 6px; background: #f8fafc; color: #64748b; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px dashed #cbd5e1; cursor: pointer; outline: none; }
+.skill-add-btn { display: flex; align-items: center; gap: 6px; background: #f8fafc; color: #64748b; font-size: 14px; font-weight: 500; padding: 5px 14px; border-radius: 20px; border: 1.5px dashed #cbd5e1; cursor: pointer; outline: none; }
 .skill-add-btn:hover { border-color: #7F77DD; color: #7F77DD; }
-.info-text { font-size: 14px; color: #1a1a2e; font-weight: 500; margin: 0; line-height: 1.6; }
+.info-text { font-size: 15px; color: #1a1a2e; font-weight: 500; margin: 0; line-height: 1.6; }
 .bio-text { line-height: 1.7; color: #334155; }
-.info-link { font-size: 14px; color: #378ADD; font-weight: 500; text-decoration: none; word-break: break-all; }
+.info-link { font-size: 15px; color: #378ADD; font-weight: 500; text-decoration: none; word-break: break-all; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .form-field { display: flex; flex-direction: column; }
-.form-field ion-input { --background: #f8fafc; --color: #1a1a2e; --placeholder-color: #a0aab4; --padding-start: 12px; --padding-end: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-size: 13px; }
+.form-field ion-input { --background: #f8fafc; --color: #1a1a2e; --placeholder-color: #a0aab4; --padding-start: 12px; --padding-end: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-size: 15px; }
 .form-field ion-input:focus-within { border-color: #7F77DD; }
-.form-field ion-input::part(label) { color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+.form-field ion-input::part(label) { color: #64748b; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
 .niveau-item { --background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 9px; --padding-start: 12px; --inner-padding-end: 12px; --min-height: 48px; }
-.niveau-item ion-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.6px; }
+.niveau-item ion-label { font-size: 13px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.6px; }
 .niveau-item ion-badge { --background: #EEEDFE; --color: #534AB7; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid #CECBF6; }
-ion-textarea { --background: #f8fafc; --color: #1a1a2e; --placeholder-color: #a0aab4; --padding-start: 12px; --padding-end: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-size: 13px; min-height: 85px; }
+ion-textarea { --background: #f8fafc; --color: #1a1a2e; --placeholder-color: #a0aab4; --padding-start: 12px; --padding-end: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-size: 15px; min-height: 85px; }
 ion-textarea:focus-within { border-color: #7F77DD; }
-ion-textarea::part(label) { color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
-.section-card ion-input { --background: #f8fafc; --color: #1a1a2e; --placeholder-color: #a0aab4; --padding-start: 12px; --padding-end: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-size: 13px; }
+ion-textarea::part(label) { color: #64748b; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+.section-card ion-input { --background: #f8fafc; --color: #1a1a2e; --placeholder-color: #a0aab4; --padding-start: 12px; --padding-end: 12px; border: 1.5px solid #e2e8f0; border-radius: 9px; font-size: 15px; }
 .section-card ion-input:focus-within { border-color: #7F77DD; }
-.section-card ion-input::part(label) { color: #64748b; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
+.section-card ion-input::part(label) { color: #64748b; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.6px; }
 .portfolio-item { --background: #f8fafc; border: 1.5px solid #e2e8f0; border-radius: 9px; --padding-start: 12px; --inner-padding-end: 12px; }
 .portfolio-item ion-label { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.6px; }
 .portfolio-item ion-text { font-size: 12px; color: #378ADD; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .portfolio-icon { font-size: 20px; color: #7F77DD; cursor: pointer; }
 .hidden-file-input { display: none; }
-.center-btn { --background: linear-gradient(135deg,#2563EB,#0ea5e9); --border-radius: 9px; --color: #ffffff; font-weight: 700; font-size: 15px; height: 50px; margin-top: 4px; }
+.center-btn { --background: linear-gradient(135deg,#2563EB,#0ea5e9); --border-radius: 9px; --color: #ffffff; font-weight: 700; font-size: 16px; height: 50px; margin-top: 4px; }
 .portfolio-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .project-card { background: #F0EFFD; border: 1.5px solid #CECBF6; border-radius: 12px; padding: 16px 12px 12px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; position: relative; }
 .project-card-icon { font-size: 26px; line-height: 1; }
-.project-card-name { font-size: 12px; font-weight: 700; color: #1a1a2e; margin: 0; }
-.project-card-tech { font-size: 11px; color: #64748b; font-family: monospace; margin: 0; }
+.project-card-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin: 0; }
+.project-card-tech { font-size: 13px; color: #64748b; font-family: monospace; margin: 0; }
 .project-card-add { background: #ffffff; border: 1.5px dashed #cbd5e1; border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 100px; cursor: pointer; }
 .project-card-add .add-plus { font-size: 22px; color: #94a3b8; }
 .project-card-add p { font-size: 11px; color: #94a3b8; margin: 0; }
 .project-card-add:hover .add-plus,
 .project-card-add:hover p { color: #7F77DD; }
 .skill-tag { position: relative; }
-.skill-remove { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%; background: #e2e8f0; color: #64748b; font-size: 11px; cursor: pointer; margin-left: 4px; border: none; padding: 0; line-height: 1; }
+.skill-remove { display: inline-flex;
+   align-items: center; 
+   justify-content: center;
+    width: 16px;
+     height: 16px;
+      border-radius: 50%; 
+      background: #e2e8f0;
+       color: #64748b;
+        font-size: 11px;
+         cursor: pointer; 
+         margin-left: 4px; 
+         border: none; 
+         padding: 0; 
+         line-height: 1;
+         }
 
 .skill-remove:hover { 
   background: #fecaca; 

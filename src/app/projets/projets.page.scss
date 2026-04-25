@@ -478,3 +478,44 @@ ion-footer ion-toolbar {
     }
   }
 }
+// ── Agrandir textes globalement ──
+
+.stat-num { font-size: 26px !important; }
+.stat-label { font-size: 12px !important; }
+
+.card-title { font-size: 17px !important; }
+.card-company { font-size: 14px !important; }
+.card-type-badge { font-size: 12px !important; padding: 3px 10px !important; }
+
+.status-badge { font-size: 13px !important; padding: 4px 12px !important; }
+
+.meta-chip {
+  font-size: 14px !important;
+  padding: 5px 12px !important;
+  ion-icon { font-size: 15px !important; }
+}
+
+.detail-label { font-size: 12px !important; }
+.detail-value { font-size: 15px !important; }
+
+.action-btn { font-size: 14px !important; }
+
+.validate-actions ion-button { font-size: 14px !important; }
+
+.already-evaluated span { font-size: 14px !important; }
+
+.matching-results {
+  h4 { font-size: 16px !important; }
+  .matching-dev {
+    .dev-name   { font-size: 16px !important; }
+    .dev-score  { font-size: 14px !important; }
+    .dev-note   { font-size: 14px !important; }
+    .dev-raison { font-size: 13px !important; }
+  }
+}
+
+ion-segment-button { font-size: 14px !important; }
+
+.empty-state p { font-size: 16px !important; }
+
+ion-title.Accueil { font-size: 18px !important; }

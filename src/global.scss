@@ -105,3 +105,16 @@ body.dark {
     color: #ffffff !important;
   }
 }
+[dir="rtl"] {
+  ion-content {
+    text-align: right;
+  }
+  
+  ion-item {
+    direction: rtl;
+  }
+  
+  .layout-grid {
+    flex-direction: row-reverse;
+  }
+}

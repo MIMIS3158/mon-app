@@ -25,7 +25,7 @@ ion-header {
 
     ion-title {
       font-weight: 800;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       letter-spacing: 0.3px;
       text-align: center;
       color: white;
@@ -53,14 +53,17 @@ ion-content {
       --color: #{$gray};
       --color-checked: #{$violet-mid};
       --indicator-color: transparent;
-      min-width: 90px;
+      //min-width: 90px;
       margin: 0 2px;
       border-radius: 10px;
       font-weight: 600;
-      font-size: 0.82rem;
-      height: 38px;
+      //font-size: 0.82rem;
+      //height: 38px;
       text-transform: none;
       transition: all 0.2s ease;
+      font-size: 0.92rem;
+  height: 42px;
+  min-width: 100px;
 
       ion-label {
         color: #{$gray} !important;
@@ -119,7 +122,7 @@ ion-content {
     &.status-rejected  .info-box { border-left-color: $red;        background: #fff5f5; }
 
     // Couleur message selon statut
-    &.status-pending   .msg-text { color: $violet-mid; }
+    &.status-pending   .msg-text { color: #1a1a2e; }
     &.status-accepted  .msg-text { color: $green-dark; }
     &.status-completed .msg-text { color: #185FA5; }
     &.status-rejected  .msg-text { color: #A32D2D; }
@@ -143,14 +146,14 @@ ion-content {
       flex: 1;
 
       h3 {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
         font-weight: 800;
         color: $dark;
         margin-bottom: 4px;
       }
 
       p {
-        font-size: 0.82rem;
+        font-size: 0.92rem;
         color: $gray;
         margin: 0;
         display: flex;
@@ -158,13 +161,13 @@ ion-content {
         gap: 4px;
       }
 
-      .company-icon { font-size: 13px; }
+      .company-icon { font-size: 15px; }
     }
 
     .status-badge {
-      font-size: 0.7rem;
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 6px 12px;
+      padding: 7px 14px;
       border-radius: 20px;
       text-transform: none;
       letter-spacing: 0.3px;
@@ -182,7 +185,7 @@ ion-content {
     .msg-wrap { margin-bottom: 10px; }
 
     .msg-text {
-      font-size: 0.88rem;
+      font-size: 0.95rem;
       font-style: italic;
       line-height: 1.6;
       color: $violet-mid;
@@ -201,10 +204,10 @@ ion-content {
     }
 
     .msg-toggle {
-      font-size: 0.78rem;
+      font-size: 0.88rem;
       font-weight: 700;
       cursor: pointer;
-      padding: 3px 10px;
+      padding: 4px 12px;
       border-radius: 10px;
       border: none;
       background: $violet-light;
@@ -223,14 +226,14 @@ ion-content {
 
         label {
           display: block;
-          font-size: 0.75rem;
+          font-size: 0.85rem;
           color: $gray;
           font-weight: 600;
           margin-bottom: 2px;
         }
 
         span {
-          font-size: 0.88rem;
+          font-size: 0.95rem;
           font-weight: 700;
           color: $dark;
         }
@@ -245,7 +248,7 @@ ion-content {
     flex-direction: column;
     gap: 8px;
 
-    .btn-primary {
+    /*.btn-primary {
       --background: linear-gradient(135deg, #{$violet}, #{$violet-dark});
       --background-activated: #{$violet-dark};
       --color: white;
@@ -256,9 +259,20 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-primary {
+  --background: linear-gradient(135deg, #3B82F6, #2563EB);
+  --background-activated: #1D4ED8;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  height: 52px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: none;
+}
 
-    .btn-success {
+    /*.btn-success {
       --background: linear-gradient(135deg, #{$green}, #{$green-dark});
       --background-activated: #{$green-dark};
       --color: white;
@@ -269,9 +283,20 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-success {
+  --background: linear-gradient(135deg, #22C55E, #16A34A);
+  --background-activated: #15803D;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  height: 52px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: none;
+}
 
-    .btn-eval {
+    /*.btn-eval {
       --background: linear-gradient(135deg, #{$violet}, #{$violet-dark});
       --background-activated: #{$violet-dark};
       --color: white;
@@ -282,9 +307,20 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-eval {
+  --background: linear-gradient(135deg, #F59E0B, #FBBF24);
+  --background-activated: #D97706;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+  height: 52px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: none;
+}
 
-    .btn-cancel {
+    /*.btn-cancel {
       --background: transparent;
       --color: #{$violet};
       --border-color: #{$violet-border};
@@ -295,7 +331,18 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-cancel {
+  --background: transparent;
+  --color: #EF4444;
+  --border-color: #FCA5A5;
+  --border-width: 2px;
+  --border-radius: 12px;
+  height: 52px;
+  font-weight: 700;
+  font-size: 1rem;
+  text-transform: none;
+}
 
     .already-evaluated {
       display: flex;
@@ -306,10 +353,10 @@ ion-content {
       background: $green-light;
       border-radius: 12px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: $green-dark;
 
-      ion-icon { font-size: 22px; }
+      ion-icon { font-size: 24px; }
       span { color: $green-dark !important; }
     }
   }
@@ -327,34 +374,38 @@ ion-content {
     box-shadow: 0 4px 20px rgba(127, 119, 221, 0.08);
 
     ion-icon {
-      font-size: 40px;
+      font-size: 56px;
       color: $violet-light;
       margin-bottom: 10px;
     }
 
     h3 {
-      font-size: 1.4rem;
+      font-size: 1.55rem;
       font-weight: 800;
       color: $dark;
       margin: 0 0 10px;
     }
 
     p {
-      font-size: 0.95rem;
+      font-size: 1.05rem;
       color: $gray;
       margin: 0 0 28px;
     }
 
     .btn-discover {
-      --background: linear-gradient(135deg, #{$violet}, #{$violet-dark});
+      //--background: linear-gradient(135deg, #{$violet}, #{$violet-dark});
+      --background: linear-gradient(135deg, #3B82F6, #2563EB);
+      --background-activated: #1D4ED8;
+
       --color: white;
       --border-radius: 14px;
       --box-shadow: 0 6px 18px rgba(127, 119, 221, 0.3);
       height: 50px;
       font-weight: 700;
-      font-size: 0.95rem;
+      //font-size: 0.95rem;
       text-transform: none;
       min-width: 220px;
+      font-size: 1.05rem; height: 54px;
     }
   }
 }
@@ -376,9 +427,10 @@ ion-footer {
         position: absolute;
         top: -8px;
         right: -8px;
-        font-size: 10px;
-        min-width: 18px;
+       // font-size: 10px;
+        //min-width: 18px;
         text-align: center;
+        font-size: 11px; min-width: 20px
       }
     }
 
@@ -389,7 +441,7 @@ ion-footer {
       transition: all 0.2s ease;
 
       ion-icon {
-        font-size: 26px;
+        font-size: 28px;
         transition: all 0.2s ease;
       }
 
@@ -454,4 +506,13 @@ ion-footer {
   }
 
   ion-footer .tab-button ion-button ion-icon { font-size: 22px; }
+}
+@media (max-width: 576px) {
+  ion-segment-button      { min-width: 88px; font-size: 0.82rem; height: 38px; }
+  .card-header h3         { font-size: 1.05rem; }
+  .card-header p          { font-size: 0.88rem; }
+  .msg-text               { font-size: 0.9rem; }
+  .action-buttons ion-button { height: 48px; font-size: 0.95rem; }
+  .empty-state h3         { font-size: 1.3rem; }
+  ion-footer .tab-button ion-button ion-icon { font-size: 24px; }
 }

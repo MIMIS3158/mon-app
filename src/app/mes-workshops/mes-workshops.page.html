@@ -59,11 +59,13 @@
       <div class="workshop-item" *ngFor="let w of workshops">
 
         <div class="item-thumb">
-          <img [src]="w.thumbnail" alt="" (error)="w.thumbnail = 'assets/default-avatar.png'" />
+         <!--- <img [src]="w.thumbnail" alt="" (error)="w.thumbnail = 'assets/default-avatar.png'" />-->
+          <img [src]="w.thumbnail || 'assets/icon/favicon.png'" alt="" (error)="w.thumbnail = 'assets/icon/favicon.png'" />
           <div class="item-badge" [class.badge-free]="w.is_free" [class.badge-premium]="!w.is_free">
             {{ w.is_free ? 'Gratuit' : 'Premium' }}
           </div>
         </div>
+        
 
         <div class="item-body">
           <h3 class="item-title">{{ w.title }}</h3>
@@ -72,7 +74,7 @@
           <div class="item-meta">
             <span><ion-icon name="time-outline"></ion-icon> {{ w.duration || 'N/A' }}</span>
             <span><ion-icon name="people-outline"></ion-icon> {{ w.participants }}/{{ w.max_participants }}</span>
-            <span *ngIf="w.date"><ion-icon name="calendar-outline"></ion-icon> {{ w.date | date:'dd/MM/yy' }}</span>
+            <span *ngIf="w.date"><ion-icon name="calendar-outline"></ion-icon> {{ getFormattedDate(w.date) }}</span>
           </div>
 
           <!-- Progress participants -->
@@ -106,5 +108,6 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+  
 
 </ion-content>

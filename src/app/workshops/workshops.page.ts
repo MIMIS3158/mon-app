@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import {
   AlertController,
   LoadingController,
@@ -178,4 +179,55 @@ export class WorkshopsPage implements OnInit {
   trackById(index: number, workshop: Workshop): number {
     return workshop.id;
   }
+  /*openVideo(workshop: any) {
+  if (!workshop.video_url) {
+    this.showToast('Aucune vidéo disponible', 'warning');
+    return;
+  }
+  // Convertir URL YouTube normale en embed
+  let url = workshop.video_url;
+  if (url.includes('youtube.com/watch?v=')) {
+    const videoId = url.split('v=')[1].split('&')[0];
+    url = `https://www.youtube.com/embed/${videoId}`;
+  } else if (url.includes('youtu.be/')) {
+    const videoId = url.split('youtu.be/')[1].split('?')[0];
+    url = `https://www.youtube.com/embed/${videoId}`;
+  }
+  window.open(url, '_blank');
+}*/
+async openVideo(workshop: any) {
+  if (!workshop.video_url) {
+    this.showToast('Aucune vidéo disponible', 'warning');
+    return;
+  }
+
+  // ✅ Enregistrer la participation
+  const userId = localStorage.getItem('userId');
+  if (userId) {
+    try {
+      await firstValueFrom(
+        this.http.post(`${this.apiUrl}/workshop_participants.php`, {
+          workshop_id: workshop.id,
+          user_id: userId
+        })
+      );
+      // Incrémenter localement
+      workshop.participants = (workshop.participants || 0) + 1;
+    } catch (err) {
+      // Déjà inscrit ou erreur — on continue quand même
+    }
+  }
+
+  // Ouvrir la vidéo
+  let url = workshop.video_url;
+  if (url.includes('youtube.com/watch?v=')) {
+    const videoId = url.split('v=')[1].split('&')[0];
+    url = `https://www.youtube.com/embed/${videoId}`;
+  } else if (url.includes('youtu.be/')) {
+    const videoId = url.split('youtu.be/')[1].split('?')[0];
+    url = `https://www.youtube.com/embed/${videoId}`;
+  }
+  window.open(url, '_blank');
+}
+
 }

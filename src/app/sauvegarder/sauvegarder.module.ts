@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { SauvegarderPageRoutingModule } from './sauvegarder-routing.module';
 
 import { SauvegarderPage } from './sauvegarder.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { SauvegarderPage } from './sauvegarder.page';
     FormsModule,
     IonicModule,
     SauvegarderPageRoutingModule,
+    TranslateModule
   ],
   declarations: [SauvegarderPage],
 })

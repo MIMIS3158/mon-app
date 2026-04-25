@@ -603,12 +603,14 @@
 </ion-footer>-->
 <ion-header>
   <ion-toolbar>
-    <ion-title class="Accueil">Accueil Freelancer</ion-title>
+   <!---<ion-title class="Accueil">Accueil Freelancer</ion-title>-->
+   <ion-title class="Accueil">{{ 'ACCUEIL_FREELANCER' | translate }}</ion-title>
   </ion-toolbar>
   <ion-toolbar>
     <div class="search-container">
       <ion-searchbar
-  placeholder="Rechercher un projet ou une mission"
+  
+  [placeholder]="'RECHERCHER' | translate"
   [(ngModel)]="searchTerm"
   (ionInput)="onSearch()"
   class="searchbar"
@@ -627,7 +629,9 @@
 
   <div *ngIf="isLoading" class="loading-spinner">
     <ion-spinner></ion-spinner>
-    <p>Chargement...</p>
+   <!--- <p>Chargement...</p>-->
+    <p>{{ 'CHARGEMENT' | translate }}</p>
+
   </div>
 
   <div *ngIf="!isLoading">
@@ -638,9 +642,11 @@
         <ion-row>
           <ion-col size="6">
             <ion-item>
-              <ion-label>Catégorie</ion-label>
+             <!--- <ion-label>Catégorie</ion-label>-->
+              <ion-label>{{ 'CATEGORIE' | translate }}</ion-label>
               <ion-select [(ngModel)]="selectedCategorie" (ionChange)="onFilter()">
-                <ion-select-option value="">Toutes</ion-select-option>
+               <!-- <ion-select-option value="">Toutes</ion-select-option>-->
+                <ion-select-option value="">{{ 'TOUTES' | translate }}</ion-select-option>
                 <ion-select-option *ngFor="let categorie of categoriesList" [value]="categorie.id_categorie">
                   {{ categorie.nom_categorie }}
                 </ion-select-option>
@@ -649,11 +655,16 @@
           </ion-col>
           <ion-col size="6">
             <ion-item>
-              <ion-label>Trier par</ion-label>
+             <!--- <ion-label>Trier par</ion-label>-->
+              <ion-label>{{ 'TRIER_PAR' | translate }}</ion-label>
               <ion-select [(ngModel)]="sortBy" (ionChange)="onFilter()">
-                <ion-select-option value="recent">Plus récents</ion-select-option>
+               <!--- <ion-select-option value="recent">Plus récents</ion-select-option>
                 <ion-select-option value="budget-high">Budget décroissant</ion-select-option>
-                <ion-select-option value="budget-low">Budget croissant</ion-select-option>
+                <ion-select-option value="budget-low">Budget croissant</ion-select-option>-->
+                <ion-select-option value="recent">{{ 'PLUS_RECENTS' | translate }}</ion-select-option>
+<ion-select-option value="budget-high">{{ 'BUDGET_DEC' | translate }}</ion-select-option>
+<ion-select-option value="budget-low">{{ 'BUDGET_CROI' | translate }}</ion-select-option>
+
               </ion-select>
             </ion-item>
           </ion-col>
@@ -667,19 +678,24 @@
         <ion-icon name="school-outline"></ion-icon>
       </div>
       <div class="workshop-text">
-        <h3>Workshops Disponibles</h3>
-        <p>Améliore tes skills avec nos workshops</p>
+        <!--<h3>Workshops Disponibles</h3>
+        <p>Améliore tes skills avec nos workshops</p>-->
+        <h3>{{ 'WORKSHOPS_DISPO' | translate }}</h3>
+        
+        <p>{{ 'WORKSHOPS_DESC' | translate }}</p>
       </div>
       <button class="workshop-cta">
-        Voir les Workshops
+        {{ 'VOIR_WORKSHOPS' | translate }}
         <ion-icon name="chevron-forward-outline"></ion-icon>
+
       </button>
     </div>
 
     <!-- COMPTEUR -->
     <ion-item-divider color="light">
       <ion-label>
-        <strong>{{ displayedProjects.length }}</strong> résultat(s) trouvé(s)
+        <!-- <strong>{{ displayedProjects.length }}</strong> résultat(s) trouvé(s) -->
+         <strong>{{ displayedProjects.length }}</strong> {{ 'OFFRES_DISPO' | translate }}
       </ion-label>
     </ion-item-divider>
 
@@ -690,7 +706,7 @@
         <!-- BADGE TYPE -->
         <div class="type-ribbon" [ngClass]="item._type === 'mission' ? 'type-mission' : 'type-projet'">
           <ion-icon [name]="item._type === 'mission' ? 'flash-outline' : 'rocket-outline'"></ion-icon>
-          {{ item._type === 'mission' ? 'Mission' : 'Projet' }}
+          {{ item._type === 'mission' ? ('MISSION' | translate) : ('PROJET' | translate) }}
         </div>
 
         <!-- ══ PROJET ══ -->
@@ -713,12 +729,12 @@
                   <span class="note-text" *ngIf="item.entrepreneur?.moyenneNote">
                     {{ item.entrepreneur?.moyenneNote | number:'1.1-1' }}/5
                   </span>
-                  <span class="note-text" *ngIf="!item.entrepreneur?.moyenneNote">Pas encore évalué</span>
+                  <span class="note-text" *ngIf="!item.entrepreneur?.moyenneNote">{{ 'PAS_ENCORE_EVALUE' | translate }}</span>
                 </div>
                 <p>{{ item.entrepreneur?.Entreprise || item.Publierparentreprise }}</p>
                 <p class="post-time">
                   <ion-icon name="time-outline"></ion-icon>
-                  Publié le {{ item.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
+                  {{ 'PUBLIE_LE' | translate }}{{ item.DatePublication | date:'dd/MM/yyyy à HH:mm' }}
                 </p>
                 <p *ngIf="item.entrepreneur?.Ville">
                   <ion-icon name="location-outline"></ion-icon>
@@ -727,7 +743,7 @@
               </div>
               <div class="badges-header">
                 <ion-badge [color]="getStatusColor(item.Statut)">{{ item.Statut }}</ion-badge>
-                <ion-badge color="success" *ngIf="isNewProject(item)">Nouveau</ion-badge>
+                <ion-badge color="success" *ngIf="isNewProject(item)">{{ 'NOUVEAU' | translate }}</ion-badge>
               </div>
             </div>
           </ion-card-header>
@@ -744,25 +760,25 @@
             <p class="description">{{ item.description }}</p>
             <ion-grid class="project-details">
               <ion-row>
-                <ion-col size="6"><p><strong>Budget:</strong> {{ item.Budget || 'Non spécifié' }}</p></ion-col>
-                <ion-col size="6"><p><strong>Durée:</strong> {{ item.Duree || 'Non spécifié' }}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'BUDGET' | translate }}:</strong> {{ item.Budget || ('NON_SPECIFIE' | translate) }}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'DUREE' | translate }}:</strong> {{ item.Duree || ('NON_SPECIFIE' | translate) }}</p></ion-col>
               </ion-row>
               <ion-row>
-                <ion-col size="6"><p><strong>Catégorie:</strong> {{ item.nom_categorie }}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'CATEGORIE_LABEL' | translate }}</strong> {{ item.nom_categorie }}</p></ion-col>
               </ion-row>
             </ion-grid>
             <div class="button-group">
               <ion-button (click)="saveProject(item)" fill="outline" size="small" [color]="isProjectSaved(item) ? 'warning' : 'medium'">
                 <ion-icon [name]="isProjectSaved(item) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
-                {{ isProjectSaved(item) ? 'Sauvegardé' : 'Sauvegarder' }}
+                {{ isProjectSaved(item) ? ('SAUVEGARDE' | translate) : ('SAUVEGARDER' | translate) }}
               </ion-button>
               <ion-button (click)="openDescription(item)" class="postuler">
                 <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
-                Postuler
+                {{ 'POSTULER' | translate }}
               </ion-button>
               <ion-button (click)="onContact(item)" class="Contacter">
                 <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-                Contacter
+                  {{ 'CONTACTER' | translate }}
               </ion-button>
             </div>
           </ion-card-content>
@@ -800,7 +816,7 @@
               </div>
               <div class="badges-header">
                 <ion-badge [color]="getStatusColor(item.Statut)">{{ item.Statut }}</ion-badge>
-                <ion-badge color="success" *ngIf="isNewProject(item)">Nouveau</ion-badge>
+                <ion-badge color="success" *ngIf="isNewProject(item)">{{ 'NOUVEAU' | translate }}</ion-badge>
               </div>
             </div>
           </ion-card-header>
@@ -817,12 +833,12 @@
           <ion-card-content>
             <ion-grid class="project-details">
               <ion-row>
-                <ion-col size="6"><p><strong>Budget:</strong> {{ item.budget || 'Non spécifié' }}</p></ion-col>
-                <ion-col size="6"><p><strong>Délai:</strong> {{ item.delai || 'Non spécifié' }}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'BUDGET' | translate }}:</strong> {{ item.budget || ('NON_SPECIFIE' | translate)}}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'DELAI' | translate }}:</strong> {{ item.delai || ('Non spécifié'| translate)  }}</p></ion-col>
               </ion-row>
               <ion-row>
-                <ion-col size="6"><p><strong>Niveau:</strong> {{ item.niveauExperience }}</p></ion-col>
-                <ion-col size="6"><p><strong>Type:</strong> {{ item.typeMission }}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'NIVEAU' | translate }}:</strong> {{ item.niveauExperience }}</p></ion-col>
+                <ion-col size="6"><p><strong>{{ 'TYPE' | translate }}:</strong> {{ item.typeMission }}</p></ion-col>
               </ion-row>
               <ion-row>
                 <ion-col size="6"><p><strong>Catégorie:</strong> {{ item.nom_categorie }}</p></ion-col>
@@ -832,15 +848,15 @@
             <div class="button-group">
               <ion-button (click)="saveMission(item)" fill="outline" size="small" [color]="isMissionSaved(item) ? 'warning' : 'medium'">
                 <ion-icon [name]="isMissionSaved(item) ? 'bookmark' : 'bookmark-outline'" slot="start"></ion-icon>
-                {{ isMissionSaved(item) ? 'Sauvegardé' : 'Sauvegarder' }}
+                {{ isMissionSaved(item) ? ('SAUVEGARDE' | translate) : ('SAUVEGARDER' | translate) }}
               </ion-button>
               <ion-button (click)="postulerMission(item)" class="postuler">
                 <ion-icon name="paper-plane-outline" slot="start"></ion-icon>
-                Postuler
+                {{ 'POSTULER' | translate }}
               </ion-button>
               <ion-button (click)="contacterMission(item)" class="Contacter">
                 <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
-                Contacter
+                {{ 'CONTACTER' | translate }}
               </ion-button>
             </div>
           </ion-card-content>
@@ -851,7 +867,7 @@
 
     <ng-template #noProjects>
       <div class="no-projects">
-        <p class="ion-text-center">Aucun résultat disponible.</p>
+        <p class="ion-text-center">{{ 'AUCUN_RESULTAT.' | translate }}</p>
       </div>
     </ng-template>
 

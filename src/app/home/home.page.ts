@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
     this.menu.enable(false);
   }
 }*/
+
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';

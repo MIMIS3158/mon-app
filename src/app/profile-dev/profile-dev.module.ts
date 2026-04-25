@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ProfileDevPageRoutingModule } from './profile-dev-routing.module';
 
 import { ProfileDevPage } from './profile-dev.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ProfileDevPage } from './profile-dev.page';
     FormsModule,
     IonicModule,
     ProfileDevPageRoutingModule,
+    TranslateModule
   ],
   declarations: [ProfileDevPage],
 })

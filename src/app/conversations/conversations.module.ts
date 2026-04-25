@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ConversationsPageRoutingModule } from './conversations-routing.module';
 
 import { ConversationsPage } from './conversations.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,8 @@ import { ConversationsPage } from './conversations.page';
     FormsModule,
     IonicModule,
     ConversationsPageRoutingModule,
+    TranslateModule
+
   ],
   declarations: [ConversationsPage],
 })

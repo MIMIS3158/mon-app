@@ -26,12 +26,15 @@ export class AccueilEntrepreneurPage implements OnInit {
   notificationsCount: number = 0;
   private badgeInterval: any;
   
+  
 // ✅ Ajoute ces 3 lignes
 filtreNiveau: string = '';
 filtreVille: string = '';
 filtreNote: number = 0;
 topDevs: any[] = [];
 matchingLoading: boolean = false;
+entrepriseName: string = '';
+logoEntreprise: string = '';
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -45,6 +48,11 @@ matchingLoading: boolean = false;
     this.loadBadges();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
     this.loadTopDevs();
+    this.entrepriseName = localStorage.getItem('entreprise') || '';
+const logo = localStorage.getItem('logo');
+this.logoEntreprise = logo 
+  ? (logo.startsWith('http') ? logo : `http://localhost:8000/${logo}`)
+  : '';
   }
   ionViewWillEnter() {
     this.loadBadges();

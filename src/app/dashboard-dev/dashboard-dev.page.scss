@@ -25,7 +25,8 @@ ion-header {
 
     ion-title {
       font-weight: 800;
-      font-size: 1.3rem;
+      //font-size: 1.3rem;
+      font-size: 1.5rem; 
       color: white;
     }
 
@@ -46,11 +47,11 @@ ion-content { --background: #f5f4ff; }
   color: $gray;
 
   ion-spinner { width: 48px; height: 48px; color: $violet; }
-  p { margin-top: 12px; font-size: 14px; }
+  p { margin-top: 12px; font-size: 16px; }
 }
 
 .error-container {
-  ion-icon { font-size: 64px; margin-bottom: 10px; }
+  ion-icon { font-size: 72px; margin-bottom: 10px; }
 }
 
 // ── CARTE NIVEAU (Blanche avec intérieur violet) ───────────
@@ -71,7 +72,7 @@ ion-content { --background: #f5f4ff; }
     margin-bottom: 12px;
 
     .niveau-title {
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       color: $dark;
       margin: 0;
@@ -79,13 +80,13 @@ ion-content { --background: #f5f4ff; }
       align-items: center;
       gap: 6px;
 
-      ion-icon { color: $violet; font-size: 18px; }
+      ion-icon { color: $violet; font-size: 22px; }
     }
 
     ion-badge {
-      font-size: 12px;
+      font-size: 14px;
       font-weight: 700;
-      padding: 4px 12px;
+      padding: 5px 14px;
       border-radius: 12px;
       text-transform: uppercase;
 
@@ -99,7 +100,7 @@ ion-content { --background: #f5f4ff; }
   .progress-bar-bg {
     height: 8px;
     background: #f0efff;
-    border-radius: 8px;
+    border-radius: 10px;
     overflow: hidden;
     margin-bottom: 10px;
 
@@ -115,7 +116,7 @@ ion-content { --background: #f5f4ff; }
   .niveau-labels {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
+    font-size: 13px;
     color: $gray;
     margin-bottom: 8px;
     font-weight: 500;
@@ -130,7 +131,7 @@ ion-content { --background: #f5f4ff; }
 
   // Message
   .niveau-msg {
-    font-size: 12px;
+    font-size: 14px;
     color: $violet-mid;
     margin: 0;
     font-style: italic;
@@ -140,7 +141,7 @@ ion-content { --background: #f5f4ff; }
 
 // ── Titres de section ───────────────────────────────────
 .section-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   color: $dark;
   margin: 8px 16px 12px;
@@ -148,7 +149,7 @@ ion-content { --background: #f5f4ff; }
   align-items: center;
   gap: 8px;
 
-  ion-icon { color: $violet; font-size: 20px; }
+  ion-icon { color: $violet; font-size: 22px; }
 }
 
 // ── Stats grid (4 cartes colorées) ───────────────────────
@@ -172,14 +173,14 @@ ion-content { --background: #f5f4ff; }
     &:hover { transform: translateY(-2px); }
 
     .stat-value {
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 800;
       margin: 0 0 4px;
       line-height: 1;
     }
 
     .stat-label {
-      font-size: 12px;
+      font-size: 14px;
       opacity: 0.9;
       margin: 0;
       text-transform: uppercase;
@@ -227,7 +228,7 @@ ion-content { --background: #f5f4ff; }
     &:last-child { margin-bottom: 0; }
 
     .bar-label {
-      font-size: 13px;
+      font-size: 15px;
       color: $gray;
       width: 70px;
       flex-shrink: 0;
@@ -236,7 +237,7 @@ ion-content { --background: #f5f4ff; }
 
     .bar-bg {
       flex: 1;
-      height: 10px;
+      height: 12px;
       background: #f0efff;
       border-radius: 6px;
       overflow: hidden;
@@ -253,7 +254,7 @@ ion-content { --background: #f5f4ff; }
     }
 
     .bar-count {
-      font-size: 13px;
+      font-size: 15px;
       font-weight: 700;
       color: $dark;
       min-width: 20px;
@@ -278,7 +279,8 @@ ion-content { --background: #f5f4ff; }
     gap: 20px;
 
     .note-big {
-      font-size: 48px;
+      //font-size: 48px;
+      font-size: 56px;
       font-weight: 800;
       color: $violet;
       line-height: 1;
@@ -293,11 +295,11 @@ ion-content { --background: #f5f4ff; }
         gap: 4px;
         margin-bottom: 6px;
 
-        ion-icon { font-size: 22px; }
+        ion-icon { font-size: 26px; }
       }
 
       .eval-count {
-        font-size: 13px;
+        font-size: 15px;
         color: $gray;
         margin: 0;
         font-weight: 500;
@@ -327,4 +329,14 @@ ion-content { --background: #f5f4ff; }
   .eval-content {
     .note-big { font-size: 40px; }
   }
+}
+@media (max-width: 576px) {
+  .stat-value         { font-size: 28px; }
+  .stat-label         { font-size: 13px; }
+  .note-big           { font-size: 46px; }
+  .section-title      { font-size: 16px; }
+  .bar-label          { font-size: 13px; }
+  .bar-count          { font-size: 13px; }
+  .niveau-title       { font-size: 14px; }
+  .niveau-msg         { font-size: 13px; }
 }

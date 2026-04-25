@@ -1,6 +1,23 @@
 /* ═══════════════════════════════════════
    WORKSHOP PAGE — STYLE PREMIUM LIGHT
 ═══════════════════════════════════════ */
+:host {
+  --primary: #2563EB;
+  --primary-light: rgba(37, 99, 235, 0.08);
+  --accent: #f97316;
+  --surface: #ffffff;
+  --surface-2: #f8fafc;
+  --surface-3: #f1f5f9;
+  --border: #e2e8f0;
+  --text-1: #1e293b;
+  --text-2: #64748b;
+  --text-3: #94a3b8;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.1);
+}
 
 .pw-header ion-toolbar {
   --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%);
@@ -127,13 +144,22 @@
 .field-wrap {
   margin-bottom: 14px;
 }
-
+/*
 .field-label {
   display: block;
   font-size: 0.8rem;
   font-weight: 600;
   margin-bottom: 6px;
   color: var(--text-2);
+}*/
+.field-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--text-2);
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
 }
 
 .req {
@@ -141,6 +167,7 @@
 }
 
 /* INPUT SHELL */
+/*
 .input-shell,
 .textarea-shell {
   display: flex;
@@ -171,7 +198,43 @@
   --background: transparent;
   --color: var(--text-1);
 }
+.input-shell,
+.textarea-shell {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: var(--radius-md);
+  padding: 0;
+  border: 1.5px solid var(--border);
+  transition: 0.2s;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 
+  &:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+
+  .input-icon {
+    font-size: 18px;
+    padding: 12px 4px 12px 12px;
+    color: var(--primary);
+    flex-shrink: 0;
+  }
+
+  .pw-input,
+  .pw-textarea {
+    flex: 1;
+    --background: transparent;
+    --color: var(--text-1);
+    --padding-start: 8px;
+    --padding-end: 12px;
+    --padding-top: 12px;
+    --padding-bottom: 12px;
+    font-size: 0.9rem;
+  }
+
+}
 /* HINT */
 .field-hint {
   font-size: 0.75rem;
@@ -369,3 +432,53 @@
     transform: translateY(0);
   }
 }
+.pw-input {
+  pointer-events: auto !important;
+  z-index: 1;
+}
+
+.input-shell {
+  pointer-events: auto !important;
+  
+  ion-input, ion-textarea {
+    pointer-events: auto !important;
+  }
+}
+// ── Agrandir textes globalement ──
+
+.section-label {
+  font-size: 1rem !important;
+}
+
+.field-label {
+  font-size: 0.9rem !important;
+}
+
+.pw-input, .pw-textarea {
+  font-size: 1rem !important;
+}
+
+.field-hint {
+  font-size: 0.85rem !important;
+}
+
+.hero-text {
+  h1 { font-size: 1.5rem !important; }
+  p  { font-size: 1rem !important; }
+}
+
+.toggle-card {
+  .toggle-text {
+    .toggle-title { font-size: 1rem !important; }
+    .toggle-sub   { font-size: 0.85rem !important; }
+  }
+}
+
+.preview-title { font-size: 1.1rem !important; }
+.preview-desc  { font-size: 0.95rem !important; }
+.preview-meta  { font-size: 0.85rem !important; }
+
+.submit-btn { font-size: 1rem !important; }
+.submit-note { font-size: 0.85rem !important; }
+
+.price-prefix { font-size: 1rem !important; }

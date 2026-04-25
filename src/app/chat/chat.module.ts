@@ -9,9 +9,10 @@ import { ChatPageRoutingModule } from './chat-routing.module';
 import { ContactInfoComponent } from './contact-info/contact-info.component';
 
 import { ChatPage } from './chat.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ChatPageRoutingModule],
+  imports: [CommonModule, FormsModule, IonicModule, ChatPageRoutingModule,TranslateModule],
   declarations: [ChatPage, ContactInfoComponent],
 })
 export class ChatPageModule {}

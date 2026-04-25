@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DescriptionPageRoutingModule } from './description-routing.module';
 
 import { DescriptionPage } from './description.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { DescriptionPage } from './description.page';
     IonicModule,
     HttpClientModule,
     DescriptionPageRoutingModule,
+    TranslateModule
   ],
   declarations: [DescriptionPage],
 })

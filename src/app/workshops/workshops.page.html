@@ -129,7 +129,7 @@
           </div>
 
           
-          <div class="card-action">
+         <!---- <div class="card-action">
             <button class="action-btn free-btn" *ngIf="isFree(workshop)">
               <ion-icon name="play-circle-outline"></ion-icon>
               Regarder maintenant
@@ -143,6 +143,24 @@
               Regarder maintenant
             </button>
           </div>
+        -->
+        <div class="card-action">
+  <button class="action-btn free-btn" *ngIf="isFree(workshop)" 
+    (click)="openVideo(workshop); $event.stopPropagation()">
+    <ion-icon name="play-circle-outline"></ion-icon>
+    Regarder maintenant
+  </button>
+  <button class="action-btn lock-btn" *ngIf="!isFree(workshop) && !isPremium"
+    (click)="showPremiumModal = true; $event.stopPropagation()">
+    <ion-icon name="lock-closed-outline"></ion-icon>
+    Débloquer avec Pro
+  </button>
+  <button class="action-btn premium-access-btn" *ngIf="!isFree(workshop) && isPremium"
+    (click)="openVideo(workshop); $event.stopPropagation()">
+    <ion-icon name="play-circle-outline"></ion-icon>
+    Regarder maintenant
+  </button>
+</div>
         </div>
 
       </div>

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { MesEvaluationsPageRoutingModule } from './mes-evaluations-routing.module';
 
 import { MesEvaluationsPage } from './mes-evaluations.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { MesEvaluationsPage } from './mes-evaluations.page';
     FormsModule,
     IonicModule,
     MesEvaluationsPageRoutingModule,
+    TranslateModule
   ],
   declarations: [MesEvaluationsPage],
 })

@@ -99,12 +99,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { trigger, transition, style, animate } from '@angular/animations'; 
 
 @Component({
   selector: 'app-publish-workshop',
   templateUrl: './publish-workshop.page.html',
   styleUrls: ['./publish-workshop.page.scss'],
   standalone: false,
+  
 })
 export class PublishWorkshopPage implements OnInit {
   private apiUrl = environment.apiUrl;
@@ -120,7 +122,8 @@ export class PublishWorkshopPage implements OnInit {
     video_url: '',
     thumbnail: '',
     duration: '',
-    date: '',
+    date: new Date().toISOString().substring(0, 16),
+    
     price: 0,
     max_participants: 50,
     is_free: true,
@@ -142,7 +145,7 @@ export class PublishWorkshopPage implements OnInit {
       }
     });
   }
-
+/*
   async loadWorkshop(id: any) {
     try {
       const data: any = await firstValueFrom(
@@ -164,7 +167,33 @@ export class PublishWorkshopPage implements OnInit {
         };
       }
     } catch (err) {}
-  }
+  }*/
+  async loadWorkshop(id: any) {
+  try {
+    const data: any = await firstValueFrom(
+      this.http.get(`${this.apiUrl}/workshops.php`, {
+        params: { workshopId: id }
+      })
+    );
+    console.log('DATA:', JSON.stringify(data));
+    if (data) {
+      this.workshop = {
+        title: data.title || '',
+        description: data.description || '',
+        video_url: data.video_url || '',
+        thumbnail: data.thumbnail || '',
+        duration: data.duration || '',
+        // ✅ CHANGE CETTE LIGNE
+        date: data.date && !data.date.startsWith('0000')
+          ? data.date.replace(' ', 'T').substring(0, 16)
+          : new Date().toISOString().substring(0, 16),
+        price: data.price || 0,
+        max_participants: data.max_participants || 50,
+        is_free: data.is_free == 1 || data.is_free === true,
+      };
+    }
+  } catch (err) {}
+}
 
   onThumbnailChange() {
     this.thumbError = false;
@@ -185,7 +214,7 @@ export class PublishWorkshopPage implements OnInit {
     }
     return true;
   }
-
+/*
   async publish() {
     if (!this.isValid()) return;
     this.isSubmitting = true;
@@ -218,7 +247,45 @@ export class PublishWorkshopPage implements OnInit {
     } finally {
       this.isSubmitting = false;
     }
+  }*/
+ async publish() {
+  if (!this.isValid()) return;
+  this.isSubmitting = true;
+
+  const payload = {
+    ...this.workshop,
+    user_id: localStorage.getItem('userId'),
+    price: this.workshop.is_free ? 0 : (this.workshop.price || 0),
+    max_participants: this.workshop.max_participants || 50,
+  };
+
+  console.log('PAYLOAD:', JSON.stringify(payload)); // ← pour voir ce qu'on envoie
+
+  try {
+    if (this.isEditMode && this.workshopId) {
+      const res: any = await firstValueFrom(
+        this.http.put(`${this.apiUrl}/workshops.php`, payload, {
+          params: { id: String(this.workshopId) }
+        })
+      );
+      console.log('RES PUT:', res);
+      await this.showToast('Workshop modifié avec succès !', 'success');
+    } else {
+      const res: any = await firstValueFrom(
+        this.http.post(`${this.apiUrl}/workshops.php`, payload)
+      );
+      console.log('RES POST:', res);
+      await this.showToast('Workshop publié avec succès !', 'success');
+    }
+    this.router.navigate(['/mes-workshops']);
+  } catch (err: any) {
+    console.log('ERREUR PUBLISH:', JSON.stringify(err));
+    const msg = err?.error?.error || err?.message || 'Erreur lors de la publication';
+    await this.showToast(msg, 'danger');
+  } finally {
+    this.isSubmitting = false;
   }
+}
 
   private async showToast(message: string, color: string) {
     const toast = await this.toastCtrl.create({

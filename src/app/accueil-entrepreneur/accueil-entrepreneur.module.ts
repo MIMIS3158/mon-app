@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { AccueilEntrepreneurPageRoutingModule } from './accueil-entrepreneur-routing.module';
 
 import { AccueilEntrepreneurPage } from './accueil-entrepreneur.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { AccueilEntrepreneurPage } from './accueil-entrepreneur.page';
     FormsModule,
     IonicModule,
     AccueilEntrepreneurPageRoutingModule,
+    TranslateModule
   ],
   declarations: [AccueilEntrepreneurPage],
 })

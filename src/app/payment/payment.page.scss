@@ -3,7 +3,7 @@ ion-header ion-toolbar {
   --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%) !important;
   --color: white !important;
   --border-width: 0 !important;
-  ion-title  { font-size: 1.1rem; font-weight: 700; color: white; }
+  ion-title  { font-size: 1.3rem; font-weight: 700; color: white; }
   ion-back-button { --color: white; }
 }
 
@@ -38,22 +38,24 @@ ion-content {
   color: #6ee7b7;
   border: 1px solid rgba(16,185,129,0.3);
   border-radius: 20px;
-  padding: 4px 12px;
-  font-size: 11px;
+  //padding: 4px 12px;
+  //font-size: 11px;
   font-weight: 700;
   margin-bottom: 12px;
-  ion-icon { font-size: 13px; }
+  font-size: 13px; padding: 5px 14px;
+  ion-icon { font-size: 15px; }
 }
 
 .hero-icon {
-  font-size: 48px;
+  font-size: 56px;
   margin-bottom: 10px;
   position: relative;
   z-index: 1;
 }
 
 .pay-hero h1 {
-  font-size: 22px;
+  //font-size: 22px;
+  font-size: 26px; 
   font-weight: 800;
   color: white;
   margin: 0 0 6px;
@@ -63,7 +65,7 @@ ion-content {
 }
 
 .pay-hero p {
-  font-size: 13px;
+  font-size: 15px;
   color: rgba(255,255,255,0.78);
   margin: 0;
   position: relative;
@@ -72,7 +74,7 @@ ion-content {
 
 .hero-expires {
   margin-top: 10px;
-  font-size: 11px;
+  font-size: 13px;
   color: rgba(255,255,255,0.65);
   position: relative;
   z-index: 1;
@@ -95,7 +97,7 @@ ion-content {
 }
 
 .features-title {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: #475569;
   text-transform: uppercase;
@@ -115,10 +117,12 @@ ion-content {
 }
 
 .feature-icon {
-  width: 38px; height: 38px; flex-shrink: 0;
+  //width: 38px; height: 38px;
+   flex-shrink: 0;
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 19px;
+  //font-size: 19px;
+  width: 42px; height: 42px; font-size: 22px;
 }
 .icon-blue   { background: #EFF6FF; color: #2563EB; }
 .icon-orange { background: rgba(249,115,22,0.1); color: #F97316; }
@@ -129,14 +133,14 @@ ion-content {
   flex: 1;
   display: flex; flex-direction: column; gap: 2px;
 }
-.feature-name { font-size: 13px; font-weight: 600; color: #0F172A; }
-.feature-desc { font-size: 11px; color: #94A3B8; }
+.feature-name { font-size: 15px; font-weight: 600; color: #0F172A; }
+.feature-desc { font-size: 13px; color: #94A3B8; }
 
-.check-icon { font-size: 18px; color: #10b981; flex-shrink: 0; }
+.check-icon { font-size: 22px; color: #10b981; flex-shrink: 0; }
 
 // ── PLANS ────────────────────────────────
 .plans-title {
-  font-size: 13px; font-weight: 700; color: #475569;
+  font-size: 15px; font-weight: 700; color: #475569;
   text-transform: uppercase; letter-spacing: 0.6px;
   margin: 0 0 12px;
 }
@@ -177,9 +181,13 @@ ion-content {
   position: absolute;
   top: -10px; right: 14px;
   background: linear-gradient(135deg, #F97316, #ef4444);
-  color: white; font-size: 9px; font-weight: 700;
-  padding: 3px 10px; border-radius: 20px;
+  color: white;
+   //font-size: 9px;
+    font-weight: 700;
+  //padding: 3px 10px;
+   border-radius: 20px;
   letter-spacing: 0.3px;
+   font-size: 11px; padding: 4px 12px;
 }
 
 .plan-radio {
@@ -204,12 +212,12 @@ ion-content {
 .radio-on .radio-dot { opacity: 1; }
 
 .plan-info { flex: 1; }
-.plan-name { font-size: 14px; font-weight: 700; color: #0F172A; }
-.plan-desc { font-size: 11px; color: #94A3B8; margin-top: 2px; }
+.plan-name { font-size: 16px; font-weight: 700; color: #0F172A; }
+.plan-desc { font-size: 13px; color: #94A3B8; margin-top: 2px; }
 
 .plan-price-wrap { text-align: right; }
-.plan-price { font-size: 18px; font-weight: 800; color: #2563EB; }
-.plan-currency { font-size: 10px; color: #94A3B8; display: block; margin-top: 1px; }
+.plan-price { font-size: 22px; font-weight: 800; color: #2563EB; }
+.plan-currency { font-size: 12px; color: #94A3B8; display: block; margin-top: 1px; }
 
 // ── PAYMENT METHODS ──────────────────────
 .payment-methods {
@@ -232,8 +240,8 @@ ion-content {
   }
 }
 
-.method-icon { font-size: 22px; margin-bottom: 5px; }
-.method-card span { font-size: 10px; font-weight: 600; color: #475569; display: block; }
+.method-icon { font-size: 30px; margin-bottom: 5px; }
+.method-card span { font-size: 12px; font-weight: 600; color: #475569; display: block; }
 
 // ── CCP INFO ─────────────────────────────
 .ccp-info {
@@ -243,6 +251,7 @@ ion-content {
   padding: 14px;
   margin-bottom: 16px;
   box-shadow: 0 1px 4px rgba(15,23,42,0.05);
+  
 }
 
 .ccp-row {
@@ -250,8 +259,8 @@ ion-content {
   padding: 8px 0; border-bottom: 1px solid #F1F5F9;
   &:last-of-type { border-bottom: none; }
 }
-.ccp-label { font-size: 11px; color: #94A3B8; font-weight: 600; min-width: 80px; }
-.ccp-value { font-size: 13px; font-weight: 700; color: #0F172A; flex: 1; }
+.ccp-label { font-size: 13px; color: #94A3B8; font-weight: 600; min-width: 80px; }
+.ccp-value { font-size: 15px; font-weight: 700; color: #0F172A; flex: 1; }
 
 .copy-btn {
   background: #EFF6FF; border: none; border-radius: 8px;
@@ -262,9 +271,9 @@ ion-content {
 
 .ccp-note {
   display: flex; align-items: flex-start; gap: 6px;
-  font-size: 11px; color: #94A3B8; margin: 10px 0 0;
+  font-size: 13px; color: #94A3B8; margin: 10px 0 0;
   line-height: 1.5;
-  ion-icon { font-size: 14px; color: #F97316; flex-shrink: 0; margin-top: 1px; }
+  ion-icon { font-size: 16px; color: #F97316; flex-shrink: 0; margin-top: 1px; }
 }
 
 // ── SUMMARY ──────────────────────────────
@@ -278,13 +287,13 @@ ion-content {
 }
 
 .summary-title {
-  font-size: 13px; font-weight: 700; color: #475569;
+  font-size: 15px; font-weight: 700; color: #475569;
   text-transform: uppercase; letter-spacing: 0.6px; margin: 0 0 12px;
 }
 
 .summary-row {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 6px 0; font-size: 13px; color: #475569;
+  padding: 6px 0; font-size: 15px; color: #475569;
 }
 
 .summary-price { font-weight: 600; color: #0F172A; }
@@ -293,20 +302,20 @@ ion-content {
   height: 1px; background: #E2E8F0; margin: 8px 0;
 }
 
-.total-row { font-weight: 700; font-size: 15px; }
-.total-price { font-size: 18px; font-weight: 800; color: #2563EB; }
+.total-row { font-weight: 700; font-size: 17px; }
+.total-price { font-size: 22px; font-weight: 800; color: #2563EB; }
 
 // ── PAY BUTTON ───────────────────────────
 .pay-btn {
-  width: 100%; height: 52px;
+  width: 100%; height: 56px;
   background: linear-gradient(135deg, #2563EB, #0ea5e9);
   color: white; border: none; border-radius: 14px;
-  font-size: 15px; font-weight: 700; cursor: pointer;
+  font-size: 17px; font-weight: 700; cursor: pointer;
   display: flex; align-items: center; justify-content: center; gap: 8px;
   box-shadow: 0 6px 20px rgba(37,99,235,0.4);
   transition: all 0.2s;
 
-  ion-icon { font-size: 18px; }
+  ion-icon { font-size: 22px; }
   ion-spinner { width: 20px; height: 20px; color: white; }
 
   &:active:not(:disabled) { transform: scale(0.97); box-shadow: 0 3px 10px rgba(37,99,235,0.3); }
@@ -315,6 +324,6 @@ ion-content {
 
 .pay-note {
   display: flex; align-items: center; justify-content: center; gap: 5px;
-  font-size: 11px; color: #94A3B8; text-align: center; margin: 12px 0 0;
-  ion-icon { font-size: 14px; color: #10b981; }
+  font-size: 13px; color: #94A3B8; text-align: center; margin: 12px 0 0;
+  ion-icon { font-size: 16px; color: #10b981; }
 }

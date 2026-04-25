@@ -278,7 +278,7 @@ ion-content {
     gap: 8px;
 
     // Accepter
-    .btn-accept {
+    /*.btn-accept {
        --background: linear-gradient(135deg, #7F77DD, #5B54C8);
   --background-activated: #5B54C8;
       --color: white;
@@ -289,10 +289,20 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-accept {
+  --background: linear-gradient(135deg, #22C55E, #16A34A);
+  --background-activated: #15803D;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+  height: 48px;
+  font-weight: 700;
+  text-transform: none;
+}
 
     // Refuser
-    .btn-refuse {
+    /*.btn-refuse {
       --background: transparent;
   --color: #7F77DD;
   --border-color: #CECBF6;
@@ -303,10 +313,20 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-refuse {
+  --background: transparent;
+  --color: #EF4444;
+  --border-color: #FCA5A5;
+  --border-width: 2px;
+  --border-radius: 12px;
+  height: 48px;
+  font-weight: 700;
+  text-transform: none;
+}
 
     // Contacter
-    .btn-contact {
+    /*.btn-contact {
     --background: linear-gradient(135deg, #7F77DD, #5B54C8);
   --background-activated: #5B54C8;
       --color: white;
@@ -317,10 +337,20 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-contact {
+  --background: linear-gradient(135deg, #3B82F6, #2563EB);
+  --background-activated: #1D4ED8;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  height: 48px;
+  font-weight: 700;
+  text-transform: none;
+}
 
     // Évaluer
-    .btn-eval {
+    /*.btn-eval {
         --background: linear-gradient(135deg, #7F77DD, #5B54C8);
   --background-activated: #5B54C8;
       --color: white;
@@ -331,7 +361,14 @@ ion-content {
       font-size: 0.9rem;
       text-transform: none;
       margin: 0;
-    }
+    }*/
+    .btn-eval {
+  --background: linear-gradient(135deg, #F59E0B, #FBBF24);
+  --background-activated: #D97706;
+  --color: white;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
 
     // Déjà évalué
     .already-evaluated {
@@ -445,4 +482,59 @@ ion-footer {
   }
 
   ion-footer .tab-button ion-button ion-icon { font-size: 22px; }
+}
+
+
+// ── Agrandir textes globalement ──
+
+ion-content {
+  .custom-segment {
+    ion-segment-button {
+      font-size: 0.95rem !important;
+      height: 44px !important;
+    }
+  }
+
+  .empty-state {
+    h3 { font-size: 1.6rem !important; }
+    p  { font-size: 1.1rem !important; }
+  }
+
+  .card-header {
+    .card-header-left {
+      h3 { font-size: 1.2rem !important; }
+      p  { font-size: 0.95rem !important; }
+    }
+    .status-badge { font-size: 0.85rem !important; }
+  }
+
+  .info-box {
+    .msg-text   { font-size: 1rem !important; }
+    .msg-toggle { font-size: 0.9rem !important; }
+
+    .info-grid ion-col {
+      label { font-size: 0.88rem !important; }
+      span  { font-size: 1rem !important; }
+    }
+  }
+
+  .action-buttons {
+    .btn-accept,
+    .btn-refuse,
+    .btn-contact,
+    .btn-eval {
+      height: 54px !important;
+      font-size: 1rem !important;
+    }
+
+    .already-evaluated {
+      font-size: 1rem !important;
+      ion-icon { font-size: 24px !important; }
+    }
+  }
+}
+
+// Titre header
+ion-header ion-toolbar ion-title {
+  font-size: 1.5rem !important;
 }

@@ -6,7 +6,7 @@ ion-toolbar {
 }
 
 ion-toolbar ion-title.Accueil {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   color: #ffffff;
 }
@@ -84,21 +84,21 @@ ion-content {
 }
 
 .avatar-card h2 {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
   color: #1a1a2e;
   margin: 0 0 6px 0;
 }
 
 .avatar-name {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   color: #1a1a2e;
   margin-bottom: 3px;
 }
 
 .avatar-pseudo {
-  font-size: 12px;
+  font-size: 14px;
   color: #94a3b8;
   font-family: monospace;
 }
@@ -107,7 +107,7 @@ ion-content {
    --background: #EEEDFE;
   --color: #534AB7;
   border: 1px solid #CECBF6;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 20px;
@@ -117,7 +117,7 @@ ion-content {
 
 /* Contact card */
 .contact-section-label {
-  font-size: 10px;
+  font-size: 12px;
   color: #94a3b8;
   font-family: monospace;
   text-transform: uppercase;
@@ -146,7 +146,7 @@ ion-content {
 
 .contact-label {
   display: block;
-  font-size: 10px;
+  font-size: 13px;
   color: #94a3b8;
   font-family: monospace;
   text-transform: lowercase;
@@ -154,7 +154,7 @@ ion-content {
 
 .contact-value {
   display: block;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: #1a1a2e;
   word-break: break-all;
@@ -175,7 +175,7 @@ ion-content {
 }
 
 .github-card span {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   color: #1a1a2e;
   font-family: monospace;
@@ -184,12 +184,12 @@ ion-content {
 
 /* Contact button */
 .contact-btn {
-  --background: #7F77DD;
-  --background-activated: #5B54C8;
+  --background: linear-gradient(135deg, #1e40af 0%, #2563EB 55%, #0ea5e9 100%);
+  --background-activated: #4c43ce;
   --border-radius: 9px;
   --color: #ffffff;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
   height: 46px;
   margin: 0;
 }
@@ -301,7 +301,7 @@ ion-content {
   color: #0F172A;
 }
 .section-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   color: #1a1a2e;
 }
@@ -319,7 +319,7 @@ ion-content {
   gap: 6px;
   background: #ffffff;
   color: #1a1a2e;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   padding: 5px 14px;
   border-radius: 20px;
@@ -343,7 +343,7 @@ ion-content {
   gap: 6px;
   background: #f8fafc;
   color: #64748b;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 500;
   padding: 5px 14px;
   border-radius: 20px;
@@ -356,7 +356,7 @@ ion-content {
 
 /* Info text */
 .info-text {
-  font-size: 14px;
+  font-size: 15px;
   color: #1a1a2e;
   font-weight: 500;
   margin: 0;
@@ -369,7 +369,7 @@ ion-content {
 }
 
 .info-link {
-  font-size: 14px;
+  font-size: 15px;
   color: #378ADD;
   font-weight: 500;
   text-decoration: none;
@@ -398,7 +398,7 @@ ion-content {
   --padding-end: 12px;
   border: 1.5px solid #e2e8f0;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .form-field ion-input:focus-within {
@@ -407,7 +407,7 @@ ion-content {
 
 .form-field ion-input::part(label) {
   color: #64748b;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -423,7 +423,7 @@ ion-content {
 }
 
 .niveau-item ion-label {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   color: #64748b;
   text-transform: uppercase;
@@ -434,7 +434,7 @@ ion-content {
   --background: #EEEDFE;
   --color: #534AB7;
   border: 1px solid #CECBF6;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 20px;
@@ -459,7 +459,7 @@ ion-textarea:focus-within {
 
 ion-textarea::part(label) {
   color: #64748b;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -473,7 +473,7 @@ ion-textarea::part(label) {
   --padding-end: 12px;
   border: 1.5px solid #e2e8f0;
   border-radius: 9px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .section-card ion-input:focus-within {
@@ -482,7 +482,7 @@ ion-textarea::part(label) {
 
 .section-card ion-input::part(label) {
   color: #64748b;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
@@ -532,7 +532,7 @@ ion-textarea::part(label) {
   --border-radius: 9px;
   --color: #ffffff;
   font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
   height: 50px;
   margin-top: 4px;
 }
@@ -560,14 +560,14 @@ ion-textarea::part(label) {
 }
 
 .project-card-name {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   color: #1a1a2e;
   margin: 0;
 }
 
 .project-card-tech {
-  font-size: 11px;
+  font-size: 13px;
   color: #64748b;
   font-family: monospace;
   margin: 0;
@@ -592,7 +592,7 @@ ion-textarea::part(label) {
 }
 
 .project-card-add p {
-  font-size: 11px;
+  font-size: 13px;
   color: #94a3b8;
   margin: 0;
 }
@@ -653,5 +653,6 @@ ion-textarea::part(label) {
   color: #ffffff;
 }
 ion-textarea {
-  --padding-top: 10px;
+  --padding-top: 15px;
+  font-size: 16px;
 }

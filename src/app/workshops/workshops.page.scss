@@ -11,6 +11,7 @@ ion-header ion-toolbar {
 ion-title {
   font-weight: 700;
   text-align: center;
+  font-size: 1.3rem;
 }
 
 /* CONTENT */
@@ -32,6 +33,7 @@ ion-content {
 
   p {
     color: var(--text-2);
+    font-size: 1rem;
   }
 }
 
@@ -47,11 +49,12 @@ ion-content {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 700;
+  font-size: 1.35rem;
 }
 
 .page-header p {
   margin: 2px 0 0;
-  font-size: 0.8rem;
+  font-size: 0.92rem;
   color: var(--text-3);
 }
 
@@ -61,7 +64,7 @@ ion-content {
   color: var(--primary);
   padding: 6px 10px;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.88rem;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -92,11 +95,13 @@ ion-content {
 
 .premium-btn {
   background: white;
-  color: var(--accent);
+  //color: var(--accent);
+  color: black;
   border: none;
   border-radius: 20px;
   padding: 6px 12px;
   font-weight: 700;
+
 }
 
 /* LIST */
@@ -143,8 +148,9 @@ ion-content {
 }
 
 .lock-circle {
-  width: 50px;
-  height: 50px;
+  //width: 50px;
+  //height: 50px;
+  width: 56px; height: 56px;
   background: white;
   border-radius: 50%;
   display: flex;
@@ -157,10 +163,11 @@ ion-content {
   position: absolute;
   top: 10px;
   left: 10px;
-  padding: 4px 10px;
+  //padding: 4px 10px;
   border-radius: 20px;
-  font-size: 0.7rem;
+  //font-size: 0.7rem;
   color: white;
+   font-size: 0.82rem; padding: 5px 12px;
 }
 
 .thumb-badge.free {
@@ -178,9 +185,10 @@ ion-content {
   right: 10px;
   background: rgba(0,0,0,0.7);
   color: white;
-  font-size: 0.7rem;
-  padding: 4px 8px;
+  //font-size: 0.7rem;
+  //padding: 4px 8px;
   border-radius: 12px;
+   font-size: 0.82rem; padding: 5px 12px;
 }
 
 /* BODY */
@@ -190,13 +198,15 @@ ion-content {
 
 .card-title {
   margin: 0;
-  font-size: 1rem;
+  //font-size: 1rem;
   font-weight: 700;
+  font-size: 1.1rem;
 }
 
 .card-desc {
-  font-size: 0.85rem;
+  //font-size: 0.85rem;
   color: var(--text-2);
+  font-size: 0.95rem;
 }
 
 /* BLUR LOCK */
@@ -209,8 +219,9 @@ ion-content {
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
-  font-size: 0.75rem;
+  //font-size: 0.75rem;
   color: var(--text-3);
+  font-size: 0.88rem;
 }
 
 .meta-item {
@@ -225,10 +236,11 @@ ion-content {
 }
 
 .progress-track {
-  height: 6px;
+  //height: 6px;
   background: var(--surface-3);
   border-radius: 10px;
   overflow: hidden;
+  height: 8px;
 }
 
 .progress-fill {
@@ -241,8 +253,9 @@ ion-content {
 }
 
 .progress-label {
-  font-size: 0.7rem;
+  //font-size: 0.7rem;
   color: var(--text-3);
+  font-size: 0.82rem;
 }
 
 /* ACTION */
@@ -253,9 +266,10 @@ ion-content {
 .action-btn {
   width: 100%;
   border-radius: 20px;
-  padding: 10px;
+  //padding: 10px;
   border: none;
   font-weight: 600;
+  font-size: 0.95rem; padding: 12px;
 }
 
 /* BUTTON TYPES */
@@ -282,11 +296,13 @@ ion-content {
 }
 
 .empty-state ion-icon {
-  font-size: 50px;
+  //font-size: 50px;
   margin-bottom: 10px;
+  font-size: 60px;
 }
 
 /* MODAL */
+/*
 .premium-modal-overlay {
   position: fixed;
   inset: 0;
@@ -338,7 +354,7 @@ ion-content {
   color: var(--primary);
 }
 
-/* BUTTON MODAL */
+
 .modal-btn-upgrade {
   width: 100%;
   padding: 12px;
@@ -354,4 +370,126 @@ ion-content {
   background: transparent;
   border: none;
   color: var(--text-3);
+}*/
+/* MODAL PREMIUM — style projet-creation */
+.premium-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.premium-modal {
+  width: 100%;
+  max-width: 340px;
+  background: white;
+  border-radius: 24px;
+  padding: 28px 20px 20px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-handle {
+  display: none;
+}
+
+.modal-emoji {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.premium-modal h3 {
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0 0 8px;
+}
+
+.premium-modal p {
+  font-size: 0.95rem;
+  color: #475569;
+  margin: 0 0 16px;
+  line-height: 1.5;
+}
+
+.modal-plans {
+  display: flex;
+  gap: 8px;
+  margin: 14px 0 20px;
+}
+
+.modal-plan {
+  flex: 1;
+  background: #F8FAFC;
+  border-radius: 14px;
+  padding: 12px 8px;
+  font-size: 0.72rem;
+  border: 1.5px solid #E2E8F0;
+}
+
+.modal-plan.featured {
+  border: 2px solid #2563EB;
+  background: #EFF6FF;
+}
+
+.plan-badge {
+  font-size: 0.75rem;
+  color: #2563EB;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.plan-name {
+  font-weight: 700;
+  color: #0F172A;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.plan-price {
+  font-weight: 800;
+  color: #2563EB;
+  //font-size: 0.9rem;
+  font-size: 1rem;
+
+  span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #64748B;
+  }
+}
+
+.plan-desc {
+  font-size: 0.75rem;
+  color: #64748B;
+  margin-top: 4px;
+}
+
+.modal-btn-upgrade {
+  width: 100%;
+  //padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563EB, #0ea5e9);
+  color: white;
+  border: none;
+  font-weight: 700;
+  //font-size: 0.95rem;
+  font-size: 1.05rem; padding: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+}
+
+.modal-btn-cancel {
+  margin-top: 10px;
+  background: transparent;
+  border: none;
+  color: #94A3B8;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
 }

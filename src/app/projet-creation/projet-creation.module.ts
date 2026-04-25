@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 import { ProjetCreationPageRoutingModule } from './projet-creation-routing.module';
 import { ProjetCreationPage } from './projet-creation.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { ProjetCreationPage } from './projet-creation.page';
     FormsModule,
     IonicModule,
     ProjetCreationPageRoutingModule,
+    TranslateModule
   ],
   declarations: [ProjetCreationPage],
 })

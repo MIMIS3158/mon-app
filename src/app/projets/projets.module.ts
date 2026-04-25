@@ -7,9 +7,10 @@ import { IonicModule } from '@ionic/angular';
 import { ProjetsPageRoutingModule } from './projets-routing.module';
 
 import { ProjetsPage } from './projets.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, ProjetsPageRoutingModule],
+  imports: [CommonModule, FormsModule, IonicModule, ProjetsPageRoutingModule, TranslateModule],
   declarations: [ProjetsPage],
 })
 export class ProjetsPageModule {}

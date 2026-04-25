@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { MesWorkshopsPageRoutingModule } from './mes-workshops-routing.module';
 
 import { MesWorkshopsPage } from './mes-workshops.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MesWorkshopsPageRoutingModule
+    MesWorkshopsPageRoutingModule,
+    TranslateModule
   ],
   declarations: [MesWorkshopsPage]
 })

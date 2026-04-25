@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
+import { LanguageService } from '../shared/services/language.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-parametres',
@@ -15,11 +17,18 @@ export class ParametresPage implements OnInit {
   private apiUrl = environment.apiUrl;
   userName: string = '';
   profileImage: string = '';
+  
+  
+// Dans le .ts correspondant
+selectedLang = this.languageService.getCurrentLang();
+
 
   constructor(
     private modalController: ModalController,
     private router: Router,
-     private http: HttpClient,
+    private http: HttpClient,
+    private languageService: LanguageService,
+    private translate: TranslateService
   ) {}
 
  /* ngOnInit() {
@@ -99,5 +108,15 @@ async loadUserFromDB() {
     localStorage.clear();
     this.modalController.dismiss();
     this.router.navigate(['/home']);
+  }
+  changeLang(event: any) {
+    const lang = event.detail.value;
+    this.translate.use(lang);
+    localStorage.setItem('lang', lang);
+    if (lang === 'ar') {
+      document.documentElement.setAttribute('dir', 'rtl');
+    } else {
+      document.documentElement.setAttribute('dir', 'ltr');
+    }
   }
 }

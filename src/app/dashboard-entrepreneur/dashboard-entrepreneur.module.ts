@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { DashboardEntrepreneurPageRoutingModule } from './dashboard-entrepreneur-routing.module';
 
 import { DashboardEntrepreneurPage } from './dashboard-entrepreneur.page';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -14,6 +15,8 @@ import { DashboardEntrepreneurPage } from './dashboard-entrepreneur.page';
     FormsModule,
     IonicModule,
     DashboardEntrepreneurPageRoutingModule,
+    TranslateModule
+    
   ],
   declarations: [DashboardEntrepreneurPage],
 })

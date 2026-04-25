@@ -333,13 +333,26 @@ matchingProjectId: number | null = null;
     this.loadMissions();
     this.loadBadges();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
-    const logo = localStorage.getItem('logo');
-    this.logoEntreprise = logo ? `http://localhost:8000/${logo}` : '';
+  
+
   }
 
   ionViewWillEnter() {
     this.loadProjects();
     this.loadMissions();
+    const userId = localStorage.getItem('userId');
+  this.http.get<any>(`${this.apiUrl}/profile_entrepreneur.php`, {
+    params: { userId: userId! }
+  }).subscribe({
+    next: (profile) => {
+      if (profile.logo) {
+        this.logoEntreprise = profile.logo.startsWith('http')
+          ? profile.logo
+          : `http://localhost:8000/${profile.logo}`;
+        console.log('logo chargé:', this.logoEntreprise);
+      }
+    }
+  });
   }
 /*async trouverDevs(project: any) {
   this.matchingProjectId = project.id;
@@ -370,6 +383,7 @@ matchingProjectId: number | null = null;
           params: { userId: userId! }
         })
       );
+      console.log('PROJET EXEMPLE:', JSON.stringify(data[0]));
       this.projects = data;
     } catch (err) {
       this.presentToast('Erreur lors du chargement des projets', 'danger');
