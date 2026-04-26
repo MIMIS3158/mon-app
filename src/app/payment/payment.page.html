@@ -139,10 +139,11 @@
     <h3 class="plans-title">Méthode de paiement</h3>
 
     <div class="payment-methods">
-      <div class="method-card" [class.method-selected]="selectedMethod === 'ccp'" (click)="selectedMethod = 'ccp'">
-        <div class="method-icon">🏦</div>
-        <span>CCP / Baridimob</span>
-      </div>
+      <!-- APRÈS -->
+<div class="method-card" [class.method-selected]="selectedMethod === 'ccp'" (click)="selectedMethod = 'ccp'">
+  <div class="method-icon">💳</div>
+  <span>Carte Visa</span>
+</div>
       <div class="method-card" [class.method-selected]="selectedMethod === 'dahabia'" (click)="selectedMethod = 'dahabia'">
         <div class="method-icon">💳</div>
         <span>Carte Dahabia</span>
@@ -171,6 +172,7 @@
         Après paiement, envoyez le reçu par message pour activation
       </p>
     </div>-->
+    <!----
     <div class="ccp-info" *ngIf="selectedMethod === 'ccp'">
 
   <ion-item lines="full">
@@ -191,6 +193,34 @@
   <p class="ccp-note">
     <ion-icon name="information-circle-outline"></ion-icon>
     Après paiement, activation automatique
+  </p>
+
+</div>-->
+<div class="ccp-info" *ngIf="selectedMethod === 'ccp'">
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Numéro carte Visa</ion-label>
+    <ion-input [(ngModel)]="ccpNumber" ></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Nom sur la carte</ion-label>
+    <ion-input [(ngModel)]="ccpName" ></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">Date expiration</ion-label>
+    <ion-input [(ngModel)]="ccpKey" placeholder="MM/AA"></ion-input>
+  </ion-item>
+
+  <ion-item lines="full">
+    <ion-label position="stacked">CVV</ion-label>
+    <ion-input type="password" placeholder="***"></ion-input>
+  </ion-item>
+
+  <p class="ccp-note">
+    <ion-icon name="shield-checkmark-outline"></ion-icon>
+    Paiement sécurisé via Visa
   </p>
 
 </div>

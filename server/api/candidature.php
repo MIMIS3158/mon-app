@@ -195,6 +195,7 @@ if ($method === 'GET') {
             COALESCE(p.Publierparentreprise, m.entreprise) as Publierparentreprise,
             CASE WHEN c.mission_id IS NOT NULL THEN 'mission' ELSE 'projet' END as type,
             e.user_id as id_entrepreneur
+            
         FROM candidatures c
         LEFT JOIN projects p ON c.project_id = p.id
         LEFT JOIN missions m ON c.mission_id = m.id

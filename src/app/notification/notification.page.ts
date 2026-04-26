@@ -12,6 +12,7 @@ export interface Notification {
   project_id?: number;
   Nomduprojet: string;
   Nomdev?: string;
+  Prenomdev: string;
   developpeur_id?: number;
   messagePostulation: string;
   Budget?: number;

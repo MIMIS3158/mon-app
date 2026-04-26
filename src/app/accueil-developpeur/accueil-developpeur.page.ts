@@ -93,6 +93,11 @@ savedMissions: number[] = [];
     this.loadBadges();
     this.loadMissions();
     this.badgeInterval = setInterval(() => this.loadBadges(), 5000);
+    setInterval(() => {
+    this.loadProjects();
+    this.loadMissions();
+  }, 30000);
+    
   }
 
  async loadCategories() {
@@ -132,6 +137,8 @@ async loadMissions() {
 
   ionViewWillEnter() {
     this.loadBadges();
+    this.loadProjects();  
+  this.loadMissions();  
   }
  
  async loadProjects() {

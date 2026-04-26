@@ -1,0 +1,168 @@
+// ── STATS GRID ──────────────────────────────
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+
+  &.blue {
+    background: linear-gradient(135deg, #1e40af, #2563eb);
+    color: white;
+  }
+  &.green {
+    background: linear-gradient(135deg, #059669, #10b981);
+    color: white;
+  }
+  &.red {
+    background: linear-gradient(135deg, #dc2626, #ef4444);
+    color: white;
+  }
+  &.orange {
+    background: linear-gradient(135deg, #d97706, #f59e0b);
+    color: white;
+  }
+}
+
+.stat-num {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  opacity: 0.9;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// ── SEGMENT ──────────────────────────────────
+ion-segment {
+  margin: 16px 0;
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 4px;
+
+  ion-segment-button {
+    --border-radius: 10px;
+    --color: #64748b;
+    --color-checked: #dc2626;
+    --indicator-color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: none;
+  }
+}
+
+// ── SEARCHBAR ────────────────────────────────
+ion-searchbar {
+  --background: #f8fafc;
+  --border-radius: 12px;
+  --box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 12px;
+}
+
+// ── USER CARD ────────────────────────────────
+ion-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin-bottom: 12px;
+  border: 1px solid #e2e8f0;
+
+  ion-card-content {
+    padding: 14px 16px;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 4px;
+  }
+
+  p {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+  }
+}
+
+// ── REPORT CARD ──────────────────────────────
+ion-card-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #0f172a !important;
+}
+
+ion-card-subtitle {
+  font-size: 13px !important;
+  color: #64748b !important;
+  margin-top: 4px !important;
+}
+
+// ── BADGES ───────────────────────────────────
+ion-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+// ── BUTTONS ──────────────────────────────────
+ion-button {
+  --border-radius: 10px;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: none;
+}
+
+// ── EMPTY STATE ──────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+
+  ion-icon {
+    font-size: 60px;
+    color: #10b981;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 16px;
+    color: #64748b;
+    font-weight: 500;
+  }
+}
+
+// ── TOOLBAR ──────────────────────────────────
+ion-toolbar {
+  --background: linear-gradient(135deg, #dc2626, #ef4444);
+  --color: white;
+
+  ion-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+  }
+
+  ion-button {
+    --color: white;
+  }
+}

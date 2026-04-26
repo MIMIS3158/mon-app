@@ -27,7 +27,7 @@ export class SigninPage implements OnInit {
 
   ngOnInit() {}
 
-  login() {
+ /* login() {
     if (!this.user.email || !this.user.password) {
       return;
     }
@@ -55,4 +55,36 @@ export class SigninPage implements OnInit {
         this.alertsService.alert('Email ou mot de passe incorrect');
       });
   }
+}*/
+login() {
+  if (!this.user.email || !this.user.password) {
+    return;
+  }
+
+  firstValueFrom(this.http.post(`${this.apiUrl}/login.php`, this.user))
+    .then((response: any) => {
+      localStorage.setItem('token', response.token);
+      localStorage.setItem('role', response.user.role);
+      localStorage.setItem('userId', response.user.id);
+      localStorage.setItem('prenom', response.user.prenom || '');
+      localStorage.setItem('nom', response.user.nom || '');
+      localStorage.setItem('profileImage', response.user.photo || '');
+      localStorage.setItem('entreprise', response.user.entreprise || '');
+      localStorage.setItem('connected', 'true');
+
+      if (response.user.role === 'developer') {
+        this.router.navigate(['/accueil-developpeur']);
+        localStorage.setItem('is', 'dev');
+      } else if (response.user.role === 'entrepreneur') {
+        this.router.navigate(['/accueil-entrepreneur']);
+        localStorage.setItem('is', 'business');
+      } else if (response.user.role === 'admin') {
+        this.router.navigate(['/admin']);
+        localStorage.setItem('is', 'admin');
+      }
+    })
+    .catch((ex) => {
+      this.alertsService.alert('Email ou mot de passe incorrect');
+    });
+}
 }

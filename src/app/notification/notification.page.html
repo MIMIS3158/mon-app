@@ -210,7 +210,8 @@
       <!-- Header card -->
       <div class="card-header">
         <div class="card-header-left">
-          <h3>{{ notif.Nomdev || 'Développeur' }}</h3>
+         <!---- <h3>{{ notif.Nomdev || 'Développeur' }}</h3>-->
+         <h3>{{ notif.Nomdev || 'Développeur' }} {{ notif.Prenomdev || '' }}</h3>
           <p>Projet : {{ notif.Nomduprojet }}</p>
         </div>
         <ion-badge [color]="getStatusColor(notif.statut)" class="status-badge">

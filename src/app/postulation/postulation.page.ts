@@ -11,6 +11,8 @@ import { BadgeService } from '../shared/services/badge.service';
 export interface Postulation {
   id_postulation?: number;
   project_id?: number;
+  Nom:string;
+  Prenom:string;
   Nomduprojet: string;
   Publierparentreprise: string;
   Budget?: number;

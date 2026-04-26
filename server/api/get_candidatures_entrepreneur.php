@@ -23,6 +23,7 @@ $stmt = mysqli_prepare($conn, "
         c.developpeur_id,
         d.user_id as developpeur_user_id,
         d.Nomdev,
+        d.Prenomdev,
         p.Nomduprojet,
         c.message as messagePostulation,
         c.budget_propose as Budget,

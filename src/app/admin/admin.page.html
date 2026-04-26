@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-toolbar color="danger">
+    <ion-title>🛡️ Admin Panel</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- STATS -->
+  <div class="stats-grid">
+    <div class="stat-card blue">
+      <div class="stat-num">{{ stats.total_users }}</div>
+      <div class="stat-label">Utilisateurs</div>
+    </div>
+    <div class="stat-card green">
+      <div class="stat-num">{{ stats.total_projects }}</div>
+      <div class="stat-label">Projets</div>
+    </div>
+    <div class="stat-card red">
+      <div class="stat-num">{{ stats.total_reports }}</div>
+      <div class="stat-label">Signalements</div>
+    </div>
+    <div class="stat-card orange">
+      <div class="stat-num">{{ stats.blocked_users }}</div>
+      <div class="stat-label">Bloqués</div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <ion-segment [(ngModel)]="selectedTab" (ionChange)="onTabChange()">
+    <ion-segment-button value="users">
+      <ion-label>Utilisateurs</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="reports">
+      <ion-label>Signalements</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- UTILISATEURS -->
+  <div *ngIf="selectedTab === 'users'">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="filterUsers()"
+      placeholder="Rechercher...">
+    </ion-searchbar>
+
+    <ion-card *ngFor="let user of filteredUsers">
+      <ion-card-content>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h2 style="font-weight:700;">{{ user.nom }} {{ user.prenom }}</h2>
+            <p style="color:#64748b;">{{ user.email }}</p>
+            <div style="display:flex; gap:6px; margin-top:4px;">
+              <ion-badge [color]="user.role === 'developer' ? 'primary' : 'success'">
+                {{ user.role }}
+              </ion-badge>
+              <ion-badge color="danger" *ngIf="user.is_blocked">
+                Bloqué
+              </ion-badge>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <ion-button
+              size="small"
+              [color]="user.is_blocked ? 'success' : 'warning'"
+              (click)="toggleBlock(user)">
+              {{ user.is_blocked ? 'Débloquer' : 'Bloquer' }}
+            </ion-button>
+            <ion-button
+              size="small"
+              color="danger"
+              (click)="deleteUser(user)">
+              <ion-icon name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- SIGNALEMENTS -->
+  <div *ngIf="selectedTab === 'reports'">
+    <div *ngIf="reports.length === 0" style="text-align:center; padding:40px;">
+      <ion-icon name="checkmark-circle-outline" 
+        style="font-size:50px; color:#10b981;">
+      </ion-icon>
+      <p>Aucun signalement</p>
+    </div>
+
+    <ion-card *ngFor="let report of reports">
+      <ion-card-header>
+        <ion-card-title style="font-size:16px;">
+          {{ report.raison }}
+        </ion-card-title>
+        <ion-card-subtitle>
+          {{ report.reporter_nom }} a signalé {{ report.reported_nom }}
+        </ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p>{{ report.description }}</p>
+        <p style="color:#94a3b8; font-size:12px; margin-top:8px;">
+          {{ report.created_at | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+        <div style="display:flex; gap:8px; margin-top:10px;">
+          <ion-button size="small" color="danger"
+            (click)="blockReportedUser(report)">
+            <ion-icon name="ban-outline" slot="start"></ion-icon>
+            Bloquer
+          </ion-button>
+          <ion-button size="small" color="medium"
+            (click)="dismissReport(report)">
+            <ion-icon name="close-outline" slot="start"></ion-icon>
+            Ignorer
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+</ion-content>

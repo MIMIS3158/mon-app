@@ -223,6 +223,10 @@
             <span class="company-icon">🏢</span>
             {{ postulation.Publierparentreprise }}
           </p>
+           <p *ngIf="postulation.Nom">
+    <span>👤</span>
+    {{ postulation.Nom }} {{ postulation.Prenom }}
+  </p>
         </div>
         <ion-badge [color]="getStatusColor(postulation.statut)" class="status-badge">
           {{ postulation.statut }}

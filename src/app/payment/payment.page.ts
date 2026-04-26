@@ -119,10 +119,14 @@ export class PaymentPage implements OnInit {
   };
 
   if (this.selectedMethod === 'ccp') {
-    if (!this.ccpNumber || !this.ccpKey || !this.ccpName) {
+    /*if (!this.ccpNumber || !this.ccpKey || !this.ccpName) {
       this.showToast('Remplis les infos CCP', 'warning');
       return;
-    }
+    }*/
+   if (!this.ccpNumber || !this.ccpKey || !this.ccpName) {
+  this.showToast('Remplis les infos Visa', 'warning');
+  return;
+}
     payload.ccpNumber = this.ccpNumber;
     payload.ccpKey    = this.ccpKey;
     payload.ccpName   = this.ccpName;
