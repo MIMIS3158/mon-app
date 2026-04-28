@@ -178,8 +178,33 @@ if ($method === 'GET') {
     if (!$developpeur_id) {
         echo json_encode([]);
         exit;
-    }
-    $stmt = mysqli_prepare($conn, "
+    }$stmt = mysqli_prepare($conn, "
+    SELECT 
+        c.id as id_postulation,
+        c.message as messagePostulation,
+        c.statut,
+        c.budget_propose as Budget,
+        c.duree_estimee as Duree,
+        c.date_postulation,
+        c.project_id,
+        c.mission_id,
+        c.developpeur_id as id_developpeur,
+        c.entrepreneur_evalue as entrepreneurEvalue,
+        COALESCE(p.Nomduprojet, m.titreMission) as Nomduprojet,
+        COALESCE(p.Publierparentreprise, m.entreprise) as Publierparentreprise,
+        CASE WHEN c.mission_id IS NOT NULL THEN 'mission' ELSE 'projet' END as type,
+        e.user_id as id_entrepreneur,
+        u.Nom as Nom,
+        u.Prenom as Prenom
+    FROM candidatures c
+    LEFT JOIN projects p ON c.project_id = p.id
+    LEFT JOIN missions m ON c.mission_id = m.id
+    LEFT JOIN entrepreneurs e ON (p.entrepreneur_id = e.id OR m.entrepreneur_id = e.id)
+    LEFT JOIN users u ON e.user_id = u.id
+    WHERE c.developpeur_id = ?
+    ORDER BY c.date_postulation DESC
+");
+    /*$stmt = mysqli_prepare($conn, "
         SELECT 
             c.id as id_postulation,
             c.message as messagePostulation,
@@ -202,7 +227,7 @@ if ($method === 'GET') {
         LEFT JOIN entrepreneurs e ON (p.entrepreneur_id = e.id OR m.entrepreneur_id = e.id)
         WHERE c.developpeur_id = ?
         ORDER BY c.date_postulation DESC
-    ");
+    ");*/
     mysqli_stmt_bind_param($stmt, "i", $developpeur_id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
